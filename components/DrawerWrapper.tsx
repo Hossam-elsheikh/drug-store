@@ -2,7 +2,7 @@ import React from 'react'
 import { Drawer, DrawerContent, DrawerHeader, DrawerTrigger } from './ui/drawer'
 import { Menu } from 'lucide-react'
 import Image from 'next/image'
-import image from '../public/logo.png'
+import image from '../public/logo.svg'
 function DrawerWrapper() {
 return (
 <div>
