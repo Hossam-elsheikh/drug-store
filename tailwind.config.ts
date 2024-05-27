@@ -19,6 +19,10 @@ const config = {
     },
     extend: {
       colors: {
+        primaryColor:"#282a3fff",
+        secColor:"#5ac5e7ff",
+        primaryTextColor:"#333333ff",
+        secTextColor:"#4d4d4dff",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
