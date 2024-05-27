@@ -1,0 +1,16 @@
+{
+    "Index": {
+        "title": "هذا مثال",
+        "description": " مرحبا بالترجمه العربية"
+    },
+    "NotFoundPage": {
+        "title": "بالعربيه2",
+        "description": "بالعربيه3"
+    },
+    "Navigation": {
+        "home": "بالعربيه4"
+    },
+    "Footer": {
+        "copyright": "بالعربيه5"
+    }
+}
