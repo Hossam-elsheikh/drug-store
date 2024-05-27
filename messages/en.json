@@ -12,5 +12,9 @@
     },
     "Footer": {
       "copyright": "© 2024 Your App. All rights reserved."
-    }
+    },
+    "categories":
+      {"home":"home",
+      "allProducts":"all Products"}
+    
   }

@@ -12,5 +12,9 @@
     },
     "Footer": {
         "copyright": "بالعربيه5"
-    }
+    },
+    "categories":
+      {"home":"الرئيسية",
+      "allProducts":"جميع المنتجات"}
+    
 }
