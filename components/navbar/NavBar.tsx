@@ -1,24 +1,25 @@
 import Link from 'next/link'
 import React from 'react'
 import DrawerWrapper from '../DrawerWrapper'
-// import { useTranslation } from 'next-i18next';
+import LanguageSwitcher from '../LanguageSwitcher'
+import { useTranslations } from 'next-intl'
+import Image from 'next/image'
+import logo from '@/public/logo.svg'
+import Icons from './Icons'
+import CategoriesBar from './CategoriesBar'
+const NavBar = ({currentLoc}:{currentLoc:string}) => {
 
-const NavBar = () => {
-  // const { t } = useTranslation();
+
 
   return (
-    <div className='flex gap-2 p-5 border-2 bg-slate-100'>
-      <DrawerWrapper/>
-      <ul>
-        <Link href="/cat1">cat1</Link>
-        <Link href="/cat2">cat2</Link>
-        <Link href="/cat3">cat3</Link>
-        <Link href="/cat4">cat4</Link>
-      </ul>
-      <div>
-      {/* <h1>{t('welcome')}</h1>
-      <button>{t('message')}</button> */}
+    <div className='flex flex-col' >
+
+    <div className='flex items-center justify-between gap-4 border-2 px-5 py-3 bg-slate-100'>
+<Image width="140" height="140" alt='logo' src={logo} />
+     
+      <Icons />
     </div>
+    <CategoriesBar currentLoc={currentLoc}/>
     </div>
     
   )

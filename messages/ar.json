@@ -12,5 +12,13 @@
     },
     "Footer": {
         "copyright": "بالعربيه5"
+    },
+    "categories":{
+      "allCategories":"كل الأقسام",
+        "home": "الصفحة الرئيسية",
+        "allProducts":"كل المنتجات",
+        "ourCollections":"المجموعات",
+        "shopByBrand":"تسوق بالبراند",
+        "Offers":"عروض"
     }
 }
