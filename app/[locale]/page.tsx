@@ -1,3 +1,4 @@
+import NavBar from '@/components/navbar/NavBar';
 import { useTranslations } from 'next-intl';
 
 
