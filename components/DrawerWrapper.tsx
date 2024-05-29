@@ -88,11 +88,14 @@ function DrawerWrapper({ currentLoc, showSec }: { currentLoc: string, showSec: s
           {showSec === 'categories' ? (
             <Menu />
           ) : showSec === 'signInForm' ? (
-            <User2Icon />
+            <User2Icon className="cursor-pointer"/>
           ) : showSec === 'wishList' ? (
-            <Heart />
+            <Heart className="cursor-pointer"/>
           ) : showSec === 'cart' ? (
-            <ShoppingCart />
+            <div className='flex items-center bg-secColor p-2 px-4 hover:bg-primaryColor hover:scale-105 cursor-pointer transition rounded-3xl text-white gap-2 '>
+            <p className='font-semibold'>My Cart</p>
+              <ShoppingCart />
+              </div>
           ) : null}
         </SheetTrigger>
         <SheetContent className="w-[300px]" side={direction}>

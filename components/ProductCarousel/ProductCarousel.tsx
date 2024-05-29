@@ -41,7 +41,7 @@ function ProductCarousel({ items }: ProductCarouselProps) {
                             src={item.image}
                             alt={item.name}
                             width={400}
-                            height={200}
+                            height={100}
                         />
                         <div className='text-center mt-2'>
                             <h2 className='font-bold text-lg'>{item.name}</h2>

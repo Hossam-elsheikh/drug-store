@@ -9,7 +9,7 @@ import CategoriesBar from "./CategoriesBar";
 import SearchMed from "./Search";
 const NavBar = ({ currentLoc }: { currentLoc: string }) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       <div className="flex items-center justify-between gap-4 border-2 px-5 py-2 bg-slate-100">
         <div className="flex items-center gap-5">
           <Image width="140" height="140" alt="logo" src={logo} />
