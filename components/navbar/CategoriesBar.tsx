@@ -4,7 +4,7 @@ import LanguageSwitcher from "../LanguageSwitcher";
 import DrawerWrapper from "../DrawerWrapper";
 import { useTranslations } from "next-intl";
 
-const CategoriesBar = ({ currentLoc }: { currentLoc: string }) => {
+const CategoriesBar = () => {
   const t = useTranslations("categories");
 
   return (
@@ -29,7 +29,6 @@ const CategoriesBar = ({ currentLoc }: { currentLoc: string }) => {
             {t("Offers")}
           </Link>
         </ul>
-        <LanguageSwitcher currentLoc={currentLoc} />
       </nav>
     </div>
   );

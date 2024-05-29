@@ -20,7 +20,7 @@ const config = {
     extend: {
       colors: {
         primaryColor:"#282a3fff",
-        secColor:"#5ac5e7ff",
+        secColor:"#198ab0ff",
         primaryTextColor:"#333333ff",
         secTextColor:"#4d4d4dff",
         border: "hsl(var(--border))",

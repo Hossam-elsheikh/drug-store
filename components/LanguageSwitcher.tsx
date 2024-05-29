@@ -2,6 +2,7 @@
 import { locales } from '@/i18n'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
+import { Globe} from 'lucide-react'
 
 
 function LanguageSwitcher({ currentLoc }: { currentLoc: string }) {
@@ -30,8 +31,9 @@ function LanguageSwitcher({ currentLoc }: { currentLoc: string }) {
     },[currentLoc])
 
     return (
-        <div>
-            <select onChange={handleChange} value={currentLoc}>                
+        <div className={`flex items-center gap-1`}>
+            <Globe />             
+            <select className='bg-transparent outline-none cursor-pointer' onChange={handleChange} value={currentLoc}>   
                 {locales.map((loc)=>(
                     <option key={loc} value={loc}>{loc.toUpperCase()}</option>
                 ))}
