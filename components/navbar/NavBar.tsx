@@ -1,7 +1,6 @@
 import Link from "next/link";
 import React from "react";
 import DrawerWrapper from "../DrawerWrapper";
-import LanguageSwitcher from "../LanguageSwitcher";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import logo from "@/public/logo.svg";

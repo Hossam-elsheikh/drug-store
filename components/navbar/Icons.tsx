@@ -1,6 +1,8 @@
-import { UserRound,Search,Heart,ShoppingCart } from 'lucide-react'
+'use client'
+import { UserRound, Search, Heart, ShoppingCart } from 'lucide-react'
 import React from 'react'
 import LanguageSwitcher from '../LanguageSwitcher'
+import DrawerWrapper from '../DrawerWrapper'
 
 const Icons = ({ currentLoc }: { currentLoc: string }) => {
   return (
@@ -13,6 +15,10 @@ const Icons = ({ currentLoc }: { currentLoc: string }) => {
     <p className='font-semibold'>My Cart</p>
       <ShoppingCart />
       </div>
+      <Search />
+      <DrawerWrapper currentLoc={currentLoc} showSec='signInForm' />
+      <DrawerWrapper currentLoc={currentLoc} showSec='wishList' />
+      <DrawerWrapper currentLoc={currentLoc} showSec='cart' />
     </div>
   )
 }
