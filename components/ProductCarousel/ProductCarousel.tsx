@@ -1,8 +1,6 @@
 'use client'
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-
 import { Autoplay, Pagination, Navigation, A11y } from 'swiper/modules';
 // Import Swiper styles
 import 'swiper/css';
@@ -23,7 +21,6 @@ type ProductCarouselProps = {
 function ProductCarousel({ items }: ProductCarouselProps) {
     return (
         <Swiper
-            // install Swiper modules
             spaceBetween={10}
             slidesPerView={5}
             navigation
@@ -33,28 +30,26 @@ function ProductCarousel({ items }: ProductCarouselProps) {
                 disableOnInteraction: false,
             }}
             pagination={{ clickable: true }}
-            modules={[Autoplay, Pagination, Navigation,A11y]}
-           
+            modules={[Autoplay, Pagination, Navigation, A11y]}
         >
             {items?.map((item, i) => (
                 <SwiperSlide key={i}>
                     <div className='w-full h-1/2 p-1 text-center mb-9'>
-                    
-                    <Image className='rounded-lg'
-                        quality={80}
-                        src={item.image}
-                        alt={item.name}
-                        width={400}
-                        height={200}
-                       
+                        <Image
+                            className='rounded-lg'
+                            quality={80}
+                            src={item.image}
+                            alt={item.name}
+                            width={400}
+                            height={200}
                         />
                         <div className='text-center mt-2'>
                             <h2 className='font-bold text-lg'>{item.name}</h2>
                         </div>
                     </div>
-                ))}
-            </div>
-        </div>
+                </SwiperSlide>
+            ))}
+        </Swiper>
     )
 }
 

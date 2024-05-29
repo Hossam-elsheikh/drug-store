@@ -5,9 +5,8 @@ import { Modal } from '@/components/ItemCard/Modal';
 import SwiperCarousel from '@/components/ProductCarousel/ProductCarousel';
 import { pharmacyCategories } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
-import { pharmacyCategories,pharmacyCat } from '@/lib/utils';
-import ItemCard from '@/components/ItemCard/ItemCard';
 import ProductCarousel from '@/components/ProductCarousel/ProductCarousel';
+import NavBar from '@/components/navbar/NavBar';
 
 
 export default function Home() {
