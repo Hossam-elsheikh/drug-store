@@ -13,17 +13,20 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
 
 type ModalProps = {
     buttonText: string,
-   
+  
 };
 
 export function Modal({ buttonText }: ModalProps) {
+ 
+
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button  variant="outline">{buttonText}</Button>
+                <Button variant="outline" >{buttonText}</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
@@ -43,14 +46,14 @@ export function Modal({ buttonText }: ModalProps) {
                             readOnly
                         />
                     </div>
-                    <Button type="submit" size="sm" className="px-3">
+                    <Button type="submit" size="sm" className="px-3" onClick={() => navigator.clipboard.writeText("https://ui.shadcn.com/docs/installation")}>
                         <span className="sr-only">Copy</span>
                         <Copy className="h-4 w-4" />
                     </Button>
                 </div>
                 <DialogFooter className="sm:justify-start">
                     <DialogClose asChild>
-                        <Button type="button" variant="secondary">
+                        <Button type="button"  variant="secondary">
                             Close
                         </Button>
                     </DialogClose>

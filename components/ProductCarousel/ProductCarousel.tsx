@@ -1,12 +1,15 @@
-"use client"
-
-import useEmblaCarousel from 'embla-carousel-react'
-import Image from "next/image"
-import Autoplay from 'embla-carousel-autoplay';
-
-Autoplay.globalOptions = { delay: 3000, stopOnInteraction:false}
+'use client'
+import React from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 
+import { Autoplay, Pagination, Navigation, A11y } from 'swiper/modules';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import Image from 'next/image';
 
 type PharmacyCategory = {
     name: string;
@@ -18,29 +21,41 @@ type ProductCarouselProps = {
 };
 
 function ProductCarousel({ items }: ProductCarouselProps) {
-    const [emblaRef] = useEmblaCarousel({ loop: true, duration: 100 }, [Autoplay()])
-
     return (
-        <div className='overflow-hidden cursor-pointer' ref={emblaRef}>
-            <div className='flex'>
-                {items?.map((item, i) => (
-                    <div key={i} className='flex-[0_0_100%] p-2'>
-                        <Image
-                            quality={80}
-                            src={item.image}
-                            alt={item.name}
-                            layout="responsive"
-                            width={100}
-                            height={100}
-                            className="cursor-pointer rounded-lg"
+        <Swiper
+            // install Swiper modules
+            spaceBetween={10}
+            slidesPerView={5}
+            navigation
+            loop={true}
+            autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+            }}
+            pagination={{ clickable: true }}
+            modules={[Autoplay, Pagination, Navigation,A11y]}
+           
+        >
+            {items?.map((item, i) => (
+                <SwiperSlide key={i}>
+                    <div className='w-full h-1/2 p-1 text-center mb-9'>
+                    
+                    <Image className='rounded-lg'
+                        quality={80}
+                        src={item.image}
+                        alt={item.name}
+                        width={400}
+                        height={200}
+                       
                         />
-                        <div className='text-center mt-2'>
-                            <h2 className='font-bold text-lg'>{item.name}</h2>
+                        <h1 className='font-light'>{item.name}</h1>
                         </div>
-                    </div>
-                ))}
-            </div>
-        </div>
+                </SwiperSlide>
+
+            ))}
+
+           
+        </Swiper>
     )
 }
 
