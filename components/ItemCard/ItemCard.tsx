@@ -1,9 +1,10 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { ChevronsRight, ShoppingCart, Trash2 } from "lucide-react";
-import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronsRight, Minus, ShoppingCart, Trash2, Plus, Heart } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Modal } from "./Modal";
+import Counter from "./Counter";
 
 type Props = {
     image?: string;
@@ -20,9 +21,7 @@ export default function ItemCard({
     direction = "ltr",
     cart,
 }: Props) {
-
     const [ShowOverlay, setShowOverlay] = useState(false);
-
 
 
     const content = (
@@ -42,10 +41,18 @@ export default function ItemCard({
                             $699
                         </span>
                     </p>
+
                 </div>
             </div>
 
-            {cart ? (
+            {cart ? (<>
+
+                <div className='mb-4'>
+                    <label htmlFor="counter-input" className="sr-only">Choose quantity:</label>
+                    <div className="flex items-center justify-between md:order-3">
+                        <Counter />
+                    </div>
+                </div>
                 <div className="flex gap-3">
                     <button className="flex items-center justify-center rounded-md bg-green-900 px-3 py-2.5 text-center text-sm font-medium text-white hover:bg-green-700 focus:outline-none duration-300">
                         Process to Checkout <ChevronsRight className="ml-2" />
@@ -54,10 +61,16 @@ export default function ItemCard({
                         Remove <Trash2 className="ml-2" />
                     </button>
                 </div>
-            ) : (
+
+            </>
+            ) : (<div className="flex gap-3">
+                <button className="flex items-center justify-center rounded-md hover:bg-red-500 active:bg-red-600 px-3 py-2.5 text-center text-sm font-medium  border-2 border-red-500   focus:outline-none duration-300">
+                    <Heart className='text-red-700' />
+                </button>
                 <button className="flex items-center justify-center rounded-md bg-slate-900 w-full px-3 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none duration-300">
                     Add to cart <ShoppingCart className="ml-2" />
                 </button>
+            </div>
             )}
         </div>
     );
@@ -65,18 +78,24 @@ export default function ItemCard({
     return (
         <motion.div
             onHoverStart={() => setShowOverlay(true)}
-            onHoverEnd={() => setShowOverlay(false)}
-            className={`relative m-5 p-3 flex w-full ${isVertical ? "max-w-xs flex-col" : "max-w-2xl flex-row"} overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md ${!isVertical && direction === "rtl" ? "flex-row-reverse" : ""}`}
+            onHoverEnd={() => setShowOverlay(false)} // Keep overlay if modal is open
+            className={`relative m-5 p-3 flex w-full ${isVertical ? "max-w-xs flex-col" : "max-w-2xl flex-row"
+                } overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md ${!isVertical && direction === "rtl" ? "flex-row-reverse" : ""
+                }`}
         >
             <a
-                className={`relative flex h-60 ${isVertical ? "w-full" : "w-1/3"} overflow-hidden rounded-xl`}
+                className={`relative flex h-60 ${isVertical ? "w-full" : "w-1/3"
+                    } overflow-hidden rounded-xl`}
                 href="#"
             >
                 <AnimatePresence>
                     {ShowOverlay && (
                         <motion.div
                             initial={{ opacity: 0 }}
-                            animate={{ opacity: 1, transition: { duration: 0.45 } }}
+                            animate={{
+                                opacity: 1,
+                                transition: { duration: 0.45 },
+                            }}
                             exit={{ opacity: 0 }}
                             className="absolute inset-0 z-20 flex justify-center items-center bg-[#282a3f]/[0.5]"
                         >
@@ -86,10 +105,10 @@ export default function ItemCard({
                                 exit={{ y: 10 }}
                                 className="flex flex-col space-y-4"
                             >
-                               
-                                <Modal buttonText="show"/>
-                              
-                                <button className="bg-white p-3">show more</button>
+                                <Modal buttonText="show" />
+                                <button className="bg-white p-3">
+                                    show more
+                                </button>
                             </motion.div>
                         </motion.div>
                     )}
@@ -103,6 +122,7 @@ export default function ItemCard({
                     }
                     alt="product image"
                 />
+
                 <span className="absolute top-0 left-0 m-2 rounded-full bg-red-700 px-2 text-center text-sm font-medium text-white z-20">
                     39% OFF
                 </span>
