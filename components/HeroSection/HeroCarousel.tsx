@@ -34,14 +34,13 @@ export default function HeroCarousel({ items }: ProductCarouselProps) {
                             quality={80}
                             src={item.image}
                             alt={item.name}
-                            layout="fill"
+                            fill
                             objectFit="cover"
                             className="cursor-pointer object-cover"
                         />
                     </div>
                 ))}
             </div>
-        </div>
         <div className=' inset-0 flex items-center justify-between px-4 z-10 '>
             <PrevButton
                 onClick={onPrevButtonClick}
@@ -51,6 +50,7 @@ export default function HeroCarousel({ items }: ProductCarouselProps) {
                 onClick={onNextButtonClick}
                 disabled={nextBtnDisabled}
             />
+        </div>
         </div>
     </>
     );

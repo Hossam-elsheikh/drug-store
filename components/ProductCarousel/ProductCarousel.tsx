@@ -48,14 +48,13 @@ function ProductCarousel({ items }: ProductCarouselProps) {
                         height={200}
                        
                         />
-                        <h1 className='font-light'>{item.name}</h1>
+                        <div className='text-center mt-2'>
+                            <h2 className='font-bold text-lg'>{item.name}</h2>
                         </div>
-                </SwiperSlide>
-
-            ))}
-
-           
-        </Swiper>
+                    </div>
+                ))}
+            </div>
+        </div>
     )
 }
 

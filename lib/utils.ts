@@ -59,3 +59,19 @@ export const pharmacyCategories = [
         image: "https://t3.ftcdn.net/jpg/01/02/12/28/240_F_102122850_fj76MXJcEDP4OzO2y918KarKygSeFmZk.jpg",
     }
 ];
+
+export const pharmacyCat = [
+    {
+        name: "Health & Wellness",
+        image: "https://pharmacypluskw.com/cdn/shop/files/Hair_Logo.jpg?v=1708343650&width=400",
+    },
+    {
+        name: "Personal Care",
+        image: "https://pharmacypluskw.com/cdn/shop/files/Mom_Baby_Logo.jpg?v=1708343484&width=400",
+    },
+    {
+        name: "Baby & Child Care",
+        image: "https://pharmacypluskw.com/cdn/shop/files/Fitness_logo_c4341c93-2031-40d1-aff5-4edd4df3d0e9.jpg?v=1708343130&width=400",
+    }
+    
+]
