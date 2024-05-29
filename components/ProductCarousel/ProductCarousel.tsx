@@ -24,19 +24,18 @@ function ProductCarousel({ items }: ProductCarouselProps) {
         <div className='overflow-hidden cursor-pointer' ref={emblaRef}>
             <div className='flex'>
                 {items?.map((item, i) => (
-                    <div key={i} className='flex-[0_0_100%] p-2'>
+                    <div key={i} className='flex-[0_0_100%]  p-2'>
                         <Image
                             quality={80}
                             src={item.image}
                             alt={item.name}
-                            layout="responsive"
-                            width={100}
-                            height={100}
+                            // layout="responsive"
+                            fill
                             className="cursor-pointer rounded-lg"
                         />
-                        <div className='text-center mt-2'>
+                        {/* <div className='text-center mt-2'> */}
                             <h2 className='font-bold text-lg'>{item.name}</h2>
-                        </div>
+                        {/* </div> */}
                     </div>
                 ))}
             </div>

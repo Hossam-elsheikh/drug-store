@@ -47,14 +47,14 @@
 
 .embla__button--prev {
     position: absolute;
-    top: 25%;
+    top: 44%;
     /* Adjust as necessary */
 }
 
 .embla__button--next {
     position: absolute;
     right: 10px;
-    top: 25%;
+    top: 44%;
     /* Adjust as necessary */
 }
 
