@@ -23,7 +23,7 @@ const NavBar = ({ currentLoc }: { currentLoc: string }) => {
           <Icons currentLoc={currentLoc} />
         </div>
       </div>
-      <CategoriesBar />
+      <CategoriesBar currentLoc={currentLoc}/>
     </div>
   );
 };
