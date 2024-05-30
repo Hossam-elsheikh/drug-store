@@ -2,9 +2,9 @@
 import { locales } from '@/i18n'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
-import { DropdownMenu, DropdownMenuContent } from './ui/dropdown-menu'
-import { DropdownMenuItem, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Button } from './ui/button'
+import { ChevronDown, Globe } from 'lucide-react'
 
 
 function LanguageSwitcher({ currentLoc }: { currentLoc: string }) {
@@ -36,26 +36,13 @@ function LanguageSwitcher({ currentLoc }: { currentLoc: string }) {
 
     return (
         <div>
-            {/* <DropdownMenu>
-                <DropdownMenuTrigger>
-                <Button >Open</Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    
-                </DropdownMenuContent>
-            </DropdownMenu> */}
-            {/* <select onChange={handleChange} value={currentLoc}>                
-                {locales.map((loc)=>(
-                    <option key={loc} value={loc}>{loc.toUpperCase()}</option>
-                ))}
-            </select> */}
-            <DropdownMenu>
-                <DropdownMenuTrigger >
-                    <Button variant='secondary' >{currentLoc.toUpperCase()}</Button>
+            <DropdownMenu >
+                <DropdownMenuTrigger asChild>
+                    <Button variant='ghost' className=' m-0 p--1 ' ><Globe className='m-0.5'/>{currentLoc.toUpperCase()} <ChevronDown className=''/></Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     {locales.map((loc) => (
-                        <DropdownMenuItem key={loc} onClick={() => handleChange(loc)}>
+                        <DropdownMenuItem className='cursor-pointer ' key={loc} onClick={() => handleChange(loc)}>
                             {loc.toUpperCase()}
                         </DropdownMenuItem>
                     ))}

@@ -9,40 +9,40 @@ import Link from "next/link";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 
-function Categories() {
-  const t = useTranslations("categories");
-  <h1 className="">{t("allCategories")}</h1>
-  return (
+// function Categories() {
+//   const t = useTranslations("categories");
+//   <h1 className="">{t("allCategories")}</h1>
+//   return (
 
-    <ul className="mt-5 space-y-4">
-      <li>
-        <Link className="font-semibold" href="/cat1">
-          {t("home")}
-        </Link>
-      </li>
-      <li>
-        <Link className="font-semibold" href="/cat1">
-          {t("allProducts")}
-        </Link>
-      </li>
-      <li>
-        <Link className="font-semibold" href="/cat1">
-          {t("ourCollections")}
-        </Link>
-      </li>
-      <li>
-        <Link className="font-semibold" href="/cat1">
-          {t("shopByBrand")}
-        </Link>
-      </li>
-      <li>
-        <Link className="font-semibold " href="/cat1">
-          {t("Offers")}
-        </Link>
-      </li>
-    </ul>
-  )
-}
+//     <ul className="mt-5 space-y-4">
+//       <li>
+//         <Link className="font-semibold" href="/cat1">
+//           {t("home")}
+//         </Link>
+//       </li>
+//       <li>
+//         <Link className="font-semibold" href="/cat1">
+//           {t("allProducts")}
+//         </Link>
+//       </li>
+//       <li>
+//         <Link className="font-semibold" href="/cat1">
+//           {t("ourCollections")}
+//         </Link>
+//       </li>
+//       <li>
+//         <Link className="font-semibold" href="/cat1">
+//           {t("shopByBrand")}
+//         </Link>
+//       </li>
+//       <li>
+//         <Link className="font-semibold " href="/cat1">
+//           {t("Offers")}
+//         </Link>
+//       </li>
+//     </ul>
+//   )
+// }
 
 function SignInForm() {
   return (
@@ -79,7 +79,7 @@ function Cart() {
 }
 
 function DrawerWrapper({ currentLoc, showSec }: { currentLoc: string, showSec: string }) {
-  let direction: "left" | "right" = currentLoc === 'en' ? 'left' : 'right'
+  let direction: "left" | "right" = currentLoc === 'ar' ? 'left' : 'right'
 
   return (
     <div>
@@ -102,9 +102,10 @@ function DrawerWrapper({ currentLoc, showSec }: { currentLoc: string, showSec: s
           <SheetHeader className="items-center">
             <Image src={image} alt="logo" width={200} height={200} />
           </SheetHeader>
-          {showSec === 'categories' ? (
+          {/* {showSec === 'categories' ? (
             <Categories />
-          ) : showSec === 'signInForm' ? (
+          ) :  */}
+          {showSec === 'signInForm' ? (
             <SignInForm />
           ) : showSec === 'wishList' ? (
             <WishList />
