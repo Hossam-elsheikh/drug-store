@@ -5,12 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Heart } from "lucide-react";
 import Container from "../Container";
 import Counter from "../ItemCard/Counter";
+import { useTranslations } from "next-intl";
 
 export function ProductDetails() {
     const handleSetRating = (rating: number) => {
         console.log(`Rating set to: ${rating}`);
     };
 
+    const t = useTranslations("Buttons");
     return (
         <Container>
             <section className="py-16 px-8">
@@ -55,7 +57,7 @@ export function ProductDetails() {
                                 <Heart className="h-6 w-6" />
                             </Button>
                             <Button className="bg-primaryColor w-full">
-                                Add to Cart
+                                {t('addToCart')}
                             </Button>
                         </div>
                     </div>
