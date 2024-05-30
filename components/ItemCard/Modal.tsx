@@ -1,4 +1,3 @@
-'use client'
 import { Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +12,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
 
 type ModalProps = {
     buttonText: string,
