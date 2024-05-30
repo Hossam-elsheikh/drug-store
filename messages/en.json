@@ -20,5 +20,11 @@
       "ourCollections":"our collections",
       "shopByBrand":"Shop by brand",
       "Offers":"Offers"
+    },
+    "Buttons":{
+        "addToCart":"Add to cart",
+        "buyNow":"Buy now",
+        "viewDetails":"View details",
+        "backToHome":"Back to home"
     }
   }

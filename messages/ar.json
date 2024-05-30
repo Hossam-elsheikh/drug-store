@@ -20,5 +20,12 @@
         "ourCollections":"المجموعات",
         "shopByBrand":"تسوق بالبراند",
         "Offers":"عروض"
+    },
+    "Buttons":{
+        "addToCart":"أضف الى السلة",
+        "buyNow":"شراء الآن",
+        "viewDetails":"عرض التفاصيل",
+        "viewMore":"عرض المزيد",
+        "viewLess":"عرض أقل"
     }
 }
