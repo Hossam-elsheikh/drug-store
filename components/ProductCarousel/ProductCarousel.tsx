@@ -8,6 +8,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Image from 'next/image';
+import ItemSlider from './ItemSlider';
 
 type PharmacyCategory = {
     name: string;
@@ -34,19 +35,7 @@ function ProductCarousel({ items }: ProductCarouselProps) {
         >
             {items?.map((item, i) => (
                 <SwiperSlide key={i}>
-                    <div className='w-full h-1/2 p-1 text-center mb-9'>
-                        <Image
-                            className='rounded-lg'
-                            quality={80}
-                            src={item.image}
-                            alt={item.name}
-                            width={400}
-                            height={100}
-                        />
-                        <div className='text-center mt-2'>
-                            <h2 className='font-bold text-lg'>{item.name}</h2>
-                        </div>
-                    </div>
+                    <ItemSlider item={item}  />
                 </SwiperSlide>
             ))}
         </Swiper>

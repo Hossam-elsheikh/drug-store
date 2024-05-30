@@ -18,7 +18,6 @@ const nextConfig = {
                 protocol: "https",
                 hostname: "pharmacypluskw.com",
             },
-          
         ]
     }
 };
