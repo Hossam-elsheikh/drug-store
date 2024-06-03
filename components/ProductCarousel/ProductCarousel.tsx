@@ -22,7 +22,7 @@ type ProductCarouselProps = {
 function ProductCarousel({ items }: ProductCarouselProps) {
     return (
         <Swiper
-            spaceBetween={10}
+            spaceBetween={25}
             slidesPerView={5}
             navigation
             loop={true}

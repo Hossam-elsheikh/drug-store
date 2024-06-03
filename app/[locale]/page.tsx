@@ -27,6 +27,9 @@ export default function Home() {
                 <ProductCarousel items={pharmacyCategories} />
 
             </Container>
+            <Container>
+                <ItemCard />
+            </Container>
             
 
                 <ProductDetails />
@@ -34,11 +37,7 @@ export default function Home() {
 
             <CustomerReview />
             <Footer />
-            <div>
-                <h1>{t('title')}</h1>;
-
-                <h1>{t('description')}</h1>;
-            </div>
+        
         </div>
     );
 }
