@@ -32,10 +32,32 @@ function ProductCarousel({ items }: ProductCarouselProps) {
             }}
             pagination={{ clickable: true }}
             modules={[Autoplay, Pagination, Navigation, A11y]}
+            breakpoints={{
+                320: {
+                    slidesPerView: 2,
+                    spaceBetween: 5
+                },
+                480: {
+                    slidesPerView: 2,
+                    spaceBetween: 5
+                },
+                768: {
+                    slidesPerView: 3,
+                    spaceBetween: 5
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 5
+                },
+                1280: {
+                    slidesPerView: 5,
+                    spaceBetween: 5
+                },
+            }}
         >
             {items?.map((item, i) => (
                 <SwiperSlide key={i}>
-                    <ItemSlider item={item}  />
+                    <ItemSlider item={item} />
                 </SwiperSlide>
             ))}
         </Swiper>

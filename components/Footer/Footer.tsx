@@ -66,18 +66,17 @@ const Footer = ({ direction = 'ltr' }) => {
                     <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                         {footerData.map((section, sectionIndex) => (
                             <div key={sectionIndex}>
-                                <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+                                <h2 className="mb-3 text-sm font-semibold text-gray-900 uppercase dark:text-white">
                                     {section.mainTitle}
                                 </h2>
                                 <ul className="text-gray-500 dark:text-gray-400 font-medium">
                                     {section.subObjects.map((item, itemIndex) => (
-                                        <Link href='/' className='hover:text-black duration-300' key={itemIndex} >
-
-                                            <li className="mb-4 flex items-center">
-                                                <div className={`mr-4 ${direction === 'rtl' ? 'ml-4' : ''}`}>
+                                        <Link href='/' key={itemIndex}>
+                                            <li className="hover:text-black flex items-center p-3 rounded-lg hover:shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                                                <div className={`mr-3 ${direction === 'rtl' ? 'ml-4' : ''}`}>
                                                     {item.icon}
                                                 </div>
-                                                <div className="flex flex-col">
+                                                <div className="flex flex-col ">
                                                     <p className="mt-1">{item.content}</p>
                                                 </div>
                                             </li>
@@ -86,7 +85,6 @@ const Footer = ({ direction = 'ltr' }) => {
                                 </ul>
                             </div>
                         ))}
-
                     </div>
                 </div>
                 <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
