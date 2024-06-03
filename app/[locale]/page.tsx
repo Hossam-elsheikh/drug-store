@@ -1,10 +1,6 @@
 'use client'
 import Container from '@/components/Container';
-import CartItem from '@/components/ItemCard/CartItem';
-import ItemCard from '@/components/ItemCard/ItemCard';
-import { Modal } from '@/components/ItemCard/Modal';
-import SwiperCarousel from '@/components/ProductCarousel/ProductCarousel';
-import { pharmacyCat, pharmacyCategories } from '@/lib/utils';
+import { pharmacyCategories } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 import ProductCarousel from '@/components/ProductCarousel/ProductCarousel';
 import NavBar from '@/components/navbar/NavBar';
@@ -13,6 +9,8 @@ import StarRating from '@/components/CustomerReview/StarRating';
 import CustomerReview from '@/components/CustomerReview/CustomerReview';
 import Footer from '@/components/Footer/Footer';
 import ProductDetails from '@/components/ProductDetails/ProductDetails';
+import WhyUs from '@/components/WhyUs/WhyUs';
+import ASidebar from '@/components/UserProfile/Aside';
 
 
 export default function Home() {
@@ -22,17 +20,15 @@ export default function Home() {
         <div>
             <HeroCarousel items={pharmacyCategories} />
 
-            <Container title='Shope By the Category' className='max-w-[1200px]'>
+            <Container title='Shope By the Category' className='max-w-[1400px]'>
 
                 <ProductCarousel items={pharmacyCategories} />
 
             </Container>
-            <Container>
-                <ItemCard />
-            </Container>
-            
 
-                <ProductDetails />
+
+            <ProductDetails />
+            <WhyUs />
 
 
             <CustomerReview />

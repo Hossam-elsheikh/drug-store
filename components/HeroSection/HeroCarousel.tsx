@@ -29,7 +29,7 @@ export default function HeroCarousel({ items }: ProductCarouselProps) {
         <div className='overflow-hidden relative w-full cursor-pointer' ref={emblaRef}>
             <div className='flex h-[500px] relative'>
                 {items?.map((item, i) => (
-                    <div key={i} className='relative md:flex-[0_0_100%] flex-[0_0_50%] w-full h-full'>
+                    <div key={i} className='relative  flex-[0_0_100%] w-full h-full'>
                         <Image
                             quality={80}
                             src={item.image}
