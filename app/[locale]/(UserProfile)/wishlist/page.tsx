@@ -4,6 +4,7 @@ import addImage from '@/public/undraw_add_files_re_v09g.svg'
 
 export default function WishList() {
     const product: any = [];
+    const dir = 'ltr' 
 
     return (
         <>

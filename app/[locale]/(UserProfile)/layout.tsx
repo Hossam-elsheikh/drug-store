@@ -13,12 +13,10 @@ export default function RootLayout({
     return (
         <main>
             <Container className='max-w-[1500px] flex my-20'>
-               
-
                 <ASidebar path={pathname} />
-                
+
                 <div className='bg-[#F8F7F4] flex-grow p-10 '>
-                {children}
+                    {children}
                 </div>
             </Container>
         </main>
