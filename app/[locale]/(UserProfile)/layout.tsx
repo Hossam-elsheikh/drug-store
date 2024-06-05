@@ -11,8 +11,8 @@ export default function RootLayout({
     const pathname = usePathname();
 
     return (
-        <main>
-            <Container className='max-w-[1500px] flex my-20'>
+        <main >
+            <Container dir="rtl" className='max-w-[1500px] flex my-20'>
                 <ASidebar path={pathname} />
 
                 <div className='bg-[#F8F7F4] flex-grow p-10 '>

@@ -13,20 +13,21 @@ import WhyUs from "@/components/WhyUs/WhyUs";
 import ASidebar from "@/components/UserProfile/Aside";
 import CartItem from "@/components/ItemCard/CartItem";
 import ItemCard from "@/components/ItemCard/ItemCard";
+import InfoCard from "@/components/UserProfile/Addresses/InfoCard";
 
 export default function Home() {
-	const t = useTranslations("Index");
+    const t = useTranslations("Index");
 
-	return (
-		<div>
-			<HeroCarousel items={pharmacyCategories} />
+    return (
+        <div>
+            <HeroCarousel items={pharmacyCategories} />
 
-			<Container title="Shope By the Category" className="max-w-[1400px]">
-				<ProductCarousel items={pharmacyCategories} />
-			</Container>
+            <Container title="Shope By the Category" className="max-w-[1400px]">
+                <ProductCarousel items={pharmacyCategories} />
+            </Container>
 
-			<CartItem />
-			<ItemCard isVertical={false}/>
+            <CartItem />
+            <ItemCard isVertical={false} />
             <Container className="flex gap-1 flex-wrap max-w-[1600px]">
                 <ItemCard isVertical={false} />
                 <ItemCard />
@@ -38,13 +39,14 @@ export default function Home() {
                 <ItemCard />
                 <ItemCard />
             </Container>
+            <InfoCard  dir="rtl"/>
 
-			<ProductDetails />
-			<WhyUs />
+            <ProductDetails />
+            <WhyUs />
 
-			<CustomerReview />
-			<Footer />
-			
-		</div>
-	);
+            <CustomerReview />
+            <Footer />
+
+        </div>
+    );
 }

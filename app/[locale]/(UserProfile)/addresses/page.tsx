@@ -1,4 +1,4 @@
-import AddressesModal from '@/components/UserProfile/AddressesModal'
+import AddressesModal from '@/components/UserProfile/Addresses/AddressesModal'
 import React from 'react'
 import addImage from '@/public/undraw_add_files_re_v09g.svg'
 import Image from 'next/image';

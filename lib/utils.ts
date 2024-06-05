@@ -47,10 +47,11 @@ export const authFormUserAddress = () =>
         lastName: z.string().min(3, "Last name must be at least 3 characters"),
         city: z.string().min(3, "least 3 characters").max(10, 'max charcters 10'),
         country: z.string().min(3, "least 3 characters").max(10, 'max charcters 10'),
-        street:z.string().max(20,'max charcters 20'),
-        address:z.string().max(20,'max charcters 20'),
-        postalCode: z.string().min(4,'least 4 Numbers').max(5,'max Numbers 5')
+        street: z.string().max(20, 'max charcters 20'),
+        address: z.string().max(20, 'max charcters 20'),
+        postalCode: z.string().min(4, 'least 4 Numbers').max(5, 'max Numbers 5')
     });
+
 
 
 export const pharmacyCategories = [
