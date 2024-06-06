@@ -14,19 +14,19 @@ const CategoriesBar = ({ currentLoc }: { currentLoc: string }) => {
         <ul className="flex gap-4 items-center">
           <CategoriesDrawer currentLoc={currentLoc}/>
           <h1 className="font-semibold">{t("allCategories")}</h1>
-          <Link className="font-semibold " href="/cat1">
+          <Link className="font-semibold " href="/en">
             {t("home")}
           </Link>
-          <Link className="font-semibold " href="/cat1">
+                  <Link className="font-semibold " href="/en/searchcategory/allProducts">
             {t("allProducts")}
           </Link>
-          <Link className="font-semibold " href="/cat1">
+                  <Link className="font-semibold " href="/en/searchcategory/ourCollections">
             {t("ourCollections")}
           </Link>
-          <Link className="font-semibold " href="/cat1">
+                  <Link className="font-semibold " href="/en/searchcategory/shopByBrand">
             {t("shopByBrand")}
           </Link>
-          <Link className="font-semibold " href="/cat1">
+                  <Link className="font-semibold " href="/en/searchcategory/Offers">
             {t("Offers")}
           </Link>
         </ul>

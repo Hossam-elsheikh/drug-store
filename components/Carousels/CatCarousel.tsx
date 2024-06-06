@@ -19,11 +19,11 @@ type ProductCarouselProps = {
     items: PharmacyCategory[];
 };
 
-function ProductCarousel({ items }: ProductCarouselProps) {
+function CatCarousel({ items }: ProductCarouselProps) {
     return (
         <Swiper
             spaceBetween={25}
-            slidesPerView={5}
+            slidesPerView={8}
             navigation
             loop={true}
             autoplay={{
@@ -35,23 +35,23 @@ function ProductCarousel({ items }: ProductCarouselProps) {
             breakpoints={{
                 320: {
                     slidesPerView: 2,
-                    spaceBetween: 5
+                    spaceBetween: 8
                 },
                 480: {
                     slidesPerView: 2,
                     spaceBetween: 5
                 },
                 768: {
-                    slidesPerView: 3,
+                    slidesPerView: 5,
                     spaceBetween: 5
                 },
                 1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 5
+                    slidesPerView: 6,
+                    spaceBetween: 4
                 },
                 1280: {
-                    slidesPerView: 5,
-                    spaceBetween: 5
+                    slidesPerView: 8,
+                    spaceBetween: 7
                 },
             }}
         >
@@ -64,4 +64,4 @@ function ProductCarousel({ items }: ProductCarouselProps) {
     )
 }
 
-export default ProductCarousel
+export default CatCarousel

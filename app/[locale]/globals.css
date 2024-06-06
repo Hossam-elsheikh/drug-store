@@ -220,6 +220,16 @@ body {
     }
 }
 
+/* swiper custom styls */
+.swiper-pagination-bullet-active{
+   background-color: #2ab3e1 !important;
+}
+.swiper{
+    padding-bottom: 2rem !important;
+}
+.swiper-pagination{
+    padding-top: 1rem !important;
+}
 @layer base {
     * {
         @apply border-border;
@@ -229,3 +239,4 @@ body {
         @apply bg-background text-foreground;
     }
 }
+

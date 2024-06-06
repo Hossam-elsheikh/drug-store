@@ -10,7 +10,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Form } from '@/components/ui/form';
-import CustomInput from "../Form/CustomInput";
+import CustomInput from "../../Form/CustomInput";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

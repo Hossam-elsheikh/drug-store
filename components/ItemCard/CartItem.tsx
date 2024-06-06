@@ -34,12 +34,12 @@ function CartItem({Price,image,Title,Description}:CartProps) {
                     <a href="#" className="text-base font-medium text-gray-900 hover:underline dark:text-white">PC system All in One APPLE iMac (2023) mqrq3ro/a, Apple M3 Retina 4.5K, 8GB, SSD 256GB, 10-core GPU, Keyboard layout INT</a>
 
                     <div className="flex items-center gap-4">
-                        <button type="button" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white">
+                        <button type="button" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white active:scale-95 duration-200">
                             <Heart className='mr-2' />
                             Add to Favorites
                         </button>
 
-                        <button type="button" className="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500">
+                        <button type="button" className="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500 active:scale-95 duration-200">
                             <Trash2 className='mr-2' />
                             Remove
                         </button>

@@ -1,4 +1,4 @@
-import PaymentsModal from '@/components/UserProfile/AddressesModal'
+import PaymentsModal from '@/components/UserProfile/Addresses/AddressesModal'
 import React from 'react'
 
 export default function Payments() {

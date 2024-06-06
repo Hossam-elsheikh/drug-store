@@ -2,9 +2,8 @@
 import { CirclePower, Cog, CreditCard, Heart, Map, PackageCheck, Undo2, UserCircleIcon } from 'lucide-react';
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
-export default function ASidebar({ path }: { path: string }) {
+export default function ASidebar({ path, dir = 'ltr' }: { path: string, dir?: string }) {
 
 
     const links = [
@@ -19,17 +18,17 @@ export default function ASidebar({ path }: { path: string }) {
     ];
 
     return (
-        <div className="rounded-lg h-fit w-full max-w-[15rem] p-4 shadow-md bg-gray-50 mr-4 sticky top-[120px]  overflow-y-auto">
-            <div className="mb-2 p-4">
-                <p>Sidebar</p>
+        <div className={`rounded-lg h-fit w-full max-w-[15rem] p-4 shadow-md bg-gray-50  sticky top-[120px]  overflow-y-auto `}>
+            <div  className="mb-2 p-4">
+                <h1></h1>
             </div>
             <ul className="space-y-2">
                 {links.map(({ href, icon: Icon, label }) => (
                     <li key={href}>
-                        <Link href={href} className={`group flex items-center p-3 rounded-lg transition-all active:scale-95 duration-300 
-                            ${path === href ? 'bg-gray-200' : 'hover:bg-gray-200 dark:hover:bg-gray-700'}
+                        <Link href={href} className={`group gap-3 flex items-center p-3 rounded-lg transition-all active:scale-95 duration-300 
+                            ${path === href ? 'bg-gray-200' : 'hover:bg-gray-200 dark:hover:bg-gray-700 '}
                         `}>
-                            <Icon className="h-5 w-5 mr-3" />
+                            <Icon className="h-5 w-5 " />
                             <span className={`flex-grow ${path === href ? 'text-black' : 'group-hover:text-black'}  `}>
                                 {label}
                             </span>
