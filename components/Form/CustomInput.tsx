@@ -18,13 +18,12 @@ const CustomInput = <T extends FieldValues>({ control, name, label, placeholder,
             control={control}
             name={name}
             render={({ field }) => (
-                <div className="form-item">
-                    <FormLabel className="form-label">{label}</FormLabel>
+                <div className="flex flex-col gap-1.5">
+                    <FormLabel className="text-14 w-full max-w-[280px] font-medium text-gray-700">{label}</FormLabel>
                     <div className="flex w-full flex-col">
                         <FormControl>
                             <Input
                                 placeholder={placeholder}
-                                className="input-class"
                                 type={name === "password" ? "password" : "text"}
                                 {...field}
                                 id={label}

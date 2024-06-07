@@ -1,39 +1,53 @@
-// CustomCheckbox.tsx
-import React, { useState } from 'react';
+import React from "react";
+import { Control, FieldPath, FieldValues } from "react-hook-form";
+import { z, ZodType, ZodTypeDef } from "zod";
+import { FormControl, FormField, FormLabel, FormMessage } from "../ui/form";
+import { Checkbox } from "../ui/checkbox";
 
-interface CheckboxProps {
+interface CustomCheckboxProps<T extends FieldValues> {
+    control: Control<T>;
+    name: FieldPath<T>;
     label: string;
-    defaultChecked?: boolean;
-    onChange?: (checked: boolean) => void;
+    value: string;
+    schema?: ZodType<T, ZodTypeDef, T>;
 }
 
-const CustomCheckbox = ({
+const CustomCheckbox = <T extends FieldValues>({
+    control,
+    name,
+    value,
     label,
-    defaultChecked = false,
-    onChange,
-}: CheckboxProps) => {
-    const [checked, setChecked] = useState(defaultChecked);
-
-    const handleChange = () => {
-        const isChecked = !checked;
-        setChecked(isChecked);
-        if (onChange) {
-            onChange(isChecked);
-        }
-    };
-
-
+    schema,
+}: CustomCheckboxProps<T>) => {
     return (
-        <div className="checkbox">
-            <label>
-                <input
-                    type="checkbox"
-                    checked={checked}
-                    onChange={handleChange}
-                />
-                {label}
-            </label>
-        </div>
+        <FormField
+            control={control}
+            name={name}
+            render={({ field }) => (
+                <div className="form-item">
+                    <div className="flex flex-col">
+                        <FormControl>
+                            <div className="flex items-center space-x-1.5">
+                                <Checkbox
+                                    checked={field.value?.includes(value)}
+                                    onCheckedChange={(checked :any) => {
+                                        return checked
+                                            ? field.onChange([...field.value, value])
+                                            : field.onChange(
+                                                field.value?.filter((val:any) => val !== value)
+                                            );
+                                    }}
+                                />
+                                <FormLabel className="form-label" htmlFor={label}>
+                                    {label}
+                                </FormLabel>
+                            </div>
+                        </FormControl>
+                        <FormMessage className="form-message mt-2" />
+                    </div>
+                </div>
+            )}
+        />
     );
 };
 
