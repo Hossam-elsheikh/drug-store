@@ -14,19 +14,21 @@ type PharmacyItems = {
 
 function ItemSlider({ item }: PharmacyCategory) {
     return (
-        <div className='w-full p-1 text-center mb-9'>
-            <div className='relative w-full h-48 '> 
+        <div className='flex flex-col gap-5 justify-center items-center p-1 my-8'>
+            <div className=''> 
                 <Image
-                    className='rounded-lg'
-                    quality={80}
+                    className=''
+                    quality={100}
+                    width={200}
+                    height={200}
                     src={item.image}
                     alt={item.name}
-                    layout="fill" 
-                    objectFit="cover" 
+                    // layout="fill" 
+                    // objectFit="cover" 
                 />
             </div>
             <div className='text-center mt-2 md:mt-1'>
-                <h2 className='font-semibold md:text-lg text-sm'>{item.name}</h2>
+                <h2 className='font-semibold  text-sm'>{item.name}</h2>
             </div>
         </div>
     )

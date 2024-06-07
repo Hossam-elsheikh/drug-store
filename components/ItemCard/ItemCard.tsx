@@ -27,7 +27,7 @@ export default function ItemCard({
         <div className="mt-2 p-2 flex-grow">
             <div dir={direction}>
                 <a href="#">
-                    <h5 className="text-lg tracking-tight text-slate-900">
+                    <h5 className="text-lg font-semibold tracking-tight text-start text-slate-900">
                         {title || "Nike Air MX Super 2500 - Red"}
                     </h5>
                 </a>
@@ -65,8 +65,8 @@ export default function ItemCard({
                         <button className="group flex items-center justify-center rounded-md hover:bg-red-500  active:bg-red-600 px-2 py-2 text-center text-sm font-medium  hover:shadow-md outline-none duration-300 active:scale-[0.98]">
                         <Heart className='text-red-700 group-hover:text-white' />
                     </button>
-                    <button className="flex items-center justify-center rounded-md bg-slate-900 w-full px-2 py-2 text-center text-sm font-medium text-white hover:bg-gray-700 hover:shadow-md outline-none duration-300 active:scale-[0.98] ">
-                        Add to cart <ShoppingCart className="ml-2" />
+                    <button className="flex items-center gap-4 justify-center rounded-md bg-slate-900 w-full px-2 py-2 text-center text-sm font-medium text-white hover:bg-gray-700 hover:shadow-md outline-none duration-300 active:scale-[0.98] ">
+                        <span className="hidden md:block">Add to cart</span> <ShoppingCart  />
                     </button>
                 </div>
             )}
@@ -77,7 +77,7 @@ export default function ItemCard({
         <motion.div
             onHoverStart={() => setShowOverlay(true)}
             onHoverEnd={() => setShowOverlay(false)}
-            className={`relative m-2 w-full sm:w-1/2 p-2 flex ${isVertical ? "max-w-xs h-96 flex-col" : "max-w-sm h-60 flex-row"
+            className={`relative m-2 w-full   flex ${isVertical ? "max-w-72 md:max-w-60  h-96 flex-col" : "max-w-xs h-60 flex-row"
                 } overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md ${!isVertical && direction === "rtl" ? "flex-row-reverse" : ""
                 }`}
         >

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CustomCheckbox from '../Form/CustomCheckbox';
+import CustomCheckbox from '../Form./Form/CustomCheckbox';
 import { useForm } from 'react-hook-form';
 import { Form } from '../ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
