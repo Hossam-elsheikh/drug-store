@@ -9,7 +9,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Image from 'next/image';
 import ItemSlider from './ItemSlider';
-
+import styles from './cat.module.css'
 type PharmacyCategory = {
     name: string;
     image: string;
@@ -30,7 +30,7 @@ function CatCarousel({ items }: ProductCarouselProps) {
                 delay: 2500,
                 disableOnInteraction: false,
             }}
-            pagination={{ clickable: true }}
+            // pagination={{ clickable: true }}
             modules={[Autoplay, Pagination, Navigation, A11y]}
             breakpoints={{
                 320: {

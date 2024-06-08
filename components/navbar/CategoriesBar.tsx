@@ -9,7 +9,7 @@ const CategoriesBar = ({ currentLoc }: { currentLoc: string }) => {
   const t = useTranslations("categories");
 
   return (
-    <div className="flex items-center gap-4 px-5 py-2 text-slate-200 bg-primaryColor">
+    <div className="md:flex items-center gap-4 px-5 py-2 text-slate-200 bg-primaryColor hidden ">
       <nav className="flex w-full justify-between gap-5 items-center">
         <ul className="flex gap-4 items-center">
           <CategoriesDrawer currentLoc={currentLoc}/>

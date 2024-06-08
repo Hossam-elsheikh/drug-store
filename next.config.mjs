@@ -18,6 +18,14 @@ const nextConfig = {
                 protocol: "https",
                 hostname: "pharmacypluskw.com",
             },
+            {
+                protocol: "https",
+                hostname: "freepngimg.com",
+            },
+            {
+                protocol: "https",
+                hostname: "encrypted-tbn0.gstatic.com",
+            },
         ]
     }
 };

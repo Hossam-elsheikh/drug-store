@@ -6,14 +6,14 @@ import Image from 'next/image';
 import { Menu } from 'lucide-react';
 import image from "../../public/logo.svg";
 
-function CategoriesDrawer({ currentLoc }: { currentLoc: string }) {
+function CategoriesDrawer({ currentLoc,classes }) {
     const t = useTranslations("categories");
     <h1 className="">{t("allCategories")}</h1>
     let direction: "left" | "right" = currentLoc === 'en' ? 'left' : 'right'
 
     return (
         <Sheet >
-            <SheetTrigger className="flex items-center gap-2 font-semibold text-nowrap">
+            <SheetTrigger className={`flex items-center gap-2 font-semibold text-nowrap ${classes}`}>
                 <Menu />
             </SheetTrigger>
             <SheetContent className="w-[300px]" side={direction}>

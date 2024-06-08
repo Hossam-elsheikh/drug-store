@@ -7,7 +7,7 @@ import DrawerWrapper from '../DrawerWrapper'
 const Icons = ({ currentLoc }: { currentLoc: string }) => {
   return (
     <div className='flex items-center gap-2'>
-      <LanguageSwitcher currentLoc={currentLoc} />
+      <LanguageSwitcher classes='hidden md:block' currentLoc={currentLoc} />
       <DrawerWrapper currentLoc={currentLoc} showSec='signInForm' />
       <DrawerWrapper currentLoc={currentLoc} showSec='wishList' />
       <DrawerWrapper currentLoc={currentLoc} showSec='cart' />
