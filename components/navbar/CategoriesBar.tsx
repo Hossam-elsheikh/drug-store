@@ -3,7 +3,7 @@ import Link from "next/link";
 import LanguageSwitcher from "../LanguageSwitcher";
 import { useTranslations } from "next-intl";
 import DrawerWrapper from "../DrawerWrapper";
-import CategoriesDrawer from "./CategoriesDrawer";
+import CategoriesDrawer from "../Drawers/CategoriesDrawer";
 
 const CategoriesBar = ({ currentLoc }: { currentLoc: string }) => {
   const t = useTranslations("categories");

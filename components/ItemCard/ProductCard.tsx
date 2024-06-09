@@ -19,7 +19,7 @@ const ProductCard = ({ details }) => {
   return (
     <div
       
-      className="flex transition flex-col max-w-56 rounded-lg  shadow-xl pb-1"
+      className="flex border transition flex-col max-w-56 rounded-lg  shadow-xl pb-1"
     >
       {/* <ProductDialog /> */}
       <div onMouseOver={() => setQuickAccess(true)}

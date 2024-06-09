@@ -8,7 +8,9 @@
         "description": "بالعربيه3"
     },
     "Navigation": {
-        "home": "بالعربيه4"
+        "home": "بالعربيه4",
+		"main":"القائمة الرئيسية",
+		"categories":"الأقسام"
     },
     "Footer": {
         "copyright": "بالعربيه5"

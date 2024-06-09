@@ -22,8 +22,11 @@ export default function Home() {
     const t = useTranslations("Index");
 
     return (
+        <>
+        
+      
         <div className="flex flex-col items-center">
-            <Container className="max-w-[1600px]">
+            <Container className="max-w-[1600px] ">
 
             <HeroCarousel items={pharmacyCat} />
             </Container>
@@ -35,7 +38,7 @@ export default function Home() {
                 
             <BannerGrid1 />
             </Container>
-            <Container className="max-w-[1600px]   items-center" title="Cosmotics">
+            <Container className="max-w-[1600px] border-b-2 rounded-none  items-center" title="Cosmotics">
                 <ProductsCarousel products={products}/>
             </Container>
             {/* <CartItem />
@@ -60,5 +63,6 @@ export default function Home() {
             <CustomerReview />
             <Footer />
         </div>
+        </>
     );
 }

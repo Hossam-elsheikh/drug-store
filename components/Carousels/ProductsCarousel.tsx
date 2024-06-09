@@ -11,7 +11,7 @@ import Image from 'next/image';
 import ItemCard from '../ItemCard/ItemCard';
 import ProductCard from '../ItemCard/ProductCard';
 
-
+import classes from './product-carousel.module.css'
 
 function ProductsCarousel({products}) {
     return (
@@ -22,6 +22,7 @@ function ProductsCarousel({products}) {
             centerInsufficientSlides
             // centeredSlides
             // centeredSlidesBounds
+            className={classes.swiper}
             
             pagination={{ clickable: true }}
             modules={[Autoplay, Pagination, Navigation, A11y]}
