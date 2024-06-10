@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import CatCarousel from "@/components/Carousels/CatCarousel";
 import NavBar from "@/components/navbar/NavBar";
 import HeroCarousel from "@/components/HeroSection/HeroCarousel";
-import StarRating from "@/components/CustomerReview/StarRating";
 import CustomerReview from "@/components/CustomerReview/CustomerReview";
 import Footer from "@/components/Footer/Footer";
 import ProductDetails from "@/components/ProductDetails/ProductDetails";

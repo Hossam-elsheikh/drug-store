@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 
 interface ImageMagnifierProps {
@@ -17,26 +17,32 @@ const ImageMagnifier: React.FC<ImageMagnifierProps> = ({
     const [[x, y], setXY] = useState([0, 0]);
     const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
     const [showMagnifier, setShowMagnifier] = useState(false);
+    const imgRef = useRef<HTMLImageElement>(null);
+
+    useEffect(() => {
+        if (imgRef.current) {
+            setSize([imgRef.current.width, imgRef.current.height]);
+        }
+    }, []);
 
     return (
         <div
+          className="flex justify-center items-center"
             style={{
                 position: "relative",
                 height: "100%",
-                width: "100%"
+                width: "100%",
+
             }}
         >
-            <div className=''
+            <div
+          
                 style={{
                     position: "relative",
-                    width: "100%",
+                    width: "50%",
                     height: "100%",
-                    borderRadius:'5px',
                 }}
                 onMouseEnter={(e) => {
-                    const elem = e.currentTarget;
-                    const { width, height } = elem.getBoundingClientRect();
-                    setSize([width, height]);
                     setShowMagnifier(true);
                 }}
                 onMouseMove={(e) => {
@@ -51,11 +57,12 @@ const ImageMagnifier: React.FC<ImageMagnifierProps> = ({
                 }}
             >
                 <Image
+                    ref={imgRef}
                     src={src}
                     layout="fill"
-                    objectFit="contain"
+                    objectFit="cover"
+                    
                     alt="magnifiable image"
-                    className=''
                 />
             </div>
 
@@ -68,7 +75,7 @@ const ImageMagnifier: React.FC<ImageMagnifierProps> = ({
                         height: `${magnifierHeight}px`,
                         width: `${magnifierWidth}px`,
                         top: `${y - magnifierHeight / 2}px`,
-                        left: `${x - magnifierWidth / 2}px`,
+                        left: `${x - magnifierWidth / 2 +150}px`,
                         opacity: "1",
                         border: "1px solid lightgray",
                         backgroundColor: "white",

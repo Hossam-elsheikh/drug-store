@@ -18,9 +18,9 @@ function CustomerReview() {
                 </div>
                 <div className='flex flex-row justify-between'>
                     <StarRating
-                        maxRating={5}
+                        mode='rating'
                         defaultRating={0}
-                        size={30} 
+                        size={30}
                         onSetRating={handleSetRating}
                     />
                     <CustomerDialog />

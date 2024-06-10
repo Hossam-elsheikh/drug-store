@@ -18,8 +18,12 @@ const nextConfig = {
                 protocol: "https",
                 hostname: "pharmacypluskw.com",
             },
+            {
+                protocol: "https",
+                hostname: "unsplash.com",
+            },
         ]
     }
 };
 
-export default withNextIntl(nextConfig);
+export default withNextIntl(nextConfig); 

@@ -4,6 +4,7 @@ import "./globals.css";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server'
 import NavBar from "@/components/navbar/NavBar";
+import Footer from "@/components/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <NavBar currentLoc={locale}/>
           {children}
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>
