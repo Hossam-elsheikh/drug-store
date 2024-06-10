@@ -7,7 +7,7 @@ import { Button } from './ui/button'
 import { ChevronDown, Globe } from 'lucide-react'
 
 
-function LanguageSwitcher({ currentLoc }: { currentLoc: string }) {
+function LanguageSwitcher({ currentLoc,classes }) {
 
     let router = useRouter()
     const pathName = usePathname()
@@ -35,7 +35,7 @@ function LanguageSwitcher({ currentLoc }: { currentLoc: string }) {
     }, [currentLoc])
 
     return (
-        <div>
+        <div className={classes}>
             <DropdownMenu >
                 <DropdownMenuTrigger asChild>
                     <Button variant='ghost' className=' m-0 p--1 ' ><Globe className='m-0.5'/>{currentLoc.toUpperCase()} <ChevronDown className=''/></Button>

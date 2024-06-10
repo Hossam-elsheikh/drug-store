@@ -20,7 +20,11 @@ const nextConfig = {
             },
             {
                 protocol: "https",
-                hostname: "unsplash.com",
+                hostname: "freepngimg.com",
+            },
+            {
+                protocol: "https",
+                hostname: "encrypted-tbn0.gstatic.com",
             },
         ]
     }

@@ -9,28 +9,27 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Image from 'next/image';
 import ItemCard from '../ItemCard/ItemCard';
+import ProductCard from '../ItemCard/ProductCard';
 
+import classes from './product-carousel.module.css'
 
-
-function ProductsCarousel() {
+function ProductsCarousel({products}) {
     return (
         <Swiper
-            slidesPerView={8}
+            slidesPerView={5}
             navigation
             loop={true}
             centerInsufficientSlides
-            centeredSlides
-            centeredSlidesBounds
-            autoplay={{
-                delay: 2500,
-                disableOnInteraction: false,
-            }}
+            // centeredSlides
+            // centeredSlidesBounds
+            className={classes.swiper}
+            
             pagination={{ clickable: true }}
             modules={[Autoplay, Pagination, Navigation, A11y]}
             breakpoints={{
                 320: {
                     slidesPerView: 2,
-                    spaceBetween: 1
+                    spaceBetween: 2
                 },
                 480: {
                     slidesPerView: 2,
@@ -38,43 +37,32 @@ function ProductsCarousel() {
                 },
                 768: {
                     slidesPerView: 3,
-                    spaceBetween: 2
+                    spaceBetween: 1
                 },
                 1024: {
-                    slidesPerView: 4,
+                    slidesPerView: 3,
                     spaceBetween: 2
                 },
                 1280: {
+                    slidesPerView: 4,
+                    spaceBetween: 2
+                },
+                1600: {
                     slidesPerView: 5,
                     spaceBetween: 2
-                },
-                1500: {
+                    },
+                    1800:{
                     slidesPerView: 6,
                     spaceBetween: 2
-                },
+
+                }
             }}
         >
+            {products.map((prod,id)=>
                 <SwiperSlide >
-                    <ItemCard />
+                    <ProductCard details={prod} key={id}/>
                 </SwiperSlide>
-                <SwiperSlide >
-                    <ItemCard />
-                </SwiperSlide>
-                <SwiperSlide >
-                    <ItemCard />
-                </SwiperSlide>
-                <SwiperSlide >
-                    <ItemCard />
-                </SwiperSlide>
-                <SwiperSlide >
-                    <ItemCard />
-                </SwiperSlide>
-                <SwiperSlide >
-                    <ItemCard />
-                </SwiperSlide>
-                <SwiperSlide >
-                    <ItemCard />
-                </SwiperSlide>
+                )}
         </Swiper>
     )
 }

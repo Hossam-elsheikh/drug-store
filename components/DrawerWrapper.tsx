@@ -89,7 +89,7 @@ function DrawerWrapper({ currentLoc, showSec }: { currentLoc: string, showSec: s
                     {showSec === 'categories' ? (
                         <Menu />
                     ) : showSec === 'signInForm' ? (
-                        <User2Icon className="cursor-pointer" />
+                        <User2Icon className="cursor-pointer hidden md:block" />
                     ) : showSec === 'wishList' ? (
                         <Heart className="cursor-pointer" />
                     ) : showSec === 'cart' ? (
