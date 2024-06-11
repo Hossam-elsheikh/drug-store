@@ -21,7 +21,7 @@ const items = [
 
 function SecSideBanar({ dir = "ltr" }) {
     return (
-        <Container className="w-full p-0">
+        <section className="w-full p-0">
            
             <section 
                     className={` flex flex-col md:flex-row gap-2 bg-[#ffffff] rounded-lg shadow-sm p-2`}
@@ -46,7 +46,7 @@ function SecSideBanar({ dir = "ltr" }) {
                     ))}
                 </section>
            
-        </Container>
+        </section>
     );
 }
 

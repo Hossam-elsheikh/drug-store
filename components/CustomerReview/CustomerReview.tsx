@@ -9,9 +9,9 @@ function CustomerReview() {
     };
 
     return (
-        <section className='w-full bg-primaryColor min-h-48 h-auto p-10 shadow-lg'>
+        <section className='w-full bg-primaryColor min-h-48  p-10 shadow-lg mx-auto flex justify-center '>
 
-            <Container className='max-w-[1200px] text-white space-y-12 bg-gray-800 rounded-lg p-10'>
+            <section className='max-w-[1200px] w-full text-white space-y-12 bg-gray-800 rounded-lg p-10 shadow-md'>
                 <div>
                     <h1 className='text-2xl font-semibold'>Customer Reviews</h1>
                     <p className='text-sm'>Read what our customers have to say about our products</p>
@@ -26,7 +26,7 @@ function CustomerReview() {
                     <CustomerDialog />
                 </div>
 
-            </Container>
+            </section>
 
         </section>
     );

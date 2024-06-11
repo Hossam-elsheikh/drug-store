@@ -7,7 +7,7 @@ import { LocateIcon, MapPin, Pencil, Trash2 } from 'lucide-react';
 function InfoCard({ dir = 'ltr' }) {
 
     return (
-        <Container dir={dir}  className={`bg-[#ffffff] shadow-md p-5 rounded-lg `}>
+        <section dir={dir}  className={`bg-[#ffffff] shadow-md p-5 rounded-lg `}>
             <div className='flex justify-between'>
                 <h1 className="flex gap-3 text-lg"> <MapPin className='text-gray-500'/>Address Title</h1>
                 <div className='flex gap-2'>
@@ -30,7 +30,7 @@ function InfoCard({ dir = 'ltr' }) {
                 <div className="col-start-2 row-start-2">my address is this</div>
                 <div className="col-start-2 row-start-3">my phone is this</div>
             </div>
-        </Container>
+        </section>
     );
 }
 

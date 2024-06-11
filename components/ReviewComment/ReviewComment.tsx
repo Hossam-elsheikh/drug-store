@@ -9,8 +9,8 @@ type ReviewCommentProps = {
 
 function ReviewComment({ userName, rating, comment }: ReviewCommentProps) {
     return (
-        <div className="inline-block bg-slate-50 p-1 rounded-lg  max-w-lg h-fit">
-            <div className="bg-white p-2 rounded-lg">
+        <div className="inline-block bg-gray-50 p-1 rounded-lg  w-full h-fit">
+            <div className=" p-2 ">
                 <div className="flex-auto">
                     <div className="text-base text-slate-900 font-semibold">
                         {userName}

@@ -38,24 +38,9 @@ export default function Home() {
             <BannerGrid1 />
             </Container>
             <Container className="max-w-[1600px] border-b-2 rounded-none  items-center" title="Cosmotics">
-                <ProductsCarousel products={products}/>
+                <ProductsCarousel mode='full' products={products}/>
             </Container>
-            {/* <CartItem />
-            <ItemCard isVertical={false} />
-            <Container className="flex gap-1 flex-wrap max-w-[1600px]">
-                <ItemCard isVertical={false} />
-                <ItemCard />
-                <ItemCard />
-                <ItemCard />
-                <ItemCard />
-                <ItemCard />
-                <ItemCard />
-                <ItemCard />
-                <ItemCard />
-            </Container>
-            <InfoCard  dir="rtl"/>
-
-            <ProductDetails /> */}
+        
            
             <WhyUs />
 

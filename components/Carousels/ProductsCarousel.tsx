@@ -13,7 +13,69 @@ import ProductCard from '../ItemCard/ProductCard';
 
 import classes from './product-carousel.module.css'
 
-function ProductsCarousel({products}) {
+function ProductsCarousel({products,mode}) {
+    const breakpoints = mode === 'full' ? {
+        320: {
+            slidesPerView: 2,
+            spaceBetween: 2
+                },
+        480: {
+            slidesPerView: 2,
+            spaceBetween: 1
+                },
+        768: {
+            slidesPerView: 3,
+            spaceBetween: 1
+                },
+        1024: {
+            slidesPerView: 3,
+            spaceBetween: 2
+                },
+        1280: {
+            slidesPerView: 4,
+            spaceBetween: 2
+                },
+        1600: {
+            slidesPerView: 5,
+            spaceBetween: 2
+                    },
+        1800: {
+            slidesPerView: 6,
+            spaceBetween: 2
+
+                }
+    } : {
+        320: {
+            slidesPerView: 2,
+            spaceBetween: 2
+        },
+        480: {
+            slidesPerView: 2,
+            spaceBetween: 1
+        },
+        768: {
+            slidesPerView: 2,
+            spaceBetween: 1
+        },
+        1024: {
+            slidesPerView: 2,
+            spaceBetween: 2
+        },
+        1280: {
+            slidesPerView: 3,
+            spaceBetween: 2
+        },
+        1600: {
+            slidesPerView: 3,
+            spaceBetween: 2
+        },
+        1800: {
+            slidesPerView: 4,
+            spaceBetween: 2
+
+        }
+    } 
+
     return (
         <Swiper
             slidesPerView={5}
@@ -26,41 +88,11 @@ function ProductsCarousel({products}) {
             
             pagination={{ clickable: true }}
             modules={[Autoplay, Pagination, Navigation, A11y]}
-            breakpoints={{
-                320: {
-                    slidesPerView: 2,
-                    spaceBetween: 2
-                },
-                480: {
-                    slidesPerView: 2,
-                    spaceBetween: 1
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 1
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 2
-                },
-                1280: {
-                    slidesPerView: 4,
-                    spaceBetween: 2
-                },
-                1600: {
-                    slidesPerView: 5,
-                    spaceBetween: 2
-                    },
-                    1800:{
-                    slidesPerView: 6,
-                    spaceBetween: 2
-
-                }
-            }}
+            breakpoints={breakpoints}
         >
             {products.map((prod,id)=>
-                <SwiperSlide >
-                    <ProductCard details={prod} key={id}/>
+                <SwiperSlide key={id}>
+                    <ProductCard  details={prod} />
                 </SwiperSlide>
                 )}
         </Swiper>
