@@ -45,7 +45,6 @@ export default function Home() {
             <WhyUs />
 
             <CustomerReview />
-            <Footer />
         </div>
         </>
     );

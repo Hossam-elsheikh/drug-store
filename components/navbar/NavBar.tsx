@@ -16,7 +16,10 @@ const NavBar = ({ currentLoc }: { currentLoc: string }) => {
 
                         <Image width="140" height="140" alt="logo" src={logo} />
                     </Link>
+                    <div className="hidden sm:block">
+
                     <SearchMed />
+                    </div>
                 </div>
                 <div className="flex items-center gap-5">
                     <div className="flex items-center gap-5 font-semibold text-primaryColor ">
@@ -26,6 +29,10 @@ const NavBar = ({ currentLoc }: { currentLoc: string }) => {
                     <Icons currentLoc={currentLoc} />
                 </div>
             </div>
+            <div className="block p-2 bg-slate-100 sm:hidden">
+
+                    <SearchMed />
+                    </div>
             <CategoriesBar currentLoc={currentLoc} />
         </div>
     );

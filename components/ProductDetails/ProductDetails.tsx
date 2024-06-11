@@ -32,11 +32,11 @@ export function ProductDetails({ details, dir }: productDetailsProps) {
                         />
                     </div>
 
-                    <Details className='block lg:hidden' />
 
+                    <Details className='block lg:hidden' />
+                    <About />
                     <ProductsCarousel mode='n' products={products} />
 
-                    <About />
                     <hr />
 
 

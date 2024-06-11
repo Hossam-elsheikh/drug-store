@@ -15,32 +15,33 @@ import classes from './product-carousel.module.css'
 
 function ProductsCarousel({products,mode}) {
     const breakpoints = mode === 'full' ? {
-        320: {
+        0: {
             slidesPerView: 2,
             spaceBetween: 2
                 },
-        480: {
-            slidesPerView: 2,
-            spaceBetween: 1
+        663: {
+            slidesPerView: 3,
+            spaceBetween: 2
                 },
+   
         768: {
             slidesPerView: 3,
             spaceBetween: 1
                 },
         1024: {
-            slidesPerView: 3,
-            spaceBetween: 2
-                },
-        1280: {
             slidesPerView: 4,
             spaceBetween: 2
                 },
-        1600: {
+        1280: {
             slidesPerView: 5,
+            spaceBetween: 2
+                },
+        1600: {
+            slidesPerView: 6,
             spaceBetween: 2
                     },
         1800: {
-            slidesPerView: 6,
+            slidesPerView: 7,
             spaceBetween: 2
 
                 }
