@@ -1,3 +1,4 @@
+import BreadCrumb from '@/components/Breadcrumb/BreadCrumb';
 import DrawerWrapper from '@/components/DrawerWrapper';
 import React from 'react'
 
@@ -17,15 +18,18 @@ function page({
 
     return (
 
-        <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col space-y-5 mt-32 xl:mt-42" >
-                <h1 className="text-6xl font-semibold px-10">Results for {searchCategory} and the {id}</h1>
-            </div>
+        <section className="bg-gray-50 pb-5">
+            <BreadCrumb />
 
-            <div>
-                <DrawerWrapper showSec='filter' currentLoc='right' />
+            <div className="p-4 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg border">
+                <h1 className="text-3xl font-semibold px-10">Results for {searchCategory} and the {id}</h1>
+
+                <div>
+                    <DrawerWrapper showSec='filter' currentLoc='right' />
+                </div>
+
             </div>
-        </div>
+        </section>
     )
 }
 

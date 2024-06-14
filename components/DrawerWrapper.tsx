@@ -98,7 +98,7 @@ function DrawerWrapper({ currentLoc, showSec }: { currentLoc: string, showSec: s
                             <ShoppingCart />
                         </div>
                     ) : showSec === 'filter' ? (
-                        <Filter className='cursor-pointer' />
+                        <Filter className='cursor-pointer shadow-sm active:scale-95 scale-115 hover:bg-gray-50 rounded-md duration-300' />
                     ) : null}
                 </SheetTrigger>
                 <SheetContent className="w-[300px]" side={direction}>

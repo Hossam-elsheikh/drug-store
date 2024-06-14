@@ -18,7 +18,7 @@ export default function BreadCrumb() {
     const pathNames: string[] = paths.split('/').filter(path => path && path.toLowerCase() !== 'en' && path.toLowerCase() !== 'ar');
 
     return (
-        <Breadcrumb>
+        <Breadcrumb className="ml-10 p-4">
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink asChild>

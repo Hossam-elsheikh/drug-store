@@ -20,7 +20,7 @@ const items = [
 
 function SideBar({ dir = "ltr" }) {
     return (
-        <section className="w-full  p-0">
+        <section className="w-full p-0">
 
             <section
                 className={` flex flex-col md:flex-row gap-2 bg-[#ffffff] rounded-lg  shadow-sm p-2`}

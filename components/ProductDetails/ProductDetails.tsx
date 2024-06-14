@@ -34,7 +34,7 @@ export function ProductDetails({ details, dir }: productDetailsProps) {
 
 
                     <Details className='block lg:hidden' />
-                    <About />
+                    <About details={details} />
                     <ProductsCarousel mode='n' products={products} />
 
                     <hr />

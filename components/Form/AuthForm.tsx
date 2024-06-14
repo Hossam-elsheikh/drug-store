@@ -37,14 +37,14 @@ const AuthForm = ({ type }: { type: string }) => {
         setIsLoading(true);
 
         try {
-         
+
 
             if (type === 'sign-up') {
-            //    sign up logic
+                //    sign up logic
             }
 
             if (type === 'sign-in') {
-            //    sign in logic
+                //    sign in logic
             }
         } catch (error) {
             console.log(error);
@@ -95,24 +95,24 @@ const AuthForm = ({ type }: { type: string }) => {
                                 <>
                                     <div className="flex gap-4">
                                         <CustomInput control={form.control} name='firstName' label="First Name" placeholder='Enter your first name' schema={formSchema} />
-                                            <CustomInput control={form.control} name='lastName' label="Last Name" placeholder='Enter your first name' schema={formSchema} />
+                                        <CustomInput control={form.control} name='lastName' label="Last Name" placeholder='Enter your first name' schema={formSchema} />
                                     </div>
-                                        <CustomInput control={form.control} name='address1' label="Address" placeholder='Enter your specific address' schema={formSchema} />
-                                        <CustomInput control={form.control} name='city' label="City" placeholder='Enter your city' schema={formSchema} />
+                                    <CustomInput control={form.control} name='address1' label="Address" placeholder='Enter your specific address' schema={formSchema} />
+                                    <CustomInput control={form.control} name='city' label="City" placeholder='Enter your city' schema={formSchema} />
                                     <div className="flex gap-4">
-                                        <CustomInput control={form.control} name='state' label="State" placeholder='Example: NY' schema={formSchema}  />
+                                        <CustomInput control={form.control} name='state' label="State" placeholder='Example: NY' schema={formSchema} />
                                         <CustomInput control={form.control} name='postalCode' label="Postal Code" placeholder='Example: 11101' schema={formSchema} />
                                     </div>
                                     <div className="flex gap-4">
-                                        <CustomInput control={form.control} name='dateOfBirth' label="Date of Birth" placeholder='YYYY-MM-DD'schema={formSchema}  />
-                                        <CustomInput control={form.control} name='ssn' label="SSN" placeholder='Example: 1234'  schema={formSchema} />
+                                        <CustomInput control={form.control} name='dateOfBirth' label="Date of Birth" placeholder='YYYY-MM-DD' schema={formSchema} />
+                                        <CustomInput control={form.control} name='ssn' label="SSN" placeholder='Example: 1234' schema={formSchema} />
                                     </div>
                                 </>
                             )}
 
-                            <CustomInput control={form.control} name='email' label="Email" placeholder='Enter your email' schema={formSchema}  />
+                            <CustomInput control={form.control} name='email' label="Email" placeholder='Enter your email' schema={formSchema} />
 
-                                <CustomInput control={form.control} name='password' label="Password" placeholder='Enter your password' schema={formSchema} />
+                            <CustomInput control={form.control} name='password' label="Password" placeholder='Enter your password' schema={formSchema} />
 
                             <div className="flex flex-col gap-4">
                                 <Button type="submit" disabled={isLoading} className="form-btn">
