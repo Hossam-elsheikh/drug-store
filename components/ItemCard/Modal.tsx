@@ -7,6 +7,7 @@ import {
     DialogDescription,
     DialogFooter,
     DialogHeader,
+    DialogOverlay,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
@@ -15,18 +16,22 @@ import { Label } from "@/components/ui/label";
 
 type ModalProps = {
     buttonText: string,
+    hideQuickAccess: ()=>void
   
 };
 
-export function Modal({ buttonText }: ModalProps) {
+export function Modal({ buttonText,hideQuickAccess }: ModalProps) {
  
 
     return (
-        <Dialog>
+        <Dialog >
+          
             <DialogTrigger asChild>
-                <Button variant="outline" >{buttonText}</Button>
+            <button  className="bg-white px-3 w-3/5 hover:scale-105 duration-300 text-sm py-2 rounded-full text-primaryColor hover:bg-secColor hover:text-slate-100 font-medium ">
+                {buttonText}
+            </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-md" >
                 <DialogHeader>
                     <DialogTitle>Share link</DialogTitle>
                     <DialogDescription>
@@ -50,7 +55,7 @@ export function Modal({ buttonText }: ModalProps) {
                     </Button>
                 </div>
                 <DialogFooter className="sm:justify-start">
-                    <DialogClose asChild>
+                    <DialogClose onClick={hideQuickAccess} asChild>
                         <Button type="button"  variant="secondary">
                             Close
                         </Button>

@@ -40,7 +40,7 @@ const DialogContent = React.forwardRef<
 
     return (
         <DialogPortal>
-            <DialogOverlay>
+            <DialogOverlay  >
                 <DialogPrimitive.Content
                     ref={ref}
 

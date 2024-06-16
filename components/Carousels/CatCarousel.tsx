@@ -13,6 +13,7 @@ import styles from './cat.module.css'
 type PharmacyCategory = {
     name: string;
     image: string;
+    src:string
 };
 
 type ProductCarouselProps = {
@@ -28,7 +29,8 @@ function CatCarousel({ items }: ProductCarouselProps) {
             loop={true}
             autoplay={{
                 delay: 2500,
-                disableOnInteraction: false,
+                disableOnInteraction: true,
+                pauseOnMouseEnter:true
             }}
             // pagination={{ clickable: true }}
             modules={[Autoplay, Pagination, Navigation, A11y]}
