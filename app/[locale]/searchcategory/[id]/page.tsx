@@ -1,5 +1,5 @@
 import BreadCrumb from '@/components/Breadcrumb/BreadCrumb';
-import DrawerWrapper from '@/components/DrawerWrapper';
+import DrawerWrapper from '@/components/Drawers/DrawerWrapper';
 import React from 'react'
 
 type Props = {

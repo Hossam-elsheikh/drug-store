@@ -5,7 +5,7 @@ import logo from "@/public/logo.svg";
 import Icons from "./Icons";
 import CategoriesBar from "./CategoriesBar";
 import SearchMed from "./Search";
-import CategoriesDrawer from "../Drawers/CategoriesDrawer";
+import CategoriesDrawer from "../Drawers/menu/CategoriesDrawer";
 const NavBar = ({ currentLoc }: { currentLoc: string }) => {
   return (
     <div className="flex flex-col sticky top-0 z-50">

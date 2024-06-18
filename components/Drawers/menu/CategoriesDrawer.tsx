@@ -1,13 +1,17 @@
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React from 'react'
-import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "../ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "../../ui/sheet";
 import Image from 'next/image';
 import { Menu } from 'lucide-react';
-import image from "../../public/logo.svg";
+import image from "@/public/logo.svg";
 import MenuDrawer from './MenuDrawer';
+type Props ={
+    currentLoc : string,
+    classes?: string
 
-function CategoriesDrawer({ currentLoc,classes }) {
+}
+function CategoriesDrawer({ currentLoc,classes }:Props) {
     const t = useTranslations("categories");
     <h1 className="">{t("allCategories")}</h1>
     let direction: "left" | "right" = currentLoc === 'en' ? 'left' : 'right'

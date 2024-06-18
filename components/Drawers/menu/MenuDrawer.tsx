@@ -3,8 +3,10 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import React, { useState } from "react";
 import DropList from "./DropList";
-
-const MenuDrawer = ({ currentLoc }) => {
+type Props = {
+    currentLoc : string
+}
+const MenuDrawer = ({ currentLoc }:Props) => {
     const t = useTranslations("Navigation");
     const [activeSec, setActiveSec] = useState("menu");
     const categories = [

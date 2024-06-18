@@ -28,5 +28,13 @@
 		"buyNow": "Buy now",
 		"viewDetails": "View details",
 		"backToHome": "Back to home"
+	},
+	"cart":{
+		"myCart":"My cart",
+		"totalPrice":"Total Price",
+		"taxes":"Taxes and shipping are calculated at checkout",
+		"expandCart": "Go to Cart",
+		"checkout":"Proceed to Checkout",
+		"dinar":"KWD"
 	}
 }
