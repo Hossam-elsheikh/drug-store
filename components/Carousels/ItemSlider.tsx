@@ -21,8 +21,8 @@ function ItemSlider({ item }: PharmacyCategory) {
                 <Image
                     className=''
                     quality={100}
-                    width={200}
-                    height={200}
+                    width={150}
+                    height={150}
                     src={item.image}
                     alt={item.name}
                     // layout="fill" 
@@ -30,7 +30,7 @@ function ItemSlider({ item }: PharmacyCategory) {
                 />
             </div>
             <div className='text-center mt-2 md:mt-1'>
-                <h2 className='font-semibold  text-sm'>{item.name}</h2>
+                <h2 className='font-medium  text-md'>{item.name}</h2>
             </div>
         </Link>
     )

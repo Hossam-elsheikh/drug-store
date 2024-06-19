@@ -31,7 +31,7 @@ export function Modal({ buttonText,hideQuickAccess }: ModalProps) {
                 {buttonText}
             </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md" >
+            <DialogContent hide={hideQuickAccess}  className="sm:max-w-md" >
                 <DialogHeader>
                     <DialogTitle>Share link</DialogTitle>
                     <DialogDescription>

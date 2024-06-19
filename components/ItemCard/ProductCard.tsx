@@ -14,7 +14,7 @@ const ProductCard = ({ details }) => {
     <div className="absolute transition duration-300 w-full rounded-t-lg h-full flex items-center flex-col gap-3 justify-center  animate-fadein bg-black/25 ">
       
 
-        <Modal buttonText="Quick access" hideQuickAccess={()=>setQuickAccess(false)} />
+        {/* <Modal buttonText="Quick access" hideQuickAccess={()=>setQuickAccess(false)} /> */}
       
       <button className="bg-white px-3 w-3/5 hover:scale-105 duration-300 text-sm py-2 rounded-full text-primaryColor hover:bg-secColor hover:text-slate-100 font-medium ">
         View more

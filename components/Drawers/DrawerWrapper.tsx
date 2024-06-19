@@ -4,7 +4,7 @@ import { Filter, Heart, Menu, ShoppingCart, User2Icon } from "lucide-react";
 import Image from "next/image";
 import image from "@/public/logo.svg";
 import { useTranslations } from "next-intl";
-import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "../ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTrigger,SheetClose } from "../ui/sheet";
 import Link from "next/link";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -83,6 +83,7 @@ function DrawerWrapper({ currentLoc, showSec,title }: Props) {
     return (
         <div>
             <Sheet >
+                {/* <SheetClose/> */}
                 <SheetTrigger className="flex items-center gap-2 font-semibold text-nowrap">
                     {showSec === 'categories' ? (
                         <Menu />
@@ -123,7 +124,7 @@ function DrawerWrapper({ currentLoc, showSec,title }: Props) {
                     ) : showSec === 'wishList' ? (
                         <WishList />
                     ) : showSec === 'cart' ? (
-                        <CartDrawer dir={direction}/>
+                        <CartDrawer currentLoc={currentLoc} dir={direction}/>
                     ) : showSec === 'filter' ? (
                         <FilterDrawer />
                         // <div>hi</div>

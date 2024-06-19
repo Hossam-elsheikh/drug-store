@@ -18,8 +18,9 @@ const DialogClose = DialogPrimitive.Close;
 const DialogOverlay = React.forwardRef<
     React.ElementRef<typeof DialogPrimitive.Overlay>,
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
->(({ className, ...props }, ref) => (
+>(({ className,hide, ...props }, ref) => (
     <DialogPrimitive.Overlay
+    onClick={hide}
         ref={ref}
         className={cn(
             "fixed grid place-items-center overflow-auto inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",

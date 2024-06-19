@@ -10,7 +10,7 @@ type Props = {
 
 const Container = ({ children, className, title, dir = 'ltr' }: Props) => {
     return (
-        <section dir={dir} className={twMerge(` mx-2 my-5 lg:mx-auto w-full px-2 lg:px-0 lg:w-4/5   max-w-[980px]  ${dir && 'gap-2'}`, className)}>
+        <section dir={dir} className={twMerge(` mx-2 my-5 md:my-9 lg:mx-auto w-full px-2 lg:px-0 lg:w-4/5   max-w-[980px]  ${dir && 'gap-2'}`, className)}>
             
             {title && (
                 <div className="flex justify-between items-center mb-10 ">

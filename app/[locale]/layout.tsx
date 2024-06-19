@@ -6,8 +6,16 @@ import { getMessages } from "next-intl/server";
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/Footer/Footer";
 
-const inter = Inter({ subsets: ["latin"],weight:["100","300","400","500","700","900"],variable:"--inter" });
-const roboto = Roboto({subsets:["latin"],weight:["100","300","400","500","700","900"],variable:"--roboto"})
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+  variable: "--inter",
+});
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+  variable: "--roboto",
+});
 export const metadata: Metadata = {
   title: "Drug Store",
   description: "GYour best online pharmacy",
@@ -26,9 +34,13 @@ export default async function RootLayout({
       <body className={`${roboto.variable} ${inter.variable}`}>
         <NextIntlClientProvider messages={messages}>
           <div id="modal-root"></div>
-          <NavBar currentLoc={locale} />
-          {children}
-          <Footer />
+          <div className="flex h-[100dvh] flex-col justify-between ">
+            <div>
+              <NavBar currentLoc={locale} />
+              {children}
+            </div>
+            <Footer />
+          </div>
         </NextIntlClientProvider>
       </body>
     </html>
