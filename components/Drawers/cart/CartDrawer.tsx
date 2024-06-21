@@ -4,12 +4,19 @@ import { pharmacyCat, pharmacyCategories, products } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+
 type Props = {
   dir: string;
   currentLoc: string;
 };
 export default function CartDrawer({ dir, currentLoc }: Props) {
   const t = useTranslations("cart");
+  // Function to handle navigation
+  const navigate = (path: string) => {
+    // Ensure currentLoc is defined or handle appropriately
+    const url = `${currentLoc}${path}`;
+    window.location.href = url; // Use window.location.href for navigation
+  };
   return (
     <div className="h-dvh flex flex-col " dir={dir}>
       <div className="h-2/3 overflow-auto overflow-x-hidden border-b-2">
@@ -28,18 +35,22 @@ export default function CartDrawer({ dir, currentLoc }: Props) {
           {t("taxes")}
         </p>
         <div className="flex flex-col items-center gap-3">
-          <Link
-            className=" flex justify-center w-full bg-primaryColor font-medium text-white py-2 rounded-full hover:opacity-80"
-            href={`cart`}
-          >
-            <button>{t("expandCart")}</button>
-          </Link>
-          <Link
-            className="flex justify-center w-full bg-secColor font-medium text-white py-2 rounded-full hover:opacity-80"
-            href={`checkout`}
-          >
-            <button>{t("checkout")}</button>
-          </Link>
+         
+            <button
+              className=" flex justify-center w-full bg-primaryColor font-medium text-white py-2 rounded-full hover:opacity-80"
+              onClick={() => navigate(`mycart`)}
+            >
+              {t("expandCart")}
+            </button>
+        
+          
+            <button
+              className=" flex justify-center w-full bg-primaryColor font-medium text-white py-2 rounded-full hover:opacity-80"
+              onClick={() => navigate(`/checkout`)}
+            >
+              {t("checkout")}
+            </button>
+    
         </div>
       </div>
     </div>

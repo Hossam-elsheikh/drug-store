@@ -57,8 +57,9 @@ const MenuDrawer = ({ currentLoc }:Props) => {
     const Categories = () => (
         <div>
             {categories.map((cat, i) => (
-                <div dir={currentLoc === "en" ? "ltr" : "rtl"} className="border-b">
+                <div  key={i} dir={currentLoc === "en" ? "ltr" : "rtl"} className="border-b">
                     <DropList
+                   
                         id={cat.id}
                         title={cat.title}
                         subCategories={cat.subCategories}
