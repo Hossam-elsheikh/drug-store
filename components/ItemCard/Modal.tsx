@@ -1,67 +1,51 @@
-import { Copy } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogOverlay,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+"use client";
+import { Description, Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
-type ModalProps = {
-    buttonText: string,
-    hideQuickAccess: ()=>void
-  
-};
+function Modal({ setIsModalOpen, setQuickAccess }) {
+    let [isOpen, setIsOpen] = useState(true);
 
-export function Modal({ buttonText,hideQuickAccess }: ModalProps) {
- 
+    useEffect(() => {
+        setIsModalOpen(isOpen);
+        setQuickAccess(isOpen);
+    }, [isOpen, setIsModalOpen, setQuickAccess]);
+
+    const closeModal = () => {
+        setIsOpen(false);
+    };
 
     return (
-        <Dialog >
-          
-            <DialogTrigger asChild>
-            <button  className="bg-white px-3 w-3/5 hover:scale-105 duration-300 text-sm py-2 rounded-full text-primaryColor hover:bg-secColor hover:text-slate-100 font-medium ">
-                {buttonText}
-            </button>
-            </DialogTrigger>
-            <DialogContent hide={hideQuickAccess}  className="sm:max-w-md" >
-                <DialogHeader>
-                    <DialogTitle>Share link</DialogTitle>
-                    <DialogDescription>
-                        Anyone who has this link will be able to view this.
-                    </DialogDescription>
-                </DialogHeader>
-                <div className="flex items-center space-x-2">
-                    <div className="grid flex-1 gap-2">
-                        <Label htmlFor="link" className="sr-only">
-                            Link
-                        </Label>
-                        <Input
-                            id="link"
-                            defaultValue="https://ui.shadcn.com/docs/installation"
-                            readOnly
-                        />
+        <AnimatePresence>
+            {isOpen && (
+                <Dialog static open={isOpen} onClose={closeModal} className="relative z-50">
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black/30"
+                    />
+                    <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+                        <DialogPanel
+                            as={motion.div}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className="max-w-lg space-y-4 bg-white p-12 rounded-lg"
+                        >
+                            <DialogTitle className="text-lg font-bold">Deactivate account</DialogTitle>
+                            <Description>This will permanently deactivate your account</Description>
+                            <p>Are you sure you want to deactivate your account? All of your data will be permanently removed.</p>
+                            <div className="flex gap-4">
+                                <button onClick={closeModal}>Cancel</button>
+                                <button onClick={closeModal}>Deactivate</button>
+                            </div>
+                        </DialogPanel>
                     </div>
-                    <Button type="submit" size="sm" className="px-3" onClick={() => navigator.clipboard.writeText("https://ui.shadcn.com/docs/installation")}>
-                        <span className="sr-only">Copy</span>
-                        <Copy className="h-4 w-4" />
-                    </Button>
-                </div>
-                <DialogFooter className="sm:justify-start">
-                    <DialogClose onClick={hideQuickAccess} asChild>
-                        <Button type="button"  variant="secondary">
-                            Close
-                        </Button>
-                    </DialogClose>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+                </Dialog>
+            )}
+        </AnimatePresence>
     );
 }
+
+export default Modal;

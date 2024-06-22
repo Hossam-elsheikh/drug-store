@@ -18,9 +18,9 @@ const DialogClose = DialogPrimitive.Close;
 const DialogOverlay = React.forwardRef<
     React.ElementRef<typeof DialogPrimitive.Overlay>,
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
->(({ className,hide, ...props }, ref) => (
+>(({ className, ...props }, ref) => (
     <DialogPrimitive.Overlay
-    onClick={hide}
+
         ref={ref}
         className={cn(
             "fixed grid place-items-center overflow-auto inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
@@ -34,14 +34,19 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 const DialogContent = React.forwardRef<
     React.ElementRef<typeof DialogPrimitive.Content>,
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => {
+    >(({ className, children, handleClose, ...props }, ref) => {
 
 
 
 
     return (
         <DialogPortal>
-            <DialogOverlay  >
+            <DialogOverlay onClick={(event) => {
+                if (handleClose) {
+                    event.stopPropagation()
+                    handleClose()
+                }
+            }}  >
                 <DialogPrimitive.Content
                     ref={ref}
 
