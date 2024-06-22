@@ -22,7 +22,7 @@ function SearchPage({ params }: Props) {
                         Search Results For {term}
                     </h1>
 
-                    <section className="flex gap-3 flex-wrap">
+                    <section className="flex gap-10 items-center  flex-wrap">
                         {products && products.length > 0 ? (
                             products.map((item, i) => (
                                 <ProductCard details={item} key={i} />
