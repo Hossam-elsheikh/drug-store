@@ -6,6 +6,8 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
+
+
 export const authFormSchema = (type: string) =>
     z.object({
         firstName:

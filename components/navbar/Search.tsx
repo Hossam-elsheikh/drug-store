@@ -88,6 +88,7 @@ export default function SearchMed() {
                                                                 placeholder="Search any medicine..."
                                                                 className="rounded-2.5 pl-[40px] text-4"
                                                                 {...field}
+                                                              
                                                                 onFocus={() => setIsOpen(true)}
                                                                 onBlur={() => setIsOpen(false)}
                                                                 onChange={(e) => {

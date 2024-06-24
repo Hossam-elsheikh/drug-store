@@ -17,8 +17,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { authFormUserAddress } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function AddressesModal() {
+    const t = useTranslations("Form");
 
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +40,7 @@ export default function AddressesModal() {
             postalCode: "",
         },
     })
+    
 
     // 2. Define a submit handler.
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -55,29 +58,27 @@ export default function AddressesModal() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">Edit Profile</Button>
+                <Button variant="outline">{t('YourAddress')}</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Add Address</DialogTitle>
-                    <DialogDescription>
-                        Add Your Address
-                    </DialogDescription>
+                    <DialogTitle>{t('YourAddress')}</DialogTitle>
+               
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                             <div className="flex gap-4">
-                                <CustomInput control={form.control} name='firstName' label="First Name" placeholder='Enter your first name' schema={formSchema} />
-                                <CustomInput control={form.control} name='lastName' label="Last Name" placeholder='Enter your last name' schema={formSchema} />
+                                <CustomInput control={form.control} name='firstName' label={t('firstName')} placeholder='Enter your first name' schema={formSchema} />
+                                <CustomInput control={form.control} name='lastName' label={t('lastName')} placeholder='Enter your last name' schema={formSchema} />
                             </div>
                             <div className="flex gap-4">
-                                <CustomInput control={form.control} name='country' label="Country" placeholder='Enter your Country' schema={formSchema} />
-                                <CustomInput control={form.control} name='city' label="City" placeholder='Enter your City' schema={formSchema} />
+                                <CustomInput control={form.control} name='country' label={t('country')} placeholder='Enter your Country' schema={formSchema} />
+                                <CustomInput control={form.control} name='city' label={t('city')} placeholder='Enter your City' schema={formSchema} />
                             </div>
-                            <CustomInput control={form.control} name='street' label="Street" placeholder='Enter your street name' schema={formSchema} />
-                            <CustomInput control={form.control} name='address' label="Address" placeholder='Enter your specific address' schema={formSchema} />
-                            <CustomInput control={form.control} name='postalCode' label="Postal Code" placeholder='Example: 11101' schema={formSchema} />
+                            <CustomInput control={form.control} name='street' label={t('street')} placeholder='Enter your street name' schema={formSchema} />
+                            <CustomInput control={form.control} name='address' label={t('address')} placeholder='Enter your specific address' schema={formSchema} />
+                            <CustomInput control={form.control} name='postalCode' label={t('postalCode')} placeholder='Example: 11101' schema={formSchema} />
                             <DialogFooter>
                                 <Button type="submit" disabled={isLoading} className="form-btn">
                                     {isLoading ? (
@@ -85,7 +86,9 @@ export default function AddressesModal() {
                                             <Loader2 size={20} className="animate-spin" /> &nbsp;
                                             Loading...
                                         </>
-                                    ) : 'Add Address'}
+                                    ) :<>
+                                     {t('addAddress')}
+                                     </>}
                                 </Button>
                             </DialogFooter>
                         </form>

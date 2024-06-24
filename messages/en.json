@@ -9,8 +9,8 @@
 	},
 	"Navigation": {
 		"home": "Home",
-		"main":"Main",
-		"categories":"Categories"
+		"main": "Main",
+		"categories": "Categories"
 	},
 	"Footer": {
 		"copyright": "© 2024 Your App. All rights reserved."
@@ -27,14 +27,52 @@
 		"addToCart": "Add to cart",
 		"buyNow": "Buy now",
 		"viewDetails": "View details",
-		"backToHome": "Back to home"
+		"backToHome": "Back to home",
+		"addAddress": "Add Ur Address"
 	},
-	"cart":{
-		"myCart":"My cart",
-		"totalPrice":"Total Price",
-		"taxes":"Taxes and shipping are calculated at checkout",
+	"cart": {
+		"myCart": "My cart",
+		"totalPrice": "Total Price",
+		"taxes": "Taxes and shipping are calculated at checkout",
 		"expandCart": "Go to Cart",
-		"checkout":"Proceed to Checkout",
-		"dinar":"KWD"
+		"checkout": "Proceed to Checkout",
+		"dinar": "KWD"
+	},
+	"Form": {
+		"firstName": "First Name",
+		"lastName": "Last Name",
+		"country": "Country",
+		"street": "street",
+		"postalCode": "Postal Code",
+		"address": "Address",
+		"YourAddress": " Add Your Address",
+		"city": "City",
+        "addAddress":"add Address",
+                "dateOfBirth":"Date Of Birth",
+                "email":"Email",
+                "password":"Password",
+                 "update":"Update"
+	},
+	"AddressPage": {
+		"yourAddresses": "Your Addresses"
+	},
+	"OrderPage": {
+		"orders": "Orders"
+	},
+	"UserInfoPage": {
+		"userInfo": "User Information"
+	},
+	"WishList": {
+		"wishList": "Wish List"
+	},
+	"AsideMenu": {
+		"profile": "Profile",
+		"wishList": "Wish List",
+		"addresses": "Addresses",
+		"orders": "Orders",
+        "payments":"Payments",
+		"returns": "Returns",
+		"settings": "Settings",
+		"logOut": "Log Out"
 	}
 }

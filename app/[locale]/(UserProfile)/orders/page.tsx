@@ -2,12 +2,15 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import addImage from '@/public/undraw_add_files_re_v09g.svg';
+import { useTranslations } from 'next-intl';
+import { Search } from 'lucide-react';
 
 export default function Orders() {
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredAddresses, setFilteredAddresses] = useState<{ id: number; name: string; }[]>([]);
+
+    const t = useTranslations("OrderPage");
     const addresses = [
-        // Sample address data for demonstration
         { id: 1, name: 'Order 1' },
         { id: 2, name: 'Order 2' },
         { id: 3, name: 'Order 3' },
@@ -22,24 +25,32 @@ export default function Orders() {
     };
 
     return (
-        <>
-            <div className='flex justify-between'>
-                <h1>Orders</h1>
-                <form onSubmit={handleSearch}>
-                    <label htmlFor="search">Search In Your Orders</label>
-                    <input
-                        id="search"
-                        type="text"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    <button type="submit">Search</button>
+        <div className="container mx-auto px-4 ">
+            <div className='flex flex-col md:flex-row justify-between items-center '>
+                <h1 className="text-2xl md:text-3xl font-base  md:mb-0">{t('orders')}</h1>
+                <form onSubmit={handleSearch} className='w-full md:w-auto'>
+                    <div className='relative'>
+                        <input
+                            className='w-full md:w-64 p-2 pr-10 rounded-lg outline-none  focus:outline-none focus:shadow-md duration-200 '
+                            placeholder='search in Your Orders'
+                            id="search"
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        <button
+                            type="submit"
+                            className='absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-500'
+                        >
+                            <Search size={20} />
+                        </button>
+                    </div>
                 </form>
             </div>
             <div>
                 {filteredAddresses.length === 0 ? (
-                    <div className='items-center flex flex-col h-fit w-full'>
-                        <div className="w-full max-w-md">
+                    <div className='flex flex-col items-center justify-center h-64'>
+                        <div className="w-full max-w-xs mb-4">
                             <Image
                                 src={addImage}
                                 layout="responsive"
@@ -48,16 +59,19 @@ export default function Orders() {
                                 alt="No items in the wish list"
                             />
                         </div>
-                        <h1 className='text-lg'>No items in the wish list.</h1>
+                        <h2 className='text-xl text-gray-600'>{t('noItems')}</h2>
                     </div>
                 ) : (
-                    filteredAddresses.map((item) => (
-                        <div key={item.id}>
-                            <div>{item.name}</div>
-                        </div>
-                    ))
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {filteredAddresses.map((item) => (
+                            <div key={item.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                                <h3 className="text-lg font-semibold">{item.name}</h3>
+                                {/* Add more order details here */}
+                            </div>
+                        ))}
+                    </div>
                 )}
             </div>
-        </>
+        </div>
     );
 }

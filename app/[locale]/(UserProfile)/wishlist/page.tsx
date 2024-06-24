@@ -1,15 +1,16 @@
 import Image from 'next/image'
 import React from 'react'
 import addImage from '@/public/undraw_add_files_re_v09g.svg'
+import { useTranslations } from 'next-intl';
 
 export default function WishList() {
     const product: any = [];
-    const dir = 'ltr' 
-
+    const dir = 'ltr'
+    const t = useTranslations("WishList");
     return (
         <>
             <div>
-                <h1 className='text-lg mb-4'>Wish List</h1>
+                <h1 className="text-2xl md:text-3xl font-base mb-4 md:mb-0">{t('wishList')}</h1>
 
                 <div>
                     {product.length === 0 ? (

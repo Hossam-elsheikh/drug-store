@@ -2,6 +2,8 @@ import PaymentsModal from '@/components/UserProfile/Addresses/AddressesModal'
 import React from 'react'
 
 export default function Payments() {
+
+   
     return (
         <section>
             <div className='flex justify-between'>
