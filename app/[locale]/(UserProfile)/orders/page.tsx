@@ -27,7 +27,7 @@ export default function Orders() {
     return (
         <div className="container mx-auto px-4 ">
             <div className='flex flex-col md:flex-row justify-between items-center '>
-                <h1 className="text-2xl md:text-3xl font-base  md:mb-0">{t('orders')}</h1>
+                <h1 className="text-2xl p-3 md:text-3xl font-base  md:mb-0">{t('orders')}</h1>
                 <form onSubmit={handleSearch} className='w-full md:w-auto'>
                     <div className='relative'>
                         <input

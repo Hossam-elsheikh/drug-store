@@ -37,7 +37,7 @@ const QuickAccess = ({ setIsModalOpen }) => (
     </motion.div>
 );
 
-const ProductCard = ({ details }) => {
+const ProductCard = ({ details, mode = 'default' }) => {
     const router = useRouter();
     const navigate = (path: string) => {
         const normalizedPath = path.startsWith('/') ? path : `/${path}`;
@@ -69,7 +69,7 @@ const ProductCard = ({ details }) => {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                <Image src={details.image} alt={details.title} fill />
+                <Image src={details.image || "https://images.unsplash.com/photo-1547489432-cf93fa6c71ee?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt={details.title ||"imGE"} fill />
                 <AnimatePresence>
                     {quickAccess && <QuickAccess setIsModalOpen={setIsModalOpen} />}
                 </AnimatePresence>
@@ -82,19 +82,21 @@ const ProductCard = ({ details }) => {
                             {details.title}
                         </h2>
                     </Link>
-                    <p className="font-semibold text-start text-secColor">
+                    {mode === 'default' && (
+                        <p className="font-semibold text-start text-secColor">
                         {details.price} <span className="font-light">KWD</span>
                     </p>
+                    )}
+                   
                 </div>
-                <div className="flex items-center justify-between">
+                <div className={`flex items-center  ${mode === 'default' ?'justify-between':'items-center justify-center'}`}>
                     <Heart className="cursor-pointer hover:text-red-500 transition" />
-                    <div className="flex bg-primaryColor px-3 py-2 rounded-md text-white items-center gap-2 hover:bg-secColor transition cursor-pointer">
-                        <p className="text-sm font-medium hidden sm:block">
+                    {mode === 'default' && (
+                        <button className="flex bg-primaryColor px-3 py-2 rounded-md text-white items-center gap-2 hover:bg-secColor transition cursor-pointer">
                             Add to cart
-                        </p>
-                        <p className="text-xl font-medium block sm:hidden">+</p>
-                        <ShoppingCart />
-                    </div>
+                            <ShoppingCart />
+                        </button>
+                    )}
                 </div>
             </div>
             {isModalOpen && (

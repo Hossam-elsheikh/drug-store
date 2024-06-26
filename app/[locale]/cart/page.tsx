@@ -1,5 +1,4 @@
-import Container from "@/components/Container";
-import CartItem from "@/components/ItemCard/CartItem";
+import CartItemsCheckout from "@/components/UserProfile/cartItems/CartItemsCheckout";
 import React from "react";
 const Cart = () => {
   return (
@@ -9,11 +8,7 @@ const Cart = () => {
       <div className="flex flex-col gap-4 col-span-3">
         <h2 className="font-medium text-xl">My Cart Items</h2>
         <div className="flex flex-col gap-3 rounded-lg p-3 border">
-          <CartItem />
-          <CartItem />
-          <CartItem />
-          <CartItem />
-          <CartItem />
+        <CartItemsCheckout/>
         </div>
       </div>
       <div className="border w-full  rounded-lg flex flex-col p-3">

@@ -29,7 +29,9 @@
         "viewDetails": "عرض التفاصيل",
         "viewMore": "عرض المزيد",
         "viewLess": "عرض أقل",
-        "addAddress": "أضف عنوانك"
+        "addAddress": "أضف عنوانك",
+        "edit":"تعديل",
+    "delete":"حذف"
     },
     "cart": {
         "myCart": "عربة التسوق",
@@ -52,7 +54,12 @@
         "dateOfBirth":"تاريخ الميلاد",
            "email":"البريد الألكتروني",
              "password":"الرمز السري",
-             "update":"تحديث"
+             "update":"تحديث",
+             "phoneNumber":"رقم الجوال",
+             "male":"ذكر",
+             "female":"أنثي",
+             "gender":"الجنس"
+        
     },
     "AddressPage": {
         "yourAddresses": "جميع العناوين"
@@ -61,7 +68,8 @@
         "orders": "جميع الطلبات"
     },
     "UserInfoPage": {
-        "userInfo": "بيانات المستخدم"
+        "userInfo": "بيانات المستخدم",
+        "editInfo":"تعديل بيانات المستخدم"
     },
     "WishList": {
         "wishList": "قائمة الأمنيات"

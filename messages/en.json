@@ -28,7 +28,9 @@
 		"buyNow": "Buy now",
 		"viewDetails": "View details",
 		"backToHome": "Back to home",
-		"addAddress": "Add Ur Address"
+		"addAddress": "Add Ur Address",
+		"edit": "Edit",
+		"delete": "Delete"
 	},
 	"cart": {
 		"myCart": "My cart",
@@ -42,7 +44,7 @@
 		"firstName": "First Name",
 		"lastName": "Last Name",
 		"country": "Country",
-		"street": "street",
+		"street": "Street",
 		"postalCode": "Postal Code",
 		"address": "Address",
 		"YourAddress": " Add Your Address",
@@ -51,7 +53,12 @@
                 "dateOfBirth":"Date Of Birth",
                 "email":"Email",
                 "password":"Password",
-                 "update":"Update"
+                 "update":"Update",
+                  "phoneNumber":"Phone Number",
+                     "male":"Male",
+             "female":"Female",
+                          "gender":"Gender"
+
 	},
 	"AddressPage": {
 		"yourAddresses": "Your Addresses"
@@ -60,7 +67,8 @@
 		"orders": "Orders"
 	},
 	"UserInfoPage": {
-		"userInfo": "User Information"
+		"userInfo": "User Information",
+		"editInfo":"Edit Your Information"
 	},
 	"WishList": {
 		"wishList": "Wish List"
