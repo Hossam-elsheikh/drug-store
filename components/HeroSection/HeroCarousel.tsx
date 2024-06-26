@@ -26,7 +26,7 @@ export default function HeroCarousel({ items }: ProductCarouselProps) {
     } = usePrevNextButtons(emblaApi);
 
     return (<>
-        <div className='overflow-hidden relative  rounded-2xl my-4 m-auto cursor-pointer' ref={emblaRef}>
+        <div className='overflow-hidden relative  rounded-2xl mt-4 m-auto cursor-pointer' ref={emblaRef}>
             <div className='flex  h-[500px] relative'>
                 {items?.map((item, i) => (
                     <div key={i} className='relative  flex-[0_0_100%] w-full h-full'>

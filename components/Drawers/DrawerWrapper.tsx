@@ -2,19 +2,16 @@
 import React from "react";
 import { Filter, Heart, Menu, ShoppingCart, User2Icon } from "lucide-react";
 import Image from "next/image";
-import image from "../public/logo.svg";
+import image from "@/public/logo.svg";
 import { useTranslations } from "next-intl";
-import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTrigger, SheetClose } from "../ui/sheet";
 import Link from "next/link";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import FilterDrawer from "./FilterDrawer/FilterDrawer";
-import AuthForm from "./Form/AuthForm";
-import SignOutButton from "./formButton/SignOutButton";
-import useRefreshToken from "@/hooks/useRefreshToken";
-import { Button } from "./ui/button";
+import FilterDrawer from "../FilterDrawer/FilterDrawer";
+import AuthForm from "../Form/AuthForm";
+import { Button } from "../../components/ui/button";
 import useSignOut from "@/hooks/useSignOut";
 import { useRouter } from "next/navigation";
+import CartDrawer from "./cart/CartDrawer";
 
 // function Categories() {
 //   const t = useTranslations("categories");
@@ -78,20 +75,18 @@ function WishList() {
         </h1>
     )
 }
-function Cart() {
-    return (
-        <h1>
-            Cart
-        </h1>
-    )
+type Props = {
+    currentLoc: string,
+    showSec: string,
+    title?: string
 }
-
-function DrawerWrapper({ currentLoc, showSec }: { currentLoc: string, showSec: string }) {
+function DrawerWrapper({ currentLoc, showSec, title }: Props) {
     let direction: "left" | "right" = currentLoc === 'ar' ? 'left' : 'right'
 
     return (
         <div>
             <Sheet >
+                {/* <SheetClose/> */}
                 <SheetTrigger className="flex items-center gap-2 font-semibold text-nowrap">
                     {showSec === 'categories' ? (
                         <Menu />
@@ -105,15 +100,27 @@ function DrawerWrapper({ currentLoc, showSec }: { currentLoc: string, showSec: s
                             <ShoppingCart />
                         </div>
                     ) : showSec === 'filter' ? (
-                        <Filter className='cursor-pointer shadow-sm active:scale-95 scale-115 hover:bg-gray-50 rounded-md duration-300' />
+                        <div className='flex gap-2'>Filter
+
+                            <Filter className='cursor-pointer shadow-sm active:scale-95 scale-115 hover:bg-gray-50 rounded-md duration-300' />
+                        </div>
                     ) : null}
                 </SheetTrigger>
-                <SheetContent className="w-[300px]" side={direction}>
-                    <SheetHeader className="items-center">
-                        <div className="relative w-full h-24 my-8">
-                            <Image alt="logo" src={image} className="object-cover mx-auto" width={100} height={100} />
-                        </div>
-
+                <SheetContent className="w-[300px] p-2" side={direction}>
+                    <SheetHeader className="items-center p-5">
+                        <h2 className="text-lg text-primaryColor font-medium w-full text-center border-b-2">
+                            {showSec === 'categories' ? (
+                                null
+                            ) : showSec === 'signInForm' ? (
+                                direction === 'left' ? "تسجيل الدخول" : "Sign in"
+                            ) : showSec === 'wishList' ? (
+                                direction === 'left' ? "فائمة المفضلة" : "Favorite items"
+                            ) : showSec === 'cart' ? (
+                                direction === 'left' ? "عربة التسوق" : "My cart"
+                            ) : showSec === 'filter' ? (
+                                direction === 'left' ? "فلتر المنتجات" : "Filter products"
+                            ) : null}
+                        </h2>
                     </SheetHeader>
                     {/* {showSec === 'categories' ? (
             <Categories />
@@ -123,7 +130,8 @@ function DrawerWrapper({ currentLoc, showSec }: { currentLoc: string, showSec: s
                     ) : showSec === 'wishList' ? (
                         <WishList />
                     ) : showSec === 'cart' ? (
-                        <Cart />
+
+                            <CartDrawer currentLoc={currentLoc} dir={direction} />
                     ) : showSec === 'filter' ? (
                         <FilterDrawer />
                         // <div>hi</div>

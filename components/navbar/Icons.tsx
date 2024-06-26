@@ -2,7 +2,7 @@
 import { UserRound, Search, Heart, ShoppingCart } from 'lucide-react'
 import React from 'react'
 import LanguageSwitcher from '../LanguageSwitcher'
-import DrawerWrapper from '../DrawerWrapper'
+import DrawerWrapper from '../Drawers/DrawerWrapper'
 
 const Icons = ({ currentLoc }: { currentLoc: string }) => {
   return (

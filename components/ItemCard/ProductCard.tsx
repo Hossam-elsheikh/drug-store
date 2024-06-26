@@ -1,42 +1,63 @@
-'use client'
+"use client";
 import Image from "next/image";
 import React, { useState } from "react";
 import { Heart, ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import ProductDialog from "./ProductDialog";
+import Modal from "./Modal";
+import {  AnimatePresence, motion } from 'framer-motion';
 
 const ProductCard = ({ details }) => {
     const [quickAccess, setQuickAccess] = useState(false);
-    const [translate, setTranslate] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleMouseEnter = () => {
+        if (!isModalOpen) {
+            setQuickAccess(true);
+        }
+    };
+
+    const handleMouseLeave = () => {
+        if (!isModalOpen) {
+            setQuickAccess(false);
+        }
+    };
+
     const QuickAccess = () => (
-        <div
-            className="absolute transition duration-300 w-full rounded-t-lg h-full flex items-center justify-center  animate-fadein bg-black/25 "
-        >
-            <button className="bg-white px-5 hover:scale-105 text-sm py-2 rounded-full text-primaryColor font-semibold ">
-                Quick access
+        <div className="absolute transition duration-300 w-full rounded-t-lg h-full flex items-center flex-col gap-3 justify-center animate-fadein bg-black/25">
+            <button
+                onClick={() => setIsModalOpen(true)}
+                className="bg-white px-3 w-3/5 hover:scale-105 duration-300 text-sm py-2 rounded-full text-primaryColor hover:bg-secColor hover:text-slate-100 font-medium"
+            >
+                View more
             </button>
         </div>
     );
-    return (
-        <div
 
-            className="flex border transition flex-col max-w-52 rounded-lg  shadow-sm pb-1"
-        >
-            {/* <ProductDialog /> */}
-            <div onMouseOver={() => setQuickAccess(true)}
-                onMouseOut={() => setQuickAccess(false)} className="bg-slate-100 w-full overflow-hidden cursor-pointer h-56 flex relative justify-center">
+    return (
+        <div className="flex border transition flex-col max-w-52 rounded-lg shadow-sm pb-1">
+            <AnimatePresence>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{
+                    opacity: 1,
+                    transition: { duration: 0.45 },
+                }}
+                exit={{ opacity: 0, transition: { duration: 0.6 }, }}
+                className="bg-slate-100 w-full overflow-hidden cursor-pointer h-56 flex relative justify-center"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
                 <Image
                     src={details.image}
                     alt={details.title}
-                    layout="fill"
-
+                    fill
                 />
                 {quickAccess && <QuickAccess />}
-            </div>
+            </motion.div>
             <div className="flex flex-col p-3 gap-3">
                 <div>
                     <Link href={details.src}>
-                        <h2 className="font-semibold text-md truncate hover:text-secColor ">
+                        <h2 className="font-medium text-md truncate hover:text-secColor">
                             {details.title}
                         </h2>
                     </Link>
@@ -45,15 +66,21 @@ const ProductCard = ({ details }) => {
                     </p>
                 </div>
                 <div className="flex items-center justify-between">
-                    <Heart className="cursor-pointer hover:text-red-500 transition " />
+                    <Heart className="cursor-pointer hover:text-red-500 transition" />
                     <div className="flex bg-primaryColor px-3 py-2 rounded-md text-white items-center gap-2 hover:bg-secColor transition cursor-pointer">
                         <p className="text-sm font-medium hidden sm:block">Add to cart</p>
                         <p className="text-xl font-medium block sm:hidden">+</p>
-
                         <ShoppingCart />
                     </div>
                 </div>
             </div>
+            {isModalOpen && (
+                <Modal
+                    setIsModalOpen={setIsModalOpen}
+                    setQuickAccess={setQuickAccess}
+                />
+            )}
+                </AnimatePresence>
         </div>
     );
 };
