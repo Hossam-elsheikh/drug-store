@@ -6,9 +6,11 @@ import image from "@/public/logo.svg";
 import { useTranslations } from "next-intl";
 import { Sheet, SheetContent, SheetHeader, SheetTrigger, SheetClose } from "../ui/sheet";
 import Link from "next/link";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 import FilterDrawer from "../FilterDrawer/FilterDrawer";
+import AuthForm from "../Form/AuthForm";
+import { Button } from "../../components/ui/button";
+import useSignOut from "@/hooks/useSignOut";
+import { useRouter } from "next/navigation";
 import CartDrawer from "./cart/CartDrawer";
 
 // function Categories() {
@@ -46,22 +48,23 @@ import CartDrawer from "./cart/CartDrawer";
 //   )
 // }
 
-function SignInForm() {
+function SignInForm(currentLoc: any) {
+    const signOutHook = useSignOut()
+    const router = useRouter()
+    const signOut = async () => {
+        try{
+            await signOutHook()
+            router.push('/en/sign-in')
+        }catch(error){
+            console.error('Error during sign out:', error);
+        }
+    }
     return (
-        <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                    Name
-                </Label>
-                <Input id="name" value="Pedro Duarte" className="col-span-3" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                    Username
-                </Label>
-                <Input id="username" value="@peduarte" className="col-span-3" />
-            </div>
-        </div>
+        <>
+            <AuthForm Type="sign-in" variant="drawer" currentLoc={`/${currentLoc}/`} />
+            <Button onClick={signOut}>
+                sign-out
+            </Button>        </>
     )
 }
 
