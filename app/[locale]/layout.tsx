@@ -5,6 +5,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/Footer/Footer";
+import ReactQueryProvider from "../../providers/ReactQueryProvider";
+import { AuthProvider } from "@/context/AuthProvider";
 import CustomerReview from "@/components/CustomerReview/CustomerReview";
 
 const inter = Inter({
@@ -23,6 +25,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
+ 
   children,
   params: { locale },
 }: Readonly<{
@@ -33,6 +36,10 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className={`${roboto.variable} ${inter.variable}`}>
+      <AuthProvider>
+
+      <ReactQueryProvider>
+
         <NextIntlClientProvider messages={messages}>
           <div id="modal-root"></div>
           <div className="flex h-[100dvh] flex-col justify-between ">
@@ -45,6 +52,9 @@ export default async function RootLayout({
             <Footer />
           </div>
         </NextIntlClientProvider>
+        </ReactQueryProvider>
+        </AuthProvider>
+
       </body>
     </html>
   );

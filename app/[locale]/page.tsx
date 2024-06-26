@@ -16,12 +16,14 @@ import InfoCard from "@/components/UserProfile/Addresses/InfoCard";
 import BannerGrid1 from "@/components/Banners/BannerGrid1";
 import ProductsCarousel from "@/components/Carousels/ProductsCarousel";
 import ProductCard from "@/components/ItemCard/ProductCard";
+import PersistLogin from "@/components/Form/PresistLogin";
+
 import VerticalBanner from "@/components/Banners/VerticalBanner";
 import image from '@/public/image.png'
 import image2 from '@/public/image copy.png'
 import image3 from '@/public/image copy 2.png'
 
-export default function Home() {
+const Home=()=> {
   const t = useTranslations("Index");
 
   return (
@@ -75,3 +77,5 @@ export default function Home() {
     </>
   );
 }
+
+export default PersistLogin(Home)
