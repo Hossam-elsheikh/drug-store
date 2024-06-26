@@ -9,6 +9,12 @@ import Link from "next/link";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import FilterDrawer from "./FilterDrawer/FilterDrawer";
+import AuthForm from "./Form/AuthForm";
+import SignOutButton from "./formButton/SignOutButton";
+import useRefreshToken from "@/hooks/useRefreshToken";
+import { Button } from "./ui/button";
+import useSignOut from "@/hooks/useSignOut";
+import { useRouter } from "next/navigation";
 
 // function Categories() {
 //   const t = useTranslations("categories");
@@ -45,22 +51,23 @@ import FilterDrawer from "./FilterDrawer/FilterDrawer";
 //   )
 // }
 
-function SignInForm() {
+function SignInForm(currentLoc: any) {
+    const signOutHook = useSignOut()
+    const router = useRouter()
+    const signOut = async () => {
+        try{
+            await signOutHook()
+            router.push('/en/sign-in')
+        }catch(error){
+            console.error('Error during sign out:', error);
+        }
+    }
     return (
-        <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                    Name
-                </Label>
-                <Input id="name" value="Pedro Duarte" className="col-span-3" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                    Username
-                </Label>
-                <Input id="username" value="@peduarte" className="col-span-3" />
-            </div>
-        </div>
+        <>
+            <AuthForm Type="sign-in" variant="drawer" currentLoc={`/${currentLoc}/`} />
+            <Button onClick={signOut}>
+                sign-out
+            </Button>        </>
     )
 }
 
@@ -104,7 +111,7 @@ function DrawerWrapper({ currentLoc, showSec }: { currentLoc: string, showSec: s
                 <SheetContent className="w-[300px]" side={direction}>
                     <SheetHeader className="items-center">
                         <div className="relative w-full h-24 my-8">
-                            <Image alt="logo" src={image} className="object-cover"width={200} height={200} />
+                            <Image alt="logo" src={image} className="object-cover mx-auto" width={100} height={100} />
                         </div>
 
                     </SheetHeader>
