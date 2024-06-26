@@ -7,7 +7,7 @@ import CustomInput from './CustomInput';
 import { Expand, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import logo from '../../public/logo.svg'
-import { instance } from '@/API/instance';
+import { instance } from '@/axios/instance';
 import * as Yup from "yup"
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import FormButton from '../formButton/FormButton';

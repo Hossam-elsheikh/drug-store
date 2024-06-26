@@ -1,4 +1,4 @@
-import { instancePrivate } from "@/API/instance"
+import { instancePrivate } from "@/axios/instance"
 import useAuth from "./useAuth"
 import useRefreshToken from "./useRefreshToken"
 import { useEffect } from "react"
