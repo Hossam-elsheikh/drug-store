@@ -1,4 +1,4 @@
-import {instance} from "@/API/instance"
+import {instance} from "@/axios/instance"
 import useAuth from "./useAuth"
 
 const useRefreshToken = () => {
