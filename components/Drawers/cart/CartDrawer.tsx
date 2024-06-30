@@ -1,6 +1,6 @@
 import React from "react";
 import CartDrawerItem from "./CartDrawerItem";
-import { pharmacyCat, pharmacyCategories, products } from "@/lib/utils";
+import {  products } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { SheetClose } from "@/components/ui/sheet";

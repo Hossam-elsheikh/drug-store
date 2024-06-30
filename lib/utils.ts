@@ -128,67 +128,68 @@ export const pharmacyCat = [
 
 
 
-
-
 export const products = [
     {
+        id: 1,
         title: "Axe Deodorant Antiperspirant Body spray Aerosol",
         image: "https://freepngimg.com/save/32755-axe-spray-clipart/450x450",
         price: 24,
         src: "#"
     },
     {
+        id: 2,
         title: "Axe Deodorant Antiperspirant Body spray Aerosol",
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTovlZ5jAfClKY46Gs26IocnlNEwepyCAiTQ&s",
         price: 24,
         src: "#"
-
     },
     {
-        title: "Axe Deodorant Antiperspirant Body spray Aerosol",
-        image: "https://freepngimg.com/save/32755-axe-spray-clipart/450x450",
-        price: 24,
-        src: "#"
-
-    },
-    {
+        id: 3,
         title: "Axe Deodorant Antiperspirant Body spray Aerosol",
         image: "https://freepngimg.com/save/32755-axe-spray-clipart/450x450",
         price: 24,
         src: "#"
     },
     {
+        id: 4,
+        title: "Axe Deodorant Antiperspirant Body spray Aerosol",
+        image: "https://freepngimg.com/save/32755-axe-spray-clipart/450x450",
+        price: 24,
+        src: "#"
+    },
+    {
+        id: 5,
         title: "Axe Deodorant Antiperspirant Body spray Aerosol",
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTovlZ5jAfClKY46Gs26IocnlNEwepyCAiTQ&s",
         price: 24,
         src: "#"
-
     },
     {
-        title: "Axe Deodorant Antiperspirant Body spray Aerosol",
-        image: "https://freepngimg.com/save/32755-axe-spray-clipart/450x450",
-        price: 24,
-        src: "#"
-
-    },
-    {
+        id: 6,
         title: "Axe Deodorant Antiperspirant Body spray Aerosol",
         image: "https://freepngimg.com/save/32755-axe-spray-clipart/450x450",
         price: 24,
         src: "#"
     },
     {
+        id: 7,
+        title: "Axe Deodorant Antiperspirant Body spray Aerosol",
+        image: "https://freepngimg.com/save/32755-axe-spray-clipart/450x450",
+        price: 24,
+        src: "#"
+    },
+    {
+        id: 8,
         title: "Axe Deodorant Antiperspirant Body spray Aerosol",
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTovlZ5jAfClKY46Gs26IocnlNEwepyCAiTQ&s",
         price: 24,
         src: "#"
-
     },
     {
+        id: 9,
         title: "Axe Deodorant Antiperspirant Body spray Aerosol",
         image: "https://freepngimg.com/save/32755-axe-spray-clipart/450x450",
         price: 24,
         src: "#"
-
     },
 ]

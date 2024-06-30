@@ -70,6 +70,9 @@ const ProductCard = ({ details, mode = 'default' }) => {
                 onMouseLeave={handleMouseLeave}
             >
                 <Image src={details.image || "https://images.unsplash.com/photo-1547489432-cf93fa6c71ee?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt={details.title ||"imGE"} fill />
+                <span className="absolute top-1 left-1 p-1 rounded-full bg-red-700 px-2 text-center text-xs font-medium text-white z-30">
+                    39% OFF
+                </span>
                 <AnimatePresence>
                     {quickAccess && <QuickAccess setIsModalOpen={setIsModalOpen} />}
                 </AnimatePresence>
@@ -101,7 +104,7 @@ const ProductCard = ({ details, mode = 'default' }) => {
             </div>
             {isModalOpen && (
                 
-                <Modal
+                <Modal details={details}
                     setIsModalOpen={setIsModalOpen}
                     setQuickAccess={setQuickAccess}
                 />

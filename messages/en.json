@@ -64,7 +64,14 @@
 		"yourAddresses": "Your Addresses"
 	},
 	"OrderPage": {
-		"orders": "Orders"
+		"orders": "Orders",
+		"orderState": "Order State",
+		"orderStates": {
+			"delivered": "Delivered",
+			"shipped": "Shipped",
+			"canceled": "Canceled",
+			"pinned": "Pinned"
+		}
 	},
 	"UserInfoPage": {
 		"userInfo": "User Information",
@@ -82,5 +89,12 @@
 		"returns": "Returns",
 		"settings": "Settings",
 		"logOut": "Log Out"
+	},
+	"CheckOutPage": {
+		"subtotal": "Subtotal",
+		"taxes": "Taxes",
+		"shipping": "Shipping",
+		"promoCode": "Promo Code"
+		
 	}
 }

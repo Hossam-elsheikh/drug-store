@@ -85,7 +85,7 @@ export default function AddressesModal() {
                             </div>
                             <CustomInput control={form.control} name='address' label={t('address')} placeholder='Enter your specific address' schema={formSchema} />
                             <DialogFooter>
-                                <Button type="submit" disabled={isLoading} className="form-btn">
+                                <Button type="submit" disabled={isLoading} className="">
                                     {isLoading ? (
                                         <>
                                             <Loader2 size={20} className="animate-spin" /> &nbsp;
