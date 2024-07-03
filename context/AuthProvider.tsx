@@ -1,12 +1,11 @@
 'use client'
-import { createContext, useState } from "react";
+import {  createContext, useState } from "react";
 
-const AuthContext = createContext({});
+const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
-    const [auth, setAuth] = useState({})
-
+    const [auth, setAuth] = useState({})    
     return (
         <AuthContext.Provider value={{ auth, setAuth }}>
             {children}

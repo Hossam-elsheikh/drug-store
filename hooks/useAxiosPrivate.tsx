@@ -12,9 +12,14 @@ const useAxiosPrivate = () => {
         const requestIntercept = instancePrivate.interceptors.request.use(
             config => {
                 if (!config.headers['Authorization']) {
-                    config.headers['Authorization'] = `Barer ${auth?.accessToken}`
+                    config.headers['Authorization'] = `Bearer  ${auth?.accessToken}`
                 }
+                if (auth?.userId) {
+                    config.headers['id'] = auth.userId;
+                }
+                console.log('here is the config LOOK HERE',config);
                 return config;
+                
             },
             (error) => Promise.reject(error)
         )
@@ -27,7 +32,9 @@ const useAxiosPrivate = () => {
                 if (error?.response?.status === 403 && !prevRequest?.sent) {
                     prevRequest.sent = true;
                     const newAccessToken = await refresh()
-                    prevRequest.headers['Authorization'] = `Barer ${newAccessToken}`
+                    prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
+                    prevRequest.headers['id'] = auth.userId;
+
                     return instancePrivate(prevRequest)
                 }
                 return Promise.reject(error)

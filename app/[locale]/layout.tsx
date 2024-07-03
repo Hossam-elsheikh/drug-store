@@ -7,8 +7,7 @@ import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/Footer/Footer";
 import ReactQueryProvider from "../../providers/ReactQueryProvider";
 import { AuthProvider } from "@/context/AuthProvider";
-import CustomerReview from "@/components/CustomerReview/CustomerReview";
-import { FavProvider } from "@/context/favoriteProvider";
+import AuthPersistProvider from "@/providers/AuthPersistProvider";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -26,40 +25,37 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
-
-    children,
-    params: { locale },
+ 
+  children,
+  params: { locale },
 }: Readonly<{
     children: React.ReactNode;
     params: { locale: string };
 }>) {
-    const messages = await getMessages();
-    return (
-        <html lang={locale}>
-            <body className={`${roboto.variable} ${inter.variable}`}>
-                <AuthProvider>
+  const messages = await getMessages();
+  return (
+    <html lang={locale}>
+      <body className={`${roboto.variable} ${inter.variable}`}>
+      <AuthProvider>
 
-                    <ReactQueryProvider>
+      <ReactQueryProvider>
 
-                        <NextIntlClientProvider messages={messages}>
-                            <FavProvider>
+        <NextIntlClientProvider messages={messages}>
+          <div id="modal-root"></div>
+          <div className="flex h-[100dvh] flex-col justify-between ">
+            <div>
+              <NavBar currentLoc={locale} />
+              {children}
+            </div>
+        {/* <CustomerReview /> */}
 
-                                <div id="modal-root"></div>
-                                <div className="flex h-[100dvh] flex-col justify-between ">
-                                    <div>
-                                        <NavBar currentLoc={locale} />
-                                        {children}
-                                    </div>
+            <Footer />
+          </div>
+        </NextIntlClientProvider>
+        </ReactQueryProvider>
+        </AuthProvider>
 
-
-                                    <Footer />
-                                </div>
-                            </FavProvider>
-                        </NextIntlClientProvider>
-                    </ReactQueryProvider>
-                </AuthProvider>
-
-            </body>
-        </html>
-    );
+      </body>
+    </html>
+  );
 }

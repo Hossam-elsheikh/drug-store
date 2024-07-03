@@ -6,8 +6,10 @@ import Link from "next/link";
 import Modal from "./Modal";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { instancePrivate } from "@/axios/instance";
+import useAuth from "@/hooks/useAuth";
 
-const QuickAccess = ({ setIsModalOpen }) => (
+const QuickAccess = ({ setIsModalOpen }:any) => (
     <motion.div
         initial={{ opacity: 0 }}
         animate={{
@@ -37,7 +39,11 @@ const QuickAccess = ({ setIsModalOpen }) => (
     </motion.div>
 );
 
+<<<<<<< HEAD
 const ProductCard = ({ details, mode = "default" }) => {
+=======
+const ProductCard =  ({ details }:any) => {
+>>>>>>> c4d13a974b6fa47f218eba6b5564d176c6854b02
     const router = useRouter();
     const navigate = (path: string) => {
         const normalizedPath = path.startsWith("/") ? path : `/${path}`;
@@ -65,6 +71,26 @@ const ProductCard = ({ details, mode = "default" }) => {
         }
     };
 
+    const {auth}:any= useAuth()
+    const addToCart = async(product:any)=>{
+
+        try{
+            const response = await instancePrivate.post('/order', {
+                cart: [{
+                    id: product.id,
+                    title: product.name.en,
+                    quantity: 1,
+                    unitPrice: product.price,
+                    netPrice: product.price
+                }],
+                customerId: auth.userId,
+            });
+            console.log(response);
+        }catch(err){
+            console.error('error while adding to cart',err);
+        }
+    }
+
     return (
         <div className="flex border transition flex-col max-w-52 rounded-lg shadow-sm pb-1">
             <div
@@ -72,19 +98,8 @@ const ProductCard = ({ details, mode = "default" }) => {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                <Image
-                    src={
-                        details.image ||
-                        "https://images.unsplash.com/photo-1547489432-cf93fa6c71ee?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    }
-                    alt={details.title || "imGE"}
-                    fill
-                    className="opacity-0 duration-[2s] transition-all"
-                    onLoadingComplete={(image) => image.classList.remove('opacity-0')}
-                />
-                <span className="absolute top-1 left-1 p-1 rounded-full bg-red-700 px-2 text-center text-xs font-medium text-white z-30">
-                    39% OFF
-                </span>
+                {/* <Image src={details.image} alt={details.title} fill /> */}
+                <img src={`http://localhost:4000/uploads/photos/${details.image}`}/>
                 <AnimatePresence>
                     {quickAccess && (
                         <QuickAccess setIsModalOpen={setIsModalOpen} />
@@ -94,15 +109,20 @@ const ProductCard = ({ details, mode = "default" }) => {
 
             <div className="flex flex-col p-3 gap-3">
                 <div>
-                    <Link href={details.src}>
+                    {/* <Link href={details.src}> */}
                         <h2 className="font-medium text-md truncate hover:text-secColor">
-                            {details.title}
+                            {details.name.en}  
                         </h2>
-                    </Link>
-                    {mode === "default" && (
-                        <p className="font-semibold text-start text-secColor">
-                            {details.price}{" "}
-                            <span className="font-light">KWD</span>
+                    {/* </Link> */}
+                    <p className="font-semibold text-start text-secColor">
+                        {details.price} <span className="font-light">KWD</span>
+                    </p>
+                </div>
+                <div className="flex items-center justify-between">
+                    <Heart className="cursor-pointer hover:text-red-500 transition" />
+                    <div onClick={()=> addToCart(details)} className="flex bg-primaryColor px-3 py-2 rounded-md text-white items-center gap-2 hover:bg-secColor transition cursor-pointer">
+                        <p className="text-sm font-medium hidden sm:block">
+                            Add to cart
                         </p>
                     )}
                 </div>

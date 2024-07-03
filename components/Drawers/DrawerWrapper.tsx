@@ -79,6 +79,14 @@ function SignInForm(currentLoc: any) {
     );
 }
 
+function WishList() {
+    return (
+        <h1>
+            wishlist
+        <img src="http://localhost:4000/uploads/photos/image-1719536041274.jpg"/>
+        </h1>
+    )
+}
 type Props = {
     currentLoc: string;
     showSec: string;
