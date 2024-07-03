@@ -43,12 +43,14 @@ function Modal({ setIsModalOpen, setQuickAccess, details }) {
                                 <X size={24} />
                             </button>
                             <div className="flex p-5">
-                                <div className="w-1/2 relative h-[400px] p-4">
+                                <div className="w-1/2 relative size-[300px] p-10">
                                     <Image
                                         src={details.image || "https://images.unsplash.com/photo-1547489432-cf93fa6c71ee?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
                                         alt={details.title || "Image"}
                                         layout="fill"
                                         objectFit="cover"
+                                        className="opacity-0 duration-[2s] transition-all"
+                                        onLoadingComplete={(image) => image.classList.remove('opacity-0')}
                                     />
                                 </div>
 
