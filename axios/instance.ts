@@ -1,11 +1,12 @@
-
+import useAuth from '@/hooks/useAuth';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import axios from 'axios';
 
 const API_URL = process.env.API_URL || 'http://localhost:4000'
 
 export const instance = axios.create({
     baseURL: API_URL,
-    withCredentials:true,
+    withCredentials: true,
 })
 
 export const instancePrivate = axios.create({
@@ -15,13 +16,22 @@ export const instancePrivate = axios.create({
 })
 
 export const getProducts = async () => {
-    const response = await instance.get('/product')
-    return response;
+    try {
+        const response = await instance.get('/product')
+        return response;
+    } catch (error) {
+        console.error('error getting products', error);
+    }
 }
 
-
-export const getUser = async (userId:any) => {
-    const res = await instance.get(`/user/${userId}`);
-    console.log(res)
-    return res;
-};
+export const getUser = async () => {
+    const usePrivate = useAxiosPrivate()
+    const { auth }: any = useAuth()
+    try {
+        const response = await instancePrivate.get(`/user/${auth.userId}`)
+        console.log(response);
+        return response
+    } catch (error) {
+        console.error('error while getting user', error);
+    }
+}

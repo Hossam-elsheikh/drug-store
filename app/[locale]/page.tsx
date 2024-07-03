@@ -9,11 +9,16 @@ import HeroCarousel from "@/components/HeroSection/HeroCarousel";
 import BannerGrid1 from "@/components/Banners/BannerGrid1";
 import ProductsCarousel from "@/components/Carousels/ProductsCarousel";
 
+import ProductCard from "@/components/ItemCard/ProductCard";
+import PersistLogin from "@/components/Form/PersistLogin";
 
 import VerticalBanner from "@/components/Banners/VerticalBanner";
 import image from '@/public/image.png'
 import image2 from '@/public/image copy.png'
 import image3 from '@/public/image copy 2.png'
+import { getProducts, instance } from "@/axios/instance";
+import { useQuery } from "@tanstack/react-query";
+import { Suspense } from "react";
 
 // const Home = () => {
 function Home() {
@@ -66,9 +71,10 @@ function Home() {
 
                     {/* <WhyUs /> */}
 
-                </div>
-        </>
-    );
+      </div>
+    </>
+
+  );
 }
 
 // export default PersistLogin(Home)
