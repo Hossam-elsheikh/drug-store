@@ -46,7 +46,7 @@ function CartItem(order:any,{ Price, image, Title, Description }: CartProps) {
             >
               {order.cart}
             </a>
-
+ 
             <div className="flex items-center gap-4">
               <button
                 type="button"
