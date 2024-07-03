@@ -39,22 +39,18 @@ const QuickAccess = ({ setIsModalOpen }:any) => (
     </motion.div>
 );
 
-<<<<<<< HEAD
-const ProductCard = ({ details, mode = "default" }) => {
-=======
-const ProductCard =  ({ details }:any) => {
->>>>>>> c4d13a974b6fa47f218eba6b5564d176c6854b02
+    const ProductCard = ({ details, mode = "default"}) => {
     const router = useRouter();
-    const navigate = (path: string) => {
-        const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-        const parts = currentLoc.split("/").filter(Boolean);
-        const langCode =
-            parts.length > 0 && parts[0].length === 2 ? parts[0] : "";
-        const newPath = langCode
-            ? `/${langCode}${normalizedPath}`
-            : normalizedPath;
-        router.push(newPath);
-    };
+    // const navigate = (path: string) => {
+    //     const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+    //     const parts = currentLoc.split("/").filter(Boolean);
+    //     const langCode =
+    //         parts.length > 0 && parts[0].length === 2 ? parts[0] : "";
+    //     const newPath = 
+    //         ? `/${langCode}${normalizedPath}`
+    //         : normalizedPath;
+    //     router.push(newPath);
+    // };
 
     const [quickAccess, setQuickAccess] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -109,11 +105,11 @@ const ProductCard =  ({ details }:any) => {
 
             <div className="flex flex-col p-3 gap-3">
                 <div>
-                    {/* <Link href={details.src}> */}
+                    <Link href={details.src}>
                         <h2 className="font-medium text-md truncate hover:text-secColor">
-                            {details.name.en}  
+                            {details.name?.en}  
                         </h2>
-                    {/* </Link> */}
+                    </Link>
                     <p className="font-semibold text-start text-secColor">
                         {details.price} <span className="font-light">KWD</span>
                     </p>
@@ -124,7 +120,7 @@ const ProductCard =  ({ details }:any) => {
                         <p className="text-sm font-medium hidden sm:block">
                             Add to cart
                         </p>
-                    )}
+                    
                 </div>
                 <div
                     className={`flex items-center  ${mode === "default"
@@ -148,6 +144,7 @@ const ProductCard =  ({ details }:any) => {
                     setQuickAccess={setQuickAccess}
                 />
             )}
+        </div>
         </div>
     );
 };

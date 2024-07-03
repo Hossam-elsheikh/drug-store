@@ -49,8 +49,8 @@ function Modal({ setIsModalOpen, setQuickAccess, details }) {
                                         alt={details.title || "Image"}
                                         layout="fill"
                                         objectFit="cover"
-                                        className="opacity-0 duration-[2s] transition-all"
-                                        onLoadingComplete={(image) => image.classList.remove('opacity-0')}
+                                        className=" duration-[2s] transition-all"
+                                       
                                     />
                                 </div>
 

@@ -8,10 +8,8 @@ const VerticalBanner = ({ image }) => {
                 width={1800}
                 src={image}
                 alt="banner"
-                className="opacity-0 duration-[2s] transition-all object-cover"
-                onLoadingComplete={(image) =>
-                    image.classList.remove("opacity-0")
-                }
+                className=" duration-[2s] transition-all object-cover"
+              
             />
         </div>
     );

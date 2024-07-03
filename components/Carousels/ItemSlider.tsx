@@ -27,10 +27,8 @@ function ItemSlider({ item }: PharmacyCategory) {
                     height={150}
                     src={item.image}
                     alt={item.name}
-                    className="opacity-0 duration-[2s] transition-all"
-                    onLoadingComplete={(image) =>
-                        image.classList.remove("opacity-0")
-                    }
+                    className=" duration-[2s] transition-all"
+                 
                 // layout="fill"
                 // objectFit="cover"
                 />

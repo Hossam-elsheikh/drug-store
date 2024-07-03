@@ -13,17 +13,12 @@ import { DatePickerDemo } from '@/components/ui/date-picker';
 import { useTranslations } from 'next-intl';
 import UserProfileModal from '@/components/UserProfile/userprofile/UserProfileModal';
 import UserProfileInfo from '@/components/UserProfile/userprofile/UserProfileInfo';
+import { useQuery } from '@tanstack/react-query';
 
 export default function UserProfile() {
   const t = useTranslations("UserInfoPage");
-    const userInfo = {
-        firstName: "John",
-        lastName: "Doe",
-        email: "john.doe@example.com",
-        phoneNumber: "1234567890",
-        dateOfBirth: "1990-01-01",
-        gender: "Male"
-    };
+   
+   
     return (<>
 
             <div className='flex justify-between'>
@@ -31,7 +26,7 @@ export default function UserProfile() {
                 <UserProfileModal/>
         </div>
                 <div>
-            <UserProfileInfo userInfo={userInfo} />
+            <UserProfileInfo  />
                 </div>
     </>
     );
