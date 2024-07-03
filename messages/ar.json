@@ -1,80 +1,100 @@
 {
-    "Index": {
-        "title": "هذا مثال",
-        "description": " مرحبا بالترجمه العربية"
-    },
-    "NotFoundPage": {
-        "title": "بالعربيه2",
-        "description": "بالعربيه3"
-    },
-    "Navigation": {
-        "home": "بالعربيه4",
-        "main": "القائمة الرئيسية",
-        "categories": "الأقسام"
-    },
-    "Footer": {
-        "copyright": "بالعربيه5"
-    },
-    "categories": {
-        "allCategories": "كل الأقسام",
-        "home": "الصفحة الرئيسية",
-        "allProducts": "كل المنتجات",
-        "ourCollections": "المجموعات",
-        "shopByBrand": "تسوق بالبراند",
-        "Offers": "عروض"
-    },
-    "Buttons": {
-        "addToCart": "أضف الى السلة",
-        "buyNow": "شراء الآن",
-        "viewDetails": "عرض التفاصيل",
-        "viewMore": "عرض المزيد",
-        "viewLess": "عرض أقل",
-        "addAddress": "أضف عنوانك"
-    },
-    "cart": {
-        "myCart": "عربة التسوق",
-        "totalPrice": "المبلغ الإجمالي",
-        "taxes": "يتم احتساب الضرائب والشحن عند الدفع",
-        "expandCart": "افتح عربة التسوق",
-        "checkout": "اتمام عملية الشراء",
-        "dinar": "دينار كويتي"
-    },
-    "Form": {
-        "firstName": "الأسم الأول",
-        "lastName": "الأسم الأخير",
-        "country": "البلد",
-        "street": "الشارع",
-        "postalCode": "الرمز البريدي",
-        "address": "العنوان",
-        "YourAddress": "أضف عنوانك",
-        "city": "المدينة",
-        "addAddress":"أضف العنوان",
-        "dateOfBirth":"تاريخ الميلاد",
-           "email":"البريد الألكتروني",
-             "password":"الرمز السري",
-             "update":"تحديث"
-    },
-    "AddressPage": {
-        "yourAddresses": "جميع العناوين"
-    },
-    "OrderPage": {
-        "orders": "جميع الطلبات"
-    },
-    "UserInfoPage": {
-        "userInfo": "بيانات المستخدم"
-    },
-    "WishList": {
-        "wishList": "قائمة الأمنيات"
-    },
-    
-  "AsideMenu": {
-    "profile": "الملف الشخصي",
-    "wishList": "قائمة الرغبات",
-    "addresses": "العناوين",
-    "orders": "الطلبات",
-     "payments":"طرق الدفع",
-    "returns": "المرتجعات",
-    "settings": "الإعدادات",
-    "logOut": "تسجيل الخروج"
-  }
+	"Index": {
+		"title": "هذا مثال",
+		"description": " مرحبا بالترجمه العربية"
+	},
+	"NotFoundPage": {
+		"title": "بالعربيه2",
+		"description": "بالعربيه3"
+	},
+	"Navigation": {
+		"home": "بالعربيه4",
+		"main": "القائمة الرئيسية",
+		"categories": "الأقسام"
+	},
+	"Footer": {
+		"copyright": "بالعربيه5"
+	},
+	"categories": {
+		"allCategories": "كل الأقسام",
+		"home": "الصفحة الرئيسية",
+		"allProducts": "كل المنتجات",
+		"ourCollections": "المجموعات",
+		"shopByBrand": "تسوق بالبراند",
+		"Offers": "عروض"
+	},
+	"Buttons": {
+		"addToCart": "أضف الى السلة",
+		"buyNow": "شراء الآن",
+		"viewDetails": "عرض التفاصيل",
+		"viewMore": "عرض المزيد",
+		"viewLess": "عرض أقل",
+		"addAddress": "أضف عنوانك",
+		"edit": "تعديل",
+		"delete": "حذف"
+	},
+	"cart": {
+		"myCart": "عربة التسوق",
+		"totalPrice": "المبلغ الإجمالي",
+		"taxes": "يتم احتساب الضرائب والشحن عند الدفع",
+		"expandCart": "افتح عربة التسوق",
+		"checkout": "اتمام عملية الشراء",
+		"dinar": "دينار كويتي"
+	},
+	"Form": {
+		"firstName": "الأسم الأول",
+		"lastName": "الأسم الأخير",
+		"country": "البلد",
+		"street": "الشارع",
+		"postalCode": "الرمز البريدي",
+		"address": "العنوان",
+		"YourAddress": "أضف عنوانك",
+		"city": "المدينة",
+		"addAddress": "أضف العنوان",
+		"dateOfBirth": "تاريخ الميلاد",
+		"email": "البريد الألكتروني",
+		"password": "الرمز السري",
+		"update": "تحديث",
+		"phoneNumber": "رقم الجوال",
+		"male": "ذكر",
+		"female": "أنثي",
+		"gender": "الجنس"
+	},
+	"AddressPage": {
+		"yourAddresses": "جميع العناوين"
+	},
+	"OrderPage": {
+		"orders": "جميع الطلبات",
+		"orderState": "حالة الطلب",
+		"orderStates": {
+			"delivered": "تم التوصيل",
+			"shipped": "تم الشحن",
+			"canceled": "ملغي",
+			"pinned": "مثبت"
+		}
+	},
+	"UserInfoPage": {
+		"userInfo": "بيانات المستخدم",
+		"editInfo": "تعديل بيانات المستخدم"
+	},
+	"WishList": {
+		"wishList": "قائمة الأمنيات"
+	},
+
+	"AsideMenu": {
+		"profile": "الملف الشخصي",
+		"wishList": "قائمة الرغبات",
+		"addresses": "العناوين",
+		"orders": "الطلبات",
+		"payments": "طرق الدفع",
+		"returns": "المرتجعات",
+		"settings": "الإعدادات",
+		"logOut": "تسجيل الخروج"
+	},
+	"CheckOutPage": {
+		"subtotal": "المجموع الفرعي",
+		"taxes": "الضرائب",
+		"shipping": "الشحن",
+        "promoCode":"كوبون الخصم"
+	}
 }

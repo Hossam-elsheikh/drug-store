@@ -3,6 +3,7 @@ import { useContext } from "react"
 
 const useAuth = () => {
     const { auth }: any = useContext(AuthContext);    
+    console.log(auth)
     return useContext(AuthContext);
 }
 

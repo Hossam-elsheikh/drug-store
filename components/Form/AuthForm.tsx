@@ -209,7 +209,7 @@ const AuthForm = ({ Type, currentLoc, variant }: authFormProps) => {
                                 </div>
                             )}
                             <div className="flex flex-col gap-4 pb-5">
-                                <Button type="submit" disabled={isSubmitting} className="form-btn font-semibold bg-[#198AB0] hover:bg-[#282A3F]">
+                                <Button type="submit" disabled={isSubmitting} className="font-semibold bg-[#198AB0] hover:bg-[#282A3F]">
                                     {type === 'sign-in'
                                         ? 'Sign In' : 'Sign Up'}
                                 </Button>

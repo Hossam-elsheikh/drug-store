@@ -10,48 +10,51 @@ import { AuthProvider } from "@/context/AuthProvider";
 import AuthPersistProvider from "@/providers/AuthPersistProvider";
 
 const inter = Inter({
-  subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
-  variable: "--inter",
+    subsets: ["latin"],
+    weight: ["100", "300", "400", "500", "700", "900"],
+    variable: "--inter",
 });
 const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
-  variable: "--roboto",
+    subsets: ["latin"],
+    weight: ["100", "300", "400", "500", "700", "900"],
+    variable: "--roboto",
 });
 export const metadata: Metadata = {
-  title: "Drug Store",
-  description: "GYour best online pharmacy",
+    title: "Drug Store",
+    description: "GYour best online pharmacy",
 };
 
 export default async function RootLayout({
-
+ 
   children,
   params: { locale },
 }: Readonly<{
-  children: React.ReactNode;
-  params: { locale: string };
+    children: React.ReactNode;
+    params: { locale: string };
 }>) {
   const messages = await getMessages();
   return (
     <html lang={locale}>
       <body className={`${roboto.variable} ${inter.variable}`}>
-        <AuthProvider>
-          <NextIntlClientProvider messages={messages}>
-            <AuthPersistProvider>
-              <div id="modal-root"></div>
-              <div className="flex h-[100dvh] flex-col justify-between ">
-                <div>
-                  <NavBar currentLoc={locale} />
-                  <ReactQueryProvider>
-                    {children}
-                  </ReactQueryProvider>
-                </div>
-                <Footer />
-              </div>
-            </AuthPersistProvider>
-          </NextIntlClientProvider>
+      <AuthProvider>
+
+      <ReactQueryProvider>
+
+        <NextIntlClientProvider messages={messages}>
+          <div id="modal-root"></div>
+          <div className="flex h-[100dvh] flex-col justify-between ">
+            <div>
+              <NavBar currentLoc={locale} />
+              {children}
+            </div>
+        {/* <CustomerReview /> */}
+
+            <Footer />
+          </div>
+        </NextIntlClientProvider>
+        </ReactQueryProvider>
         </AuthProvider>
+
       </body>
     </html>
   );

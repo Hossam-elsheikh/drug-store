@@ -12,6 +12,7 @@ type Props = {
     title?: string;
     direction?: "ltr" | "rtl";
     cart?: boolean;
+    price?:string;
 };
 
 export default function ItemCard({
@@ -122,9 +123,7 @@ export default function ItemCard({
                     alt="product image"
                 />
 
-                <span className="absolute top-0 left-0 m-1 rounded-full bg-red-700 px-2 text-center text-xs font-medium text-white z-20">
-                    39% OFF
-                </span>
+             
             </a>
             {isVertical ? (
                 content

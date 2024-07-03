@@ -16,7 +16,7 @@ const QuickAccess = ({ setIsModalOpen }:any) => (
             opacity: 1,
             transition: { duration: 0.45 },
         }}
-        exit={{ opacity: 0,  }}
+        exit={{ opacity: 0 }}
         className="absolute inset-0 z-20 flex justify-center items-center rounded-lg bg-[#282a3f]/[0.2]"
     >
         <motion.div
@@ -39,15 +39,18 @@ const QuickAccess = ({ setIsModalOpen }:any) => (
     </motion.div>
 );
 
-const ProductCard =  ({ details }:any) => {
+    const ProductCard = ({ details, mode = "default"}) => {
     const router = useRouter();
-    const navigate = (path: string) => {
-        const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-        const parts = currentLoc.split('/').filter(Boolean);
-        const langCode = parts.length > 0 && parts[0].length === 2 ? parts[0] : '';
-        const newPath = langCode ? `/${langCode}${normalizedPath}` : normalizedPath;
-        router.push(newPath);
-    };
+    // const navigate = (path: string) => {
+    //     const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+    //     const parts = currentLoc.split("/").filter(Boolean);
+    //     const langCode =
+    //         parts.length > 0 && parts[0].length === 2 ? parts[0] : "";
+    //     const newPath = 
+    //         ? `/${langCode}${normalizedPath}`
+    //         : normalizedPath;
+    //     router.push(newPath);
+    // };
 
     const [quickAccess, setQuickAccess] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -94,17 +97,19 @@ const ProductCard =  ({ details }:any) => {
                 {/* <Image src={details.image} alt={details.title} fill /> */}
                 <img src={`http://localhost:4000/uploads/photos/${details.image}`}/>
                 <AnimatePresence>
-                    {quickAccess && <QuickAccess setIsModalOpen={setIsModalOpen} />}
+                    {quickAccess && (
+                        <QuickAccess setIsModalOpen={setIsModalOpen} />
+                    )}
                 </AnimatePresence>
             </div>
 
             <div className="flex flex-col p-3 gap-3">
                 <div>
-                    {/* <Link href={details.src}> */}
+                    <Link href={details.src}>
                         <h2 className="font-medium text-md truncate hover:text-secColor">
-                            {details.name.en}  
+                            {details.name?.en}  
                         </h2>
-                    {/* </Link> */}
+                    </Link>
                     <p className="font-semibold text-start text-secColor">
                         {details.price} <span className="font-light">KWD</span>
                     </p>
@@ -115,18 +120,31 @@ const ProductCard =  ({ details }:any) => {
                         <p className="text-sm font-medium hidden sm:block">
                             Add to cart
                         </p>
-                        <p className="text-xl font-medium block sm:hidden">+</p>
-                        <ShoppingCart />
-                    </div>
+                    
+                </div>
+                <div
+                    className={`flex items-center  ${mode === "default"
+                            ? "justify-between"
+                            : "items-center justify-center"
+                        }`}
+                >
+                    <Heart className="cursor-pointer hover:text-red-500 transition" />
+                    {mode === "default" && (
+                        <button className="flex bg-primaryColor px-3 py-2 rounded-md text-white items-center gap-2 hover:bg-secColor transition cursor-pointer">
+                            Add to cart
+                            <ShoppingCart />
+                        </button>
+                    )}
                 </div>
             </div>
             {isModalOpen && (
-                
                 <Modal
+                    details={details}
                     setIsModalOpen={setIsModalOpen}
                     setQuickAccess={setQuickAccess}
                 />
             )}
+        </div>
         </div>
     );
 };

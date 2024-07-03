@@ -38,6 +38,7 @@ export default function AddressesModal() {
             street: "",
             address: "",
             postalCode: "",
+            phoneNumber:""
         },
     })
     
@@ -72,15 +73,19 @@ export default function AddressesModal() {
                                 <CustomInput control={form.control} name='firstName' label={t('firstName')} placeholder='Enter your first name' schema={formSchema} />
                                 <CustomInput control={form.control} name='lastName' label={t('lastName')} placeholder='Enter your last name' schema={formSchema} />
                             </div>
+                                <CustomInput control={form.control} name='phoneNumber' label={t('phoneNumber')} placeholder='Enter your Phone Number' schema={formSchema} />
                             <div className="flex gap-4">
                                 <CustomInput control={form.control} name='country' label={t('country')} placeholder='Enter your Country' schema={formSchema} />
                                 <CustomInput control={form.control} name='city' label={t('city')} placeholder='Enter your City' schema={formSchema} />
                             </div>
+                            <div className="flex gap-4">
+
                             <CustomInput control={form.control} name='street' label={t('street')} placeholder='Enter your street name' schema={formSchema} />
-                            <CustomInput control={form.control} name='address' label={t('address')} placeholder='Enter your specific address' schema={formSchema} />
                             <CustomInput control={form.control} name='postalCode' label={t('postalCode')} placeholder='Example: 11101' schema={formSchema} />
+                            </div>
+                            <CustomInput control={form.control} name='address' label={t('address')} placeholder='Enter your specific address' schema={formSchema} />
                             <DialogFooter>
-                                <Button type="submit" disabled={isLoading} className="form-btn">
+                                <Button type="submit" disabled={isLoading} className="">
                                     {isLoading ? (
                                         <>
                                             <Loader2 size={20} className="animate-spin" /> &nbsp;

@@ -10,16 +10,13 @@ export default function ASidebar({ path, dir = 'ltr' }: { path: string, dir?: st
     const links = [
         { href: `/en/userProfile`, icon: UserCircleIcon, key: 'profile' },
         { href: `/en/wishlist`, icon: Heart, key: 'wishList' },
-        // { href: `/en/payments`, icon: CreditCard, key: 'payments' },
         { href: `/en/addresses`, icon: Map, key: 'addresses' },
         { href: `/en/orders`, icon: PackageCheck, key: 'orders' },
-        { href: `/en/returns`, icon: Undo2, key: 'returns' },
-        { href: `/en/settings`, icon: Cog, key: 'settings' },
         { href: `/en/logout`, icon: CirclePower, key: 'logOut' },
     ];
 
     return (
-        <div className="md:sticky md:top-[120px] z-10 bg-gray-50 mb-4 md:mb-0">
+        <div className="md:sticky md:top-[120px] z-10 bg-gray-50 mb-4 md:mb-0 border rounded-lg">
             <div className="rounded-lg p-4 shadow-sm overflow-x-auto overflow-hidden md:overflow-x-visible">
                 <ul className="flex flex-row md:flex-col space-x-2 md:space-x-0 md:space-y-2 min-w-max md:min-w-0">
                     {links.map(({ href, icon: Icon, key }) => (

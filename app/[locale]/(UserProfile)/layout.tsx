@@ -16,7 +16,7 @@ export default function RootLayout({
                 <div className="md:w-64 md:flex-shrink-0">
                     <ASidebar path={pathname} />
                 </div>
-                <div className='bg-[#F8F7F4] flex-grow p-10 rounded-lg shadow-sm min-h-[2000px]'>
+                <div className='bg-[#F8F7F4] flex-grow p-5 rounded-lg shadow-sm border'>
                     {children}
                 </div>
             </Container>
