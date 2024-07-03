@@ -12,6 +12,8 @@ import ItemCard from "../ItemCard/ItemCard";
 import ProductCard from "../ItemCard/ProductCard";
 
 import classes from "./product-carousel.module.css";
+import { useQuery } from "@tanstack/react-query";
+import { getProducts } from "@/axios/instance";
 
 type ProductsProp = {
     products: any[];
@@ -82,6 +84,18 @@ function ProductsCarousel({ products, mode }: ProductsProp) {
                 },
             };
 
+            const { isLoading, data, error, isFetching } = useQuery({
+                queryKey: ['products'],
+                queryFn: getProducts,
+            })
+            const productos = data?.data.products
+            if (isLoading) {
+                return <h2>loading...</h2>
+            }
+            if (error) {
+                return <h2>Error loading products</h2>;
+            }
+        console.log(data?.data.products);
     return (
         <Swiper
             slidesPerView={5}
@@ -93,7 +107,7 @@ function ProductsCarousel({ products, mode }: ProductsProp) {
             modules={[Autoplay, Pagination, Navigation, A11y]}
             breakpoints={breakpoints}
         >
-            {products.map((prod, id) => (
+            {productos.map((prod, id) => (
                 <SwiperSlide key={id}>
                     <ProductCard details={prod} />
                 </SwiperSlide>

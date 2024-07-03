@@ -1,11 +1,13 @@
+'use client'
 import useAuth from "@/hooks/useAuth";
 import useRefreshToken from "@/hooks/useRefreshToken";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
-const PersistLogin = (WrappedComponent: React.ComponentType) => {
+// const PersistLogin = (WrappedComponent: React.ComponentType) => {
+const AuthPersistProvider = ({children}:{children:ReactNode}) => {
 
-    const AuthComponent = (props: any) => {
+    // const AuthComponent = (props: any) => {
 
         const [isLoading, setIsLoading] = useState(true)
         const refresh = useRefreshToken()
@@ -33,9 +35,11 @@ const PersistLogin = (WrappedComponent: React.ComponentType) => {
         }, [isLoading])
         
         if (isLoading) return <div>Loading...</div>;
-        return <WrappedComponent {...props} />;
+        // return <WrappedComponent {...props} />;
+        return <>{children}</>
     }
-    return AuthComponent;   
-}
+    // return AuthComponent;   
+// }
 
-export default PersistLogin;
+// export default PersistLogin;
+export default AuthPersistProvider;

@@ -1,4 +1,4 @@
-import {instance} from "@/axios/instance"
+import { instance } from "@/axios/instance"
 import useAuth from "./useAuth"
 
 const useRefreshToken = () => {
@@ -11,13 +11,12 @@ const useRefreshToken = () => {
             withCredentials: true
         });
 
-        setAuth((prevToken: object) => {
+        setAuth((prevState: any) => {
 
-            console.log('Previous Token: ', JSON.stringify(prevToken));
+            console.log('Previous state: ', JSON.stringify(prevState));
+            console.log('New Access state: ', response.data);
 
-            console.log(response.data);
-
-            return { ...prevToken, accessToken: response.data.accessToken }
+            return { ...prevState, accessToken: response.data.accessToken, userId: response.data.userId }
         })
         return response.data.accessToken;
     }

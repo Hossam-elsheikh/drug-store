@@ -11,19 +11,20 @@ type CartProps = {
   Description?: string;
 };
 
-function CartItem({ Price, image, Title, Description }: CartProps) {
+function CartItem(order:any,{ Price, image, Title, Description }: CartProps) {
   return (
     <>
       <div className="rounded-lg border-b p-2 border-gray-200 bg-white  dark:border-gray-700 dark:bg-gray-800 md:p-3">
         <div className="space-y-2  md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
           <a href="#" className="shrink-1 md:order-1 w-32 ">
-            <Image
+            {/* <Image
               width={210}
               height={210}
               className="w-full object-cover rounded-lg"
               src="https://t3.ftcdn.net/jpg/01/02/12/28/240_F_102122850_fj76MXJcEDP4OzO2y918KarKygSeFmZk.jpg"
               alt="imac image"
-            />
+            /> */}
+                <img src={`http://localhost:4000/uploads/photos/${order.image}`}/>
           </a>
 
           <label htmlFor="counter-input" className="sr-only">
@@ -43,8 +44,7 @@ function CartItem({ Price, image, Title, Description }: CartProps) {
               href="#"
               className="text-sm truncate  font-medium text-gray-900 hover:underline dark:text-white"
             >
-              PC system All in One APPLE iMac (2023) mqrq3ro/a, Apple M3 Retina
-              4.5K, 8GB, SSD 256GB, 10-core GPU, Keyboard layout INT
+              {order.cart}
             </a>
 
             <div className="flex items-center gap-4">

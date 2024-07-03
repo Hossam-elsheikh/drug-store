@@ -12,8 +12,8 @@ import * as Yup from "yup"
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import FormButton from '../formButton/FormButton';
 import useRefreshToken from '@/hooks/useRefreshToken';
-import  useAuth  from '../../hooks/useAuth';
-import PersistLogin from './PresistLogin';
+import useAuth from '../../hooks/useAuth';
+import PersistLogin from '../../providers/AuthPersistProvider';
 import useSignOut from '@/hooks/useSignOut';
 
 interface authFormProps {
@@ -26,10 +26,10 @@ interface authFormProps {
 
 const AuthForm = ({ Type, currentLoc, variant }: authFormProps) => {
 
-    const { setAuth }:any = useAuth();
+    const { setAuth }: any = useAuth();
 
-    
-    
+
+
     const router = useRouter();
     const [type, setType] = useState(Type)
     const [showPassword, setShowPassword] = useState(false)
@@ -92,11 +92,11 @@ const AuthForm = ({ Type, currentLoc, variant }: authFormProps) => {
                     withCredentials: true
                 })
                 console.log(JSON.stringify(response?.data));
-                const accessToken = response?.data?.accessToken;
+                const { accessToken, id: userId } = response?.data?.accessToken;
                 console.log(accessToken);
-                setAuth({ values, accessToken });
+                setAuth({ accessToken, userId });
                 if (response.status === 200) {
-                    // router.push('/');
+                    router.push('/');
                 }
             }
         } catch (error) {
@@ -239,7 +239,7 @@ const AuthForm = ({ Type, currentLoc, variant }: authFormProps) => {
                 </footer>
             </>
             {/* )} */}
-            
+
         </section>
     )
 }
