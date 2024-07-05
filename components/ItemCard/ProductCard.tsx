@@ -105,11 +105,11 @@ const QuickAccess = ({ setIsModalOpen }:any) => (
 
             <div className="flex flex-col p-3 gap-3">
                 <div>
-                    <Link href={details.src}>
+                    {/* <Link href={details.src}> */}
                         <h2 className="font-medium text-md truncate hover:text-secColor">
                             {details.name?.en}  
                         </h2>
-                    </Link>
+                    {/* </Link> */}
                     <p className="font-semibold text-start text-secColor">
                         {details.price} <span className="font-light">KWD</span>
                     </p>
