@@ -58,7 +58,17 @@
 		"phoneNumber": "رقم الجوال",
 		"male": "ذكر",
 		"female": "أنثي",
-		"gender": "الجنس"
+		"gender": "الجنس",
+		"name": "الأسم",
+		"delete": "حذف الحساب",
+		"confirmPassword": "تأكيد كلمة السر",
+        "newPassword":"كلمة المرور الجديدة",
+		"dialogAlertTitle": "هل أنت متأكد تماما؟",
+		"dialogDisc": "لا يمكن التراجع عن هذا الإجراء.\nسيتم حذف حسابك وإزالة بياناتك من خوادمنا بشكل دائم.",
+         "cancel": "إلغاء",
+        "continue": "متابعة",
+        "changePass":"تغير كلمة المرور",
+          "changeInfo":"تغير البيانات"
 	},
 	"AddressPage": {
 		"yourAddresses": "جميع العناوين"
@@ -75,7 +85,8 @@
 	},
 	"UserInfoPage": {
 		"userInfo": "بيانات المستخدم",
-		"editInfo": "تعديل بيانات المستخدم"
+		"editInfo": "تعديل بيانات المستخدم",
+        "editPass":"تعديل الرمز السري"
 	},
 	"WishList": {
 		"wishList": "قائمة الأمنيات"
@@ -89,6 +100,9 @@
 		"payments": "طرق الدفع",
 		"returns": "المرتجعات",
 		"settings": "الإعدادات",
+		"password": "كلمة المرور",
+
+        
 		"logOut": "تسجيل الخروج"
 	},
 	"CheckOutPage": {

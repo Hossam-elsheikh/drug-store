@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+
 import React from 'react'
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "../../ui/sheet";
 import Image from 'next/image';

@@ -177,13 +177,7 @@ const AuthForm = ({ Type, currentLoc, variant }: authFormProps) => {
                             <CustomInput name='email' label="Email" placeholder='Enter your email' />
                             <div className="relative">
                                 <CustomInput name='password' label="Password" placeholder='Enter your password' type={showPassword ? "text" : "password"} />
-                                <button
-                                    type="button"
-                                    className="absolute inset-y-0 right-0 flex px-3 py-7 "
-                                    onClick={() => setShowPassword(!showPassword)}
-                                >
-                                    {showPassword ? <EyeOff /> : <Eye />}
-                                </button>
+                               
                                 {type === 'sign-in' && <Link
                                     href={'/'}
                                     className="font-medium text-[12px] text-[#198AB0] hover:text-[#282A3F] "
@@ -192,21 +186,14 @@ const AuthForm = ({ Type, currentLoc, variant }: authFormProps) => {
                                 </Link>}
                             </div>
                             {type === 'sign-up' && (
-                                <div className='relative'>
+                                
                                     <CustomInput
                                         name="confirmPassword"
                                         label="Confirm Password"
                                         placeholder="Re-enter your password"
                                         type={showConfirmPassword ? "text" : "password"}
                                     />
-                                    <button
-                                        type="button"
-                                        className="absolute inset-y-0 right-0 flex items-center px-3 py-10"
-                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                    >
-                                        {showConfirmPassword ? <EyeOff /> : <Eye />}
-                                    </button>
-                                </div>
+                                 
                             )}
                             <div className="flex flex-col gap-4 pb-5">
                                 <Button type="submit" disabled={isSubmitting} className="font-semibold bg-[#198AB0] hover:bg-[#282A3F]">

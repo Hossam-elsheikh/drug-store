@@ -27,10 +27,7 @@ function ItemSlider({ item }: PharmacyCategory) {
                     height={150}
                     src={item.image}
                     alt={item.name}
-                    className=" duration-[2s] transition-all"
-                 
-                // layout="fill"
-                // objectFit="cover"
+                
                 />
             </div>
             <div className="text-center mt-2 md:mt-1">

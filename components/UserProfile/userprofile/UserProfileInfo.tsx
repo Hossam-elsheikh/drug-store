@@ -6,36 +6,45 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { useTranslations } from 'next-intl';
-import { useQuery } from '@tanstack/react-query';
-import { getUser } from '@/axios/instance';
 import { Skeleton } from "@/components/ui/skeleton";
-import useAuth from '@/hooks/useAuth';
-import { instancePrivate } from '@/axios/instance';
+import { DeleteAccount } from "./DeleteAccount";
 
-function UserProfileInfo() {
+
+
+function UserProfileInfo({userInfo,isLoading ,isError, error}) {
     const f = useTranslations("Form");
-    const { auth } :any= useAuth();
 
-    const { data: userInfo, isLoading } = useQuery({
-        queryFn: () => getUser(instancePrivate),
-        queryKey: ['userInfo'],
-    });
+    const { name, email, mobile, createdAt } = userInfo || {};
 
     if (isLoading) {
         return (
             <Table>
+                <TableCaption>Your Information</TableCaption>
                 <TableBody>
-                    <TableRow>
-                        <TableCell>
-                            <Skeleton className="w-[128px] max-w-full" />
-                        </TableCell>
-                        <TableCell>
-                            <Skeleton className="w-[160px] max-w-full" />
-                        </TableCell>
-                    </TableRow>
-                   
+                    {Array.from({ length: 8 }, (_, i) => (
+                        <TableRow
+                        >
+                            <TableCell>
+                                <Skeleton className="w-full h-[20px] bg-gray-300" />
+                            </TableCell>
+                            <TableCell>
+                                <Skeleton className="w-full h-[20px]" />
+                            </TableCell>
+                        </TableRow>
+                    ))}
                 </TableBody>
             </Table>
+        );
+    }
+
+
+  if (isError) {
+        return (
+            <div className="error-container">
+                <h2>Error Loading User Information</h2>
+                <p>{error instanceof Error ? error.message : 'An unknown error occurred'}</p>
+                <button onClick={() => window.location.reload()}>Try Again</button>
+            </div>
         );
     }
 
@@ -44,28 +53,21 @@ function UserProfileInfo() {
             <TableCaption>Your Information</TableCaption>
             <TableBody>
                 <TableRow>
-                    <TableCell className="font-medium">{f("firstName")}</TableCell>
-                    <TableCell>{userInfo?.name}</TableCell>
+                    <TableCell className="font-medium">{f("name")}</TableCell>
+                    <TableCell>{name}</TableCell>
                 </TableRow>
-                <TableRow>
-                    <TableCell className="font-medium">{f("lastName")}</TableCell>
-                    <TableCell>{userInfo?.name}</TableCell>
-                </TableRow>
+           
                 <TableRow>
                     <TableCell className="font-medium">{f("email")}</TableCell>
-                    <TableCell>{userInfo?.email}</TableCell>
+                    <TableCell>{email}</TableCell>
                 </TableRow>
                 <TableRow>
                     <TableCell className="font-medium">{f("phoneNumber")}</TableCell>
-                    <TableCell>{userInfo?.mobile}</TableCell>
+                    <TableCell>{mobile}</TableCell>
                 </TableRow>
                 <TableRow>
-                    <TableCell className="font-medium">{f("dateOfBirth")}</TableCell>
-                    <TableCell>{userInfo?.dateOfBirth}</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell className="font-medium">{f("gender")}</TableCell>
-                    <TableCell>{userInfo?.gender}</TableCell>
+                    <TableCell className="font-medium">{f("delete")}</TableCell>
+                    <TableCell><DeleteAccount/></TableCell>
                 </TableRow>
             </TableBody>
         </Table>

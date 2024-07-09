@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -20,43 +19,38 @@ import * as Yup from "yup";
 import useAuth from "@/hooks/useAuth";
 import { updateUser } from "@/axios/instance";
 
-export default function UserProfileModal({ userInfo }) {
+export default function UserProfilePassword() {
     const router = useRouter();
     const f = useTranslations("Form");
     const t = useTranslations("UserInfoPage");
 
     const validationSchema = Yup.object().shape({
-        name: Yup.string().min(3, "Name must be at least 3 characters").max(50, "Name must not exceed 50 characters"),
-        email: Yup.string().email("Invalid email"),
-        mobile: Yup.string().matches(/^[0-9]+$/, "Phone number is not valid"),
+        newPassword: Yup.string()
+            .min(8, "Password must be at least 8 characters long")
+            .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+            .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+            .matches(/[0-9]/, 'Password must contain at least one number')
+            .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Password must contain at least one special character')
+            .required("New password is required"),
+        confirmNewPassword: Yup.string()
+            .oneOf([Yup.ref('newPassword')], 'Passwords must match')
+            .required("Please confirm your new password")
     });
 
     const initialValues = {
-        name: userInfo?.name || "",
-        email: userInfo?.email || "",
-        mobile: userInfo?.mobile || "",
+        newPassword: "",
+        confirmNewPassword: "",
     };
 
     const { auth } = useAuth();
-
     const onSubmit = async (values, { setSubmitting, setStatus }) => {
         try {
-            const updatedValues = {
-                ...userInfo,
-                name: values.name,
-                email: values.email,
-                mobile: values.mobile
-            };
-
-            console.log("Updating with values:", updatedValues);
-
-            const response = await updateUser(auth.userId, updatedValues);
-            console.log("User profile updated:", response);
-            setStatus("Profile updated successfully");
+            await updateUser(auth.userId, { password: values.newPassword });
+            setStatus("Password updated successfully");
             router.refresh();
         } catch (error) {
-            console.error("Error updating user profile:", error);
-            setStatus("Failed to update profile. Please try again.");
+            console.error("Error updating password:", error);
+            setStatus("Failed to update password. Please try again.");
         } finally {
             setSubmitting(false);
         }
@@ -65,12 +59,12 @@ export default function UserProfileModal({ userInfo }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">{t("editInfo")}</Button>
+                <Button variant="outline">{t("editPass")}</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>{t("editInfo")}</DialogTitle>
-                    <DialogDescription>{f("changeInfo")}</DialogDescription>
+                    <DialogTitle>{t("editPass")}</DialogTitle>
+                    <DialogDescription>{f("changePass")}</DialogDescription>
                 </DialogHeader>
                 <Formik
                     initialValues={initialValues}
@@ -80,29 +74,24 @@ export default function UserProfileModal({ userInfo }) {
                     {({ isSubmitting, status }) => (
                         <Form className="space-y-5">
                             <CustomInput
-                                name="name"
-                                label={f("name")}
-                                placeholder="Enter your name"
+                                name="newPassword"
+                                label={f("newPassword")}
+                                placeholder="Enter new password"
+                                type="password"
                             />
                             <CustomInput
-                                name="email"
-                                label={f("email")}
-                                placeholder="Enter your email"
+                                name="confirmNewPassword"
+                                label={f("confirmPassword")}
+                                placeholder="Re-enter new password"
+                                type="password"
                             />
-                            <CustomInput
-                                name="mobile"
-                                label={f("phoneNumber")}
-                                placeholder="Enter your phone number"
-                            />
-
                             {status && <div className="text-sm text-blue-500">{status}</div>}
-
-                            <DialogFooter>
+                            <DialogFooter className='w-full'>
                                 <div className='flex gap-3'>
                                     <button
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className="bg-green-200 hover:bg-green-400 hover:text-white duration-300 p-2 rounded-lg"
+                                        className="w-full bg-green-200 hover:bg-green-400 hover:text-white duration-300 p-2 rounded-lg"
                                     >
                                         {isSubmitting ? (
                                             <>
@@ -116,7 +105,7 @@ export default function UserProfileModal({ userInfo }) {
                                             f("update")
                                         )}
                                     </button>
-                                    <DialogClose className="bg-gray-200 hover:bg-gray-400 duration-300 p-2 rounded-lg inline">Close</DialogClose>
+                                    <DialogClose className="w-full bg-gray-200 hover:bg-gray-400 duration-300 p-2 rounded-lg inline">Close</DialogClose>
                                 </div>
                             </DialogFooter>
                         </Form>

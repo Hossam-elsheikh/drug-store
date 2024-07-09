@@ -1,55 +1,40 @@
 "use client";
+
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import DropList from "./DropList";
+import {
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger,
+} from "@/components/ui/tabs";
+
 type Props = {
-    currentLoc : string
-}
-const MenuDrawer = ({ currentLoc }:Props) => {
+    currentLoc: string;
+};
+
+const MenuDrawer = ({ currentLoc }: Props) => {
     const t = useTranslations("Navigation");
-    const [activeSec, setActiveSec] = useState("menu");
+
     const categories = [
         {
             title: "cosmotics",
             id: 1,
             subCategories: [
-                {
-                    id: "1",
-                    title: "cosmo1",
-                    href: "#",
-                },
-                {
-                    id: "2",
-                    title: "cosmo2",
-                    href: "#",
-                },
-                {
-                    id: "3",
-                    title: "cosmo3",
-                    href: "#",
-                },
+                { id: "1", title: "cosmo1", href: "#" },
+                { id: "2", title: "cosmo2", href: "#" },
+                { id: "3", title: "cosmo3", href: "#" },
             ],
         },
         {
             title: "Drugs",
             id: 2,
             subCategories: [
-                {
-                    id: "1",
-                    title: "drug1",
-                    href: "#",
-                },
-                {
-                    id: "2",
-                    title: "drug2",
-                    href: "#",
-                },
-                {
-                    id: "3",
-                    title: "drug3",
-                    href: "#",
-                },
+                { id: "1", title: "drug1", href: "#" },
+                { id: "2", title: "drug2", href: "#" },
+                { id: "3", title: "drug3", href: "#" },
             ],
         },
     ];
@@ -57,9 +42,8 @@ const MenuDrawer = ({ currentLoc }:Props) => {
     const Categories = () => (
         <div>
             {categories.map((cat, i) => (
-                <div  key={i} dir={currentLoc === "en" ? "ltr" : "rtl"} className="border-b">
+                <div key={i} dir={currentLoc === "en" ? "ltr" : "rtl"} >
                     <DropList
-                   
                         id={cat.id}
                         title={cat.title}
                         subCategories={cat.subCategories}
@@ -85,27 +69,18 @@ const MenuDrawer = ({ currentLoc }:Props) => {
     );
 
     return (
-        <div className="flex flex-col gap-3">
-            <div className="flex justify-between py-3 ">
-                <Link
-                    onClick={() => setActiveSec("menu")}
-                    href="#"
-                    className={`w-full  p-1 text-center font-semibold border text-gray-600 ${activeSec === "menu" && "text-white bg-secColor"
-                        }`}
-                >
-                    {t("main")}
-                </Link>
-                <Link
-                    onClick={() => setActiveSec("categories")}
-                    href="#"
-                    className={`w-full  p-1 text-center font-semibold border text-gray-600 ${activeSec === "categories" && "text-white bg-secColor"
-                        }`}
-                >
-                    {t("categories")}
-                </Link>
-            </div>
-            {activeSec === "categories" ? <Categories /> : <Menu />}
-        </div>
+        <Tabs defaultValue="menu" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="menu">{t("main")}</TabsTrigger>
+                <TabsTrigger value="categories">{t("categories")}</TabsTrigger>
+            </TabsList>
+            <TabsContent value="menu">
+                <Menu />
+            </TabsContent>
+            <TabsContent value="categories">
+                <Categories />
+            </TabsContent>
+        </Tabs>
     );
 };
 

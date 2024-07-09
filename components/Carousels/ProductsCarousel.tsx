@@ -1,28 +1,32 @@
+// ProductsCarousel.tsx
 "use client";
-import React from "react";
+import React, { useContext, useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, A11y } from "swiper/modules";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import Image from "next/image";
-import ItemCard from "../ItemCard/ItemCard";
 import ProductCard from "../ItemCard/ProductCard";
-
 import classes from "./product-carousel.module.css";
-import { useQuery } from "@tanstack/react-query";
-import { getProducts } from "@/axios/instance";
+import { Product, ProductsContext } from "@/context/ProductsProvider";
+
 
 type ProductsProp = {
-    products: any[];
     mode: string;
 };
 
-function ProductsCarousel({ products, mode }: ProductsProp) {
-    const breakpoints =
-        mode === "full"
+export default function ProductsCarousel({ mode }: ProductsProp) {
+    const context = useContext(ProductsContext);
+
+    if (!context) {
+        return <h2 className={classes.error}>No products context available</h2>;
+    }
+
+    const { products, isLoading, isError, error } = context;
+
+    const breakpoints = useMemo(() => {
+        return mode === "full"
             ? {
                 0: {
                     slidesPerView: 2,
@@ -83,19 +87,12 @@ function ProductsCarousel({ products, mode }: ProductsProp) {
                     spaceBetween: 2,
                 },
             };
+    }, [mode]);
 
-            const { isLoading, data, error, isFetching } = useQuery({
-                queryKey: ['products'],
-                queryFn: getProducts,
-            })
-            const productos = data?.data.products
-            if (isLoading) {
-                return <h2>loading...</h2>
-            }
-            if (error) {
-                return <h2>Error loading products</h2>;
-            }
-        console.log(data?.data.products);
+    if (isError) {
+        return <h2 className={classes.error}>Error loading products</h2>;
+    }
+
     return (
         <Swiper
             slidesPerView={5}
@@ -107,13 +104,35 @@ function ProductsCarousel({ products, mode }: ProductsProp) {
             modules={[Autoplay, Pagination, Navigation, A11y]}
             breakpoints={breakpoints}
         >
-            {productos.map((prod, id) => (
-                <SwiperSlide key={id}>
-                    <ProductCard details={prod} />
-                </SwiperSlide>
-            ))}
+            {isLoading
+                ? [1, 2, 3, 4, 5, 6, 7].map((i) => (
+                    <SwiperSlide key={i}>
+                        <LoadingSkeleton />
+                    </SwiperSlide>
+                ))
+                : products?.data.products.map((prod: Product, id: number) => (
+                    <SwiperSlide key={id}>
+                        <ProductCard details={prod} />
+                    </SwiperSlide>
+                ))}
         </Swiper>
     );
 }
 
-export default ProductsCarousel;
+const LoadingSkeleton = () => (
+    <div className="flex border transition flex-col max-w-52 rounded-lg shadow-sm pb-1 h-full">
+        <div className="bg-slate-100 w-full overflow-hidden cursor-pointer h-56 flex relative justify-center">
+            <div className="w-full h-full rounded-lg bg-gray-300 animate-pulse"></div>
+        </div>
+        <div className="flex flex-col p-3 gap-3">
+            <div>
+                <div className="h-4 w-3/4 mb-2 bg-gray-300 animate-pulse rounded-lg"></div>
+                <div className="h-4 w-1/2 bg-gray-300 animate-pulse rounded-lg"></div>
+            </div>
+            <div className="flex items-center justify-between">
+                <div className="w-6 h-6 rounded-full bg-gray-300 animate-pulse"></div>
+                <div className="h-8 w-24 rounded-md bg-gray-300 animate-pulse"></div>
+            </div>
+        </div>
+    </div>
+);
