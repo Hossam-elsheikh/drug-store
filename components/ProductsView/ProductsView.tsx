@@ -1,8 +1,12 @@
+"use client";
+import React, { useContext, useEffect } from 'react';
 import BreadCrumb from '@/components/Breadcrumb/BreadCrumb';
 import DrawerWrapper from '@/components/Drawers/DrawerWrapper';
-import React from 'react';
-import { products } from "@/lib/utils";
-import ProductCard from '@/components/ItemCard/ProductCard';
+import ProductCard, { ProductCardSkeleton } from '@/components/ItemCard/ProductCard';
+import { ProductsContext } from '@/context/ProductsProvider';
+import { useInView } from 'react-intersection-observer';
+
+import NotFound from '@/app/not-found';
 
 type Props = {
     params: {
@@ -13,38 +17,67 @@ type Props = {
 };
 
 function ProductsView({ params = {} }: Props) {
+    const { ref, inView } = useInView();
+    const { products, isLoading, isError, error, setSearchParams, fetchNextPage, hasNextPage, isFetchingNextPage } = useContext(ProductsContext);
     const { term, id, searchCategory } = params;
 
-    let title;
+    let title = 'Products';
     if (term) {
-        title = `Search Results For ${term}`;
-    } else if (searchCategory && id) {
-        title = `Results for ${searchCategory} and the ${id}`;
-    } else {
-        title = 'Results';
+        title = `Search results for "${term}"`;
+    } else if (id && searchCategory) {
+        title = `Category: ${searchCategory} - ID: ${id}`;
     }
+
+    useEffect(() => {
+        if (inView && hasNextPage) {
+            fetchNextPage();
+        }
+    }, [inView, fetchNextPage, hasNextPage]);
+
+    useEffect(() => {
+        if (term) {
+            setSearchParams({ search: term });
+        } else if (id && searchCategory) {
+            setSearchParams({ search: `${searchCategory} ${id}` });
+        } else {
+            setSearchParams({ page: 1, search: undefined });
+        }
+    }, [term, id, searchCategory, setSearchParams]);
+
+
 
     return (
         <section className="bg-gray-50 pb-5">
             <BreadCrumb />
-
             <div className="p-4 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg border">
                 <div className="p-5 flex justify-between">
                     <h1 className="text-2xl md:text-3xl font-semibold px-5 md:px-10">
                         {title}
                     </h1>
-                    <DrawerWrapper showSec="filter" currentLoc="right" />
+                    <DrawerWrapper showSec="filter"  />
                 </div>
 
-                <section className="flex lg:gap-10 gap-3 justify-center flex-wrap mt-5">
-                    {products && products.length > 0 ? (
-                        products.map((item, i) => (
-                            <ProductCard details={item} key={i} />
-                        ))
+                <section className="flex md:gap-7 gap-3 justify-center flex-wrap mt-5 w-full">
+                    {isLoading ? (
+                        <>
+                            {[1, 2, 3, 4, 5].map((i) => (
+                                <ProductCardSkeleton key={i} />
+                            ))}
+                        </>
                     ) : (
-                        <h1>No results found</h1>
+                        products && products.length > 0 ? (
+                            products.map((item, i) => (
+                                <div key={i} ref={i === products.length - 1 ? ref : null}>
+                                    <ProductCard details={item} index={i} />
+                                </div>
+                            ))
+                        ) : (
+                            <NotFound />
+                        )
                     )}
+                    {/* {isError && <NotFound />} */}
                 </section>
+                {isFetchingNextPage && <div>Loading more...</div>}
             </div>
         </section>
     );

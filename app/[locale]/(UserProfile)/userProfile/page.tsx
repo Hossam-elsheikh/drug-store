@@ -18,7 +18,7 @@ export default function UserProfile() {
             <h1 className="text-2xl p-3 md:text-3xl font-base mb-4 md:mb-0">{t('userInfo')}</h1>
             <div className='flex flex-row gap-1'>
             <UserProfileModal userInfo={userInfo}  />
-            <UserProfilePassword userInfo={userInfo} />
+            <UserProfilePassword  />
             </div>
         </div>
                 <div>

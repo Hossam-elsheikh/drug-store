@@ -37,7 +37,7 @@ export default function UserProfileModal({ userInfo }) {
         mobile: userInfo?.mobile || "",
     };
 
-    const { auth } = useAuth();
+    const { auth } :any= useAuth();
 
     const onSubmit = async (values, { setSubmitting, setStatus }) => {
         try {
@@ -91,7 +91,7 @@ export default function UserProfileModal({ userInfo }) {
                             />
                             <CustomInput
                                 name="mobile"
-                                label={f("phoneNumber")}
+                                label={f("mobileNumber")}
                                 placeholder="Enter your phone number"
                             />
 

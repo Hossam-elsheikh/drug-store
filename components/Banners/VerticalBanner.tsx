@@ -8,7 +8,7 @@ const VerticalBanner = ({ image }) => {
                 width={1800}
                 src={image}
                 alt="banner"
-                className=" duration-[2s] transition-all object-cover"
+                className=" duration-600 transition-all object-cover"
               
             />
         </div>

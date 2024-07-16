@@ -1,5 +1,15 @@
+
 import axios from "axios";
 
+enum ApiEndPoints {
+	PRODUCTS = "/products",
+	PRODUCT_SEARCH = "/Product/search",
+	USER = "/user",
+	ORDERS = "/order",
+	CATEGORIES = "/categories",
+	SUB_CATEGORIES = "subcategories",
+	BRANDS = "/brand",
+}
 
 const API_URL = process.env.API_URL || "http://localhost:4000";
 
@@ -14,57 +24,155 @@ export const instancePrivate = axios.create({
 	withCredentials: true,
 });
 
-export const getProducts = async () => {
+const handleApiError = (error: unknown, context: string): never => {
+	console.error(`Error in ${context}:`, error);
+	throw error;
+};
+
+interface ProductSearchParams {
+	page?: number;
+	search?: string;
+}
+
+// ---------------------------------------------------Products----------------------------------------------
+
+
+export const getProducts = async ({
+    page = 1,
+    search,
+}: ProductSearchParams = {}): Promise<any> => {
+    try {
+        const endpoint = search
+            ? ApiEndPoints.PRODUCT_SEARCH
+            : ApiEndPoints.PRODUCTS;
+        const params = { page, ...(search && { search }) };
+        const response = await instance.get(endpoint, { params });
+        return response.data;
+    } catch (error) {
+        handleApiError(error, "getProducts");
+    }
+};
+
+export const getOneProduct = async (productId: string): Promise<any> => {
 	try {
-		const response = await instance.get("/product");
-		return response;
+		const response = await instance.get(
+			`${ApiEndPoints.PRODUCTS}/${productId}`
+		);
+		return response.data;
 	} catch (error) {
-		console.error("error getting products", error);
+		handleApiError(error, "getOneProduct");
 	}
 };
 
-export const getUser = async (userId: string) => {
+// ---------------------------------------------------User----------------------------------------------
+export const getUser = async (userId: string): Promise<any> => {
 	try {
-		const response = await instancePrivate.get(`/user/${userId}`);
-		return response;
+		const response = await instancePrivate.get(
+			`${ApiEndPoints.USER}/${userId}`
+		);
+		return response.data;
 	} catch (error) {
-		console.error("error while getting user", error);
+		handleApiError(error, "getUser");
 	}
 };
 
-export const updateUser = async (userId, data) => {
+export const updateUser = async (userId: string, data: any): Promise<any> => {
 	try {
-		const response = await instancePrivate.patch(`/user/${userId}`, data);
-		return response;
+		const response = await instancePrivate.patch(
+			`${ApiEndPoints.USER}/${userId}`,
+			data
+		);
+		return response.data;
 	} catch (error) {
-		console.error("error while updating user", error);
-		throw error;
+		handleApiError(error, "updateUser");
 	}
 };
-export const deleteUser = async (userId: string) => {
+export const deleteUser = async (userId: string): Promise<any> => {
 	try {
-		const response = await instancePrivate.delete(`/user/${userId}`);
+		const response = await instancePrivate.delete(
+			`${ApiEndPoints.USER}/${userId}`
+		);
 
-		return response;
+		return response.data;
 	} catch (error) {
-		console.error("error while getting user", error);
-	}
-};
-
-export const getOneProduct = async (productId: string) => {
-	try {
-		const response = await instance.get(`/product/${productId}`);
-		return response;
-	} catch (error) {
-		console.error("error while getting product", error);
+		handleApiError(error, "deleteUser");
 	}
 };
 
-export const getCategories = async () => {
+export const getUserOrders = async (userId: string): Promise<any> => {
 	try {
-		const response = await instance.get("/categories");
-		return response;
+		const response = await instancePrivate.get(
+			`${ApiEndPoints.ORDERS}/${userId}`
+		);
+		return response.data;
 	} catch (error) {
-		console.error("error while getting categories", error);
+		handleApiError(error, "getUserOrders");
+	}
+};
+
+// ---------------------------------------------------Categories----------------------------------------------
+
+export const getCategories = async (): Promise<any> => {
+	try {
+		const response = await instance.get(ApiEndPoints.CATEGORIES);
+		return response.data;
+	} catch (error) {
+		handleApiError(error, "getCategories");
+	}
+};
+
+export const getOneCategory = async (id: string): Promise<any> => {
+	try {
+		const response = await instance.get(`${ApiEndPoints.CATEGORIES}/${id}`);
+		return response.data;
+	} catch (error) {
+		handleApiError(error, "getOneCategory");
+	}
+};
+
+//                           -------------------------SubCategories----------------
+export const getSubCategories = async (category: string): Promise<any> => {
+	try {
+		const response = await instance.get(
+			`${ApiEndPoints.SUB_CATEGORIES}/${category}`
+		);
+		return response.data;
+	} catch (error) {
+		handleApiError(error, "getSubCategories");
+	}
+};
+
+export const getOneSubCategory = async (
+	subCategoryID: string
+): Promise<any> => {
+	try {
+		const response = await instance.get(
+			`${ApiEndPoints.SUB_CATEGORIES}/${subCategoryID}`
+		);
+		return response.data;
+	} catch (error) {
+		handleApiError(error, "getOneSubCategory");
+	}
+};
+
+// ---------------------------------------------------Brands----------------------------------------------
+
+export const getBrands = async (): Promise<any> => {
+	try {
+		const response = await instance.get(ApiEndPoints.BRANDS);
+		return response.data;
+	} catch (error) {
+		handleApiError(error, "getBrands");
+	}
+};
+
+export const getOneBrand = async (brandId: string): Promise<any> => {
+	try {
+		const response = await instance.get(
+			`${ApiEndPoints.BRANDS}/${brandId}`
+		);
+		return response.data;
+	} catch (error) {
+		handleApiError(error, "getOneBrand");
 	}
 };

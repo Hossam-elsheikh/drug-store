@@ -7,9 +7,10 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import ProductCard from "../ItemCard/ProductCard";
+import ProductCard, { ProductCardSkeleton } from "../ItemCard/ProductCard";
 import classes from "./product-carousel.module.css";
 import { Product, ProductsContext } from "@/context/ProductsProvider";
+import NotFound from "@/app/not-found";
 
 
 type ProductsProp = {
@@ -90,7 +91,7 @@ export default function ProductsCarousel({ mode }: ProductsProp) {
     }, [mode]);
 
     if (isError) {
-        return <h2 className={classes.error}>Error loading products</h2>;
+        <NotFound />
     }
 
     return (
@@ -107,32 +108,15 @@ export default function ProductsCarousel({ mode }: ProductsProp) {
             {isLoading
                 ? [1, 2, 3, 4, 5, 6, 7].map((i) => (
                     <SwiperSlide key={i}>
-                        <LoadingSkeleton />
+                        <ProductCardSkeleton />
                     </SwiperSlide>
                 ))
-                : products?.data.products.map((prod: Product, id: number) => (
+                : products?.map((prod: Product, id: number) => (
                     <SwiperSlide key={id}>
-                        <ProductCard details={prod} />
+                        <ProductCard details={prod} index={id} />
                     </SwiperSlide>
                 ))}
         </Swiper>
     );
 }
 
-const LoadingSkeleton = () => (
-    <div className="flex border transition flex-col max-w-52 rounded-lg shadow-sm pb-1 h-full">
-        <div className="bg-slate-100 w-full overflow-hidden cursor-pointer h-56 flex relative justify-center">
-            <div className="w-full h-full rounded-lg bg-gray-300 animate-pulse"></div>
-        </div>
-        <div className="flex flex-col p-3 gap-3">
-            <div>
-                <div className="h-4 w-3/4 mb-2 bg-gray-300 animate-pulse rounded-lg"></div>
-                <div className="h-4 w-1/2 bg-gray-300 animate-pulse rounded-lg"></div>
-            </div>
-            <div className="flex items-center justify-between">
-                <div className="w-6 h-6 rounded-full bg-gray-300 animate-pulse"></div>
-                <div className="h-8 w-24 rounded-md bg-gray-300 animate-pulse"></div>
-            </div>
-        </div>
-    </div>
-);

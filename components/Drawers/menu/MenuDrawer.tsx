@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import React from "react";
+import React, { useState, useTransition } from "react";
 import DropList from "./DropList";
 import {
     Tabs,
@@ -10,43 +10,53 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs";
+import { useQuery } from "@tanstack/react-query";
+import { getCategories } from "@/axios/instance";
+import { Loader2 } from "lucide-react";
+import NotFound from "@/app/not-found";
+import { useLocale } from "@/context/LocaleProvider";
 
-type Props = {
-    currentLoc: string;
-};
 
-const MenuDrawer = ({ currentLoc }: Props) => {
+const LoadingState = () => (
+    <div className="flex justify-center items-center h-full">
+        <div className="animate-pulse text-primaryColor flex items-center">
+            <Loader2 className="animate-spin mr-2" />
+            <span>loading...</span>
+        </div>
+    </div>
+);
+const MenuDrawer = () => {
     const t = useTranslations("Navigation");
+    const [isPending, startTransition] = useTransition();
+    const [activeTab, setActiveTab] = useState('menu');
+    const {dir}=useLocale()
 
-    const categories = [
-        {
-            title: "cosmotics",
-            id: 1,
-            subCategories: [
-                { id: "1", title: "cosmo1", href: "#" },
-                { id: "2", title: "cosmo2", href: "#" },
-                { id: "3", title: "cosmo3", href: "#" },
-            ],
-        },
-        {
-            title: "Drugs",
-            id: 2,
-            subCategories: [
-                { id: "1", title: "drug1", href: "#" },
-                { id: "2", title: "drug2", href: "#" },
-                { id: "3", title: "drug3", href: "#" },
-            ],
-        },
-    ];
+    const handleTabChange = (value: string) => {
+        startTransition(() => {
+            setActiveTab(value);
+        });
+    }
+
+    const { data: categories, isLoading, isError, error } = useQuery({
+        queryFn: getCategories,
+        queryKey: ['getCategories']
+    });
+
+    if (isLoading) {
+        return <LoadingState />;
+    }
+
+    if (isError) {
+        return <NotFound mode='drawer' />;
+    }
 
     const Categories = () => (
         <div>
-            {categories.map((cat, i) => (
-                <div key={i} dir={currentLoc === "en" ? "ltr" : "rtl"} >
+            {categories?.map((item:any, i:number) => (
+                <div key={i} dir={dir}>
                     <DropList
-                        id={cat.id}
-                        title={cat.title}
-                        subCategories={cat.subCategories}
+                        id={item?.id}
+                        title={item?.title}
                     />
                 </div>
             ))}
@@ -55,7 +65,7 @@ const MenuDrawer = ({ currentLoc }: Props) => {
 
     const Menu = () => (
         <div>
-            <ul className="p-4" dir={currentLoc === "en" ? "ltr" : "rtl"}>
+            <ul className="p-4" dir={dir}>
                 <li>
                     <Link
                         className="font-medium text-primaryColor hover:text-secColor"
@@ -69,16 +79,22 @@ const MenuDrawer = ({ currentLoc }: Props) => {
     );
 
     return (
-        <Tabs defaultValue="menu" className="w-full">
+        <Tabs defaultValue="menu" className="w-full" value={activeTab} onValueChange={handleTabChange}>
             <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="menu">{t("main")}</TabsTrigger>
-                <TabsTrigger value="categories">{t("categories")}</TabsTrigger>
+                <TabsTrigger value="menu" onMouseDown={() => handleTabChange('menu')}>
+                    {t("main")}
+                    {isPending && activeTab === 'menu' && <LoadingState />}
+                </TabsTrigger>
+                <TabsTrigger value="categories" onMouseDown={() => handleTabChange('categories')}>
+                    {t("categories")}
+                    {isPending && activeTab === 'categories' && <LoadingState />}
+                </TabsTrigger>
             </TabsList>
             <TabsContent value="menu">
-                <Menu />
+                {isPending && activeTab === 'menu' ? <LoadingState /> : <Menu />}
             </TabsContent>
             <TabsContent value="categories">
-                <Categories />
+                {isPending && activeTab === 'categories' ? <LoadingState /> : <Categories />}
             </TabsContent>
         </Tabs>
     );

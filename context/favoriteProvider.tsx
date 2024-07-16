@@ -1,5 +1,5 @@
 'use client'
-import React, { createContext, useState, useEffect, ReactNode } from 'react'
+import React, { createContext, useState, useEffect, ReactNode, useContext } from 'react';
 
 interface ProductItem {
     id: string | number;
@@ -7,23 +7,26 @@ interface ProductItem {
     [key: string]: any;
 }
 
-interface FavContextType {
-    favProducts: ProductItem[];
-    addToFav: (item: Omit<ProductItem, 'quantity'>) => void;
-    deleteFav: (item: Omit<ProductItem, 'quantity'>) => void;
-    getTotalFavs: () => number;
+interface FavoritesContextType {
+    favoriteProducts: ProductItem[];
+    addToFavorites: (item: Omit<ProductItem, 'quantity'>) => void;
+    deleteFavorite: (item: Omit<ProductItem, 'quantity'>) => void;
+    getTotalFavorites: () => number;
 }
-export const FavContext = createContext<FavContextType>({
-    favProducts: [],
-    addToFav: () => { },
-    deleteFav: () => { },
-    getTotalFavs: () => 0,
+
+export const FavoritesContext = createContext<FavoritesContextType>({
+    favoriteProducts: [],
+    addToFavorites: () => { },
+    deleteFavorite: () => { },
+    getTotalFavorites: () => 0,
 });
-interface FavProviderProps {
+
+interface FavoritesProviderProps {
     children: ReactNode;
 }
-export const FavProvider: React.FC<FavProviderProps> = ({ children }) => {
-    const [favProducts, setFavProducts] = useState<ProductItem[]>(() => {
+
+export const FavoritesProvider: React.FC<FavoritesProviderProps> = ({ children }) => {
+    const [favoriteProducts, setFavoriteProducts] = useState<ProductItem[]>(() => {
         if (typeof window !== 'undefined') {
             const savedItems = localStorage.getItem('FavoriteItems');
             return savedItems ? JSON.parse(savedItems) : [];
@@ -31,38 +34,46 @@ export const FavProvider: React.FC<FavProviderProps> = ({ children }) => {
         return [];
     });
 
-    const addToFav = (item: Omit<ProductItem, 'quantity'>) => {
-        setFavProducts(prevFavProducts => {
-            const isItemInFav = prevFavProducts.find((favProduct) => favProduct.id === item.id);
-            if (isItemInFav) {
-                return prevFavProducts.map((favProduct) =>
-                    favProduct.id === item.id
-                        ? { ...favProduct, quantity: favProduct.quantity + 1 }
-                        : favProduct
+    const addToFavorites = (item: Omit<ProductItem, 'quantity'>) => {
+        setFavoriteProducts(prevFavoriteProducts => {
+            const isItemInFavorites = prevFavoriteProducts.find((favoriteProduct) => favoriteProduct.id === item.id);
+            if (isItemInFavorites) {
+                return prevFavoriteProducts.map((favoriteProduct) =>
+                    favoriteProduct.id === item.id
+                        ? { ...favoriteProduct, quantity: favoriteProduct.quantity + 1 }
+                        : favoriteProduct
                 );
             } else {
-                return [...prevFavProducts, { ...item, quantity: 1 } as ProductItem];
+                return [...prevFavoriteProducts, { ...item, quantity: 1 } as ProductItem];
             }
         });
     };
 
-    const deleteFav = (item: Omit<ProductItem, 'quantity'>) => {
-        setFavProducts(prevFavProducts =>
-            prevFavProducts.filter((favProduct) => favProduct.id !== item.id)
+    const deleteFavorite = (item: Omit<ProductItem, 'quantity'>) => {
+        setFavoriteProducts(prevFavoriteProducts =>
+            prevFavoriteProducts.filter((favoriteProduct) => favoriteProduct.id !== item.id)
         );
     };
 
-    const getTotalFavs = () => {
-        return favProducts.length;
+    const getTotalFavorites = () => {
+        return favoriteProducts.length;
     };
 
     useEffect(() => {
-        localStorage.setItem('FavoriteItems', JSON.stringify(favProducts));
-    }, [favProducts]);
+        localStorage.setItem('FavoriteItems', JSON.stringify(favoriteProducts));
+    }, [favoriteProducts]);
 
     return (
-        <FavContext.Provider value={{ favProducts, addToFav, deleteFav, getTotalFavs }}>
+        <FavoritesContext.Provider value={{ favoriteProducts, addToFavorites, deleteFavorite, getTotalFavorites }}>
             {children}
-        </FavContext.Provider>
+        </FavoritesContext.Provider>
     );
+};
+
+export const useFavorites = () => {
+    const context = useContext(FavoritesContext);
+    if (!context) {
+        throw new Error('useFavorites must be used within a FavoritesProvider');
+    }
+    return context;
 };

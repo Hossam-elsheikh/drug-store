@@ -1,11 +1,11 @@
 import AuthForm from '@/components/Form/AuthForm'
 import React from 'react'
 
-function page(currentLoc:any) {
+function page() {
     
     return (
         <div className='px-10'>
-            <AuthForm Type="sign-in" currentLoc={currentLoc} variant='full'/>
+            <AuthForm Type="sign-in"  variant='full'/>
         </div>
     )
 }

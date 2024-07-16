@@ -39,37 +39,59 @@
 		"taxes": "يتم احتساب الضرائب والشحن عند الدفع",
 		"expandCart": "افتح عربة التسوق",
 		"checkout": "اتمام عملية الشراء",
-		"dinar": "دينار كويتي"
+		"dinar": "دينار كويتي",
+		"addMore": "لا يوجد شيء في عربه التسوق أضف البعض"
 	},
 	"Form": {
-		"firstName": "الأسم الأول",
-		"lastName": "الأسم الأخير",
-		"country": "البلد",
-		"street": "الشارع",
-		"postalCode": "الرمز البريدي",
-		"address": "العنوان",
-		"YourAddress": "أضف عنوانك",
-		"city": "المدينة",
-		"addAddress": "أضف العنوان",
-		"dateOfBirth": "تاريخ الميلاد",
-		"email": "البريد الألكتروني",
-		"password": "الرمز السري",
-		"update": "تحديث",
-		"phoneNumber": "رقم الجوال",
-		"male": "ذكر",
-		"female": "أنثي",
-		"gender": "الجنس",
-		"name": "الأسم",
-		"delete": "حذف الحساب",
-		"confirmPassword": "تأكيد كلمة السر",
-        "newPassword":"كلمة المرور الجديدة",
-		"dialogAlertTitle": "هل أنت متأكد تماما؟",
-		"dialogDisc": "لا يمكن التراجع عن هذا الإجراء.\nسيتم حذف حسابك وإزالة بياناتك من خوادمنا بشكل دائم.",
-         "cancel": "إلغاء",
-        "continue": "متابعة",
-        "changePass":"تغير كلمة المرور",
-          "changeInfo":"تغير البيانات"
-	},
+    "firstName": "الأسم الأول",
+    "lastName": "الأسم الأخير",
+    "country": "البلد",
+    "postalCode": "الرمز البريدي",
+    "address": "العنوان",
+    "YourAddress": "أضف عنوانك",
+    "addAddress": "أضف العنوان",
+    "dateOfBirth": "تاريخ الميلاد",
+    "email": "البريد الألكتروني",
+    "emailHolder": "أدخل بريدك الإلكتروني",
+    "signUp": "سجل",
+    "signIn": "تسجيل الدخول",
+    "password": "الرمز السري",
+    "passHolder": "أدخل الرمز السري",
+    "update": "تحديث",
+    "mobileNumber": "رقم الجوال",
+    "placeholderNumber": "أدخل رقم جوالك",
+    "state": "الولاية",
+    "placeholderState": "أدخل ولايتك",
+    "city": "المدينة",
+    "cityHolder": "أدخل مدينتك",
+    "street": "الشارع",
+    "streetHolder": "أدخل الشارع",
+    "male": "ذكر",
+    "female": "أنثي",
+    "gender": "الجنس",
+    "name": "الأسم",
+    "placeholderName": "أدخل الأسم",
+    "delete": "حذف الحساب",
+    "confirmPassword": "تأكيد كلمة السر",
+    "confirmPassHolder": "أعد إدخال الرمز السري",
+    "newPassword": "كلمة المرور الجديدة",
+    "dialogAlertTitle": "هل أنت متأكد تماما؟",
+    "dialogDisc": "لا يمكن التراجع عن هذا الإجراء.\nسيتم حذف حسابك وإزالة بياناتك من خوادمنا بشكل دائم.",
+    "cancel": "إلغاء",
+    "continue": "متابعة",
+    "changePass": "تغير كلمة المرور",
+    "changeInfo": "تغير البيانات",
+    "createAcc": "أنشئ حسابك",
+    "signInAcc": "تسجيل الدخول باستخدام حسابك",
+    "dontHaveAcc": "لا تملك حساباً؟",
+    "haveAnAcc": "هل لديك حساب؟",
+    "expand": "توسيع النافذة",
+    "forgetPass": "هل نسيت كلمة المرور؟",
+"enterDetails": "يرجى إدخال بياناتك"
+
+
+},
+
 	"AddressPage": {
 		"yourAddresses": "جميع العناوين"
 	},
@@ -86,15 +108,16 @@
 	"UserInfoPage": {
 		"userInfo": "بيانات المستخدم",
 		"editInfo": "تعديل بيانات المستخدم",
-        "editPass":"تعديل الرمز السري"
+		"editPass": "تعديل الرمز السري"
 	},
-	"WishList": {
-		"wishList": "قائمة الأمنيات"
+	"Favorites": {
+		"Favorites": "قائمة الرغبات",
+		"addToFavorites": "أضف الي قائمة الرغبات"
 	},
 
 	"AsideMenu": {
 		"profile": "الملف الشخصي",
-		"wishList": "قائمة الرغبات",
+		"Favorites": "قائمة الرغبات",
 		"addresses": "العناوين",
 		"orders": "الطلبات",
 		"payments": "طرق الدفع",
@@ -102,13 +125,23 @@
 		"settings": "الإعدادات",
 		"password": "كلمة المرور",
 
-        
 		"logOut": "تسجيل الخروج"
 	},
 	"CheckOutPage": {
 		"subtotal": "المجموع الفرعي",
 		"taxes": "الضرائب",
 		"shipping": "الشحن",
-        "promoCode":"كوبون الخصم"
+		"promoCode": "كوبون الخصم"
+	},
+	"NotFound": {
+		"backToHome": "العودة الي الصفحة الرئيسية",
+		"somethingWentWrong": "طرأ خطأ ما في خوادمنا"
+	},
+	"DrawerWrapper": {
+		"categories": "أقسام",
+		"signInForm": "تسجيل الدخول",
+		"Favorites": "قائمة المفضلة",
+		"cart": "عربة التسوق",
+		"filter": "فلتر المنتجات"
 	}
 }

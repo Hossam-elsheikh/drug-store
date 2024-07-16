@@ -1,5 +1,5 @@
 'use client'
-import { CirclePower, Heart, Map, PackageCheck , UserCircleIcon } from 'lucide-react';
+import { CirclePower, Heart, Map, PackageCheck, UserCircleIcon } from 'lucide-react';
 import React from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -9,7 +9,7 @@ export default function ASidebar({ path, dir = 'ltr' }: { path: string, dir?: st
 
     const links = [
         { href: `/en/userProfile`, icon: UserCircleIcon, key: 'profile' },
-        { href: `/en/wishlist`, icon: Heart, key: 'wishList' },
+        { href: `/en/Favorites`, icon: Heart, key: 'Favorites' },
         { href: `/en/addresses`, icon: Map, key: 'addresses' },
         { href: `/en/orders`, icon: PackageCheck, key: 'orders' },
         { href: `/en/logout`, icon: CirclePower, key: 'logOut' },

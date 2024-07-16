@@ -42,7 +42,7 @@ export default function UserProfilePassword() {
         confirmNewPassword: "",
     };
 
-    const { auth } = useAuth();
+    const { auth }:any = useAuth();
     const onSubmit = async (values, { setSubmitting, setStatus }) => {
         try {
             await updateUser(auth.userId, { password: values.newPassword });
