@@ -18,6 +18,10 @@ const config = {
 			},
 		},
 		extend: {
+            backdropFilter: {
+                'none': 'none',
+                'blur': 'blur(20px)',
+            },
 			colors: {
 				primaryColor: "#282a3fff",
 				secColor: "#198ab0ff",

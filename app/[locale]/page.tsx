@@ -9,14 +9,15 @@ import VerticalBanner from "@/components/Banners/VerticalBanner";
 import image from '@/public/image.png'
 import image2 from '@/public/image copy.png'
 import image3 from '@/public/image copy 2.png'
-
+import { Suspense } from "react";
+import Loading from "./loading";
 
 // const Home = () => {
 function Home() {
 
     return (
         <>
-
+<Suspense fallback={<Loading/>}>
             <div className="flex flex-col items-center">
                 <Container className="max-w-[1600px] ">
                     <HeroCarousel items={pharmacyCat} />
@@ -31,7 +32,7 @@ function Home() {
                 <Container
                     className="max-w-[1600px] border-b-2 rounded-none  items-center"
                     title="Cosmotics"
-                >
+                    >
                     <ProductsCarousel mode="full" products={products} />
                 </Container>
                 {/* <CartItem /> */}
@@ -41,7 +42,7 @@ function Home() {
                 <Container
                     className="max-w-[1600px] border-b-2 rounded-none  items-center"
                     title="Children Care"
-                >
+                    >
                     <ProductsCarousel mode="full" products={products} />
                 </Container>
                 {/* <CartItem /> */}
@@ -51,7 +52,7 @@ function Home() {
                 <Container
                     className="max-w-[1600px] border-b-2 rounded-none  items-center"
                     title="Psychatric"
-                >
+                    >
                     <ProductsCarousel mode="full" products={products} />
                 </Container>
                 {/* <CartItem /> */}
@@ -63,6 +64,7 @@ function Home() {
                 {/* <WhyUs /> */}
 
             </div>
+                    </Suspense>
         </>
 
     );

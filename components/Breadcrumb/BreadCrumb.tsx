@@ -10,15 +10,17 @@ import {
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLocale } from "@/context/LocaleProvider";
 
 export default function BreadCrumb() {
     const paths: string = usePathname();
+    const {dir}=useLocale()
 
     // Filter out 'En' and 'Ar' from the path segments
     const pathNames: string[] = paths.split('/').filter(path => path && path.toLowerCase() !== 'en' && path.toLowerCase() !== 'ar');
 
     return (
-        <Breadcrumb className="ml-10 p-4">
+        <Breadcrumb dir={dir} className="ml-10 p-4">
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink asChild>

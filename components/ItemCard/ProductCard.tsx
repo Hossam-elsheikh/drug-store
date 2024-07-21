@@ -1,159 +1,175 @@
 "use client";
 import React, { useState } from "react";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart, ShoppingCart, Eye } from "lucide-react";
 import Modal from "./Modal";
 import { AnimatePresence, easeInOut, motion } from "framer-motion";
-import { useRouter } from "next/navigation";
 import { instancePrivate } from "@/axios/instance";
 import useAuth from "@/hooks/useAuth";
+import Image from "next/image";
+import { useLocale } from "@/context/LocaleProvider";
+import { useFavorites } from "@/context/favoriteProvider";
+import Link from "next/link";
 
 const ProductCard = ({ details, mode = "default", index }) => {
-	const router = useRouter();
-	const [quickAccess, setQuickAccess] = useState(false);
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const { auth }:any = useAuth();
+    const { toggleFavorite, isProductFavorite } = useFavorites()
+    const {locale}=useLocale()
+    const [quickAccess, setQuickAccess] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { auth }: any = useAuth();
 
-	const handleMouseEnter = () => {
-		if (!isModalOpen) {
-			setQuickAccess(true);
-		}
-	};
+    const handleMouseEnter = () => {
+        if (!isModalOpen) {
+            setQuickAccess(true);
+        }
+    };
 
-	const handleMouseLeave = () => {
-		if (!isModalOpen) {
-			setQuickAccess(false);
-		}
-	};
+    const handleMouseLeave = () => {
+        if (!isModalOpen) {
+            setQuickAccess(false);
+        }
+    };
 
-	const addToCart = async (product) => {
-		try {
-			const response = await instancePrivate.post("/order", {
-				cart: [
-					{
-						id: product.id,
-						title: product.name.en,
-						quantity: 1,
-						unitPrice: product.price,
-						netPrice: product.price,
-					},
-				],
-				customerId: auth.userId,
-			});
-			console.log(response);
-		} catch (err) {
-			console.error("error while adding to cart", err);
-		}
-	};
-	const variants = {
-		hidden: { opacity: 0 },
-		visible: { opacity: 1 },
-	};
+    const {_id, price,name,brand,image,description ,category:{slug}}=details
 
-	return (
-		<motion.div
-			variants={variants}
-			initial="hidden"
-			animate="visible"
-			transition={{ delay: index * 0.25, ease: easeInOut, duration: 0.5 }}
-			viewport={{ amount: 0 }}
-			className="flex border transition flex-col max-w-52 rounded-lg shadow-sm pb-1"
-		>
-			<div
-				className="bg-slate-100 w-full overflow-hidden cursor-pointer h-56 flex relative justify-center"
-				onMouseEnter={handleMouseEnter}
-				onMouseLeave={handleMouseLeave}
-			>
-				<img
-					src={`http://localhost:4000/uploads/photos/${details.image}`}
-					alt={details.name?.en}
-					className="w-full h-full object-cover rounded-lg"
-				/>
-				<AnimatePresence>
-					{quickAccess && (
-						<QuickAccess setIsModalOpen={setIsModalOpen} />
-					)}
-				</AnimatePresence>
-			</div>
 
-			<div className="flex flex-col p-3 gap-3">
-				<div>
-					<h2 className="font-medium text-md truncate hover:text-secColor">
-						{details.name?.en}
-					</h2>
-					<p className="font-semibold text-start text-secColor">
-						{details.price} <span className="font-light">KWD</span>
-					</p>
-				</div>
-				<div className="flex items-center justify-between">
-					<Heart className="cursor-pointer hover:text-red-500 transition" />
-					{mode === "default" ? (
-						<button
-							onClick={() => addToCart(details)}
-							className="flex bg-primaryColor px-3 py-2 rounded-md text-white text-sm font-medium duration-300 items-center gap-2 hover:bg-secColor transition-all cursor-pointer"
-						>
-							Add to cart
-							<ShoppingCart />
-						</button>
-					) : (
-						<button className="flex bg-primaryColor px-3 py-2 rounded-md text-white items-center gap-2 hover:bg-secColor transition cursor-pointer">
-							Show more
-						</button>
-					)}
-				</div>
-			</div>
-			{isModalOpen && (
-				<Modal
-					details={details}
-					setIsModalOpen={setIsModalOpen}
-					setQuickAccess={setQuickAccess}
-				/>
-			)}
-		</motion.div>
-	);
+    const addToCart = async (product) => {
+        try {
+            const response = await instancePrivate.post("/order", {
+                cart: [
+                    {
+                        id: product.id,
+                        title: product.name.en,
+                        quantity: 1,
+                        unitPrice: product.price,
+                        netPrice: product.price,
+                    },
+                ],
+                customerId: auth.userId,
+            });
+            console.log(response);
+        } catch (err) {
+            console.error("error while adding to cart", err);
+        }
+    };
+
+    const variants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0 },
+    };
+
+    return (
+        <motion.div
+            variants={variants}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: index * 0.1, ease: easeInOut, duration: 0.5 }}
+            viewport={{ amount: 0 }}
+            className="flex flex-col max-w-sm rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300"
+        >
+            <div
+                className="relative w-full h-60 overflow-hidden"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
+                <Image
+                    src={`http://localhost:4000/uploads/photos/${image}`}
+                    alt={name?.en}
+                    layout="fill"
+                    objectFit="cover"
+                    className="transition-transform duration-300 hover:scale-110 "
+                />
+                <AnimatePresence>
+                    {quickAccess && (
+                        <QuickAccess setIsModalOpen={setIsModalOpen} />
+                    )}
+                </AnimatePresence>
+            </div>
+
+            <div className="flex flex-col p-3 gap-3">
+                <Link className='cursor-pointer' href={`/${locale}/${slug}/${_id}`}> 
+                <div>
+                    <h5 className='font-base text-sm'>{brand?.name?.[locale]}</h5>
+                    <h2 className="font-semibold text-lg truncate hover:text-secColor transition-colors duration-200">
+                        {name?.[locale]}
+                    </h2>
+                    <p className="font-semibold text-xl text-secColor mt-1">
+                        {price} <span className="font-normal text-sm">KWD</span>
+                    </p>
+                </div>
+                </Link>
+                <div className="flex items-center justify-around gap-4">
+                    <button className="p-2 rounded-full hover:bg-gray-100 transition-all duration-200 "       onClick={()=>toggleFavorite(details)}>
+                        <Heart  className={`w-6 h-6 transition-all duration-300 delay-400 ${
+      isProductFavorite(_id) 
+        ? 'text-red-500 fill-red-500' 
+        : 'text-gray-600 hover:text-red-500'
+    }`} />
+                    </button>
+                    {mode === "default" ? (
+                        <button
+                            onClick={() => {addToCart(details)}}
+                            className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105"
+                        >
+                            Add to cart
+                            <ShoppingCart className="w-5 h-5" />
+                        </button>
+                    ) : (
+                        <button className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105">
+                            Show more
+                            <Eye className="w-5 h-5" />
+                        </button>
+                    )}
+                </div>
+            </div>
+            {isModalOpen && (
+                <Modal
+                locale={locale}
+                    details={details}
+                    setIsModalOpen={setIsModalOpen}
+                    setQuickAccess={setQuickAccess}
+                />
+            )}
+        </motion.div>
+    );
 };
 
 export default ProductCard;
 
 const QuickAccess = ({ setIsModalOpen }) => (
-	<motion.div
-		initial={{ opacity: 0 }}
-		animate={{
-			opacity: 1,
-			transition: { duration: 0.45 },
-		}}
-		exit={{ opacity: 0 }}
-		className="absolute inset-0 z-20 flex justify-center items-center rounded-lg bg-[#282a3f]/[0.2]"
-	>
-		<motion.div
-			initial={{ y: 10 }}
-			animate={{ y: 0 }}
-			exit={{ y: 10 }}
-			transition={{ duration: 0.35 }}
-			className="flex flex-col gap-3"
-		>
-			<button
-				onClick={() => setIsModalOpen(true)}
-				className="bg-white px-5 py-3 hover:scale-105 duration-300 text-sm rounded-full text-primaryColor hover:bg-secColor hover:text-slate-100 font-medium"
-			>
-				View more
-			</button>
-		</motion.div>
-	</motion.div>
+    <motion.div
+        initial={{ opacity: 0 }}
+        animate={{
+            opacity: 1,
+            transition: { duration: 0.3 },
+        }}
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 z-20 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm"
+    >
+        <motion.div
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 10, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+        >
+            <button
+                onClick={() => setIsModalOpen(true)}
+                className="bg-white px-6 py-3 rounded-full text-primaryColor hover:bg-secColor hover:text-white font-medium transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-secColor focus:ring-opacity-50"
+            >
+                Quick View
+            </button>
+        </motion.div>
+    </motion.div>
 );
 
 export const ProductCardSkeleton = () => (
-    <div className="flex border transition flex-col max-w-72 rounded-lg shadow-sm pb-1 h-full">
-        <div className="bg-slate-100 w-full overflow-hidden cursor-pointer h-56 flex relative justify-center">
-            <div className="w-full h-full rounded-lg bg-gray-300 animate-pulse"></div>
-        </div>
-        <div className="flex flex-col p-3 gap-3">
-            <div>
-                <div className="h-4 w-3/4 mb-2 bg-gray-300 animate-pulse rounded-lg"></div>
-                <div className="h-4 w-1/2 bg-gray-300 animate-pulse rounded-lg"></div>
-            </div>
-            <div className="flex items-center justify-between">
-                <div className="w-6 h-6 rounded-full bg-gray-300 animate-pulse"></div>
-                <div className="h-8 w-24 rounded-md bg-gray-300 animate-pulse"></div>
+    <div className="flex flex-col max-w-sm rounded-xl shadow-lg overflow-hidden bg-white animate-pulse">
+        <div className="w-full h-64 bg-gray-300"></div>
+        <div className="flex flex-col p-4 gap-3">
+            <div className="h-6 bg-gray-300 rounded w-3/4"></div>
+            <div className="h-8 bg-gray-300 rounded w-1/2"></div>
+            <div className="flex items-center justify-between mt-2">
+                <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
+                <div className="w-32 h-10 bg-gray-300 rounded-full"></div>
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import BreadCrumb from '@/components/Breadcrumb/BreadCrumb';
 import DrawerWrapper from '@/components/Drawers/DrawerWrapper';
 import ProductCard, { ProductCardSkeleton } from '@/components/ItemCard/ProductCard';
-import { ProductsContext } from '@/context/ProductsProvider';
+import { useAllProducts } from '@/context/ProductsProvider';
 import { useInView } from 'react-intersection-observer';
 
 import NotFound from '@/app/not-found';
@@ -18,8 +18,10 @@ type Props = {
 
 function ProductsView({ params = {} }: Props) {
     const { ref, inView } = useInView();
-    const { products, isLoading, isError, error, setSearchParams, fetchNextPage, hasNextPage, isFetchingNextPage } = useContext(ProductsContext);
+    const { products, isLoading, isError, error, setSearchParams, fetchNextPage, hasNextPage, isFetchingNextPage } = useAllProducts();
     const { term, id, searchCategory } = params;
+    
+    console.log(products)
 
     let title = 'Products';
     if (term) {
@@ -43,6 +45,7 @@ function ProductsView({ params = {} }: Props) {
             setSearchParams({ page: 1, search: undefined });
         }
     }, [term, id, searchCategory, setSearchParams]);
+    
 
 
 
@@ -75,7 +78,6 @@ function ProductsView({ params = {} }: Props) {
                             <NotFound />
                         )
                     )}
-                    {/* {isError && <NotFound />} */}
                 </section>
                 {isFetchingNextPage && <div>Loading more...</div>}
             </div>

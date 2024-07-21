@@ -42,9 +42,8 @@ const MenuDrawer = () => {
         queryKey: ['getCategories']
     });
 
-    if (isLoading) {
-        return <LoadingState />;
-    }
+
+    console.log(categories)
 
     if (isError) {
         return <NotFound mode='drawer' />;
@@ -52,11 +51,11 @@ const MenuDrawer = () => {
 
     const Categories = () => (
         <div>
-            {categories?.map((item:any, i:number) => (
-                <div key={i} dir={dir}>
+            {categories?.map(({name ,_id:id}) => (
+                <div key={id} dir={dir}>
                     <DropList
-                        id={item?.id}
-                        title={item?.title}
+                        id={id}
+                        name={name}
                     />
                 </div>
             ))}

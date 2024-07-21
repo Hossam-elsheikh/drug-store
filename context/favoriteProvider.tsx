@@ -1,24 +1,27 @@
 'use client'
+
 import React, { createContext, useState, useEffect, ReactNode, useContext } from 'react';
 
 interface ProductItem {
-    id: string | number;
+    _id: string | number;
     quantity: number;
     [key: string]: any;
 }
 
 interface FavoritesContextType {
     favoriteProducts: ProductItem[];
-    addToFavorites: (item: Omit<ProductItem, 'quantity'>) => void;
+    toggleFavorite: (item: Omit<ProductItem, 'quantity'>) => void;
     deleteFavorite: (item: Omit<ProductItem, 'quantity'>) => void;
     getTotalFavorites: () => number;
+    isProductFavorite: (itemId: string | number) => boolean;
 }
 
 export const FavoritesContext = createContext<FavoritesContextType>({
     favoriteProducts: [],
-    addToFavorites: () => { },
+    toggleFavorite: () => { },
     deleteFavorite: () => { },
     getTotalFavorites: () => 0,
+    isProductFavorite: () => false,
 });
 
 interface FavoritesProviderProps {
@@ -34,15 +37,11 @@ export const FavoritesProvider: React.FC<FavoritesProviderProps> = ({ children }
         return [];
     });
 
-    const addToFavorites = (item: Omit<ProductItem, 'quantity'>) => {
+    const toggleFavorite = (item: Omit<ProductItem, 'quantity'>) => {
         setFavoriteProducts(prevFavoriteProducts => {
-            const isItemInFavorites = prevFavoriteProducts.find((favoriteProduct) => favoriteProduct.id === item.id);
+            const isItemInFavorites = prevFavoriteProducts.find((favoriteProduct) => favoriteProduct._id === item._id);
             if (isItemInFavorites) {
-                return prevFavoriteProducts.map((favoriteProduct) =>
-                    favoriteProduct.id === item.id
-                        ? { ...favoriteProduct, quantity: favoriteProduct.quantity + 1 }
-                        : favoriteProduct
-                );
+                return prevFavoriteProducts.filter((favoriteProduct) => favoriteProduct._id !== item._id);
             } else {
                 return [...prevFavoriteProducts, { ...item, quantity: 1 } as ProductItem];
             }
@@ -51,8 +50,12 @@ export const FavoritesProvider: React.FC<FavoritesProviderProps> = ({ children }
 
     const deleteFavorite = (item: Omit<ProductItem, 'quantity'>) => {
         setFavoriteProducts(prevFavoriteProducts =>
-            prevFavoriteProducts.filter((favoriteProduct) => favoriteProduct.id !== item.id)
+            prevFavoriteProducts.filter((favoriteProduct) => favoriteProduct._id !== item._id)
         );
+    };
+
+    const isProductFavorite = (itemId: string | number): boolean => {
+        return favoriteProducts.some(item => item._id === itemId);
     };
 
     const getTotalFavorites = () => {
@@ -64,7 +67,7 @@ export const FavoritesProvider: React.FC<FavoritesProviderProps> = ({ children }
     }, [favoriteProducts]);
 
     return (
-        <FavoritesContext.Provider value={{ favoriteProducts, addToFavorites, deleteFavorite, getTotalFavorites }}>
+        <FavoritesContext.Provider value={{ favoriteProducts, toggleFavorite, deleteFavorite, getTotalFavorites, isProductFavorite }}>
             {children}
         </FavoritesContext.Provider>
     );

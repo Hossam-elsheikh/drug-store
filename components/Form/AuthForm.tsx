@@ -4,10 +4,10 @@ import Link from 'next/link'
 import React, { useState, useMemo } from 'react'
 import { Button } from "@/components/ui/button"
 import CustomInput from './CustomInput';
-import { Expand, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Expand, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { instance } from '@/axios/instance';
-
+import { Toaster, toast } from 'sonner'
 import { Formik, Form } from 'formik';
 import FormButton from '../formButton/FormButton';
 import useAuth from '../../hooks/useAuth';
@@ -47,10 +47,12 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                 // const token = response?.data?.token;
                 // console.log(token);
                 // setAuth({ values, token });
+                toast.success('You Sign Up Successfully')
                 if (response.status === 201) {
                     // setType('sign-in')
                     router.push(`/${locale}/sign-in`);
                 }
+          
             }
             //sign-in logic handling
             if (type === 'sign-in') {
@@ -63,13 +65,17 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                 const { accessToken, id: userId } = response?.data?.accessToken;
                 console.log(accessToken);
                 setAuth({ accessToken, userId });
+                toast.success('You Sign In Successfully')
                 if (response.status === 200) {
                     router.push(`/${locale}`);
+                    window.location.reload(); 
                 }
             }
         } catch (error) {
+            toast.error('Error during form submission:', error)
             console.error('Error during form submission:', error);
         } finally {
+           
             // setIsLoading(false);
             setSubmitting(false);
         }
@@ -80,8 +86,6 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
             className={` ${variant === 'drawer' ? ' mt-5 ' : 'shadow-lg bg-[#F1F5F9] max-w-[500px] mx-auto p-5 my-10 rounded-lg'}`}
         >
             <header className='flex flex-col gap-5 md:gap-8'>
-
-
                 <div className=" text-center">
                     <h1 className={`pt-10 {variant === 'drawer' ? 'text-[16px] font-semibold' : 'text-[20px] font-semibold '} `}>
                         {
@@ -89,13 +93,10 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                 ? f('signInAcc')
                                 : f('createAcc')
                         }
-
                     </h1>
                     <p className={variant === 'drawer' ? "text-[12.5px] font-normal text-gray-600 pb-5" : 'text-[14px] font-normal text-gray-600 pb-5'}>{f('enterDetails')}</p>
                 </div>
             </header>
-
-
             <>
                 <Formik
                     initialValues={initialAuthFormValues}
@@ -110,13 +111,11 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                         <CustomInput name='name' label={f("name")} placeholder={f('placeholderName')} />
                                         <CustomInput name='mobile' label={f("mobileNumber")} placeholder={f('placeholderNumber')} />
                                     </div>
-
                                     <div className="flex gap-4">
                                         <CustomInput name='addresses[0].state' label={f("state")} placeholder={f('placeholderState')} />
                                         <CustomInput name='addresses[0].city' label={f("city")} placeholder={f('cityHolder')} />
-                                        <CustomInput name='addresses[0].street' label={f('Street')} placeholder={f('streetHolder')} />
+                                        <CustomInput name='addresses[0].street' label={f('street')} placeholder={f('streetHolder')} />
                                     </div>
-
                                 </>
                             )}
                             <CustomInput name='email' label={f("email")} placeholder={f('emailHolder')} />
@@ -143,14 +142,16 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                             )}
                             <div className="flex flex-col gap-4 pb-5">
                                 <Button type="submit" disabled={isSubmitting} className="font-semibold bg-[#198AB0] hover:bg-[#282A3F]">
-                                    {type === 'sign-in'
-                                        ? f('signIn') : f('signUp')}
-                                    {isSubmitting && <Loader2 className=' animate-spin' />}
+                                    {isSubmitting ? (<Loader2 className=' animate-spin' />) : (type === 'sign-in'
+                                        ? f('signIn') : f('signUp'))}
+
+
                                 </Button>
                             </div>
                         </Form>
                     )}
                 </Formik>
+                    <Toaster richColors position="top-center" closeButton />
 
                 <footer>
                     <div className='flex justify-center gap-2'>
@@ -172,8 +173,6 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                     }
                 </footer>
             </>
-
-
         </section>
     )
 }

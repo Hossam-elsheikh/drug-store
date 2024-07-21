@@ -9,9 +9,6 @@ import { useLocale } from '@/context/LocaleProvider'
 function LanguageSwitcher({ classes }: { classes: string }) {
     const { locale: currentLoc, switchLanguage, dir } = useLocale();
 
-    console.log(dir)
-    console.log(currentLoc)
-
     return (
         <div className={classes}>
             <DropdownMenu>

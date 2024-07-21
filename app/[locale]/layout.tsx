@@ -11,6 +11,9 @@ import AuthPersistProvider from "@/providers/AuthPersistProvider";
 import { UserProvider } from "@/context/UserProvider";
 import { ProductsProvider } from "@/context/ProductsProvider";
 import { LocaleProvider } from "@/context/LocaleProvider";
+import { Suspense } from "react";
+import Loading from "./loading";
+import { FavoritesProvider } from "@/context/favoriteProvider";
 
 const inter = Inter({
 	subsets: ["latin"],
@@ -43,17 +46,22 @@ export default async function RootLayout({
 						<AuthProvider>
 							<AuthPersistProvider>
 								<ReactQueryProvider>
+
 									<ProductsProvider>
+								<FavoritesProvider>
 										<UserProvider>
 											<div id="modal-root"></div>
 											<div className="flex h-[100dvh] flex-col justify-between ">
 												<div>
 													<NavBar />
+                                                    {/* <Suspense fallback={<Loading/>}> */}
 													{children}
+                                                    {/* </Suspense> */}
 												</div>
 												<Footer />
 											</div>
 										</UserProvider>
+								</FavoritesProvider>
 									</ProductsProvider>
 								</ReactQueryProvider>
 							</AuthPersistProvider>

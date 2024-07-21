@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, ReactNode, useState, useCallback } from "react";
+import React, { createContext, ReactNode, useState, useCallback, useContext } from "react";
 import { useInfiniteQuery, InfiniteData, QueryFunction, QueryFunctionContext } from "@tanstack/react-query";
 import { getProducts } from "@/axios/instance";
 
@@ -94,4 +94,12 @@ export const ProductsProvider = ({ children }: { children: ReactNode }) => {
             {children}
         </ProductsContext.Provider>
     );
+};
+
+export const useAllProducts = () => {
+    const context = useContext(ProductsContext);
+    if (!context) {
+        throw new Error('UserContext must be used within a UserProvider');
+    }
+    return context;
 };

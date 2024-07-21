@@ -3,7 +3,7 @@ import Counter from "@/components/ItemCard/Counter";
 import Image from "next/image";
 import { Heart, Trash2 } from "lucide-react";
 import { useFavorites } from "@/context/favoriteProvider";
-
+import { useLocale } from "@/context/LocaleProvider";
 type Props = {
     details: {
         title: string;
@@ -15,27 +15,29 @@ type Props = {
 };
 
 export default function CartDrawerItem({ details, mode = "cart" }: Props) {
-    const { addToFavorites, deleteFavorite } = useFavorites()
+    const { toggleFavorite, deleteFavorite } = useFavorites()
+    const {locale}=useLocale()
 
+    const {_id, price,name,brand,image,description}=details
     return (
         <div className="flex justify-between gap-2 border-b py-4 h-30 shadow my-1 items-center rounded-lg p-2">
             <div className="w-1/3">
                 <Image
-                    src={details.image}
+                    src={`http://localhost:4000/uploads/photos/${image}`}
                     width={100}
                     height={100}
                     objectFit="cover"
-                    alt={details.title}
+                    alt={name?.[locale]}
                 />
             </div>
             <div className="px-2">
-                <h3 className="text-sm max-w-22">{details.title}</h3>
-                <p>{details.price} KWD</p>
+                <h3 className="text-sm max-w-22">{name?.[locale]}</h3>
+                <p>{price} KWD</p>
                 <div className="flex items-center justify-between mt-2">
                     {mode === "cart" ? (
                         <Counter />
                     ) : (
-                        <button className="p-2 rounded-full bg-pink-100 hover:bg-pink-200 transition-all active:scale-[.90] duration-300" onMouseDown={() => addToFavorites(details)}>
+                        <button className="p-2 rounded-full bg-pink-100 hover:bg-pink-200 transition-all active:scale-[.90] duration-300" onMouseDown={() => toggleFavorite(details)}>
                             <Heart className="text-pink-500 w-5 h-5" />
                         </button>
                     )}

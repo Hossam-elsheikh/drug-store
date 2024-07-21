@@ -86,7 +86,8 @@
         "haveAnAcc":"Already have an account?",
         "expand":"Expand Window",
         "forgetPass":"Forget Your Password ?",
-        "enterDetails":"Please Enter Your Details"
+        "enterDetails":"Please Enter Your Details",
+				"joinDate":"Join Date"
 
 	},
 	"AddressPage": {
