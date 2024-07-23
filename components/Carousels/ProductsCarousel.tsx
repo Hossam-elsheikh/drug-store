@@ -113,7 +113,7 @@ export default function ProductsCarousel({ mode }: ProductsProp) {
                 ))
                 : products?.map((prod: Product, id: number) => (
                     <SwiperSlide key={id}>
-                        <ProductCard details={prod} index={id} />
+                        <ProductCard  details={prod} index={id} />
                     </SwiperSlide>
                 ))}
         </Swiper>
