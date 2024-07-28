@@ -17,16 +17,16 @@ const CategoriesBar = () => {
                     <Link className="font-medium " href={`/${locale}`}>
                         {t("home")}
                     </Link>
-                    <Link className="font-medium " href="/en/category/allProducts">
+                    <Link className="font-medium " href={`/${locale}/category/allProducts`}>
                         {t("allProducts")}
                     </Link>
-                    <Link className="font-medium " href="/en/category/ourCollections">
+                    <Link className="font-medium " href={`/${locale}/category/ourCollections`}>
                         {t("ourCollections")}
                     </Link>
-                    <Link className="font-medium " href="/en/category/shopByBrand">
+                    <Link className="font-medium " href={`/${locale}/category/shopByBrand`}>
                         {t("shopByBrand")}
                     </Link>
-                    <Link className="font-medium " href="/en/category/Offers">
+                    <Link className="font-medium " href={`/${locale}/category/Offers`}>
                         {t("Offers")}
                     </Link>
                 </ul>

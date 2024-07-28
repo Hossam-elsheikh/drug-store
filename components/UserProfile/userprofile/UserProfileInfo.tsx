@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import { Skeleton } from "@/components/ui/skeleton";
 import { DeleteAccount } from "./DeleteAccount";
 import NotFound from "@/app/not-found";
-import { User, Mail, Phone, Calendar, Trash2 } from 'lucide-react'; // Import icons
+import { User, Mail, Phone, Calendar, Trash2 } from 'lucide-react'; 
 
 function UserProfileInfo({ userInfo, isLoading, isError, error }) {
     const f = useTranslations("Form");
@@ -15,7 +15,7 @@ function UserProfileInfo({ userInfo, isLoading, isError, error }) {
 
     return (
         <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-            {/* Header with avatar */}
+          
             <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-6 text-white">
                 <div className="flex items-center gap-4">
                     <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center">
@@ -28,7 +28,7 @@ function UserProfileInfo({ userInfo, isLoading, isError, error }) {
                 </div>
             </div>
 
-            {/* Table */}
+       
             <Table className="w-full">
                 <TableBody>
                     {isLoading ? (
@@ -73,7 +73,7 @@ function UserProfileInfo({ userInfo, isLoading, isError, error }) {
                 </TableBody>
             </Table>
 
-            {/* Delete Account Section */}
+         
             <div className="p-4 border-t">
                 <h3 className="text-lg font-semibold mb-2 flex items-center space-x-2 text-red-600">
                     <Trash2 size={18} /> <span>{f("delete")}</span>

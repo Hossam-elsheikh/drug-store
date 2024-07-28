@@ -10,15 +10,17 @@ import { useQuery } from '@tanstack/react-query';
 import { getSubCategories } from '@/axios/instance';
 import NotFound from '@/app/not-found';
 import { useLocale } from "@/context/LocaleProvider";
-import { ChevronDown, ChevronRight } from 'lucide-react'; // Import icons
+
+
 
 const DropList = ({ id, name }: { id: string, name: string }) => {
-    const { locale }:string = useLocale();
+    const { locale }:any = useLocale();
 
     const { data: subCategories, isLoading, isError } = useQuery({
         queryFn: () => getSubCategories(id),
         queryKey: ['getSubCategories', id]
     });
+    console.log(subCategories)
 
     if (isError) {
         return <NotFound mode={'drawer'} />;
@@ -36,11 +38,11 @@ const DropList = ({ id, name }: { id: string, name: string }) => {
                     <ul className='flex flex-col gap-2'>
                         {isLoading ? (
                             <SkeletonAccordion />
-                        ) : (subCategories?.map(({ name, _id: id }, i) => (
+                        ) : (subCategories?.map(({ name , _id: id }, i) => (
                             <li key={i} className="transition-colors duration-200 hover:bg-gray-100 rounded">
                                 <Link
                                     className='font-medium text-base text-primaryColor hover:text-secColor flex items-center p-2'
-                                    href={id || "#"}
+                                    href={`/${locale}/category/${name.en}/id` }
                                 >
                                     {name?.[locale]}
                                 </Link>

@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 enum ApiEndPoints {
@@ -7,7 +6,7 @@ enum ApiEndPoints {
 	USER = "/user",
 	ORDERS = "/order",
 	CATEGORIES = "/category",
-	SUB_CATEGORIES = "subCategory",
+	SUB_CATEGORIES = "/subCategory",
 	BRANDS = "/brand",
 }
 
@@ -36,21 +35,20 @@ interface ProductSearchParams {
 
 // ---------------------------------------------------Products----------------------------------------------
 
-
 export const getProducts = async ({
-    page = 1,
-    search,
+	page = 1,
+	search,
 }: ProductSearchParams = {}): Promise<any> => {
-    try {
-        const endpoint = search
-            ? ApiEndPoints.PRODUCT_SEARCH
-            : ApiEndPoints.PRODUCT;
-        const params = { page, ...(search && { search }) };
-        const response = await instance.get(endpoint, { params });
-        return response.data;
-    } catch (error) {
-        handleApiError(error, "getProducts");
-    }
+	try {
+		const endpoint = search
+			? ApiEndPoints.PRODUCT_SEARCH
+			: ApiEndPoints.PRODUCT;
+		const params = { page, ...(search && { search }) };
+		const response = await instance.get(endpoint, { params });
+		return response.data;
+	} catch (error) {
+		handleApiError(error, "getProducts");
+	}
 };
 
 export const getOneProduct = async (productId: string): Promise<any> => {
@@ -61,6 +59,19 @@ export const getOneProduct = async (productId: string): Promise<any> => {
 		return response.data;
 	} catch (error) {
 		handleApiError(error, "getOneProduct");
+	}
+};
+// ---------------------------------------------------Search Products----------------------------------------------
+
+export const SearchProducts = async (SearchValue: string): Promise<any> => {
+	try {
+		const response = await instance.get(
+			`${ApiEndPoints.PRODUCT}?name=${SearchValue}`
+			
+		);
+		return response.data;
+	} catch (error) {
+		handleApiError(error, "Search Products");
 	}
 };
 
@@ -176,3 +187,5 @@ export const getOneBrand = async (brandId: string): Promise<any> => {
 		handleApiError(error, "getOneBrand");
 	}
 };
+
+// ----------------------------

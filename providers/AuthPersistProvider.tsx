@@ -21,7 +21,7 @@ const AuthPersistProvider = ({children}:{children:ReactNode}) => {
                     await refresh()
                 } catch (error) {
                     console.error(error);
-                    router.push('/en/sign-in');
+                    // router.push('/en/sign-in');
 
                 } finally {
                     setIsLoading(false)
