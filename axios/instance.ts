@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 enum ApiEndPoints {
@@ -7,7 +6,7 @@ enum ApiEndPoints {
 	USER = "/user",
 	ORDERS = "/order",
 	CATEGORIES = "/category",
-	SUB_CATEGORIES = "subCategory",
+	SUB_CATEGORIES = "/subCategory",
 	BRANDS = "/brand",
 	MEDIA = "/media"
 }
@@ -61,6 +60,19 @@ export const getOneProduct = async (productId: string): Promise<any> => {
 		return response.data;
 	} catch (error) {
 		handleApiError(error, "getOneProduct");
+	}
+};
+// ---------------------------------------------------Search Products----------------------------------------------
+
+export const SearchProducts = async (SearchValue: string): Promise<any> => {
+	try {
+		const response = await instance.get(
+			`${ApiEndPoints.PRODUCT}?name=${SearchValue}`
+			
+		);
+		return response.data;
+	} catch (error) {
+		handleApiError(error, "Search Products");
 	}
 };
 

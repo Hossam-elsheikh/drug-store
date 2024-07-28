@@ -15,32 +15,17 @@ import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
+
 import useAuth from "@/hooks/useAuth";
 import { updateUser } from "@/axios/instance";
+import { ModalPasswordInitialValues } from "@/lib/schema";
+import { ModalPasswordValidationSchema } from './../../../lib/schema';
 
 export default function UserProfilePassword() {
     const router = useRouter();
     const f = useTranslations("Form");
     const t = useTranslations("UserInfoPage");
 
-    const validationSchema = Yup.object().shape({
-        newPassword: Yup.string()
-            .min(8, "Password must be at least 8 characters long")
-            .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-            .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-            .matches(/[0-9]/, 'Password must contain at least one number')
-            .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Password must contain at least one special character')
-            .required("New password is required"),
-        confirmNewPassword: Yup.string()
-            .oneOf([Yup.ref('newPassword')], 'Passwords must match')
-            .required("Please confirm your new password")
-    });
-
-    const initialValues = {
-        newPassword: "",
-        confirmNewPassword: "",
-    };
 
     const { auth }:any = useAuth();
     const onSubmit = async (values, { setSubmitting, setStatus }) => {
@@ -57,61 +42,67 @@ export default function UserProfilePassword() {
     };
 
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant="outline">{t("editPass")}</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                    <DialogTitle>{t("editPass")}</DialogTitle>
-                    <DialogDescription>{f("changePass")}</DialogDescription>
-                </DialogHeader>
-                <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={onSubmit}
-                >
-                    {({ isSubmitting, status }) => (
-                        <Form className="space-y-5">
-                            <CustomInput
-                                name="newPassword"
-                                label={f("newPassword")}
-                                placeholder="Enter new password"
-                                type="password"
-                            />
-                            <CustomInput
-                                name="confirmNewPassword"
-                                label={f("confirmPassword")}
-                                placeholder="Re-enter new password"
-                                type="password"
-                            />
-                            {status && <div className="text-sm text-blue-500">{status}</div>}
-                            <DialogFooter className='w-full'>
-                                <div className='flex gap-3'>
-                                    <button
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                        className="w-full bg-green-200 hover:bg-green-400 hover:text-white duration-300 p-2 rounded-lg"
-                                    >
-                                        {isSubmitting ? (
-                                            <>
-                                                <Loader2
-                                                    size={20}
-                                                    className="animate-spin"
-                                                />{" "}
-                                                &nbsp; Updating...
-                                            </>
-                                        ) : (
-                                            f("update")
-                                        )}
-                                    </button>
-                                    <DialogClose className="w-full bg-gray-200 hover:bg-gray-400 duration-300 p-2 rounded-lg inline">Close</DialogClose>
-                                </div>
-                            </DialogFooter>
-                        </Form>
-                    )}
-                </Formik>
-            </DialogContent>
-        </Dialog>
-    );
+		<Dialog>
+			<DialogTrigger asChild>
+				<Button variant="outline">{t("editPass")}</Button>
+			</DialogTrigger>
+			<DialogContent className="sm:max-w-[425px]">
+				<DialogHeader>
+					<DialogTitle>{t("editPass")}</DialogTitle>
+					<DialogDescription>{f("changePass")}</DialogDescription>
+				</DialogHeader>
+				<Formik
+					initialValues={ModalPasswordInitialValues}
+					validationSchema={ModalPasswordValidationSchema}
+					onSubmit={onSubmit}
+				>
+					{({ isSubmitting, status }) => (
+						<Form className="space-y-5">
+							<CustomInput
+								name="newPassword"
+								label={f("newPassword")}
+								placeholder="Enter new password"
+								type="password"
+							/>
+							<CustomInput
+								name="confirmNewPassword"
+								label={f("confirmPassword")}
+								placeholder="Re-enter new password"
+								type="password"
+							/>
+							{status && (
+								<div className="text-sm text-blue-500">
+									{status}
+								</div>
+							)}
+							<DialogFooter className="w-full">
+								<div className="flex gap-3">
+									<button
+										type="submit"
+										disabled={isSubmitting}
+										className="ModalUpdateButton"
+									>
+										{isSubmitting ? (
+											<>
+												<Loader2
+													size={20}
+													className="animate-spin"
+												/>{" "}
+												&nbsp; Updating...
+											</>
+										) : (
+											f("update")
+										)}
+									</button>
+									<DialogClose className="ModalCloseButton">
+										Close
+									</DialogClose>
+								</div>
+							</DialogFooter>
+						</Form>
+					)}
+				</Formik>
+			</DialogContent>
+		</Dialog>
+	);
 }

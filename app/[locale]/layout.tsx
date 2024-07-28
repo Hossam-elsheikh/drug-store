@@ -46,22 +46,21 @@ export default async function RootLayout({
 						<AuthProvider>
 							<AuthPersistProvider>
 								<ReactQueryProvider>
-
 									<ProductsProvider>
-								<FavoritesProvider>
-										<UserProvider>
-											<div id="modal-root"></div>
-											<div className="flex h-[100dvh] flex-col justify-between ">
-												<div>
-													<NavBar />
-                                                    {/* <Suspense fallback={<Loading/>}> */}
-													{children}
-                                                    {/* </Suspense> */}
+										<FavoritesProvider>
+											<UserProvider>
+												<div id="modal-root"></div>
+												<div className="flex h-[100dvh] flex-col justify-between ">
+													<div>
+														<NavBar />
+														{/* <Suspense fallback={<Loading/>}> */}
+														{children}
+														{/* </Suspense> */}
+													</div>
+													<Footer />
 												</div>
-												<Footer />
-											</div>
-										</UserProvider>
-								</FavoritesProvider>
+											</UserProvider>
+										</FavoritesProvider>
 									</ProductsProvider>
 								</ReactQueryProvider>
 							</AuthPersistProvider>

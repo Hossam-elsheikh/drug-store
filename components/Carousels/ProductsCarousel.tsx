@@ -14,7 +14,6 @@ import NotFound from "@/app/not-found";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/axios/instance";
 
-
 type ProductsProp = {
     mode: string;
     catId: string
@@ -31,7 +30,7 @@ export default function ProductsCarousel({ mode,catId }: ProductsProp) {
         return <h2 className={classes.error}>No products context available</h2>;
     }
 
-    const { products, isLoading, isError, error } = context;
+	const { products, isLoading, isError, error } = context;
 
     const breakpoints =  mode === "full"
             ? {
@@ -96,9 +95,9 @@ export default function ProductsCarousel({ mode,catId }: ProductsProp) {
             };
    
 
-    if (isError) {
-        <NotFound />
-    }
+	if (isError) {
+		<NotFound />;
+	}
 
     return (
         <Swiper
@@ -124,4 +123,3 @@ export default function ProductsCarousel({ mode,catId }: ProductsProp) {
         </Swiper>
     );
 }
-

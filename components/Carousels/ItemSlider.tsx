@@ -5,7 +5,7 @@ import Link from "next/link";
 import React from "react";
 import categoryPlaceholder from '@/lib/placeholders/category-placeholder.png'
 type PharmacyCategory = {
-    item: PharmacyItems;
+	item: PharmacyItems;
 };
 
 type PharmacyItems = {

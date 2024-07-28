@@ -77,7 +77,7 @@ function DrawerWrapper({ showSec }: Props) {
                 </SheetTrigger>
                 <SheetContent
                     className="w-[300px] p-2"
-                    side={dir === "rtl" ? "right" : "left"}
+                    // side={dir === "rtl" ? "right" : "left"}
                 >
                     <SheetHeader className="items-center p-5">
                         <SheetHeader className="items-center p-5">
