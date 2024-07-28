@@ -9,7 +9,7 @@ import Image from "next/image";
 import { useLocale } from "@/context/LocaleProvider";
 import { useFavorites } from "@/context/favoriteProvider";
 import Link from "next/link";
-
+import productPlaceholder from '@/lib/placeholders/product-placeholder.png'
 const ProductCard = ({ details, mode = "default", index }) => {
     const { toggleFavorite, isProductFavorite } = useFavorites()
     const {locale}=useLocale()
@@ -64,7 +64,7 @@ const ProductCard = ({ details, mode = "default", index }) => {
             animate="visible"
             transition={{ delay: index * 0.1, ease: easeInOut, duration: 0.5 }}
             viewport={{ amount: 0 }}
-            className="flex flex-col max-w-sm rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300"
+            className="flex flex-col w-[220px] h-[350px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300"
         >
             <div
                 className="relative w-full h-60 overflow-hidden"
@@ -72,7 +72,7 @@ const ProductCard = ({ details, mode = "default", index }) => {
                 onMouseLeave={handleMouseLeave}
             >
                 <Image
-                    src={`http://localhost:4000/uploads/photos/${image}`}
+                    src={`http://localhost:4000/uploads/photos/${image}` || productPlaceholder}
                     alt={name?.en}
                     layout="fill"
                     objectFit="cover"

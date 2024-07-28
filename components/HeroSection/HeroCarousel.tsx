@@ -5,65 +5,59 @@ import Image from "next/image";
 import { NextButton, PrevButton, usePrevNextButtons } from "./ArrowButtons";
 
 Autoplay.globalOptions = {
-    delay: 7000,
-    stopOnInteraction: false,
-    stopOnMouseEnter: true,
+  delay: 7000,
+  stopOnInteraction: false,
+  stopOnMouseEnter: true,
 };
 
 type PharmacyCategory = {
-    name: string;
-    image: string;
+  _id: string;
+  title: string;
+  image: string;
 };
 
 type ProductCarouselProps = {
-    items: PharmacyCategory[];
+  items: PharmacyCategory[];
 };
 
 export default function HeroCarousel({ items }: ProductCarouselProps) {
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()]);
 
-    const {
-        prevBtnDisabled,
-        nextBtnDisabled,
-        onPrevButtonClick,
-        onNextButtonClick,
-    } = usePrevNextButtons(emblaApi);
+  const {
+    prevBtnDisabled,
+    nextBtnDisabled,
+    onPrevButtonClick,
+    onNextButtonClick,
+  } = usePrevNextButtons(emblaApi);
 
-    return (
-        <>
+  return (
+    <>
+      <div
+        className="overflow-hidden relative  rounded-2xl mt-4 m-auto cursor-pointer"
+        ref={emblaRef}
+      >
+        <div className="flex  h-[500px] relative">
+          {items?.map((item) => (
             <div
-                className="overflow-hidden relative  rounded-2xl mt-4 m-auto cursor-pointer"
-                ref={emblaRef}
+              key={item._id}
+              className="relative  flex-[0_0_100%] w-full h-full"
             >
-                <div className="flex  h-[500px] relative">
-                    {items?.map((item, i) => (
-                        <div
-                            key={i}
-                            className="relative  flex-[0_0_100%] w-full h-full"
-                        >
-                            <Image
-                                quality={80}
-                                src={item.image}
-                                alt={item.name}
-                                fill
-                                objectFit="cover"
-                                className="cursor-pointer object-cover duration-[2s] transition-all"
-                              
-                            />
-                        </div>
-                    ))}
-                </div>
-                <div className=" inset-0 flex items-center justify-between px-4 z-10 ">
-                    <PrevButton
-                        onClick={onPrevButtonClick}
-                        disabled={prevBtnDisabled}
-                    />
-                    <NextButton
-                        onClick={onNextButtonClick}
-                        disabled={nextBtnDisabled}
-                    />
-                </div>
+              <Image
+                quality={80}
+                src={`http://localhost:4000/uploads/photos/${item.image}`}
+                alt={item.title}
+                fill
+                objectFit="cover"
+                className="cursor-pointer object-cover duration-[2s] transition-all"
+              />
             </div>
-        </>
-    );
+          ))}
+        </div>
+        <div className=" inset-0 flex items-center justify-between px-4 z-10 ">
+          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+          <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
+        </div>
+      </div>
+    </>
+  );
 }

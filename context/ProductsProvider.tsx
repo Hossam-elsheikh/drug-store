@@ -5,8 +5,11 @@ import { useInfiniteQuery, InfiniteData, QueryFunction, QueryFunctionContext } f
 import { getProducts } from "@/axios/instance";
 
 export type Product = {
-    id: string;
-    name: string;
+    _id: string;
+    name: {
+        en:string,
+        ar:string
+    };
     price: number;
     image: string;
 };

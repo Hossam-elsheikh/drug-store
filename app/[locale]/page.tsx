@@ -6,69 +6,64 @@ import HeroCarousel from "@/components/HeroSection/HeroCarousel";
 import BannerGrid1 from "@/components/Banners/BannerGrid1";
 import ProductsCarousel from "@/components/Carousels/ProductsCarousel";
 import VerticalBanner from "@/components/Banners/VerticalBanner";
-import image from '@/public/image.png'
-import image2 from '@/public/image copy.png'
-import image3 from '@/public/image copy 2.png'
-import { Suspense } from "react";
+import image from "@/public/image.png";
+import image2 from "@/public/image copy.png";
+import image3 from "@/public/image copy 2.png";
+import { Suspense, useEffect } from "react";
 import Loading from "./loading";
+import { useQuery } from "@tanstack/react-query";
+import { getCategories, getMedia } from "@/axios/instance";
+import { useLocale } from "@/context/LocaleProvider";
 
 // const Home = () => {
 function Home() {
+  const { locale } = useLocale();
 
-    return (
-        <>
-<Suspense fallback={<Loading/>}>
-            <div className="flex flex-col items-center">
-                <Container className="max-w-[1600px] ">
-                    <HeroCarousel items={pharmacyCat} />
-                </Container>
+  const categoryQuery = useQuery({
+    queryKey: ["cats"],
+    queryFn: getCategories,
+  });
+const mediaQuery = useQuery({
+  queryKey:["media"],
+  queryFn: getMedia
+})
+  return (
+    <>
+      <Suspense fallback={<Loading />}>
+        <div className="flex flex-col items-center">
+          <Container className="max-w-[1600px] ">
+            <HeroCarousel items={mediaQuery?.data?.filter((m)=>m.position==='Main Carousel')} />
+          </Container>
 
-                <Container className="max-w-[1600px] ">
-                    <CatCarousel items={pharmacyCategories} />
-                </Container>
-                <Container className="max-w-[1600px]  items-center">
-                    <BannerGrid1 />
-                </Container>
+          <Container className="max-w-[1600px] ">
+            <CatCarousel items={categoryQuery?.data} />
+          </Container>
+          <Container className="max-w-[1600px]  items-center">
+            <BannerGrid1 />
+          </Container>
+          {categoryQuery?.data?.slice(0,3).map((c) => {
+            return (
+              <>
                 <Container
-                    className="max-w-[1600px] border-b-2 rounded-none  items-center"
-                    title="Cosmotics"
-                    >
-                    <ProductsCarousel mode="full" products={products} />
+                  key={c._id}
+                  className="max-w-[1600px] border-b-2 rounded-none  items-center"
+                  title={c.name[locale]}
+                >
+                  <ProductsCarousel mode="full" catId={c._id} />
                 </Container>
-                {/* <CartItem /> */}
                 <Container className="max-w-[1600px] border-b-2 rounded-none  items-center">
-                    <VerticalBanner image={image3} />
+                  <VerticalBanner image={image} />
                 </Container>
-                <Container
-                    className="max-w-[1600px] border-b-2 rounded-none  items-center"
-                    title="Children Care"
-                    >
-                    <ProductsCarousel mode="full" products={products} />
-                </Container>
-                {/* <CartItem /> */}
-                <Container className="max-w-[1600px] border-b-2 rounded-none  items-center">
-                    <VerticalBanner image={image2} />
-                </Container>
-                <Container
-                    className="max-w-[1600px] border-b-2 rounded-none  items-center"
-                    title="Psychatric"
-                    >
-                    <ProductsCarousel mode="full" products={products} />
-                </Container>
-                {/* <CartItem /> */}
-                <Container className="max-w-[1600px] border-b-2 rounded-none  items-center">
-                    <VerticalBanner image={image} />
-                </Container>
+              </>
+            );
+          })}
 
-
-                {/* <WhyUs /> */}
-
-            </div>
-                    </Suspense>
-        </>
-
-    );
+          {/* <WhyUs /> */}
+        </div>
+      </Suspense>
+    </>
+  );
 }
 
 // export default PersistLogin(Home)
-export default Home
+export default Home;

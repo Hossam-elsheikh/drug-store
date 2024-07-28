@@ -9,6 +9,7 @@ enum ApiEndPoints {
 	CATEGORIES = "/category",
 	SUB_CATEGORIES = "subCategory",
 	BRANDS = "/brand",
+	MEDIA = "/media"
 }
 
 const API_URL = process.env.API_URL || "http://localhost:4000";
@@ -37,16 +38,15 @@ interface ProductSearchParams {
 // ---------------------------------------------------Products----------------------------------------------
 
 
-export const getProducts = async ({
-    page = 1,
-    search,
-}: ProductSearchParams = {}): Promise<any> => {
+export const getProducts = async (filters): Promise<any> => {
     try {
-        const endpoint = search
-            ? ApiEndPoints.PRODUCT_SEARCH
-            : ApiEndPoints.PRODUCT;
-        const params = { page, ...(search && { search }) };
-        const response = await instance.get(endpoint, { params });
+        // const endpoint = search
+        //     ? ApiEndPoints.PRODUCT_SEARCH
+        //     : ApiEndPoints.PRODUCT;
+        // const params = { page, ...(search && { search }) };
+        const response = await instance.get(ApiEndPoints.PRODUCT, { params:filters });
+		console.log(response.data);
+		
         return response.data;
     } catch (error) {
         handleApiError(error, "getProducts");
@@ -115,6 +115,8 @@ export const getUserOrders = async (userId: string): Promise<any> => {
 export const getCategories = async (): Promise<any> => {
 	try {
 		const response = await instance.get(ApiEndPoints.CATEGORIES);
+		console.log(response.data);
+		
 		return response.data;
 	} catch (error) {
 		handleApiError(error, "getCategories");
@@ -176,3 +178,14 @@ export const getOneBrand = async (brandId: string): Promise<any> => {
 		handleApiError(error, "getOneBrand");
 	}
 };
+export const getMedia = async (): Promise<any> => {
+	try {
+		const response = await instance.get(`${ApiEndPoints.MEDIA}`);
+		console.log(response.data);
+		
+		return response.data;
+	} catch (error) {
+		handleApiError(error, "getMedia");
+	}
+};
+

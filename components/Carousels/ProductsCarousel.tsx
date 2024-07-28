@@ -11,23 +11,29 @@ import ProductCard, { ProductCardSkeleton } from "../ItemCard/ProductCard";
 import classes from "./product-carousel.module.css";
 import { Product, ProductsContext } from "@/context/ProductsProvider";
 import NotFound from "@/app/not-found";
+import { useQuery } from "@tanstack/react-query";
+import { getProducts } from "@/axios/instance";
 
 
 type ProductsProp = {
     mode: string;
+    catId: string
 };
 
-export default function ProductsCarousel({ mode }: ProductsProp) {
+export default function ProductsCarousel({ mode,catId }: ProductsProp) {
     const context = useContext(ProductsContext);
+    const productsQuery = useQuery({
+        queryKey:[catId],
+        queryFn: ()=> getProducts({category:catId})
 
+    })
     if (!context) {
         return <h2 className={classes.error}>No products context available</h2>;
     }
 
     const { products, isLoading, isError, error } = context;
 
-    const breakpoints = useMemo(() => {
-        return mode === "full"
+    const breakpoints =  mode === "full"
             ? {
                 0: {
                     slidesPerView: 2,
@@ -54,7 +60,7 @@ export default function ProductsCarousel({ mode }: ProductsProp) {
                     spaceBetween: 2,
                 },
                 1800: {
-                    slidesPerView: 7,
+                    slidesPerView: 6,
                     spaceBetween: 2,
                 },
             }
@@ -88,7 +94,7 @@ export default function ProductsCarousel({ mode }: ProductsProp) {
                     spaceBetween: 2,
                 },
             };
-    }, [mode]);
+   
 
     if (isError) {
         <NotFound />
@@ -96,7 +102,6 @@ export default function ProductsCarousel({ mode }: ProductsProp) {
 
     return (
         <Swiper
-            slidesPerView={5}
             navigation
             loop={true}
             centerInsufficientSlides
@@ -105,15 +110,15 @@ export default function ProductsCarousel({ mode }: ProductsProp) {
             modules={[Autoplay, Pagination, Navigation, A11y]}
             breakpoints={breakpoints}
         >
-            {isLoading
+            {productsQuery?.isLoading
                 ? [1, 2, 3, 4, 5, 6, 7].map((i) => (
                     <SwiperSlide key={i}>
                         <ProductCardSkeleton />
                     </SwiperSlide>
                 ))
-                : products?.map((prod: Product, id: number) => (
-                    <SwiperSlide key={id}>
-                        <ProductCard  details={prod} index={id} />
+                : productsQuery?.data?.products?.map((prod: Product) => (
+                    <SwiperSlide key={prod._id}>
+                        <ProductCard  details={prod} index={prod._id} />
                     </SwiperSlide>
                 ))}
         </Swiper>
