@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import categoryPlaceholder from '@/lib/placeholders/category-placeholder.png'
+import { useLocale } from "@/context/LocaleProvider";
 type PharmacyCategory = {
 	item: PharmacyItems;
 };
@@ -15,6 +16,8 @@ type PharmacyItems = {
 };
 
 function ItemSlider({ item }: PharmacyCategory) {
+	const {locale}=useLocale()
+
     return (
         <Link
             href={item.slug || "#"}
@@ -26,12 +29,12 @@ function ItemSlider({ item }: PharmacyCategory) {
                     width={150}
                     height={150}
                     src={item.image || categoryPlaceholder}
-                    alt={item.name.en}
+                    alt={item.name.[locale]}
                 
                 />
             </div>
             <div className="text-center mt-2 md:mt-1">
-                <h2 className="font-medium  text-md">{item.name.en}</h2>
+                <h2 className="font-medium  text-md">{item.name.[locale]}</h2>
             </div>
         </Link>
     );
