@@ -37,14 +37,10 @@ interface ProductSearchParams {
 // ---------------------------------------------------Products----------------------------------------------
 
 
-export const getProducts = async (filters): Promise<any> => {
+export const getProducts = async (filters:searchParams): Promise<ProductResponse> => {
     try {
-        // const endpoint = search
-        //     ? ApiEndPoints.PRODUCT_SEARCH
-        //     : ApiEndPoints.PRODUCT;
-        // const params = { page, ...(search && { search }) };
+  
         const response = await instance.get(ApiEndPoints.PRODUCT, { params:filters });
-		console.log(response.data);
 		
         return response.data;
     } catch (error) {
@@ -157,7 +153,7 @@ export const getSubCategories = async (category: string): Promise<any> => {
 };
 
 export const getOneSubCategory = async (
-	subCategoryID: string
+	subCategoryID: string|null
 ): Promise<any> => {
 	try {
 		const response = await instance.get(

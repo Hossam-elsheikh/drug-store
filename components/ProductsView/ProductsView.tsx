@@ -1,34 +1,36 @@
 "use client";
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import BreadCrumb from '@/components/Breadcrumb/BreadCrumb';
 import DrawerWrapper from '@/components/Drawers/DrawerWrapper';
 import ProductCard, { ProductCardSkeleton } from '@/components/ItemCard/ProductCard';
-import { useAllProducts } from '@/context/ProductsProvider';
+import { ProductsProvider, useAllProducts } from '@/context/ProductsProvider';
 import { useInView } from 'react-intersection-observer';
-
 import NotFound from '@/app/not-found';
 
 type Props = {
-    params: {
+    params?: {
         term?: string;
         id?: string;
         searchCategory?: string;
     };
+    SubId: string | null;
+    brand: string | null;
 };
 
-function ProductsView({ params = {} }: Props) {
+function ProductsContent({ params = {}, SubId, brand }: Props) {
     const { ref, inView } = useInView();
     const { products, isLoading, isError, error, setSearchParams, fetchNextPage, hasNextPage, isFetchingNextPage } = useAllProducts();
     const { term, id, searchCategory } = params;
-    
-    console.log(products)
 
     let title = 'Products';
-    if (term) {
-        title = `Search results for "${term}"`;
+    if (id && SubId) {
+        title = `SubCategory results for ${id}`;
+    } else if (id && brand) {
+        title = `Brand results for ${id}`;
     } else if (id && searchCategory) {
         title = `Category: ${searchCategory} - ID: ${id}`;
     }
+    // console.log(products)
 
     useEffect(() => {
         if (inView && hasNextPage) {
@@ -37,17 +39,16 @@ function ProductsView({ params = {} }: Props) {
     }, [inView, fetchNextPage, hasNextPage]);
 
     useEffect(() => {
+        const filters: any = { page: 1 };
         if (term) {
-            setSearchParams({ search: term });
-        } else if (id && searchCategory) {
-            setSearchParams({ search: `${searchCategory} ${id}` });
-        } else {
-            setSearchParams({ page: 1, search: undefined });
+            filters.name = term;
+        } else if (SubId) {
+            filters.subCategory = SubId;
+        } else if (brand) {
+            filters.brand = brand;
         }
-    }, [term, id, searchCategory, setSearchParams]);
-    
-
-
+        setSearchParams(filters);
+    }, [term, id, searchCategory, SubId, brand, setSearchParams]);
 
     return (
         <section className="bg-gray-50 pb-5">
@@ -57,7 +58,7 @@ function ProductsView({ params = {} }: Props) {
                     <h1 className="text-2xl md:text-3xl font-semibold px-5 md:px-10">
                         {title}
                     </h1>
-                    <DrawerWrapper showSec="filter"  />
+                    <DrawerWrapper showSec="filter" />
                 </div>
 
                 <section className="flex md:gap-7 gap-3 justify-center flex-wrap mt-5 w-full">
@@ -82,6 +83,21 @@ function ProductsView({ params = {} }: Props) {
                 {isFetchingNextPage && <div>Loading more...</div>}
             </div>
         </section>
+    );
+}
+
+function ProductsView(props: Props) {
+    const initialFilters: any = { page: 1 };
+    if (props.SubId) {
+        initialFilters.subCategory = props.SubId;
+    } else if (props.brand) {
+        initialFilters.brand = props.brand;
+    }
+
+    return (
+        <ProductsProvider initialFilters={initialFilters}>
+            <ProductsContent {...props} />
+        </ProductsProvider>
     );
 }
 

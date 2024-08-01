@@ -53,9 +53,9 @@ export default async function RootLayout({
 												<div className="flex h-[100dvh] flex-col justify-between ">
 													<div>
 														<NavBar />
-														{/* <Suspense fallback={<Loading/>}> */}
+														
 														{children}
-														{/* </Suspense> */}
+														
 													</div>
 													<Footer />
 												</div>

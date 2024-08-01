@@ -29,6 +29,7 @@ export default function HeroCarousel({ items }: ProductCarouselProps) {
     onPrevButtonClick,
     onNextButtonClick,
   } = usePrevNextButtons(emblaApi);
+      const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH;
 
   return (
     <>
@@ -44,7 +45,7 @@ export default function HeroCarousel({ items }: ProductCarouselProps) {
             >
               <Image
                 quality={80}
-                src={`http://localhost:4000/uploads/photos/${item.image}`}
+              src={`${imagePath}${image}`}
                 alt={item.title}
                 fill
                 objectFit="cover"

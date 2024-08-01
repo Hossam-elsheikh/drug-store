@@ -28,7 +28,7 @@ const Icons = () => {
                     About us
                 </Link>
             </div>
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center gap-5'>
                 <LanguageSwitcher classes='hidden md:block' />
 
                 {auth?.userId && !(pathName === `/${locale}/sign-in` || pathName === `/${locale}/sign-up`) && (

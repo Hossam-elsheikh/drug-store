@@ -13,6 +13,7 @@ type Props = {
     };
     mode?: "cart" | "Favorites";
 };
+    const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH;
 
 export default function CartDrawerItem({ details, mode = "cart" }: Props) {
     const { toggleFavorite, deleteFavorite } = useFavorites()
@@ -23,7 +24,7 @@ export default function CartDrawerItem({ details, mode = "cart" }: Props) {
         <div className="flex justify-between gap-2 border-b py-4 h-30 shadow my-1 items-center rounded-lg p-2">
             <div className="w-1/3">
                 <Image
-                    src={`http://localhost:4000/uploads/photos/${image}`}
+                    src={`${imagePath}${image}`}
                     width={100}
                     height={100}
                     objectFit="cover"

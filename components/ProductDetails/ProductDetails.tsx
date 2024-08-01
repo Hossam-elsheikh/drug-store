@@ -33,6 +33,7 @@ export function ProductDetails({ params }: productDetailsProps) {
     }
 
     const { image } = productDetails;
+        const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH;
 
     return (
         <section className="p-4 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg shadow-lg">
@@ -40,7 +41,7 @@ export function ProductDetails({ params }: productDetailsProps) {
                 <div dir={dir} className="w-full lg:w-2/3 space-y-10">
                     <div className="h-[300px] md:h-[400px] relative overflow-hidden rounded-lg">
                         <ImageMagnifier
-                            src={`http://localhost:4000/uploads/photos/${image}`}
+                        src={`${imagePath}${image}`}
                             magnifierHeight={200}
                             magnifierWidth={200}
                             zoomLevel={2}

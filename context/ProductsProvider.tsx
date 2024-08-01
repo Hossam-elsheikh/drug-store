@@ -50,14 +50,14 @@ const defaultContextValue: ProductsContextType = {
 
 export const ProductsContext = createContext<ProductsContextType>(defaultContextValue);
 
-export const ProductsProvider = ({ children }: { children: ReactNode }) => {
-    const [searchParams, setSearchParams] = useState<SearchParams>({ page: 1 });
+export const ProductsProvider = ({ children,initialFilters }: { children: ReactNode,initialFilters?: SearchParams }) => {
+    const [searchParams, setSearchParams] = useState<SearchParams>({ page: 1 ,...initialFilters});
 
     const fetchProducts = useCallback(
-        ({ pageParam = 1 }: QueryFunctionContext<[string, SearchParams], number>) =>
-            getProducts({ ...searchParams, page: pageParam as number }),
-        [searchParams]
-    );
+    ({ pageParam = 1 }: QueryFunctionContext<[string, SearchParams], number>) =>
+        getProducts({ ...searchParams, page: pageParam }),
+    [searchParams]
+);
 
     const {
         data,

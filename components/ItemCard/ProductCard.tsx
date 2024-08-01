@@ -1,40 +1,46 @@
-"use client";
-import React, { useState } from "react";
-import { Heart, ShoppingCart, Eye } from "lucide-react";
-import Modal from "./Modal";
-import { AnimatePresence, easeInOut, motion } from "framer-motion";
-import { instancePrivate } from "@/axios/instance";
-import useAuth from "@/hooks/useAuth";
-import Image from "next/image";
-import { useLocale } from "@/context/LocaleProvider";
-import { useFavorites } from "@/context/favoriteProvider";
-import Link from "next/link";
-import productPlaceholder from '@/lib/placeholders/product-placeholder.png'
-const ProductCard = ({ details, mode = "default", index }) => {
+'use client'
+import React, { useState } from 'react'
+import { Heart, ShoppingCart, Eye } from 'lucide-react'
+import Modal from './Modal'
+import { AnimatePresence, easeInOut, motion } from 'framer-motion'
+import { instancePrivate } from '@/axios/instance'
+import useAuth from '@/hooks/useAuth'
+import Image from 'next/image'
+import { useLocale } from '@/context/LocaleProvider'
+import { useFavorites } from '@/context/favoriteProvider'
+import Link from 'next/link'
+const ProductCard = ({ details, mode = 'default', index }) => {
     const { toggleFavorite, isProductFavorite } = useFavorites()
-    const {locale}=useLocale()
-    const [quickAccess, setQuickAccess] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const { auth }: any = useAuth();
+    const { locale } = useLocale()
+    const [quickAccess, setQuickAccess] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const { auth }: any = useAuth()
 
     const handleMouseEnter = () => {
         if (!isModalOpen) {
-            setQuickAccess(true);
+            setQuickAccess(true)
         }
-    };
+    }
 
     const handleMouseLeave = () => {
         if (!isModalOpen) {
-            setQuickAccess(false);
+            setQuickAccess(false)
         }
-    };
+    }
 
-    const {_id, price,name,brand,image,description ,category:{slug}}=details
-
+    const {
+        _id,
+        price,
+        name,
+        brand,
+        image,
+        description,
+        category: { slug },
+    } = details
 
     const addToCart = async (product) => {
         try {
-            const response = await instancePrivate.post("/order", {
+            const response = await instancePrivate.post('/order', {
                 cart: [
                     {
                         id: product.id,
@@ -45,18 +51,19 @@ const ProductCard = ({ details, mode = "default", index }) => {
                     },
                 ],
                 customerId: auth.userId,
-            });
-            console.log(response);
+            })
+            console.log(response)
         } catch (err) {
-            console.error("error while adding to cart", err);
+            console.error('error while adding to cart', err)
         }
-    };
+    }
 
     const variants = {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0 },
-    };
+    }
 
+    const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
     return (
         <motion.div
             variants={variants}
@@ -72,7 +79,7 @@ const ProductCard = ({ details, mode = "default", index }) => {
                 onMouseLeave={handleMouseLeave}
             >
                 <Image
-                    src={`http://localhost:4000/uploads/photos/${image}` || productPlaceholder}
+                    src={`${imagePath}${image}`}
                     alt={name?.en}
                     layout="fill"
                     objectFit="cover"
@@ -86,28 +93,44 @@ const ProductCard = ({ details, mode = "default", index }) => {
             </div>
 
             <div className="flex flex-col p-3 gap-3">
-                <Link className='cursor-pointer' href={`/${locale}/${slug}/${_id}`}> 
-                <div>
-                    <h5 className='font-base text-sm'>{brand?.name?.[locale]}</h5>
-                    <h2 className="font-semibold text-lg truncate hover:text-secColor transition-colors duration-200">
-                        {name?.[locale]}
-                    </h2>
-                    <p className="font-semibold text-xl text-secColor mt-1">
+                <Link
+                    className="cursor-pointer"
+                    href={`/${locale}/${slug}/${_id}`}
+                >
+                    <div>
+                        <h5 className="font-base text-sm">
+                            {brand?.name?.[locale]}
+                        </h5>
+                        <h2 className="font-semibold text-lg truncate hover:text-secColor transition-colors duration-200">
+                            {name?.[locale]}
+                        </h2>
+                        {/* <p className="font-semibold text-xl text-secColor mt-1">
                         {price} <span className="font-normal text-sm">KWD</span>
-                    </p>
-                </div>
+                    </p> */}
+                        <p className="mt-1 text-secColor font-semibold flex gap-1 text-lg">
+                            <span className="font-medium text-sm">KWT</span>
+                            {price}
+                        </p>
+                    </div>
                 </Link>
                 <div className="flex items-center justify-around gap-4">
-                    <button className="p-2 rounded-full hover:bg-gray-100 transition-all duration-200 "       onClick={()=>toggleFavorite(details)}>
-                        <Heart  className={`w-6 h-6 transition-all duration-300 delay-400 ${
-      isProductFavorite(_id) 
-        ? 'text-red-500 fill-red-500' 
-        : 'text-gray-600 hover:text-red-500'
-    }`} />
+                    <button
+                        className="p-2 rounded-full hover:bg-gray-100 transition-all duration-200 "
+                        onClick={() => toggleFavorite(details)}
+                    >
+                        <Heart
+                            className={`w-6 h-6 transition-all duration-300 delay-400 ${
+                                isProductFavorite(_id)
+                                    ? 'text-red-500 fill-red-500'
+                                    : 'text-gray-600 hover:text-red-500'
+                            }`}
+                        />
                     </button>
-                    {mode === "default" ? (
+                    {mode === 'default' ? (
                         <button
-                            onClick={() => {addToCart(details)}}
+                            onClick={() => {
+                                addToCart(details)
+                            }}
                             className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105"
                         >
                             Add to cart
@@ -123,17 +146,17 @@ const ProductCard = ({ details, mode = "default", index }) => {
             </div>
             {isModalOpen && (
                 <Modal
-                locale={locale}
+                    locale={locale}
                     details={details}
                     setIsModalOpen={setIsModalOpen}
                     setQuickAccess={setQuickAccess}
                 />
             )}
         </motion.div>
-    );
-};
+    )
+}
 
-export default ProductCard;
+export default ProductCard
 
 const QuickAccess = ({ setIsModalOpen }) => (
     <motion.div
@@ -159,7 +182,7 @@ const QuickAccess = ({ setIsModalOpen }) => (
             </button>
         </motion.div>
     </motion.div>
-);
+)
 
 export const ProductCardSkeleton = () => (
     <div className="flex flex-col max-w-sm rounded-xl shadow-lg overflow-hidden bg-white animate-pulse">
@@ -173,4 +196,4 @@ export const ProductCardSkeleton = () => (
             </div>
         </div>
     </div>
-);
+)

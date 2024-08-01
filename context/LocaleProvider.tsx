@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface LocaleContextProps {
@@ -12,7 +12,8 @@ const LocaleContext = createContext<LocaleContextProps | undefined>(undefined);
 
 export const LocaleProvider: React.FC<{ initialLocale: string; children: React.ReactNode }> = ({ initialLocale, children }) => {
     const [locale, setLocale] = useState(initialLocale);
-    const [dir, setDir] = useState('ltr'); 
+    const [dir, setDir] = useState('ltr');
+
     const router = useRouter();
     const pathName = usePathname();
 
@@ -27,7 +28,7 @@ export const LocaleProvider: React.FC<{ initialLocale: string; children: React.R
         const RTL = 'ar';
         const direction = RTL.includes(locale) ? 'rtl' : 'ltr';
         document.documentElement.setAttribute('dir', direction);
-        setDir(direction); 
+        setDir(direction);
     };
 
     useEffect(() => {
@@ -35,13 +36,13 @@ export const LocaleProvider: React.FC<{ initialLocale: string; children: React.R
     }, [locale]);
 
     return (
-        <LocaleContext.Provider value={{ locale, dir,switchLanguage }}>
+        <LocaleContext.Provider value={{ locale, dir, switchLanguage }}>
             {children}
         </LocaleContext.Provider>
     );
 };
 
-export const useLocale = () => {
+export const useLocale = (): LocaleContextProps => {
     const context = useContext(LocaleContext);
     if (!context) {
         throw new Error('useLocale must be used within a LocaleProvider');

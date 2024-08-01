@@ -10,7 +10,7 @@ import logo from "@/public/logo.svg";
 export default function LogoAndSearch() {
     const { locale } = useLocale();
     return (
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-6">
             <CategoriesDrawer classes="block md:hidden" />
             <Link href={`/${locale}`}>
                 <Image width="140" height="140" alt="logo" src={logo} />

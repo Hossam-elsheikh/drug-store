@@ -32,9 +32,13 @@ function Details({ productDetails, className }) {
                     {name?.[locale] || "Premium Blazer"}
                 </h2>
                 <div className="flex items-center justify-between">
-                    <h5 className="text-2xl font-semibold text-primaryColor">
-                        {price ? `$${price.toFixed(2)}` : "$1000.00"}
-                    </h5>
+                   
+                        <h5 className="mt-1  flex gap-1  text-2xl font-semibold text-secColor">
+                                                            <span className="font-medium text-sm">
+                                                                KWT
+                                                            </span>
+                                                            {price}
+                                                        </h5>
                     {stock ? (
                         <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800">In Stock</span>
                     ) : (
