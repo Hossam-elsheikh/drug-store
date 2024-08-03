@@ -8,32 +8,32 @@ const aboutUsContent = [
     {
         title: "Emergency Services",
         description: "We provide 24/7 emergency services to ensure the safety and well-being of our clients at all times.",
-        svg: "/emergency-svgrepo-com.svg" // Ensure the path is correct
+        svg: "/emergency-svgrepo-com.svg" 
     },
     {
         title: "Visionary Solutions",
         description: "Our vision is to innovate and deliver solutions that drive progress and create a better future.",
-        svg: "/eye-svgrepo-com.svg" // Ensure the path is correct
+        svg: "/eye-svgrepo-com.svg" 
     },
     {
         title: "Commitment to Care",
         description: "We are committed to providing the highest quality care and ensuring the well-being of our clients.",
-        svg: "/first-aid-kit-svgrepo-com.svg" // Ensure the path is correct
+        svg: "/first-aid-kit-svgrepo-com.svg"
     },
     {
         title: "Health and Wellness",
         description: "Promoting health and wellness through comprehensive healthcare solutions and services.",
-        svg: "/health-care-svgrepo-com.svg" // Ensure the path is correct
+        svg: "/health-care-svgrepo-com.svg" 
     },
     {
         title: "Pharmaceutical Excellence",
         description: "Delivering pharmaceutical products and services with a focus on quality and efficacy.",
-        svg: "/pill-svgrepo-com.svg" // Ensure the path is correct
+        svg: "/pill-svgrepo-com.svg"
     },
     {
         title: "Supporting Causes",
         description: "We support various causes and initiatives to make a positive impact on society.",
-        svg: "/ribbon-svgrepo-com.svg" // Ensure the path is correct
+        svg: "/ribbon-svgrepo-com.svg" 
     }
 ];
 

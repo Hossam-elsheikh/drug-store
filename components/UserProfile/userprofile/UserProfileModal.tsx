@@ -1,173 +1,129 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+	DialogDescription,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-
-import { Form } from "@/components/ui/form";
 import CustomInput from "../../Form/CustomInput";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { DatePickerDemo } from "@/components/ui/date-picker";
 import { useRouter } from "next/navigation";
-import { authFormProfile } from "@/lib/utils";
+import { Formik, Form } from "formik";
 
-export default function UserProfileModal() {
-    const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false);
+import useAuth from "@/hooks/useAuth";
+import { updateUser } from "@/axios/instance";
+import { UserProfileDataValidationSchema } from "@/lib/schema";
 
-    const f = useTranslations("Form");
-    const t = useTranslations("UserInfoPage");
+export default function UserProfileModal({ userInfo }) {
+	const router = useRouter();
+	const f = useTranslations("Form");
+	const t = useTranslations("UserInfoPage");
 
-    const formSchema = authFormProfile();
+	const UserProfileDataInitialValues = {
+		name: userInfo?.name || "",
+		email: userInfo?.email || "",
+		mobile: userInfo?.mobile || "",
+	};
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            email: "",
-            password: "",
-            lastName: "",
-            firstName: "",
-            dateOfBirth: "",
-            phoneNumber: "",
-            gender: undefined,
-        },
-    });
+	const { auth }: any = useAuth();
 
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        setIsLoading(true);
+	const onSubmit = async (values, { setSubmitting, setStatus }) => {
+		try {
+			const updatedValues = {
+				...userInfo,
+				name: values.name,
+				email: values.email,
+				mobile: values.mobile,
+			};
 
-        try {
-            // Update the data
-            console.log(data); // Add your update logic here
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+			console.log("Updating with values:", updatedValues);
 
-    return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant="outline">{t("editInfo")}</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                    <DialogTitle>{t("editInfo")}</DialogTitle>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <Form {...form}>
-                        <form
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-8"
-                        >
-                            <div className="flex gap-2">
-                                <CustomInput
-                                    control={form.control}
-                                    name="firstName"
-                                    label={f("firstName")}
-                                    placeholder="Enter your first name"
-                                    schema={formSchema}
-                                />
-                                <CustomInput
-                                    control={form.control}
-                                    name="lastName"
-                                    label={f("lastName")}
-                                    placeholder="Enter your last name"
-                                    schema={formSchema}
-                                />
-                            </div>
+			const response = await updateUser(auth.userId, updatedValues);
+			console.log("User profile updated:", response);
+			setStatus("Profile updated successfully");
+			router.refresh();
+		} catch (error) {
+			console.error("Error updating user profile:", error);
+			setStatus("Failed to update profile. Please try again.");
+		} finally {
+			setSubmitting(false);
+		}
+	};
 
-                            <RadioGroup {...form.register("gender")}>
-                                <div className="flex gap-5">
-                                    <div className="flex items-center space-x-2">
-                                        <RadioGroupItem
-                                            value="male"
-                                            id="male"
-                                        />
-                                        <Label htmlFor="male">
-                                            {f("male")}
-                                        </Label>
-                                    </div>
-                                    <div className="flex items-center space-x-2">
-                                        <RadioGroupItem
-                                            value="female"
-                                            id="female"
-                                        />
-                                        <Label htmlFor="female">
-                                            {f("female")}
-                                        </Label>
-                                    </div>
-                                </div>
-                            </RadioGroup>
-                            <div className="flex gap-2">
-                                <CustomInput
-                                    control={form.control}
-                                    name="email"
-                                    label={f("email")}
-                                    placeholder="Enter your email"
-                                    schema={formSchema}
-                                />
-                                <CustomInput
-                                    control={form.control}
-                                    name="password"
-                                    label={f("password")}
-                                    placeholder="Enter your password"
-                                    schema={formSchema}
-                                />
-                            </div>
-                            <CustomInput
-                                control={form.control}
-                                name="phoneNumber"
-                                label={f("phoneNumber")}
-                                placeholder="Enter your phone number"
-                                schema={formSchema}
-                            />
-                            <div className="flex flex-col">
-                                <label className="text-14 w-full max-w-[280px] font-medium text-gray-700">
-                                    {f("dateOfBirth")}
-                                </label>
-                                <DatePickerDemo
-                                    control={form.control}
-                                    name="dateOfBirth"
-                                />
-                            </div>
+	return (
+		<Dialog>
+			<DialogTrigger asChild>
+				<Button variant="outline">{t("editInfo")}</Button>
+			</DialogTrigger>
+			<DialogContent className="sm:max-w-[425px]">
+				<DialogHeader>
+					<DialogTitle>{t("editInfo")}</DialogTitle>
+					<DialogDescription>{f("changeInfo")}</DialogDescription>
+				</DialogHeader>
+				<Formik
+					initialValues={UserProfileDataInitialValues}
+					validationSchema={UserProfileDataValidationSchema}
+					onSubmit={onSubmit}
+				>
+					{({ isSubmitting, status }) => (
+						<Form className="space-y-5">
+							<CustomInput
+								name="name"
+								label={f("name")}
+								placeholder="Enter your name"
+							/>
+							<CustomInput
+								name="email"
+								label={f("email")}
+								placeholder="Enter your email"
+							/>
+							<CustomInput
+								name="mobile"
+								label={f("mobileNumber")}
+								placeholder="Enter your phone number"
+							/>
 
-                            <DialogFooter>
-                                <Button
-                                    type="submit"
-                                    disabled={isLoading}
-                                    className="w-1/3"
-                                >
-                                    {isLoading ? (
-                                        <>
-                                            <Loader2
-                                                size={20}
-                                                className="animate-spin"
-                                            />{" "}
-                                            &nbsp; Loading...
-                                        </>
-                                    ) : (
-                                        f("update")
-                                    )}
-                                </Button>
-                            </DialogFooter>
-                        </form>
-                    </Form>
-                </div>
-            </DialogContent>
-        </Dialog>
-    );
+							{status && (
+								<div className="text-sm text-blue-500">
+									{status}
+								</div>
+							)}
+
+							<DialogFooter>
+								<div className="flex gap-3">
+									<button
+										type="submit"
+										disabled={isSubmitting}
+										className="ModalUbdateButton"
+									>
+										{isSubmitting ? (
+											<>
+												<Loader2
+													size={20}
+													className="animate-spin"
+												/>{" "}
+												&nbsp; Updating...
+											</>
+										) : (
+											f("update")
+										)}
+									</button>
+									<DialogClose className="ModalCloseButton">
+										Close
+									</DialogClose>
+								</div>
+							</DialogFooter>
+						</Form>
+					)}
+				</Formik>
+			</DialogContent>
+		</Dialog>
+	);
 }

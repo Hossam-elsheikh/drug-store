@@ -27,6 +27,7 @@ const nextConfig = {
                 protocol: "https",
                 hostname: "encrypted-tbn0.gstatic.com",
             },
+            // Add these new patterns
             {
                 protocol: "http",
                 hostname: "localhost",
@@ -36,6 +37,11 @@ const nextConfig = {
                 hostname: "demo.myfatoorah.com",
             },
         ]
+                protocol: "http",
+                hostname: "127.0.0.1",
+            }
+        ],
+        domains: ['localhost', '127.0.0.1'], // This is an alternative way to add local domains
     }
 };
 

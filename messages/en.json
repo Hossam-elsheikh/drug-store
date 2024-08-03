@@ -38,26 +38,56 @@
 		"taxes": "Taxes and shipping are calculated at checkout",
 		"expandCart": "Go to Cart",
 		"checkout": "Proceed to Checkout",
-		"dinar": "KWD"
+		"dinar": "KWD",
+		"addMore": "Add Some Products in Your Cart"
 	},
 	"Form": {
 		"firstName": "First Name",
 		"lastName": "Last Name",
 		"country": "Country",
-		"street": "Street",
 		"postalCode": "Postal Code",
 		"address": "Address",
 		"YourAddress": " Add Your Address",
+		"addAddress": "add Address",
+		"dateOfBirth": "Date Of Birth",
+		"email": "Email",
+        "emailHolder":"Enter Your Email",
+        "signUp":"Sign Up",
+        "signIn":"Sign In",
+		"password": "Password",
+        "passHolder":"Enter Your Password",
+		"update": "Update",
+		"mobileNumber": "Phone Number",
+        "placeholderNumber":"Enter Your Phone Number",
+        "state":"State",
+        "placeholderState":"Enter Your State",
 		"city": "City",
-        "addAddress":"add Address",
-                "dateOfBirth":"Date Of Birth",
-                "email":"Email",
-                "password":"Password",
-                 "update":"Update",
-                  "phoneNumber":"Phone Number",
-                     "male":"Male",
-             "female":"Female",
-                          "gender":"Gender"
+        "cityHolder":"Enter your city",
+		"street": "Street",
+        "streetHolder":"Enter Your Street",
+        		"male": "Male",
+		"female": "Female",
+		"gender": "Gender",
+		"name": "Name",
+        "placeholderName":"Enter Your Name",
+		"delete": "Delete Account",
+		"confirmPassword": "Confirm Password",
+        "confirmPassHolder":"Re-enter your password",
+		"newPassword": "New Password",
+		"dialogAlertTitle": "Are you absolutely sure?",
+		"dialogDisc": "This action cannot be undone.\nThis will permanently delete your account and remove your data from our servers.",
+		"cancel": "Cancel",
+		"continue": "Continue",
+		"changePass": "Change Ur Password",
+		"changeInfo": "Change Ur Information",
+		"createAcc": "Create Your Account",
+        "signInAcc":"Sign in with your account",
+        "dontHaveAcc":"Don't have an account?",
+        "haveAnAcc":"Already have an account?",
+        "expand":"Expand Window",
+        "forgetPass":"Forget Your Password ?",
+        "enterDetails":"Please Enter Your Details",
+				"joinDate":"Join Date"
 
 	},
 	"AddressPage": {
@@ -75,19 +105,22 @@
 	},
 	"UserInfoPage": {
 		"userInfo": "User Information",
-		"editInfo":"Edit Your Information"
+		"editInfo": "Edit Your Information",
+		"editPass": "Edit Your Passowrd"
 	},
-	"WishList": {
-		"wishList": "Wish List"
+	"Favorites": {
+		"favorites": "Favorites",
+		"addToFavorites": "Add To Your Favorites"
 	},
 	"AsideMenu": {
 		"profile": "Profile",
-		"wishList": "Wish List",
+		"Favorites": "Favorites",
 		"addresses": "Addresses",
 		"orders": "Orders",
-        "payments":"Payments",
+		"payments": "Payments",
 		"returns": "Returns",
 		"settings": "Settings",
+		"password": "Password",
 		"logOut": "Log Out"
 	},
 	"CheckOutPage": {
@@ -95,6 +128,16 @@
 		"taxes": "Taxes",
 		"shipping": "Shipping",
 		"promoCode": "Promo Code"
-		
+	},
+	"NotFound": {
+		"backToHome": "Back to home",
+		"somethingWentWrong": "Some Thing Wrong Happend"
+	},
+	"DrawerWrapper": {
+		"categories": "Categories",
+		"signInForm": "Sign in",
+		"Favorites": "Favorite items",
+		"cart": "My cart",
+		"filter": "Filter products"
 	}
 }

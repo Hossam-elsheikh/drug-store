@@ -1,77 +1,88 @@
-"use client";
-import { useTranslations } from "next-intl";
-import Link from "next/link";
-import React, { useState } from "react";
-import DropList from "./DropList";
-type Props = {
-    currentLoc : string
+'use client'
+import { useTranslations } from 'next-intl'
+import Link from 'next/link'
+import React, { useState, useTransition } from 'react'
+import DropList from './DropList'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useQuery } from '@tanstack/react-query'
+import { getCategories, getBrands } from '@/axios/instance'
+import { Loader2 } from 'lucide-react'
+import NotFound from '@/app/not-found'
+import { useLocale } from '@/context/LocaleProvider'
+import BrandsDropList from './BrandsDropList'
+
+interface Categories {
+    name: {
+        en: string
+        ar: string
+    }
+    _id: string
 }
-const MenuDrawer = ({ currentLoc }:Props) => {
-    const t = useTranslations("Navigation");
-    const [activeSec, setActiveSec] = useState("menu");
-    const categories = [
-        {
-            title: "cosmotics",
-            id: 1,
-            subCategories: [
-                {
-                    id: "1",
-                    title: "cosmo1",
-                    href: "#",
-                },
-                {
-                    id: "2",
-                    title: "cosmo2",
-                    href: "#",
-                },
-                {
-                    id: "3",
-                    title: "cosmo3",
-                    href: "#",
-                },
-            ],
-        },
-        {
-            title: "Drugs",
-            id: 2,
-            subCategories: [
-                {
-                    id: "1",
-                    title: "drug1",
-                    href: "#",
-                },
-                {
-                    id: "2",
-                    title: "drug2",
-                    href: "#",
-                },
-                {
-                    id: "3",
-                    title: "drug3",
-                    href: "#",
-                },
-            ],
-        },
-    ];
+
+interface Brand {
+    _id: string
+    slug: string
+    name: {
+        en: string
+        ar: string
+    }
+}
+
+const MenuDrawer = () => {
+    const t = useTranslations('Navigation')
+    const [isPending, startTransition] = useTransition()
+    const [activeTab, setActiveTab] = useState('menu')
+    const { dir } = useLocale()
+
+    const handleTabChange = (value: string) => {
+        startTransition(() => {
+            setActiveTab(value)
+        })
+    }
+
+    const {
+        data: categories,
+        isLoading: isCategoriesLoading,
+        isError: isCategoriesError,
+    } = useQuery({
+        queryFn: getCategories,
+        queryKey: ['getCategories'],
+    })
+
+    const {
+        data: brands,
+        isLoading: isBrandsLoading,
+        isError: isBrandsError,
+    } = useQuery({
+        queryFn: getBrands,
+        queryKey: ['getBrands'],
+    })
+
+    if (isCategoriesError || isBrandsError) {
+        return <NotFound mode="drawer" />
+    }
+
+    const isLoading = isCategoriesLoading || isBrandsLoading
 
     const Categories = () => (
         <div>
-            {categories.map((cat, i) => (
-                <div  key={i} dir={currentLoc === "en" ? "ltr" : "rtl"} className="border-b">
-                    <DropList
-                   
-                        id={cat.id}
-                        title={cat.title}
-                        subCategories={cat.subCategories}
-                    />
+            {categories?.map(({ name, _id: id }: Categories) => (
+                <div key={id} dir={dir}>
+                    <DropList id={id} name={name} />
                 </div>
             ))}
+
         </div>
-    );
+    )
+    const Brands = () => (
+        <div>
+            <BrandsDropList brands={brands} isLoading={isLoading} />
+        </div>
+    )
 
     const Menu = () => (
         <div>
-            <ul className="p-4" dir={currentLoc === "en" ? "ltr" : "rtl"}>
+            <ul className="p-4" dir={dir}>
                 <li>
                     <Link
                         className="font-medium text-primaryColor hover:text-secColor"
@@ -82,31 +93,63 @@ const MenuDrawer = ({ currentLoc }:Props) => {
                 </li>
             </ul>
         </div>
-    );
+    )
 
     return (
-        <div className="flex flex-col gap-3">
-            <div className="flex justify-between py-3 ">
-                <Link
-                    onClick={() => setActiveSec("menu")}
-                    href="#"
-                    className={`w-full  p-1 text-center font-semibold border text-gray-600 ${activeSec === "menu" && "text-white bg-secColor"
-                        }`}
+        <Tabs
+            defaultValue="menu"
+            className="w-full"
+            value={activeTab}
+            onValueChange={handleTabChange}
+        >
+            <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger
+                    value="menu"
+                    onMouseDown={() => handleTabChange('menu')}
                 >
-                    {t("main")}
-                </Link>
-                <Link
-                    onClick={() => setActiveSec("categories")}
-                    href="#"
-                    className={`w-full  p-1 text-center font-semibold border text-gray-600 ${activeSec === "categories" && "text-white bg-secColor"
-                        }`}
+                    {t('main')}
+                    {isPending ||
+                        (isLoading && activeTab === 'menu' && (
+                            <Loader2 className="animate-spin ml-2 h-4 w-4" />
+                        ))}
+                </TabsTrigger>
+                <TabsTrigger
+                    value="categories"
+                    onMouseDown={() => handleTabChange('categories')}
                 >
-                    {t("categories")}
-                </Link>
-            </div>
-            {activeSec === "categories" ? <Categories /> : <Menu />}
-        </div>
-    );
-};
+                    {t('categories')}
+                    {isPending ||
+                        (isLoading && activeTab === 'categories' && (
+                            <Loader2 className="animate-spin ml-2 h-4 w-4" />
+                        ))}
+                </TabsTrigger>
+            </TabsList>
+            <TabsContent value="menu">
+                {isPending || (isLoading && activeTab === 'menu') ? (
+                    <div className="flex justify-center items-center h-full">
+                        <Loader2 className="animate-spin h-6 w-6 text-primaryColor" />
+                    </div>
+                ) : (
+                    <Menu />
+                )}
+            </TabsContent>
+            <TabsContent value="categories">
+                {isPending || (isLoading && activeTab === 'categories') ? (
+                    <div className="flex justify-center items-center h-full">
+                        <Loader2 className="animate-spin h-6 w-6 text-primaryColor" />
+                    </div>
+                ) : (
+                    <>
+                        <h1 className='text-center font-xl font-medium p-3'>Brands</h1>
+                        <Brands />
 
-export default MenuDrawer;
+                            <h1 className='text-center font-xl font-medium p-3'>Subcategories</h1>
+                        <Categories />
+                    </>
+                )}
+            </TabsContent>
+        </Tabs>
+    )
+}
+
+export default MenuDrawer

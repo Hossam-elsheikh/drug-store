@@ -1,11 +1,11 @@
+'use client'
 import Counter from "@/components/ItemCard/Counter";
 import Image from "next/image";
-import React, { useContext } from "react";
 import { Heart, ShoppingCart, Trash2 } from "lucide-react";
-import { FavContext } from "@/context/favoriteProvider";
+import { useFavorites } from "@/context/favoriteProvider";
 import useAuth from "@/hooks/useAuth";
 import useRemoveItemCart from "@/hooks/removeItemCart";
-
+import { useLocale } from "@/context/LocaleProvider";
 type Props = {
     cartItem: {
         title: string;
@@ -16,15 +16,15 @@ type Props = {
         calculateCartMutation:any;
         productId:any;
     };
-    mode?: "cart" | "whishList";
+    mode?: "cart" | "Favorites";
 };
 export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCartMutation,calculateCartMutation }: Props) {
+    const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH;
 
+export default function CartDrawerItem({ details, mode = "cart" }: Props) {
     const { addToFav, deleteFav } = useContext(FavContext)
-    const { auth }: any = useAuth();
-    
-    const removeItemCart = ()=> useRemoveItemCart({auth,cartItem,removeItemCartMutation,calculateCartMutation})
 
+    const {_id, price,name,brand,image,description}=details
     return (
         <div className="flex justify-between gap-2 border-b py-4 h-30 shadow my-1 items-center rounded-lg p-2">
             <div className="w-1/3">
@@ -47,7 +47,7 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
                             calculateCartMutation={calculateCartMutation}
                         />
                     ) : (
-                        <button className="p-2 rounded-full bg-pink-100 hover:bg-pink-200 transition-all active:scale-[.90] duration-300" onMouseDown={() => addToFav(cartItem)}>
+                        <button className="p-2 rounded-full bg-pink-100 hover:bg-pink-200 transition-all active:scale-[.90] duration-300" onMouseDown={() => toggleFavorite(details)}>
                             <Heart className="text-pink-500 w-5 h-5" />
                         </button>
                     )}

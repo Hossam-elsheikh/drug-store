@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CartDrawerItem from "./CartDrawerItem";
+import { products } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { SheetClose } from "@/components/ui/sheet";
@@ -10,11 +11,10 @@ import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { ShoppingCart } from "lucide-react";
 import useCalcCartMutation from "@/hooks/calcCartMutation";
 import removeItemMutation from "@/hooks/removeItemCartMutation";
+import { useLocale } from "@/context/LocaleProvider";
+import CartSvg from '@/public/Add to Cart-amico.svg'
+import Image from "next/image";
 
-type Props = {
-    dir: string;
-    currentLoc: string;
-};
 
 export default function CartDrawer({ dir, currentLoc }: Props) {
 
@@ -23,17 +23,7 @@ export default function CartDrawer({ dir, currentLoc }: Props) {
 
     const t = useTranslations("cart");
     const router = useRouter();
-
-    const navigate = (path: string) => {
-
-        const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-
-        const parts = currentLoc.split('/').filter(Boolean);
-        const langCode = parts.length > 0 && parts[0].length === 2 ? parts[0] : '';
-        const newPath = langCode ? `/${langCode}${normalizedPath}` : normalizedPath;
-
-        router.push(newPath);
-    };
+    const { dir, locale } = useLocale();
 
     const {
         data: cartItems,

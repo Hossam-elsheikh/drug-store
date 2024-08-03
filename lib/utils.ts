@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { z } from "zod";
+
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -8,56 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 
 
 
-export const authFormSchema = (type: string) =>
-    z.object({
-        email: z.string().email(),
-        password: z.string().min(8).refine(
-            (str) => {
-                const hasLowercase = /[a-z]/.test(str);
-                const hasUppercase = /[A-Z]/.test(str);
-                const hasNumber = /\d/.test(str);
-                const hasSymbol = /[!@#$%^&*()_+\-=\[\]{};':",./<>?|\\ ]/.test(str);
-                return true;
-            },
-            { message: "Password must be complex" }
-        ),
-        name: type === "sign-in" ? z.string().optional() : z.string().min(3),
-        age: type === "sign-in" ? z.number().optional() : z.number(),
-        mobile: type === "sign-in" ? z.number().optional() : z.number().min(10),
-        addresses: type === "sign-in" ? z.string().optional() : z.array(
-            z.object({
-                street: z.string().max(50),
-                city: z.string().max(50),
-                state: z.string().min(2).max(2),
-                block: z.string().min(3).max(6),
-            })
-        ),
-    });
 
-export const authFormProfile = () =>
-    z.object({
-        firstName: z.string().min(3, "First name must be at least 3 characters"),
-        lastName: z.string().min(3, "Last name must be at least 3 characters"),
-        dateOfBirth: z.string().regex(
-            /^\d{4}-\d{2}-\d{2}$/,
-            "Date of birth must be in YYYY-MM-DD format"
-        ),
-        email: z.string().email("Invalid email address"),
-        password: z.string().min(8, "Password must be at least 8 characters"),
-        phoneNumber: z.string().min(8, "Phone Number must be at least 8 Numbers"),
-        gender: z.enum(['male', 'female']).optional(),
-    });
-export const authFormUserAddress = () =>
-    z.object({
-        firstName: z.string().min(3, "First name must be at least 3 characters"),
-        lastName: z.string().min(3, "Last name must be at least 3 characters"),
-        city: z.string().min(3, "least 3 characters").max(10, 'max charcters 10'),
-        country: z.string().min(3, "least 3 characters").max(10, 'max charcters 10'),
-        street: z.string().max(20, 'max charcters 20'),
-        address: z.string().max(20, 'max charcters 20'),
-        postalCode: z.string().min(4, 'least 4 Numbers').max(5, 'max Numbers 5'),
-            phoneNumber: z.string().min(8, "Phone Number must be at least 8 Numbers"),
-    });
 
 import cat1 from '../public/rect1.svg'
 import cat2 from '../public/rect2.svg'

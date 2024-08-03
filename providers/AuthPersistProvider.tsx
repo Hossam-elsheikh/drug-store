@@ -1,4 +1,5 @@
 'use client'
+import Loading from "@/app/[locale]/loading";
 import useAuth from "@/hooks/useAuth";
 import useRefreshToken from "@/hooks/useRefreshToken";
 import { useRouter } from "next/navigation";
@@ -20,7 +21,7 @@ const AuthPersistProvider = ({children}:{children:ReactNode}) => {
                     await refresh()
                 } catch (error) {
                     console.error(error);
-                    router.push('/en/sign-in');
+                    // router.push('/en/sign-in');
 
                 } finally {
                     setIsLoading(false)
@@ -30,11 +31,11 @@ const AuthPersistProvider = ({children}:{children:ReactNode}) => {
         }, [])
 
         useEffect(() => {
-            console.log(`isLoading: ${isLoading}`);
-            console.log(`at: ${JSON.stringify(auth?.accessToken)}`);
+            // console.log(`isLoading: ${isLoading}`);
+            // console.log(`at: ${JSON.stringify(auth?.accessToken)}`);
         }, [isLoading])
         
-        if (isLoading) return <div>Loading...</div>;
+        if (isLoading) return <Loading/>
         // return <WrappedComponent {...props} />;
         return <>{children}</>
     }

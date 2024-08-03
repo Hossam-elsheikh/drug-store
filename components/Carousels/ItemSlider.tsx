@@ -1,23 +1,26 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-
+import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
+import categoryPlaceholder from '@/lib/placeholders/category-placeholder.png'
+import { useLocale } from '@/context/LocaleProvider'
 type PharmacyCategory = {
-    item: PharmacyItems;
-};
+    item: PharmacyItems
+}
 
 type PharmacyItems = {
-    name: string;
-    image: string;
-    src: string;
-};
+    name: { en: string; ar: string }
+    image: string
+    slug: string
+}
 
 function ItemSlider({ item }: PharmacyCategory) {
+    const { locale } = useLocale()
+
     return (
         <Link
-            href={item.src || "#"}
+            href={item.slug || '#'}
             className="flex flex-col gap-5 justify-center items-center p-1 my-8  hover:scale-110 transition duration-300"
         >
             <div className="">
@@ -25,19 +28,15 @@ function ItemSlider({ item }: PharmacyCategory) {
                     quality={100}
                     width={150}
                     height={150}
-                    src={item.image}
-                    alt={item.name}
-                    className=" duration-[2s] transition-all"
-                 
-                // layout="fill"
-                // objectFit="cover"
+                    src={item.image || categoryPlaceholder}
+                    alt={item.name?.[locale]}
                 />
             </div>
             <div className="text-center mt-2 md:mt-1">
-                <h2 className="font-medium  text-md">{item.name}</h2>
+                <h2 className="font-medium  text-md">{item.name?.[locale]}</h2>
             </div>
         </Link>
-    );
+    )
 }
 
-export default ItemSlider;
+export default ItemSlider
