@@ -27,6 +27,14 @@ const nextConfig = {
                 protocol: "https",
                 hostname: "encrypted-tbn0.gstatic.com",
             },
+            {
+                protocol: "http",
+                hostname: "localhost",
+            },
+            {
+                protocol: "https",
+                hostname: "demo.myfatoorah.com",
+            },
         ]
     }
 };

@@ -7,7 +7,6 @@ import CustomInput from './CustomInput';
 import { Expand, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import logo from '../../public/logo.svg'
-import { instance } from '@/axios/instance';
 import * as Yup from "yup"
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import FormButton from '../formButton/FormButton';
@@ -15,6 +14,7 @@ import useRefreshToken from '@/hooks/useRefreshToken';
 import useAuth from '../../hooks/useAuth';
 import PersistLogin from '../../providers/AuthPersistProvider';
 import useSignOut from '@/hooks/useSignOut';
+import { instance } from '@/axios/instance';
 
 interface authFormProps {
     // setSubmitting: boolean;
@@ -92,8 +92,8 @@ const AuthForm = ({ Type, currentLoc, variant }: authFormProps) => {
                     withCredentials: true
                 })
                 console.log(JSON.stringify(response?.data));
-                const { accessToken, id: userId } = response?.data?.accessToken;
-                console.log(accessToken);
+                const { accessToken, id: userId } = response?.data;
+                console.log(accessToken, userId);
                 setAuth({ accessToken, userId });
                 if (response.status === 200) {
                     router.push('/');

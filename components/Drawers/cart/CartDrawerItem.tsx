@@ -1,46 +1,58 @@
 import Counter from "@/components/ItemCard/Counter";
 import Image from "next/image";
 import React, { useContext } from "react";
-import { Heart, Trash2 } from "lucide-react";
+import { Heart, ShoppingCart, Trash2 } from "lucide-react";
 import { FavContext } from "@/context/favoriteProvider";
+import useAuth from "@/hooks/useAuth";
+import useRemoveItemCart from "@/hooks/removeItemCart";
 
 type Props = {
-    details: {
+    cartItem: {
         title: string;
         image: string;
         src: string;
         price: number;
+        removeItemCartMutation:any;
+        calculateCartMutation:any;
+        productId:any;
     };
     mode?: "cart" | "whishList";
 };
+export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCartMutation,calculateCartMutation }: Props) {
 
-export default function CartDrawerItem({ details, mode = "cart" }: Props) {
     const { addToFav, deleteFav } = useContext(FavContext)
+    const { auth }: any = useAuth();
+    
+    const removeItemCart = ()=> useRemoveItemCart({auth,cartItem,removeItemCartMutation,calculateCartMutation})
 
     return (
         <div className="flex justify-between gap-2 border-b py-4 h-30 shadow my-1 items-center rounded-lg p-2">
             <div className="w-1/3">
                 <Image
-                    src={details.image}
+                    src={`http://localhost:4000/uploads/photos/${cartItem.productId.image}`}
                     width={100}
                     height={100}
                     objectFit="cover"
-                    alt={details.title}
+                    alt={cartItem.title}
                 />
             </div>
             <div className="px-2">
-                <h3 className="text-sm max-w-22">{details.title}</h3>
-                <p>{details.price} KWD</p>
+                <h3 className=" text-sm max-w-22">{cartItem.productId.name.en}</h3>
+                <p className="font-semibold text-sm">{cartItem.productId.price} <span className="text-xs font-medium">KWD</span></p>
                 <div className="flex items-center justify-between mt-2">
                     {mode === "cart" ? (
-                        <Counter />
+                        <Counter
+                            cartItem={cartItem}
+                            itemQuantity={cartItem.quantity}
+                            calculateCartMutation={calculateCartMutation}
+                        />
                     ) : (
-                        <button className="p-2 rounded-full bg-pink-100 hover:bg-pink-200 transition-all active:scale-[.90] duration-300" onMouseDown={()=>addToFav(details)}>
+                        <button className="p-2 rounded-full bg-pink-100 hover:bg-pink-200 transition-all active:scale-[.90] duration-300" onMouseDown={() => addToFav(cartItem)}>
                             <Heart className="text-pink-500 w-5 h-5" />
                         </button>
                     )}
-                    <button className="p-2 rounded-full bg-red-100 hover:bg-red-200 transition-all active:scale-[.95] duration-300 ml-2" onMouseDown={() => deleteFav(details)}>
-                        <Trash2 className="text-red-500 w-5 h-5" />
+                    <button className="p-2 rounded-full bg-red-100 hover:bg-red-200 transition-all active:scale-[.95] duration-300 ml-2" onMouseDown={() => deleteFav(cartItem)}>
+                        <Trash2 onClick={removeItemCart} className="text-red-500 w-5 h-5" />
                     </button>
                 </div>
             </div>

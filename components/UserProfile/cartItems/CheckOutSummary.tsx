@@ -24,7 +24,7 @@ function CheckOutSummary({ subtotal, shipping, taxes, promoCode }) {
 
     return (
         <>
-            <div className="border w-full rounded-lg flex flex-col p-3 shadow-sm ">
+            <div className="border  w-full rounded-md flex flex-col p-3 shadow-sm ">
                 <Table>
                     <TableBody className="text-base">
                         <TableRow>
@@ -42,7 +42,7 @@ function CheckOutSummary({ subtotal, shipping, taxes, promoCode }) {
                             <TableCell>{taxes}</TableCell>
                         </TableRow>
 
-                        {promoCode && (
+                        {/* {promoCode && (
                             <>
                             
                                     <TableCell colSpan={2}>
@@ -63,7 +63,7 @@ function CheckOutSummary({ subtotal, shipping, taxes, promoCode }) {
                                         </Formik>
                                     </TableCell>
                             </>
-                        )}
+                        )} */}
                     </TableBody>
                 </Table>
                 <hr />

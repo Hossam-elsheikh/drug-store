@@ -8,6 +8,7 @@ import Footer from "@/components/Footer/Footer";
 import ReactQueryProvider from "../../providers/ReactQueryProvider";
 import { AuthProvider } from "@/context/AuthProvider";
 import AuthPersistProvider from "@/providers/AuthPersistProvider";
+import { CalcCartProvider } from "@/context/CalcCartProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,22 +37,24 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className={`${roboto.variable} ${inter.variable}`}>
-        <AuthProvider>
-          <AuthPersistProvider>
-            <ReactQueryProvider>
-              <NextIntlClientProvider messages={messages}>
-                <div id="modal-root"></div>
-                <div className="flex h-[100dvh] flex-col justify-between ">
-                  <div>
-                    <NavBar currentLoc={locale} />
-                    {children}
+        <NextIntlClientProvider messages={messages}>
+          <AuthProvider>
+            <AuthPersistProvider>
+              <ReactQueryProvider>
+                <CalcCartProvider>
+                  <div id="modal-root"></div>
+                  <div className="flex h-[100dvh] flex-col justify-between ">
+                    <div>
+                      <NavBar currentLoc={locale} />
+                      {children}
+                    </div>
+                    <Footer />
                   </div>
-                  <Footer />
-                </div>
-              </NextIntlClientProvider>
-            </ReactQueryProvider>
-          </AuthPersistProvider>
-        </AuthProvider>
+                </CalcCartProvider>
+              </ReactQueryProvider>
+            </AuthPersistProvider>
+          </AuthProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

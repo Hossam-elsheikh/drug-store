@@ -3,8 +3,8 @@ import React from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from "yup"
 
-import CustomInput from '../Form/CustomInput'
-import { Button } from '../ui/button'
+import CustomInput from '../../Form/CustomInput'
+import { Button } from '../../ui/button'
 
 function CheckoutForm() {
     const initialValues = {
@@ -39,7 +39,8 @@ function CheckoutForm() {
     }
 
     return (
-        <section className="flex flex-col gap-3 rounded-lg p-3 border shadow-sm bg-white">
+        <section className="flex flex-col gap-3 bg-white">
+        {/* <section className="flex flex-col gap-3 rounded-lg p-3 border shadow-sm bg-white"> */}
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
