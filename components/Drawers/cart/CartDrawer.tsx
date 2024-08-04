@@ -4,19 +4,20 @@ import { products } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { SheetClose } from "@/components/ui/sheet";
-import { calcCart, fetchCartItems } from "@/axios/instance";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { ShoppingCart } from "lucide-react";
 import useCalcCartMutation from "@/hooks/calcCartMutation";
-import removeItemMutation from "@/hooks/removeItemCartMutation";
 import { useLocale } from "@/context/LocaleProvider";
 import CartSvg from '@/public/Add to Cart-amico.svg'
 import Image from "next/image";
+import Link from "next/link";
+import { calcCart, fetchCartItems } from "@/axios/instance";
+import removeItemMutation from "@/hooks/removeItemCartMutation";
 
 
-export default function CartDrawer({ dir, currentLoc }: Props) {
+const CartDrawer = () => {
 
     const { auth }: any = useAuth();
     const axiosPrivate = useAxiosPrivate();
@@ -56,12 +57,13 @@ export default function CartDrawer({ dir, currentLoc }: Props) {
     return (
         <>
             {cartItems.data.length >= 1 ?
-                <div className="h-full flex flex-col " dir={dir}>
+                <div className=" flex flex-col " dir={dir}>
                     <div className="h-2/3 overflow-auto overflow-x-hidden border-b-2">
                         {cartItems.data.map((cartItem, i) => (
-                            <CartDrawerItem
-                            cartItem={cartItem}
+                            <CartDrawerItem 
+                                cartItem={cartItem}
                                 key={i}
+                                auth={auth}
                                 removeItemCartMutation={removeItemCartMutation}
                                 calculateCartMutation={calculateCartMutation}
                             />
@@ -80,21 +82,23 @@ export default function CartDrawer({ dir, currentLoc }: Props) {
                         <div className="flex flex-col items-center gap-3">
                             <SheetClose asChild >
 
-                                <button
+                                <Link
                                     className=" flex justify-center w-full bg-primaryColor font-medium text-white py-2 rounded-full hover:opacity-80"
-                                    onClick={() => navigate(`/cart`)}
+                                    // onClick={() => navigate(`/cart`)}
+                                    href={'/en/cart'}
                                 >
                                     {t("expandCart")}
-                                </button>
+                                </Link>
                             </SheetClose>
                             <SheetClose asChild >
 
-                                <button
+                                <Link
+                                    href={'/en/checkout'}
                                     className=" flex justify-center w-full bg-primaryColor font-medium text-white py-2 rounded-full hover:opacity-80"
-                                    onClick={() => navigate(`/checkout`)}
+                                // onClick={() => navigate(`/checkout`)}
                                 >
                                     {t("checkout")}
-                                </button>
+                                </Link>
                             </SheetClose>
                         </div>
                     </div>
@@ -116,3 +120,4 @@ export default function CartDrawer({ dir, currentLoc }: Props) {
         </>
     );
 }
+export default CartDrawer

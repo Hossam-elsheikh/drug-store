@@ -12,8 +12,8 @@ import image3 from "@/public/image copy 2.png";
 import { Suspense, useEffect } from "react";
 import Loading from "./loading";
 import { useQuery } from "@tanstack/react-query";
-import { getCategories, getMedia } from "@/axios/instance";
 import { useLocale } from "@/context/LocaleProvider";
+import { getCategories, getMedia } from "@/axios/instance";
 
 // const Home = () => {
 function Home() {

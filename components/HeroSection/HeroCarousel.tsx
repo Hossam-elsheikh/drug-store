@@ -45,7 +45,7 @@ export default function HeroCarousel({ items }: ProductCarouselProps) {
             >
               <Image
                 quality={80}
-              src={`${imagePath}${image}`}
+              src={`${imagePath}${item.image}`}
                 alt={item.title}
                 fill
                 objectFit="cover"

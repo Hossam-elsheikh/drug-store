@@ -6,10 +6,11 @@ import React, { useEffect, useState } from 'react'
 import InputName from './InputName';
 
 type DataTypes = {
-    user:Object
+    user:any
 }
 
 function UserInfo({user}:DataTypes) {
+console.log(user);
 
     // const mutation = useMutation({
     //     mutationFn: ({ InvoiceValue, PaymentMethodId, values }) => executePayment(InvoiceValue, PaymentMethodId, values),

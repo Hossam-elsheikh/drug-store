@@ -8,9 +8,11 @@ import classNames from 'classnames';
 import { useLocale } from "@/context/LocaleProvider";
 import { useFavorites } from "@/context/favoriteProvider";
 import { Button } from '@/components/ui/button';
+import { AddToCart } from '@/axios/instance';
+import useAuth from '@/hooks/useAuth';
 
-function Details({ productDetails, className }) {
-    const { _id,price, name, brand, image, description, category: { slug }, stock } = productDetails || {};
+function Details({ productDetails, className, calculateCartMutation }) {
+    const { _id, price, name, brand, image, description, category: { slug }, stock } = productDetails || {};
     const { toggleFavorite, isProductFavorite } = useFavorites()
     const { locale, dir } = useLocale()
     const handleSetRating = (rating: number) => {
@@ -18,6 +20,13 @@ function Details({ productDetails, className }) {
     };
 
     const t = useTranslations("Buttons");
+    const { auth }: any = useAuth()
+    const addToCart = (productDetails: any) => {
+        AddToCart(productDetails, auth)
+        console.log(productDetails);
+        console.log(auth);
+        
+    }
 
     return (
         <div className={classNames(
@@ -32,13 +41,13 @@ function Details({ productDetails, className }) {
                     {name?.[locale] || "Premium Blazer"}
                 </h2>
                 <div className="flex items-center justify-between">
-                   
-                        <h5 className="mt-1  flex gap-1  text-2xl font-semibold text-secColor">
-                                                            <span className="font-medium text-sm">
-                                                                KWT
-                                                            </span>
-                                                            {price}
-                                                        </h5>
+
+                    <h5 className="mt-1  flex gap-1  text-2xl font-semibold text-secColor">
+                        <span className="font-medium text-sm">
+                            KWD
+                        </span>
+                        {price}
+                    </h5>
                     {stock ? (
                         <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800">In Stock</span>
                     ) : (
@@ -62,28 +71,29 @@ function Details({ productDetails, className }) {
 
             <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                    <Counter />
-                       <Button className="flex-grow bg-primaryColor hover:bg-primaryColor/90 text-white gap-2 rounded-full transition-all duration-200 transform active:scale-95">
+                    <Counter calculateCartMutation={calculateCartMutation} />
+                    <Button
+                        className="flex-grow bg-primaryColor hover:bg-primaryColor/90 text-white gap-2 rounded-full transition-all duration-200 transform active:scale-95"
+                        onClick={()=>addToCart(productDetails._id)}
+                    >
                         {t("addToCart")}
                         <ShoppingCart className="h-5 w-5" />
                     </Button>
                 </div>
-                <Button variant="outline" className={`w-full active:scale-95 gap-3 transition-all duration-300 rounded-full ${
-                            isProductFavorite(_id) 
-                                ? ' bg-red-100 text-red-700' 
-                                : 'text-gray-600 hover:text-red-500'
-                        }`}  onClick={() => toggleFavorite(productDetails)}>
-                    <Heart className={`h-5 w-5 transition-all duration-300 ${
-                            isProductFavorite(_id) 
-                                ? 'text-red-500 fill-red-500' 
-                                : 'text-gray-600 hover:text-red-500'
-                        }`}/>
+                <Button variant="outline" className={`w-full active:scale-95 gap-3 transition-all duration-300 rounded-full ${isProductFavorite(_id)
+                    ? ' bg-red-100 text-red-700'
+                    : 'text-gray-600 hover:text-red-500'
+                    }`} onClick={() => toggleFavorite(productDetails)}>
+                    <Heart className={`h-5 w-5 transition-all duration-300 ${isProductFavorite(_id)
+                        ? 'text-red-500 fill-red-500'
+                        : 'text-gray-600 hover:text-red-500'
+                        }`} />
                     Add to Wishlist
                 </Button>
-              
+
             </div>
 
-            
+
 
             <SideBar dir={dir} />
         </div>

@@ -11,18 +11,17 @@ import { useQuery } from "@tanstack/react-query";
 import { getOneProduct } from "@/axios/instance";
 
 type productDetailsProps = {
-    params: string
+    params: string,
+    calculateCartMutation:any;
 };
 
-export function ProductDetails({ params }: productDetailsProps) {
+export function ProductDetails({ params,calculateCartMutation }: productDetailsProps,) {
     const { locale, dir } = useLocale()
 
     const { data: productDetails, isLoading, isError } = useQuery({
         queryFn: () => getOneProduct(params?.['product-slug']),
         queryKey: ['productDetails'],
     });
-
-    console.log(productDetails)
 
     if (isLoading) {
         return <ProductDetailsSkeleton />;
@@ -63,7 +62,11 @@ export function ProductDetails({ params }: productDetailsProps) {
                         <ReviewComment userName={'abdul'} rating={2} comment={'Not satisfied with the quality.'} />
                     </div>
                 </div>
-                <Details className="hidden lg:block lg:w-1/3 sticky top-24 self-start" productDetails={productDetails}  />
+                <Details 
+                className="hidden lg:block lg:w-1/3 sticky top-24 self-start" 
+                productDetails={productDetails}  
+                calculateCartMutation={calculateCartMutation}
+                />
             </section>
         </section>
     );

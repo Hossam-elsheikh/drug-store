@@ -32,9 +32,10 @@ const Checkout = () => {
         isLoading: userLoading,
         error: userError,
     } = useQuery({
-        queryFn: () => getUser(auth),
+        queryFn: () => getUser(auth.userId),
         queryKey: ['user'],
     })
+    console.log(user);
     
     const {
         data: cartItems,
@@ -68,7 +69,7 @@ const Checkout = () => {
         if (user && shipmentMethod === "paying-with-visa") {
             const payload = {
                 InvoiceValue:totalPrice.data.cartTotalPrice,
-                PaymentMethodId:2,
+                PaymentMethodId:1,
                 CustomerName: user.name,
                 CustomerEmail: user.email,
                 MobileCountryCode: "+965",

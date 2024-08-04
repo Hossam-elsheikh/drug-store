@@ -12,19 +12,25 @@ type Props = {
         image: string;
         src: string;
         price: number;
-        removeItemCartMutation:any;
-        calculateCartMutation:any;
         productId:any;
+        quantity:number;
     };
+    removeItemCartMutation:any;
+    calculateCartMutation:any;
+    auth:object;
     mode?: "cart" | "Favorites";
 };
-export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCartMutation,calculateCartMutation }: Props) {
+export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCartMutation,calculateCartMutation,auth }: Props) {
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH;
+// console.log(details);
 
-export default function CartDrawerItem({ details, mode = "cart" }: Props) {
-    const { addToFav, deleteFav } = useContext(FavContext)
+// export default function CartDrawerItem({ details, mode = "cart" }: Props) {
+    // const { addToFav, deleteFav } = useContext(FavContext)
 
-    const {_id, price,name,brand,image,description}=details
+    // const {_id, price,name,brand,image,description}=details
+
+    const removeItemCart = ()=> useRemoveItemCart({auth,cartItem,removeItemCartMutation,calculateCartMutation})
+
     return (
         <div className="flex justify-between gap-2 border-b py-4 h-30 shadow my-1 items-center rounded-lg p-2">
             <div className="w-1/3">
@@ -51,8 +57,9 @@ export default function CartDrawerItem({ details, mode = "cart" }: Props) {
                             <Heart className="text-pink-500 w-5 h-5" />
                         </button>
                     )}
-                    <button className="p-2 rounded-full bg-red-100 hover:bg-red-200 transition-all active:scale-[.95] duration-300 ml-2" onMouseDown={() => deleteFav(cartItem)}>
-                        <Trash2 onClick={removeItemCart} className="text-red-500 w-5 h-5" />
+                    {/* <button className="p-2 rounded-full bg-red-100 hover:bg-red-200 transition-all active:scale-[.95] duration-300 ml-2" onMouseDown={() => deleteFav(cartItem)}> */}
+                    <button onClick={removeItemCart} className="p-2 rounded-full bg-red-100 hover:bg-red-200 transition-all active:scale-[.95] duration-300 ml-2" >
+                        <Trash2  className="text-red-500 w-5 h-5" />
                     </button>
                 </div>
             </div>

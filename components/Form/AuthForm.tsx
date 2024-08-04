@@ -1,10 +1,7 @@
-"use client";
-
-import Link from "next/link";
+'use client'
 import React, { useState, useMemo } from "react";
-import { Button } from "@/components/ui/button";
 import CustomInput from "./CustomInput";
-import { Expand, Loader2 } from "lucide-react";
+import { Expand, Loader2, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { instance } from "@/axios/instance";
 import { Toaster, toast } from "sonner";
@@ -15,21 +12,12 @@ import { useLocale } from "@/context/LocaleProvider";
 import { useTranslations } from "next-intl";
 import { AuthFormSchema, initialAuthFormValues } from "@/lib/schema";
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
-import CustomInput from './CustomInput';
-import { Expand, Eye, EyeOff, Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import logo from '../../public/logo.svg'
 import * as Yup from "yup"
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import FormButton from '../formButton/FormButton';
 import useRefreshToken from '@/hooks/useRefreshToken';
-import useAuth from '../../hooks/useAuth';
 import PersistLogin from '../../providers/AuthPersistProvider';
 import useSignOut from '@/hooks/useSignOut';
-import { instance } from '@/axios/instance';
-
 interface authFormProps {
 	Type: string;
 	variant: "full" | "drawer";
@@ -60,10 +48,12 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
 				);
 				// console.log(JSON.stringify(response));
 				console.log(JSON.stringify(response?.data));
+				console.log(response);
+				
 				// const token = response?.data?.token;
 				// console.log(token);
 				// setAuth({ values, token });
-				toast.success("You Sign Up Successfully");
+				toast.success("You Signed Up Successfully");
 				if (response.status === 201) {
 					// setType('sign-in')
 					router.push(`/${locale}/sign-in`);
@@ -71,7 +61,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
 			}
 			//sign-in logic handling
 			if (type === "sign-in") {
-				const response = await instance.post(
+				const response:any = await instance.post(
 					"/user/sign-in",
 					JSON.stringify(values),
 					{
@@ -79,18 +69,18 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
 						withCredentials: true,
 					}
 				);
-				console.log(JSON.stringify(response?.data));
-				const { accessToken, id: userId } = response?.data?.accessToken;
-				console.log(accessToken);
+				const { accessToken, id: userId } = response?.data;
 				setAuth({ accessToken, userId });
-				toast.success("You Sign In Successfully");
+				console.log(response);
+				// console.log(JSON.stringify(response?.data));
+				// console.log(accessToken);
+				toast.success("You Signed In Successfully");
 				if (response.status === 200) {
 					router.push(`/${locale}`);
-					window.location.reload();
 				}
 			}
 		} catch (error) {
-			toast.error("Error during form submission:", error);
+			toast.error("Error during form submission:", );
 			console.error("Error during form submission:", error);
 		} finally {
 			// setIsLoading(false);

@@ -1,5 +1,4 @@
 'use client'
-import { getOrders } from '@/axios/instance'
 import UserInfo from '@/components/Checkout/UserInfo/UserInfo'
 import CartItem from '@/components/ItemCard/CartItem'
 import useAuth from '@/hooks/useAuth'

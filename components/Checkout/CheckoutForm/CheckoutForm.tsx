@@ -3,8 +3,11 @@ import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import CustomInput from "../Form/CustomInput";
-import { Button } from "../ui/button";
+// import CustomInput from "../Form/CustomInput";
+import CustomInput from "@/components/Form/CustomInput";
+
+import { Button } from "@/components/ui/button";
+// import { Button } from "../ui/button";
 import { CheckoutInitialValues, CheckoutValidationSchema } from "@/lib/schema";
 
 function CheckoutForm() {
