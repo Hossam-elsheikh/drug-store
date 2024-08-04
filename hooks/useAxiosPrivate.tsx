@@ -17,7 +17,6 @@ const useAxiosPrivate = () => {
                 if (auth?.userId) {
                     config.headers['id'] = auth.userId;
                 }
-                console.log('here is the config LOOK HERE',config);
                 return config;
                 
             },

@@ -35,7 +35,11 @@ const nextConfig = {
             {
                 protocol: "http",
                 hostname: "127.0.0.1",
-            }
+            },
+            {
+                protocol: "https",
+                hostname: "demo.myfatoorah.com",
+            },
         ],
         domains: ['localhost', '127.0.0.1'], // This is an alternative way to add local domains
     }

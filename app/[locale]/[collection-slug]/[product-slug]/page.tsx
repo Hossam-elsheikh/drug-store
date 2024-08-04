@@ -3,14 +3,23 @@ import BreadCrumb from "@/components/Breadcrumb/BreadCrumb";
 import CustomerReview from "@/components/CustomerReview/CustomerReview";
 import ProductDetails from "@/components/ProductDetails/ProductDetails";
 import React from "react";
+import useCalcCartMutation from "@/hooks/calcCartMutation";
+import useAuth from "@/hooks/useAuth";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 
-export default function ProductPage({params}) {
+export default function ProductPage({ params }) {
     // console.log(params)
+    const axiosPrivate = useAxiosPrivate();
+    const { auth }: any = useAuth();
+    const calculateCartMutation = useCalcCartMutation({ axiosPrivate, auth })    
     return (
         <section className="bg-gray-50 pb-5">
             <BreadCrumb />
-            <ProductDetails params={params}/>
-            <CustomerReview/>
+            <ProductDetails
+                params={params}
+                calculateCartMutation={calculateCartMutation}
+            />
+            <CustomerReview />
         </section>
     );
 }

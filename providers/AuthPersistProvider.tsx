@@ -6,40 +6,40 @@ import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 
 // const PersistLogin = (WrappedComponent: React.ComponentType) => {
-const AuthPersistProvider = ({children}:{children:ReactNode}) => {
+const AuthPersistProvider = ({ children }: { children: ReactNode }) => {
 
     // const AuthComponent = (props: any) => {
 
-        const [isLoading, setIsLoading] = useState(true)
-        const refresh = useRefreshToken()
-        const { auth }: any = useAuth()
-        const router = useRouter()
+    const [isLoading, setIsLoading] = useState(true)
+    const refresh = useRefreshToken()
+    const { auth }: any = useAuth()
+    const router = useRouter()
 
-        useEffect(() => {
-            const verifyRefreshToken = async () => {
-                try {
-                    await refresh()
-                } catch (error) {
-                    console.error(error);
-                    // router.push('/en/sign-in');
+    useEffect(() => {
+        const verifyRefreshToken = async () => {
+            try {
+                await refresh()
+            } catch (error) {
+                console.error(error);
+                // router.push('/en/sign-in');
 
-                } finally {
-                    setIsLoading(false)
-                }
+            } finally {
+                setIsLoading(false)
             }
-            !auth?.accessToken ? verifyRefreshToken() : setIsLoading(false)
-        }, [])
+        }
+        !auth?.accessToken ? verifyRefreshToken() : setIsLoading(false)
+    }, [])
 
-        useEffect(() => {
-            // console.log(`isLoading: ${isLoading}`);
-            // console.log(`at: ${JSON.stringify(auth?.accessToken)}`);
-        }, [isLoading])
-        
-        if (isLoading) return <Loading/>
-        // return <WrappedComponent {...props} />;
-        return <>{children}</>
-    }
-    // return AuthComponent;   
+    useEffect(() => {
+        // console.log(`isLoading: ${isLoading}`);
+        // console.log(`at: ${JSON.stringify(auth?.accessToken)}`);
+    }, [isLoading])
+
+    if (isLoading) return <Loading />
+    // return <WrappedComponent {...props} />;
+    return <>{children}</>
+}
+// return AuthComponent;   
 // }
 
 // export default PersistLogin;

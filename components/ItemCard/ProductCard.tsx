@@ -1,15 +1,18 @@
+
+
 'use client'
 import React, { useState } from 'react'
 import { Heart, ShoppingCart, Eye } from 'lucide-react'
 import Modal from './Modal'
 import { AnimatePresence, easeInOut, motion } from 'framer-motion'
-import { instancePrivate } from '@/axios/instance'
+import { AddToCart, instancePrivate } from '@/axios/instance'
 import useAuth from '@/hooks/useAuth'
 import Image from 'next/image'
 import { useLocale } from '@/context/LocaleProvider'
 import { useFavorites } from '@/context/favoriteProvider'
 import Link from 'next/link'
 const ProductCard = ({ details, mode = 'default', index }) => {
+    
     const { toggleFavorite, isProductFavorite } = useFavorites()
     const { locale } = useLocale()
     const [quickAccess, setQuickAccess] = useState(false)
@@ -37,26 +40,30 @@ const ProductCard = ({ details, mode = 'default', index }) => {
         description,
         category: { slug },
     } = details
+    
+    const addToCart = (product:any)=> AddToCart(product,auth)
 
-    const addToCart = async (product) => {
-        try {
-            const response = await instancePrivate.post('/order', {
-                cart: [
-                    {
-                        id: product.id,
-                        title: product.name.en,
-                        quantity: 1,
-                        unitPrice: product.price,
-                        netPrice: product.price,
-                    },
-                ],
-                customerId: auth.userId,
-            })
-            console.log(response)
-        } catch (err) {
-            console.error('error while adding to cart', err)
-        }
-    }
+    // const addToCart = async(product:any)=>{
+    //     console.log(product._id);
+
+    //     try{
+    //         const response = await instancePrivate.post('/user/cart',
+    //             // cart: [{
+    //             {
+    //                 productId: product._id,
+    //                 // title: product.name.en,
+    //                 quantity: 1,
+    //                 // unitPrice: product.price,
+    //                 // netPrice: product.price
+    //                 userId: auth.userId,
+    //             }
+    //         );
+    //         console.log(response);
+    //     }catch(err){
+    //         console.error('error while adding to cart',err);
+    //     }
+    // }
+
 
     const variants = {
         hidden: { opacity: 0, y: 20 },
@@ -108,7 +115,7 @@ const ProductCard = ({ details, mode = 'default', index }) => {
                         {price} <span className="font-normal text-sm">KWD</span>
                     </p> */}
                         <p className="mt-1 text-secColor font-semibold flex gap-1 text-lg">
-                            <span className="font-medium text-sm">KWT</span>
+                            <span className="font-medium text-sm">KWD</span>
                             {price}
                         </p>
                     </div>
