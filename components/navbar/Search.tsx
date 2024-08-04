@@ -76,11 +76,7 @@ export default function SearchMed(): JSX.Element {
         isFetching,
     } = useQuery<SearchResults>({
         queryKey: ['searchProducts', value],
-        queryFn: async () => {
-            const result = await SearchProducts(value);
-            console.log('API response:', result);
-            return result;
-        },
+        queryFn:  () =>  SearchProducts(value),
         enabled: value.length >= 3,
         staleTime: 1000 * 60 * 5,
     })
@@ -95,14 +91,14 @@ export default function SearchMed(): JSX.Element {
     }, [value, searchResults, isLoading, isFetching]);
 
     const handleSearch = (value: string): void => {
-        setInputValue(value)
+        setInputValue(value.replace(/ /g,'-'))
     }
 
     const onSubmit = async (values: FormValues, { resetForm }: FormikHelpers<FormValues>): Promise<void> => {
         if (values.input) {
             startTransition(() => {
                 const isSearchPage = pathname.includes('/search/');
-                let newPath = `/${locale}/search/${encodeURIComponent(values.input)}`;
+                let newPath = `/${locale}/search/${encodeURIComponent(values.input.replace(/ /g,'-'))}`;
                 router.replace(newPath, { shallow: true });
             });
             setIsOpen(false);

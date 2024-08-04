@@ -15,8 +15,8 @@ export default function CartDrawer() {
     const { dir, locale } = useLocale();
 
     return (
-        <div className="h-dvh flex flex-col" dir={dir}>
-            <div className="h-2/3 overflow-auto overflow-x-hidden border-b-2">
+        <div className="h-full flex flex-col" dir={dir}>
+            <div className="h-3/5 overflow-auto overflow-x-hidden border-b-2">
                 {products.length === 0 ? (
                     <div className='flex justify-center items-center h-full flex-col '>
                         <Image src={CartSvg} width={200} height={200} alt="cartSvg" />
