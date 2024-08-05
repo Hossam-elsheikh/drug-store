@@ -12,10 +12,9 @@ import { getOneProduct } from "@/axios/instance";
 
 type productDetailsProps = {
     params: string,
-    calculateCartMutation:any;
 };
 
-export function ProductDetails({ params,calculateCartMutation }: productDetailsProps,) {
+export function ProductDetails({ params }: productDetailsProps,) {
     const { locale, dir } = useLocale()
 
     const { data: productDetails, isLoading, isError } = useQuery({
@@ -65,7 +64,6 @@ export function ProductDetails({ params,calculateCartMutation }: productDetailsP
                 <Details 
                 className="hidden lg:block lg:w-1/3 sticky top-24 self-start" 
                 productDetails={productDetails}  
-                calculateCartMutation={calculateCartMutation}
                 />
             </section>
         </section>

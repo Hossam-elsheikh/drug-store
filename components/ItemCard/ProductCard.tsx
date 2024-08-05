@@ -43,28 +43,6 @@ const ProductCard = ({ details, mode = 'default', index }) => {
     
     const addToCart = (product:any)=> AddToCart(product,auth)
 
-    // const addToCart = async(product:any)=>{
-    //     console.log(product._id);
-
-    //     try{
-    //         const response = await instancePrivate.post('/user/cart',
-    //             // cart: [{
-    //             {
-    //                 productId: product._id,
-    //                 // title: product.name.en,
-    //                 quantity: 1,
-    //                 // unitPrice: product.price,
-    //                 // netPrice: product.price
-    //                 userId: auth.userId,
-    //             }
-    //         );
-    //         console.log(response);
-    //     }catch(err){
-    //         console.error('error while adding to cart',err);
-    //     }
-    // }
-
-
     const variants = {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0 },
