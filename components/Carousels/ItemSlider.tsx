@@ -17,6 +17,7 @@ type PharmacyItems = {
 
 function ItemSlider({ item }: PharmacyCategory) {
     const { locale } = useLocale()
+    const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
 
     return (
         <Link
@@ -28,7 +29,7 @@ function ItemSlider({ item }: PharmacyCategory) {
                     quality={100}
                     width={150}
                     height={150}
-                    src={item.image || categoryPlaceholder}
+                    src={`${imagePath}${item.image}` || categoryPlaceholder}
                     alt={item.name?.[locale]}
                 />
             </div>

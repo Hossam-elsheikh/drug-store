@@ -93,7 +93,7 @@ const ProductCard = ({ details, mode = 'default', index }) => {
                         {price} <span className="font-normal text-sm">KWD</span>
                     </p> */}
                         <p className="mt-1 text-secColor font-semibold flex gap-1 text-lg">
-                            <span className="font-medium text-sm">KWT</span>
+                            <span className="font-medium text-sm">KWD</span>
                             {price}
                         </p>
                     </div>

@@ -42,7 +42,7 @@ function DrawerWrapper({ showSec }: Props) {
     const totalFavorite = getTotalFavorites();
 
     return (
-        <div>
+        <div >
             <Sheet>
                 <SheetTrigger className="flex items-center gap-2 font-semibold text-nowrap hover:bg:gray-50 rounded-lg">
                     {showSec === "categories" ? (
@@ -76,7 +76,7 @@ function DrawerWrapper({ showSec }: Props) {
                     ) : null}
                 </SheetTrigger>
                 <SheetContent
-                    className="w-[300px] p-2"
+                    className="w-[300px] flex flex-col h-dvh p-2"
                     // side={dir === "rtl" ? "right" : "left"}
                 >
                     <SheetHeader className="items-center p-5">
