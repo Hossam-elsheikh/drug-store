@@ -11,13 +11,12 @@ export default function ProductPage({ params }) {
     // console.log(params)
     const axiosPrivate = useAxiosPrivate();
     const { auth }: any = useAuth();
-    const calculateCartMutation = useCalcCartMutation({ axiosPrivate, auth })    
+
     return (
         <section className="bg-gray-50 pb-5">
             <BreadCrumb />
             <ProductDetails
                 params={params}
-                calculateCartMutation={calculateCartMutation}
             />
             <CustomerReview />
         </section>

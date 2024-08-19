@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { AddToCart } from '@/axios/instance';
 import useAuth from '@/hooks/useAuth';
 
-function Details({ productDetails, className, calculateCartMutation }) {
+function Details({ productDetails, className }) {
     const { _id, price, name, brand, image, description, category: { slug }, stock } = productDetails || {};
     const { toggleFavorite, isProductFavorite } = useFavorites()
     const { locale, dir } = useLocale()
@@ -21,12 +21,7 @@ function Details({ productDetails, className, calculateCartMutation }) {
 
     const t = useTranslations("Buttons");
     const { auth }: any = useAuth()
-    const addToCart = (productDetails: any) => {
-        AddToCart(productDetails, auth)
-        console.log(productDetails);
-        console.log(auth);
-        
-    }
+    const addToCart = (product: any) => AddToCart(product, auth)
 
     return (
         <div className={classNames(
@@ -71,10 +66,11 @@ function Details({ productDetails, className, calculateCartMutation }) {
 
             <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                    <Counter calculateCartMutation={calculateCartMutation} />
                     <Button
                         className="flex-grow bg-primaryColor hover:bg-primaryColor/90 text-white gap-2 rounded-full transition-all duration-200 transform active:scale-95"
-                        onClick={()=>addToCart(productDetails._id)}
+                        onClick={() => {
+                            addToCart(productDetails)
+                        }}
                     >
                         {t("addToCart")}
                         <ShoppingCart className="h-5 w-5" />

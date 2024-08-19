@@ -34,28 +34,55 @@ interface ProductSearchParams {
 	search?: string;
 }
 
-// ---------------------------------------------------Products----------------------------------------------
+// ---------------------------------------------------User----------------------------------------------
 
-export const AddToCart = async(product:any,auth:any)=>{
-	console.log(product,auth,'from instance');
-
-	try{
-		const response = await instancePrivate.post('/user/cart',
-			// cart: [{
-			{
-				productId: product._id,
-				// title: product.name.en,
-				quantity: 1,
-				// unitPrice: product.price,
-				// netPrice: product.price
-				userId: auth.userId,
-			}
+export const getUser = async (userId: string): Promise<any> => {
+	try {
+		const response = await instancePrivate.get(
+			`${ApiEndPoints.USER}/${userId}`
 		);
+		return response.data;
 		console.log(response);
-	}catch(err){
-		console.error('error while adding to cart',err);
+	} catch (error) {
+		handleApiError(error, "getUser");
 	}
-}
+};
+
+export const updateUser = async (userId: string, data: any): Promise<any> => {
+	try {
+		const response = await instancePrivate.patch(
+			`${ApiEndPoints.USER}/${userId}`,
+			data
+		);
+		return response.data;
+	} catch (error) {
+		handleApiError(error, "updateUser");
+	}
+};
+export const deleteUser = async (userId: string): Promise<any> => {
+	try {
+		const response = await instancePrivate.delete(
+			`${ApiEndPoints.USER}/${userId}`
+		);
+
+		return response.data;
+	} catch (error) {
+		handleApiError(error, "deleteUser");
+	}
+};
+
+export const getUserOrders = async (userId: string): Promise<any> => {
+	try {
+		const response = await instancePrivate.get(
+			`${ApiEndPoints.ORDERS}/${userId}`
+		);
+		return response.data;
+	} catch (error) {
+		handleApiError(error, "getUserOrders");
+	}
+};
+
+//////////////////////////////////////////////////// Products //////////////////////////////////////////////////////
 
 export const getProducts = async (filters:searchParams): Promise<ProductResponse> => {
     try {
@@ -89,52 +116,6 @@ export const SearchProducts = async (SearchValue: string): Promise<any> => {
 		return response.data;
 	} catch (error) {
 		handleApiError(error, "Search Products");
-	}
-};
-
-// ---------------------------------------------------User----------------------------------------------
-// export const getUser = async (userId: string): Promise<any> => {
-// 	try {
-// 		const response = await instancePrivate.get(
-// 			`${ApiEndPoints.USER}/${userId}`
-// 		);
-// 		return response.data;
-// 	} catch (error) {
-// 		handleApiError(error, "getUser");
-// 	}
-// };
-
-export const updateUser = async (userId: string, data: any): Promise<any> => {
-	try {
-		const response = await instancePrivate.patch(
-			`${ApiEndPoints.USER}/${userId}`,
-			data
-		);
-		return response.data;
-	} catch (error) {
-		handleApiError(error, "updateUser");
-	}
-};
-export const deleteUser = async (userId: string): Promise<any> => {
-	try {
-		const response = await instancePrivate.delete(
-			`${ApiEndPoints.USER}/${userId}`
-		);
-
-		return response.data;
-	} catch (error) {
-		handleApiError(error, "deleteUser");
-	}
-};
-
-export const getUserOrders = async (userId: string): Promise<any> => {
-	try {
-		const response = await instancePrivate.get(
-			`${ApiEndPoints.ORDERS}/${userId}`
-		);
-		return response.data;
-	} catch (error) {
-		handleApiError(error, "getUserOrders");
 	}
 };
 
@@ -217,51 +198,24 @@ export const getMedia = async (): Promise<any> => {
 	}
 };
 
-
-/////////////////////////////////////////////////// user //////////////////////////////////////////////////////
-
-export const getUser = async (auth: any) => {
-    // const usePrivate = useAxiosPrivate()
-    // useAxiosPrivate()
-    // const { auth }: any = useAuth()
-    // const { auth }: any = useAuth()
-    console.log(auth,"");
-    
-    try {
-        const response = await instancePrivate.get(`/user/${auth}`)
-        console.log(response);
-        return response.data
-    } catch (error) {
-        console.error('error while getting user', error);
-    }
-    // try {
-    //     const response = await axios({
-    //         method: 'GET',
-    //         url: `${API_URL}/user/${auth.userId}`,
-    //         headers:{
-    //             'Content-Type':'application/json'
-    //         }
-    //     });
-    //     console.log(response);
-
-    //     return response
-    // } catch (error) {
-    //     console.error('error while fetching available Payments', error);
-    // }
-}
-
-//////////////////////////////////////////////////// Products //////////////////////////////////////////////////////
-
-// export const getProducts = async () => {
-//     try {
-//         const response = await instance.get('/product')
-//         return response;
-//     } catch (error) {
-//         console.error('error getting products', error);
-//     }
-// }
-
 //////////////////////////////////////////////////// cart //////////////////////////////////////////////////////
+
+export const AddToCart = async(product:any,auth:any)=>{
+	console.log(product,auth,'from instance');
+
+	try{
+		const response = await instancePrivate.post('/user/cart',
+			{
+				productId: product._id,
+				quantity: 1,
+				userId: auth.userId,
+			}
+		);
+		console.log(response);
+	}catch(err){
+		console.error('error while adding to cart',err);
+	}
+}
 
 export const fetchCartItems = async (axiosPrivate: any, auth: any) => {
     try {
