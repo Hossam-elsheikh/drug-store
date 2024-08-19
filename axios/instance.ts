@@ -295,7 +295,7 @@ export const applyCoupon = async (axiosPrivate, userId, couponCode, cartTotalPri
 
 //////////////////////////////////////////////////// Orders //////////////////////////////////////////////////////
 
-export const createOrder = async (axiosPrivate, auth, delivery, payment,shippingAddress) => {
+export const createOrder = async (axiosPrivate, auth, delivery, payment,shippingAddress) => {	
 	try {
 		const response = await axiosPrivate.post('/order', {
 			userId: auth.userId,
@@ -307,6 +307,7 @@ export const createOrder = async (axiosPrivate, auth, delivery, payment,shipping
 		return response
 	} catch (error) {
 		console.error('error while creating the order', error);
+		return error
 	}
 }
 
@@ -363,5 +364,6 @@ export const executePayment = async (payload: any) => {
 		return response.data
 	} catch (error) {
 		console.error('error while executing payment', error);
+		return error
 	}
 }

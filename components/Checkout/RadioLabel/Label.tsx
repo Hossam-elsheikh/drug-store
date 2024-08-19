@@ -7,14 +7,14 @@ type DataTypes = {
     icon: any;
     isFirst: boolean;
     isLast: boolean;
-    checked: boolean;
     setDeliveryMethod: any;
-    setShipmentMethod: any;
+    setPaymentMethod: any;
     methodState: any,
 
 }
 
-function Label({ method, methodValue, methodName, icon, isFirst, isLast, checked, setDeliveryMethod, setShipmentMethod, methodState }: DataTypes) {
+function Label({ method, methodValue, methodName, icon, isFirst, isLast, setDeliveryMethod, setPaymentMethod, methodState }: DataTypes) {
+// console.log(methodValue);
 
     return (
         <label className={
@@ -32,7 +32,7 @@ function Label({ method, methodValue, methodName, icon, isFirst, isLast, checked
                     onChange={() =>
                         methodValue === "ship" || methodValue === "pickup-in-store" ?
                             setDeliveryMethod(methodValue)
-                            : setShipmentMethod(methodValue)
+                            : setPaymentMethod(methodValue)
                     }
                 />
                 <p>{methodName}</p>

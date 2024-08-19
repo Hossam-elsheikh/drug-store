@@ -5,13 +5,12 @@ import SectionTitle from './SectionTitle';
 
 type DataTypes = {
     setDeliveryMethod: any,
-    setShipmentMethod: any,
+    setPaymentMethod: any,
     deliveryMethod: any,
-    shipmentMethod: any,
-    CheckoutFormik: any,
+    paymentMethod: any,
 }
 
-function RadioLabel({ setDeliveryMethod, setShipmentMethod, deliveryMethod, shipmentMethod, CheckoutFormik }: DataTypes) {
+function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, paymentMethod, }: DataTypes) {
 
     return (
         <>
@@ -24,7 +23,7 @@ function RadioLabel({ setDeliveryMethod, setShipmentMethod, deliveryMethod, ship
                     isFirst={true}
                     isLast={false}
                     setDeliveryMethod={setDeliveryMethod}
-                    setShipmentMethod={setShipmentMethod}
+                    setPaymentMethod={setPaymentMethod}
                     methodState={deliveryMethod}
                 />
                 <hr />
@@ -36,13 +35,10 @@ function RadioLabel({ setDeliveryMethod, setShipmentMethod, deliveryMethod, ship
                     isFirst={false}
                     isLast={true}
                     setDeliveryMethod={setDeliveryMethod}
-                    setShipmentMethod={setShipmentMethod}
+                    setPaymentMethod={setPaymentMethod}
                     methodState={deliveryMethod}
                 />
             </SectionTitle>
-            {CheckoutFormik.errors.deliveryMethod && (
-                <div style={{ color: 'red' }}>{CheckoutFormik.errors.deliveryMethod}</div>
-            )}
 
             <SectionTitle title="Payment">
                 <Label
@@ -53,9 +49,8 @@ function RadioLabel({ setDeliveryMethod, setShipmentMethod, deliveryMethod, ship
                     isFirst={true}
                     isLast={false}
                     setDeliveryMethod={setDeliveryMethod}
-                    setShipmentMethod={setShipmentMethod}
-                    methodState={shipmentMethod}
-
+                    setPaymentMethod={setPaymentMethod}
+                    methodState={paymentMethod}
                 />
                 <hr />
                 <Label
@@ -66,15 +61,10 @@ function RadioLabel({ setDeliveryMethod, setShipmentMethod, deliveryMethod, ship
                     isFirst={false}
                     isLast={true}
                     setDeliveryMethod={setDeliveryMethod}
-                    setShipmentMethod={setShipmentMethod}
-                    methodState={shipmentMethod}
-
+                    setPaymentMethod={setPaymentMethod}
+                    methodState={paymentMethod}
                 />
-
             </SectionTitle>
-            {CheckoutFormik.errors.shipmentMethod && (
-                <div style={{ color: 'red' }}>{CheckoutFormik.errors.shipmentMethod}</div>
-            )}
         </>
     )
 }

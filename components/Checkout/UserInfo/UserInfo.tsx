@@ -25,10 +25,9 @@ type DataTypes = {
     user: any,
     setShippingAddress: any,
     shippingAddress: any,
-    CheckoutFormik: any,
 }
 
-function UserInfo({ user, setShippingAddress, shippingAddress, CheckoutFormik }: DataTypes) {
+function UserInfo({ user, setShippingAddress, shippingAddress, }: DataTypes) {
 
     const [addressId, setAddressId] = useState('')
 
@@ -192,9 +191,6 @@ function UserInfo({ user, setShippingAddress, shippingAddress, CheckoutFormik }:
                         </label>
                     </div>
                 ))}
-                {CheckoutFormik.errors.shippingAddress && (
-                    <div style={{ color: 'red' }}>{CheckoutFormik.errors.shippingAddress}</div>
-                )}
             </div>
 
         </div >
