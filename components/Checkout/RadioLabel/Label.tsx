@@ -10,16 +10,19 @@ type DataTypes = {
     checked: boolean;
     setDeliveryMethod: any;
     setShipmentMethod: any;
+    methodState: any,
+
 }
 
-function Label({ method, methodValue, methodName, icon, isFirst, isLast, checked, setDeliveryMethod, setShipmentMethod }: DataTypes) {
+function Label({ method, methodValue, methodName, icon, isFirst, isLast, checked, setDeliveryMethod, setShipmentMethod, methodState }: DataTypes) {
 
     return (
         <label className={
             `flex justify-between px-3 py-5 cursor-pointer 
-            ${checked ? "bg-slate-300 border-2 border-[#282a3f] " : ""}
-            ${isFirst ? "rounded-t-md" : ""} 
-            ${isLast ? "rounded-b-md" : ""}`}
+            ${methodState === methodValue ? "bg-[#eafaff]  border border-[#282a3f] " : null}
+            ${isFirst ? "rounded-t-md" : null} 
+            ${isLast ? "rounded-b-md" : null}`
+        }
         >
             <div className="flex space-x-2">
                 <input

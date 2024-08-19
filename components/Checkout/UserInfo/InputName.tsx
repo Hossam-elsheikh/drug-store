@@ -8,7 +8,8 @@ type DataTypes = {
 
 function InputName({ inputName, info, isLast }: DataTypes) {
     return (
-        <div className={`flex space-x-3 py-3 ${isLast ? "" : "border-b"}`}>
+        <div className='flex  space-x-3 '>
+        {/* <div className={`flex space-x-3 py-3 ${isLast ? "" : "border-b"}`}> */}
             <p className="font-medium">{inputName}:</p>
             <p>{info}</p>
         </div>
