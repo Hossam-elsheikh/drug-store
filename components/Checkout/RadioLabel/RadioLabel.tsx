@@ -5,10 +5,12 @@ import SectionTitle from './SectionTitle';
 
 type DataTypes = {
     setDeliveryMethod: any,
-    setShipmentMethod: any,
+    setPaymentMethod: any,
+    deliveryMethod: any,
+    paymentMethod: any,
 }
 
-function RadioLabel({ setDeliveryMethod, setShipmentMethod }: DataTypes) {
+function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, paymentMethod, }: DataTypes) {
 
     return (
         <>
@@ -20,9 +22,9 @@ function RadioLabel({ setDeliveryMethod, setShipmentMethod }: DataTypes) {
                     icon={<Truck />}
                     isFirst={true}
                     isLast={false}
-                    // checked={}
                     setDeliveryMethod={setDeliveryMethod}
-                    setShipmentMethod={setShipmentMethod}
+                    setPaymentMethod={setPaymentMethod}
+                    methodState={deliveryMethod}
                 />
                 <hr />
                 <Label
@@ -32,9 +34,9 @@ function RadioLabel({ setDeliveryMethod, setShipmentMethod }: DataTypes) {
                     icon={<Store />}
                     isFirst={false}
                     isLast={true}
-                    // checked={}
                     setDeliveryMethod={setDeliveryMethod}
-                    setShipmentMethod={setShipmentMethod}
+                    setPaymentMethod={setPaymentMethod}
+                    methodState={deliveryMethod}
                 />
             </SectionTitle>
 
@@ -46,9 +48,9 @@ function RadioLabel({ setDeliveryMethod, setShipmentMethod }: DataTypes) {
                     icon={<HandCoins />}
                     isFirst={true}
                     isLast={false}
-                    // checked={}
                     setDeliveryMethod={setDeliveryMethod}
-                    setShipmentMethod={setShipmentMethod}
+                    setPaymentMethod={setPaymentMethod}
+                    methodState={paymentMethod}
                 />
                 <hr />
                 <Label
@@ -58,9 +60,9 @@ function RadioLabel({ setDeliveryMethod, setShipmentMethod }: DataTypes) {
                     icon={<CreditCard />}
                     isFirst={false}
                     isLast={true}
-                    // checked={}
                     setDeliveryMethod={setDeliveryMethod}
-                    setShipmentMethod={setShipmentMethod}
+                    setPaymentMethod={setPaymentMethod}
+                    methodState={paymentMethod}
                 />
             </SectionTitle>
         </>

@@ -29,7 +29,7 @@ const Cart = () => {
     queryKey: ["cartItems"],
   });
 
-  const calculateCartMutation = useCalcCartMutation({axiosPrivate,auth})
+  const calculateCartMutation = useCalcCartMutation({ axiosPrivate, auth })
 
   const removeItemCartMutation = removeItemMutation(axiosPrivate)
 
@@ -81,33 +81,14 @@ const Cart = () => {
           </div>
 
           {cartItems.data.length > 0 ?
-            <div className="border border-[#dcdcdc]  rounded-lg flex flex-col px-4">
-              <h2 className="font-medium text-xl py-4">Order Summary</h2>
-              <div className="space-y-4">
-                <div className="relative">
-                  <input className=" w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:shadow-md" type="search" placeholder="add a Coupon" />
-                  <Link href="/en/checkout" className="absolute top-0 m-0 right-0 p-3 flex items-center text-center text-white font-medium bg-[#5ac5e7] rounded-r-md hover:bg-[#198ab0] transition-all" >APPLY</Link>
-                </div>
-                <OderSummaryInfo
-                  title='Subtotal'
-                  price={totalPrice.data.cartTotalPrice}
-                />
-                <OderSummaryInfo
-                  title='Coupon'
-                  price={totalPrice.data.cartTotalPrice}
-                />
-                <OderSummaryInfo
-                  title='Shipping Fee'
-                  price={totalPrice.data.cartTotalPrice}
-                />
-                <hr className="border border-[#dcdcdc]" />
-                <div className="font-semibold text-xl">
-                  <OderSummaryInfo
-                    title='Total'
-                    price={totalPrice.data.cartTotalPrice}
-                  />
-                </div>
-              </div>
+            <div className="h-44 my-auto  rounded-lg flex flex-col px-4 bg-white">
+              <h2 className="font-medium text-xl py-4 text-center">
+                Subtotal
+                <span className="text-sm text-[#7e859b]">
+                  ( {cartItems.data.length} item )
+                </span>
+              </h2>
+              <p className="font-semibold text-lg text-center">{totalPrice.data.cartTotalPrice} <span className="font-medium text-sm ">KWD</span></p>
               <Link href="/en/checkout" className=" p-4 text-center text-white font-medium my-4 bg-[#5ac5e7] rounded-md hover:bg-[#198ab0] transition-all" >CHECKOUT</Link>
             </div>
             :

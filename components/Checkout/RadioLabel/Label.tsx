@@ -7,19 +7,22 @@ type DataTypes = {
     icon: any;
     isFirst: boolean;
     isLast: boolean;
-    checked: boolean;
     setDeliveryMethod: any;
-    setShipmentMethod: any;
+    setPaymentMethod: any;
+    methodState: any,
+
 }
 
-function Label({ method, methodValue, methodName, icon, isFirst, isLast, checked, setDeliveryMethod, setShipmentMethod }: DataTypes) {
+function Label({ method, methodValue, methodName, icon, isFirst, isLast, setDeliveryMethod, setPaymentMethod, methodState }: DataTypes) {
+// console.log(methodValue);
 
     return (
         <label className={
             `flex justify-between px-3 py-5 cursor-pointer 
-            ${checked ? "bg-slate-300 border-2 border-[#282a3f] " : ""}
-            ${isFirst ? "rounded-t-md" : ""} 
-            ${isLast ? "rounded-b-md" : ""}`}
+            ${methodState === methodValue ? "bg-[#eafaff]  border border-[#282a3f] " : null}
+            ${isFirst ? "rounded-t-md" : null} 
+            ${isLast ? "rounded-b-md" : null}`
+        }
         >
             <div className="flex space-x-2">
                 <input
@@ -29,7 +32,7 @@ function Label({ method, methodValue, methodName, icon, isFirst, isLast, checked
                     onChange={() =>
                         methodValue === "ship" || methodValue === "pickup-in-store" ?
                             setDeliveryMethod(methodValue)
-                            : setShipmentMethod(methodValue)
+                            : setPaymentMethod(methodValue)
                     }
                 />
                 <p>{methodName}</p>

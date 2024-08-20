@@ -3,45 +3,59 @@ import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { availablePayment } from '@/axios/instance'
 import Image from 'next/image'
+import Select from 'react-select'
 
-const AvailablePayment = () => {
+type DataType = {
+    setPaymentMethodId:any
+}
 
-    const InvoiceAmount = 100
+const AvailablePayment = ({setPaymentMethodId}:DataType) => {
 
-    const { 
-        data: pays, 
-        isLoading:payLoading,
+    const InvoiceAmount = 1
+
+    const {
+        data: pays,
+        isLoading: payLoading,
         error: payError,
     } = useQuery({
         queryFn: () => availablePayment(InvoiceAmount),
         queryKey: ['pays'],
-    })    
+    })
     if (payLoading) return <p>pays loading...</p>;
-    if (payError) return <h1>error while fetching pays</h1>
+    if (payError) return <h1>No available payment methods for now</h1>
+
+    const options = pays?.data.Data.PaymentMethods.map((pay: any) => ({
+        value: pay.PaymentMethodEn,
+        label: (
+            <div className="flex items-center space-x-2">
+                <Image 
+                    src={pay.ImageUrl} 
+                    width={50}
+                    height={50}
+                    alt={pay.PaymentMethodEn}
+                    className="inline-block"
+                />
+                <span>{pay.PaymentMethodEn}</span>
+            </div>
+        ),
+    }))
+
+    console.log(options);
+    
 
     return (
-        <div className='border rounded-md '>
+        <div className=''>
             {pays ? (
-                <div className='space-x-5 p-5 space-y-2 grid grid-cols-7 items-center'>
-                    {pays.data.Data.PaymentMethods.map((pay: any) => (
-                        <div id={pay.id} className='  '>
-                            <div className=' '>
-                                <Image 
-                                src={pay.ImageUrl} 
-                                className='' 
-                                width={100}
-                                height={100}
-                                alt='image'
-                                />
-                                <p className=' text-center font-medium text-xs line-clamp-1'>{pay.PaymentMethodEn}</p>
-                            </div>
-                        </div>
-                    ))}
+                <div >
+                    <Select
+                        options={[...options]} 
+                        id="paymentMethods"
+                        name="paymentMethods"
+                        className='pt-3'
+                    />
                 </div>
             ) : (
-                <>
-                    no Available Payments for now
-                </>
+                <p>No available payment methods for now</p>
             )}
         </div>
     )

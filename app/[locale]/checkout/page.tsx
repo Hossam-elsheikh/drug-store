@@ -1,31 +1,78 @@
 'use client'
-import { calcCart, createOrder, executePayment, fetchCartItems, getUser } from "@/axios/instance";
+import { applyCoupon, calcCart, createOrder, executePayment, fetchCartItems, getCoupon, getUser, updateUser } from "@/axios/instance";
 import BreadCrumb from "@/components/Breadcrumb/BreadCrumb";
 import AvailablePayment from "@/components/Checkout/AvailablePayment/AvailablePayment";
 import CheckoutForm from "@/components/Checkout/CheckoutForm/CheckoutForm";
 import Order from "@/components/Checkout/Order";
 import RadioLabel from "@/components/Checkout/RadioLabel/RadioLabel";
-import InputName from "@/components/Checkout/UserInfo/InputName";
 import UserInfo from "@/components/Checkout/UserInfo/UserInfo";
+import CustomInput from "@/components/Form/CustomInput";
 import OderSummaryInfo from "@/components/OderSummaryInfo/OderSummaryInfo";
-import CartItemsCheckout from "@/components/UserProfile/cartItems/CartItemsCheckout";
-import CheckOutSummary from "@/components/UserProfile/cartItems/CheckOutSummary";
-import UserProfileInfo from "@/components/UserProfile/userprofile/UserProfileInfo";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Banknote, CreditCard, HandCoins, Store, Truck } from "lucide-react";
-import Image from "next/image";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
+import { useFormik } from 'formik';
+
+import { Button } from '@/components/ui/button';
+
+import * as Yup from 'yup';
+import { Loader, X } from "lucide-react";
+import AddNewAddress from "@/components/Checkout/newAddressForm/AddNewAddress";
+import OrderSummary from "@/components/Checkout/OrderSummary";
 
 const Checkout = () => {
 
+    const [deliveryMethod, setDeliveryMethod] = useState('')
+    const [paymentMethod, setPaymentMethod] = useState('')
+    const [payWithCash, setPayWithCash] = useState('')
+    const [paymentURL, setPaymentURL] = useState('')
+    const [shippingAddress, setShippingAddress] = useState('')
+    const [cartPrice, setCartPrice] = useState('')
+    console.log(cartPrice);
+    
+
     const axiosPrivate = useAxiosPrivate();
     const { auth }: any = useAuth()
-    const [deliveryMethod, setDeliveryMethod] = useState('')
-    const [shipmentMethod, setShipmentMethod] = useState('')
-    const [paymentURL,setPaymentURL]=useState('')
+
+    const validationSchema = Yup.object({
+        city: Yup.string().required('City is required'),
+        state: Yup.string().required('State is required'),
+        street: Yup.string().required('Street is required'),
+    });
+
+    const formik = useFormik(
+        {
+            initialValues: {
+                city: '',
+                state: '',
+                street: ''
+            },
+            validationSchema: validationSchema,
+            onSubmit: async (values,) => {
+                handleFormAddressSubmit(values);
+            },
+        },
+    );
+    const couponFormik = useFormik(
+        {
+            initialValues: {
+                couponCode: '',
+            },
+            onSubmit: async (values,) => {
+                handleCouponSubmit(values);
+            },
+        },
+    );
+
+    const validateFields = () => {
+        const errors: any = {};
+        if (!deliveryMethod) errors.deliveryMethod = 'Delivery method is required';
+        if (!paymentMethod) errors.paymentMethod = 'Payment method is required';
+        if (!shippingAddress) errors.shippingAddress = 'Shipping Address is required';
+        return errors;
+    };
 
     const {
         data: user,
@@ -35,8 +82,7 @@ const Checkout = () => {
         queryFn: () => getUser(auth.userId),
         queryKey: ['user'],
     })
-    console.log(user);
-    
+
     const {
         data: cartItems,
         isLoading: isCartLoading,
@@ -50,6 +96,7 @@ const Checkout = () => {
         data: totalPrice,
         isLoading: isTotalPriceLoading,
         error: totalPriceError,
+        isSuccess: isSuccessTotalPrice,
     } = useQuery({
         queryFn: () => calcCart({ axiosPrivate, auth }),
         queryKey: ['totalPrice'],
@@ -62,14 +109,33 @@ const Checkout = () => {
             setPaymentURL(data.Data.PaymentURL)
         },
     })
-    
-    console.log(paymentURL);
+    const applyCouponMutation = useMutation({
+        mutationFn: () => applyCoupon(axiosPrivate, auth.userId, couponFormik.values.couponCode, totalPrice.data.cartTotalPrice),
+        onSuccess: (data) => setCartPrice(data.data.finalPrice)
+    })
+    const applyCouponEvent = () => applyCouponMutation.mutate()
+
+    const handleCouponSubmit = (event: any) => {
+        event.preventDefault()
+    }
 
     useEffect(() => {
-        if (user && shipmentMethod === "paying-with-visa") {
+        if (isSuccessTotalPrice === true && applyCouponMutation.isSuccess === false) {
+            setCartPrice(totalPrice.data.cartTotalPrice)
+        }
+    }, [totalPrice])
+
+    useEffect(() => {
+        if (applyCouponMutation?.data?.data.finalPrice) {
+            setCartPrice(applyCouponMutation?.data?.data.finalPrice)
+        }
+    }, [applyCouponMutation?.data?.data.finalPrice])
+
+    const order = async () => {
+        if (user && paymentMethod === "paying-with-visa") {
             const payload = {
-                InvoiceValue:totalPrice.data.cartTotalPrice,
-                PaymentMethodId:1,
+                InvoiceValue: cartPrice,
+                PaymentMethodId: 2,
                 CustomerName: user.name,
                 CustomerEmail: user.email,
                 MobileCountryCode: "+965",
@@ -81,11 +147,71 @@ const Checkout = () => {
                 InvoiceItem: cartItems.data,
                 CustomerAddress: user.addresses,
             }
-            executePayMutation.mutate(payload)
+            try {
+                executePayMutation.mutate(payload, {
+                    onSuccess: async () => {
+                        await createOrder(axiosPrivate, auth, deliveryMethod, paymentMethod, shippingAddress);
+                        if (executePayMutation?.data?.Data && executePayMutation?.data?.Data.PaymentURL) {
+                            window.location.href = executePayMutation.data.Data.PaymentURL;
+                        }
+                    },
+                    onError: (error) => {
+                        console.error('Payment execution failed', error);
+                    }
+                })
+            } catch (error) {
+                console.error('Payment failed, please try again.', error);
+            }
         }
-    }, [shipmentMethod])
+        if (paymentMethod === 'cash-on-delivery') {
+            try {
+                await createOrder(axiosPrivate, auth, deliveryMethod, paymentMethod, shippingAddress)
+                setPayWithCash('cash-on-delivery')
+            } catch (error) {
+                console.error('Payment failed, please try again.', error);
+            }
+        }
+    }
+    console.log();
+    
 
-    const order = async () => await createOrder(axiosPrivate, auth, deliveryMethod, shipmentMethod)
+    const userId = auth.userId
+    const queryClient = useQueryClient()
+    const addUserAddressMutation = useMutation({
+        mutationFn: () => updateUser({
+            userId,
+            data: {
+                newAddress: {
+                    city: formik.values.city,
+                    state: formik.values.state,
+                    street: formik.values.street
+                }
+            }
+        }),
+        onSuccess: () => {
+            queryClient.invalidateQueries()
+            formik.resetForm()
+        },
+        onSettled: () => {
+            setTimeout(() => {
+                addUserAddressMutation.reset()
+            }, 8000)
+        },
+        onError(error) {
+            console.log(error);
+        },
+    })
+    function handleFormAddressSubmit(event: any) {
+        event.preventDefault()
+        addUserAddressMutation.mutate()
+    }
+    const handleCheckoutSubmit = async (event: any) => {
+        event.preventDefault();
+        const errors = validateFields();
+        if (Object.keys(errors).length === 0) {
+            order();
+        }
+    };
 
     if (userLoading) return <h1>fetching user ...</h1>
     if (userError) return <h1>error while fetching user</h1>
@@ -98,129 +224,120 @@ const Checkout = () => {
         <div className="bg-gray-50 w-[80%] mx-auto flex flex-col min-h-dvh">
             {/* <BreadCrumb /> */}
             <div className="grid  xl:grid-cols-2 md:grid-cols-1  bg-white ">
-                {/* <div className="max-w-[1500px] sm:px-2 py-4"> */}
-                <div className="bg-white px-10 ">
-                    {/* <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-8"> */}
 
-                    {/* Cart Items and Summary */}
-                    {/* <div className="lg:col-span-4 space-y-6">
-                        <div className="bg-white rounded-lg shadow overflow-hidden">
-                            <div className="p-3 space-y-4">
-                                <CartItemsCheckout />
-                            </div>
-                        </div>
-                    </div> */}
+                <form onSubmit={handleCheckoutSubmit}>
 
-                    {auth.userId ?
-                        (
-                            <div className="pb-3">
-                                <div className="flex justify-between ">
-                                    <p className="font-medium text-xl pt-5 pb-3">Shipping Address</p>
-                                    <Link href='/' className="text-[#4fb4d3] self-end pb-2">add new address</Link>
-                                </div>
-                                <UserInfo user={user} />
-                            </div>
-                        )
-                        :
-                        (
-                            <>
-                                <div className="">
-                                    {/* <div className="lg:col-span-4"> */}
-                                    <div className="overflow-hidden">
-                                        {/* <div className="bg-white rounded-lg shadow overflow-hidden"> */}
-                                        <div className="p-3">
-                                            <h2 className="text-lg font-medium text-gray-900 mb-4">
-                                                Shipping Info
-                                            </h2>
-                                            <CheckoutForm />
+                    <div className="bg-white px-10 ">
+
+                        {auth.userId ?
+                            (
+                                <div className="pb-3">
+                                    <div className="flex justify-between ">
+                                        <p className="font-medium text-xl pt-5 pb-3">Shipping Address</p>
+
+                                        <div className="self-end">
+                                            <AddNewAddress
+                                                handleFormAddressSubmit={handleFormAddressSubmit}
+                                                formik={formik}
+                                                addUserAddressMutation={addUserAddressMutation}
+                                            />
                                         </div>
                                     </div>
+                                    <UserInfo user={user} shippingAddress={shippingAddress} setShippingAddress={setShippingAddress} />
                                 </div>
-                            </>
-                        )}
-
-                    <div className="">
-                        <p className="text-xl pt-5 pb-3 font-medium">Your Order</p>
-                        <div className="p-5 rounded-md border">
-                            {cartItems.data.length > 0 ?
-                                cartItems.data.map((cartItem: any) =>
-                                    <div id={cartItem._id}>
-                                        <Order cartItem={cartItem} />
-                                    </div>
-                                )
-                                :
+                            )
+                            :
+                            (
                                 <>
-                                    <p>Your cart is empty</p>
+                                    <div className="">
+                                        <div className="overflow-hidden">
+                                            <div className="p-3">
+                                                <h2 className="text-lg font-medium text-gray-900 mb-4">
+                                                    Shipping Info
+                                                </h2>
+                                                <CheckoutForm />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </>
-                            }
+                            )}
+
+                        <div className="">
+                            <p className="text-xl pt-5 pb-3 font-medium">Your Order</p>
+                            <div className="p-5 rounded-md border">
+                                {cartItems.data.length > 0 ?
+                                    cartItems.data.map((cartItem: any) =>
+                                        <div id={cartItem._id}>
+                                            <Order cartItem={cartItem} />
+                                        </div>
+                                    )
+                                    :
+                                    <>
+                                        <p>Your cart is empty</p>
+                                    </>
+                                }
+                            </div>
                         </div>
+
+                        <RadioLabel
+                            setDeliveryMethod={setDeliveryMethod}
+                            setPaymentMethod={setPaymentMethod}
+                            deliveryMethod={deliveryMethod}
+                            paymentMethod={paymentMethod}
+                        />
+
+                        {/* {shipmentMethod === "paying-with-visa" ?
+                        <>
+                            <p className="font-medium text-xl pt-5 pb-3">Payment Method</p>
+                            <AvailablePayment setPaymentMethodId={setPaymentMethodId}/>
+                        </>
+                        :
+                        null
+                    } */}
+
+                        <div className="flex justify-center py-5">
+                            <button
+                                // href={`${paymentURL}`}
+                                className={`
+                                    flex justify-center gap-2  w-full p-4 text-center text-white font-medium bg-[#5ac5e7] 
+                                    rounded-md hover:bg-[#198ab0] transition-all 
+                                    ${Object.keys(validateFields()).length > 0 || executePayMutation.isPending !== false ? 'disabled:bg-gray-200' : null}
+                                    ${executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery' ? 'disabled:bg-green-400' : null}`
+                                }
+                                type="submit"
+                                disabled={Object.keys(validateFields()).length > 0 || executePayMutation.isPending !== false || executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery'}
+                            >
+                                {executePayMutation.isPending ? (
+                                    <p>Processing</p>
+                                ) : executePayMutation.isSuccess || payWithCash === 'cash-on-delivery' ? (
+                                    (window.location.href = payWithCash === 'cash-on-delivery' ? 'http://localhost:3000/en' : executePayMutation.isSuccess ? paymentURL : ''),
+                                    <p className="flex justify-center gap-2">Redirecting <Loader className="animate-spin" /></p>
+                                ) : (
+                                    <p>Pay Now</p>
+                                )}
+                                {executePayMutation.isPending !== false ? <Loader className="animate-spin" /> : null}
+                            </button>
+                            {executePayMutation.isError ? <p className="text-red-400 text-center">error,, try again</p> : null}
+                        </div>
+
                     </div>
+                </form>
 
-                    <RadioLabel
-                        setDeliveryMethod={setDeliveryMethod}
-                        setShipmentMethod={setShipmentMethod}
-                    />
-
-                    <div>
-                        <p className="font-medium text-xl pt-5 pb-3">Available Payments</p>
-                        <AvailablePayment />
-                    </div>
-
-                    <div className="flex justify-center py-5">
-                        <Link
-                            href={`${paymentURL}`}
-                            className="w-full p-4 text-center text-white font-medium bg-[#5ac5e7] rounded-md hover:bg-[#198ab0] transition-all"
-                            onClick={order}
-                        >
-                            Pay Now
-                        </Link>
-                        {/* <Link href="/en/checkout" className=" p-4 text-center text-white font-medium my-4 bg-[#5ac5e7] rounded-md hover:bg-[#198ab0] transition-all" >PAYMENT</Link> */}
-                    </div>
-
-                </div>
 
                 <div className=" h-full bg-[#ffffff]">
-                    {/* <div className="lg:col-span-4"> */}
                     <div className=" rounded-md  overflow-hidden sticky top-28 self-start">
-                        {/* <div className="bg-[#f5f5f5] rounded-lg shadow overflow-hidden"> */}
                         <div className="pt-5 px-10">
                             <h2 className="text-lg font-medium text-gray-900 mb-4">
                                 Order Summary
                             </h2>
-                            {/* <CheckOutSummary
-                                subtotal={220}
-                                shipping={50}
-                                taxes={10}
-                                promoCode={20}
-                            /> */}
-                            <div className="border border-[#dedede]  rounded-lg flex flex-col px-4">
-                                {/* <h2 className="font-medium text-lg py-4">Order Summary</h2> */}
-                                <div className="space-y-4 py-5">
-                                    <div className="relative">
-                                        <input className=" w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:shadow-md" type="search" placeholder="add a Coupon" />
-                                        <Link href="/en/checkout" className="absolute top-0 m-0 right-0 p-3 flex items-center text-center text-white font-medium bg-[#5ac5e7] rounded-r-md hover:bg-[#198ab0] transition-all" >APPLY</Link>
-                                    </div>
-                                    <OderSummaryInfo
-                                        title='Subtotal'
-                                        price={totalPrice.data.cartTotalPrice}
-                                    />
-                                    <OderSummaryInfo
-                                        title='Coupon'
-                                        price={totalPrice.data.cartTotalPrice}
-                                    />
-                                    <OderSummaryInfo
-                                        title='Shipping Fee'
-                                        price={totalPrice.data.cartTotalPrice}
-                                    />
-                                    <hr className="border border-[#dcdcdc]" />
-                                    <div className="font-semibold text-xl">
-                                        <OderSummaryInfo
-                                            title='Total'
-                                            price={totalPrice.data.cartTotalPrice}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
+
+                            <OrderSummary
+                                couponFormik={couponFormik}
+                                applyCouponMutation={applyCouponMutation}
+                                applyCouponEvent={applyCouponEvent}
+                                totalPrice={totalPrice}
+                            />
+
                         </div>
                     </div>
                 </div>
