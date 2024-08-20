@@ -101,8 +101,8 @@ const Cart = () => {
           <div className="space-y-5">
             <ShoppingCart className="mx-auto sm:h-[200px] sm:w-[200px]" />
             <p className="  font-semibold text-3xl px-3">Your Cart Is Empty</p>
-            <p className="px-3">Add some Products to Your Cart</p>
-            <button className="mx-auto border p-4  rounded-md text-white font-medium bg-[#5ac5e7] hover:bg-[#198ab0] transition-all">Return to Home</button>
+            <p className="px-3 pb-10">Add some Products to Your Cart</p>
+            <Link href={'/'} className="mx-auto border p-4  rounded-md text-white font-medium bg-[#5ac5e7] hover:bg-[#198ab0] transition-all">Return to Home</Link>
           </div>
         </div>
         :

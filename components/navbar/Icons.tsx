@@ -1,5 +1,5 @@
 'use client';
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import LanguageSwitcher from '../LanguageSwitcher';
 import DrawerWrapper from '../Drawers/DrawerWrapper';
 import { useLocale } from "@/context/LocaleProvider";
@@ -14,9 +14,8 @@ const Icons = () => {
     const pathName: string = usePathname();
 
     useEffect(() => {
-        
-    }, [auth]);
 
+    }, [auth, pathName]);
 
     return (
         <>
@@ -40,7 +39,9 @@ const Icons = () => {
                 )}
 
                 <DrawerWrapper showSec='Favorites' />
-                <DrawerWrapper showSec='cart' />
+                
+                {pathName === `/${locale}/checkout` ? null : <DrawerWrapper showSec='cart' />}
+
             </div>
         </>
     );

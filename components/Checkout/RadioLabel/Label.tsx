@@ -10,11 +10,11 @@ type DataTypes = {
     setDeliveryMethod: any;
     setPaymentMethod: any;
     methodState: any,
-
+    formErrorPayment: any,
 }
 
-function Label({ method, methodValue, methodName, icon, isFirst, isLast, setDeliveryMethod, setPaymentMethod, methodState }: DataTypes) {
-// console.log(methodValue);
+function Label({ method, methodValue, methodName, icon, isFirst, isLast, setDeliveryMethod, setPaymentMethod, methodState, formErrorPayment }: DataTypes) {
+    // console.log(methodValue);
 
     return (
         <label className={
@@ -34,6 +34,7 @@ function Label({ method, methodValue, methodName, icon, isFirst, isLast, setDeli
                             setDeliveryMethod(methodValue)
                             : setPaymentMethod(methodValue)
                     }
+                    onFocus={formErrorPayment}
                 />
                 <p>{methodName}</p>
             </div>
