@@ -8,9 +8,11 @@ type DataTypes = {
     setPaymentMethod: any,
     deliveryMethod: any,
     paymentMethod: any,
+    formErrors: any,
+    setFormErrors: any,
 }
 
-function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, paymentMethod, }: DataTypes) {
+function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, paymentMethod, formErrors, setFormErrors }: DataTypes) {
 
     return (
         <>
@@ -25,7 +27,14 @@ function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, payme
                     setDeliveryMethod={setDeliveryMethod}
                     setPaymentMethod={setPaymentMethod}
                     methodState={deliveryMethod}
-                />
+                    formErrorPayment={() => {
+                        if (formErrors.deliveryMethod) {
+                            setFormErrors((errors: any) => ({
+                                ...errors,
+                                deliveryMethod: ''
+                            }))
+                        }
+                    }} />
                 <hr />
                 <Label
                     method="delivery"
@@ -37,9 +46,17 @@ function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, payme
                     setDeliveryMethod={setDeliveryMethod}
                     setPaymentMethod={setPaymentMethod}
                     methodState={deliveryMethod}
+                    formErrorPayment={() => {
+                        if (formErrors.deliveryMethod) {
+                            setFormErrors((errors: any) => ({
+                                ...errors,
+                                deliveryMethod: ''
+                            }))
+                        }
+                    }}
                 />
             </SectionTitle>
-
+            {formErrors ? <p className="text-red-400">{formErrors?.deliveryMethod}</p> : null}
             <SectionTitle title="Payment">
                 <Label
                     method="payment"
@@ -51,6 +68,14 @@ function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, payme
                     setDeliveryMethod={setDeliveryMethod}
                     setPaymentMethod={setPaymentMethod}
                     methodState={paymentMethod}
+                    formErrorPayment={() => {
+                        if (formErrors.paymentMethod) {
+                            setFormErrors((errors: any) => ({
+                                ...errors,
+                                paymentMethod: ''
+                            }))
+                        }
+                    }}
                 />
                 <hr />
                 <Label
@@ -63,8 +88,18 @@ function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, payme
                     setDeliveryMethod={setDeliveryMethod}
                     setPaymentMethod={setPaymentMethod}
                     methodState={paymentMethod}
+                    formErrorPayment={() => {
+                        if (formErrors.paymentMethod) {
+                            setFormErrors((errors: any) => ({
+                                ...errors,
+                                paymentMethod: ''
+                            }))
+                        }
+                    }}
                 />
             </SectionTitle>
+            {formErrors ? <p className="text-red-400">{formErrors?.paymentMethod}</p> : null}
+
         </>
     )
 }

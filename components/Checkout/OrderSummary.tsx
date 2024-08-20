@@ -9,6 +9,7 @@ type DataType = {
 }
 
 function OrderSummary({couponFormik,applyCouponMutation,applyCouponEvent,totalPrice}:DataType) {
+    
     return (
         <div>
             <div className="border border-[#dedede]  rounded-lg flex flex-col px-4">

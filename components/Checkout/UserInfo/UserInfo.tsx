@@ -25,9 +25,11 @@ type DataTypes = {
     user: any,
     setShippingAddress: any,
     shippingAddress: any,
+    formErrors: any,
+    setFormErrors: any,
 }
 
-function UserInfo({ user, setShippingAddress, shippingAddress, }: DataTypes) {
+function UserInfo({ user, setShippingAddress, shippingAddress,formErrors,setFormErrors }: DataTypes) {
 
     const [addressId, setAddressId] = useState('')
 
@@ -114,6 +116,14 @@ function UserInfo({ user, setShippingAddress, shippingAddress, }: DataTypes) {
                                 name='address'
                                 value={address.id}
                                 onChange={() => setShippingAddress(address)}
+                                onFocus={() => {
+                                    if (formErrors.shippingAddress) {
+                                        setFormErrors((errors:any)=>({
+                                            ...errors,
+                                            shippingAddress:''
+                                        }))
+                                    }
+                                }}
                             />
 
                             <p className='space-x-3'><span>{address.state}</span><span>{address.city}</span><span>{address.street}</span></p>
@@ -191,6 +201,8 @@ function UserInfo({ user, setShippingAddress, shippingAddress, }: DataTypes) {
                         </label>
                     </div>
                 ))}
+                    {formErrors.shippingAddress ? <p className="text-red-400 pt-2">{formErrors.shippingAddress}</p>:null}
+
             </div>
 
         </div >
