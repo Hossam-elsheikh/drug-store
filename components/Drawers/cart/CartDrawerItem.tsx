@@ -35,21 +35,21 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
         <div className="flex justify-between gap-2 border-b py-4 h-30 shadow my-1 items-center rounded-lg p-2">
             <div className="w-1/3">
                 <Image
-                    src={`http://localhost:4000/uploads/photos/${cartItem.productId.image}`}
+                    src={`http://localhost:4000/uploads/photos/${cartItem?.productId?.image}`}
                     width={100}
                     height={100}
                     objectFit="cover"
-                    alt={cartItem.title}
+                    alt={cartItem?.title}
                 />
             </div>
             <div className="px-2">
-                <h3 className=" text-sm max-w-22">{cartItem.productId.name.en}</h3>
-                <p className="font-semibold text-sm">{cartItem.productId.price} <span className="text-xs font-medium">KWD</span></p>
+                <h3 className=" text-sm max-w-22">{cartItem?.productId.name.en}</h3>
+                <p className="font-semibold text-sm">{cartItem?.productId.price} <span className="text-xs font-medium">KWD</span></p>
                 <div className="flex items-center justify-between mt-2">
                     {mode === "cart" ? (
                         <Counter
                             cartItem={cartItem}
-                            itemQuantity={cartItem.quantity}
+                            itemQuantity={cartItem?.quantity}
                             calculateCartMutation={calculateCartMutation}
                         />
                     ) : (
