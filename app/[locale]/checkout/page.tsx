@@ -267,7 +267,7 @@ const Checkout = () => {
                             <div className="p-5 rounded-md border">
                                 {cartItems.data.length > 0 ?
                                     cartItems.data.map((cartItem: any) =>
-                                        <div id={cartItem._id}>
+                                        <div key={cartItem._id} id={cartItem._id}>
                                             <Order cartItem={cartItem} />
                                         </div>
                                     )

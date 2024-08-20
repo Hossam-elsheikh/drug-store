@@ -64,8 +64,8 @@ function DrawerWrapper({ showSec }: Props) {
                             )}
                         </>
                     ) : showSec === "cart" ? (
-                        <button className="flex items-center bg-secColor p-2 px-4 hover:bg-primaryColor hover:scale-105 cursor-pointer transition-all duration-200 rounded-3xl text-white gap-2 ">
-                            <p className="font-semibold">{t("cart")}</p>
+                        <button className="flex items-center text-primaryColor md:text-white md:bg-secColor p-2 px-4 hover:bg-primaryColor hover:scale-105 cursor-pointer transition-all duration-200 rounded-3xl  gap-2 ">
+                            <p className="font-semibold hidden md:block">{t("cart")}</p>
                             <ShoppingCart />
                         </button>
                     ) : showSec === "filter" ? (

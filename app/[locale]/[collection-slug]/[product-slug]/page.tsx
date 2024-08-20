@@ -14,7 +14,7 @@ export default function ProductPage({ params }) {
 
     return (
         <section className="bg-gray-50 pb-5">
-            <BreadCrumb />
+            {/* <BreadCrumb /> */}
             <ProductDetails
                 params={params}
             />

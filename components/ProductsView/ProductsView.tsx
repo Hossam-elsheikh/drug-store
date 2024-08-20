@@ -24,7 +24,7 @@ function ProductsContent({ params = {}, SubId, brand }: Props) {
 
     let title = 'Products';
     if (id && SubId) {
-        title = `SubCategory results for ${id}`;
+        title = `results for ${id}`;
     } else if (id && brand) {
         title = `Brand results for ${id}`;
     } else if (id && searchCategory) {
@@ -52,10 +52,10 @@ function ProductsContent({ params = {}, SubId, brand }: Props) {
 
     return (
         <section className="bg-gray-50 pb-5">
-            <BreadCrumb />
-            <div className="p-4 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg border">
+            {/* <BreadCrumb /> */}
+            <div className="p-0 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg border">
                 <div className="p-5 flex justify-between">
-                    <h1 className="text-2xl md:text-3xl font-semibold px-5 md:px-10">
+                    <h1 className="text-md md:text-3xl font-semibold px-5 md:px-10">
                         {title}
                     </h1>
                     <DrawerWrapper showSec="filter" />

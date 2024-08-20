@@ -56,7 +56,7 @@ const ProductCard = ({ details, mode = 'default', index }) => {
             animate="visible"
             transition={{ delay: index * 0.1, ease: easeInOut, duration: 0.5 }}
             viewport={{ amount: 0 }}
-            className="flex flex-col w-[220px] h-[350px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300"
+            className="flex flex-col  w-[170px] md:w-[220px] h-[300px] md:h-[350px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300"
         >
             <div
                 className="relative w-full h-60 overflow-hidden"
@@ -83,18 +83,16 @@ const ProductCard = ({ details, mode = 'default', index }) => {
                     href={`/${locale}/${slug}/${_id}`}
                 >
                     <div>
-                        <h5 className="font-base text-sm">
+                        <h5 className="font-base text-xs md:text-sm">
                             {brand?.name?.[locale]}
                         </h5>
-                        <h2 className="font-semibold text-lg truncate hover:text-secColor transition-colors duration-200">
+                        <h2 className="font-semibold text-md  truncate hover:text-secColor transition-colors duration-200">
                             {name?.[locale]}
                         </h2>
-                        {/* <p className="font-semibold text-xl text-secColor mt-1">
-                        {price} <span className="font-normal text-sm">KWD</span>
-                    </p> */}
-                        <p className="mt-1 text-secColor font-semibold flex gap-1 text-lg">
-                            <span className="font-medium text-sm">KWD</span>
+                      
+                        <p className="mt-1 text-secColor font-semibold flex items-center gap-1 text-lg">
                             {price}
+                            <span className="font-medium text-xs">KWD</span>
                         </p>
                     </div>
                 </Link>
@@ -118,7 +116,9 @@ const ProductCard = ({ details, mode = 'default', index }) => {
                             }}
                             className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105"
                         >
-                            Add to cart
+                            <p className='hidden md:block'>
+                                Add to cart
+                                </p>
                             <ShoppingCart className="w-5 h-5" />
                         </button>
                     ) : (
