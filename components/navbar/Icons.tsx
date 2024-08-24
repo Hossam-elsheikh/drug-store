@@ -20,15 +20,14 @@ const Icons = () => {
     return (
         <>
             <div className="flex items-center gap-5 font-semibold text-primaryColor">
-                <Link
+                {/* <Link
                     className="hover:text-secColor transition hidden md:block text-nowrap"
                     href={`/${locale}/aboutUs`}
                 >
                     About us
-                </Link>
+                </Link> */}
             </div>
             <div className='flex items-center gap-5'>
-                <LanguageSwitcher classes='hidden md:block' />
 
                 {auth?.userId && !(pathName === `/${locale}/sign-in` || pathName === `/${locale}/sign-up`) && (
                     <UserPopUp />
@@ -38,9 +37,10 @@ const Icons = () => {
                     <DrawerWrapper showSec='signInForm' />
                 )}
 
-                <DrawerWrapper showSec='Favorites' />
                 
                 {pathName === `/${locale}/checkout` ? null : <DrawerWrapper showSec='cart' />}
+                <DrawerWrapper showSec='Favorites' />
+                <LanguageSwitcher classes='hidden md:block' />
 
             </div>
         </>

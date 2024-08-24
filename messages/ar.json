@@ -35,7 +35,9 @@
         "edit": "تعديل",
         "delete": "حذف",
         "showMore":"أظهر المزيد",
-        "addToFavorite":"أضف إلى المفضلة"
+        "addToFavorite":"أضف إلى المفضلة",
+        "quickView":"نظرة سريعة"
+        
     },
     "cart": {
         "myCart": "عربة التسوق",
@@ -111,7 +113,8 @@
     "UserInfoPage": {
         "userInfo": "بيانات المستخدم",
         "editInfo": "تعديل بيانات المستخدم",
-        "editPass": "تعديل الرمز السري"
+        "editPass": "تعديل الرمز السري",
+        "personalAcc": "الحساب الشخصي"
     },
     "Favorites": {
         "Favorites": "قائمة الرغبات",

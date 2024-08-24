@@ -70,7 +70,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
                         >
                             <button
                                 onClick={closeModal}
-                                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors duration-200 z-10"
+                                className="absolute top-4 right-4 text-gray-200 hover:text-gray-600 transition-all duration-200 z-10"
                             >
                                 <X size={24} />
                             </button>
@@ -112,15 +112,15 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
                                     <div className="flex gap-4">
 
                                         <button
-                                            className="flex-1 px-6 py-3 bg-secColor text-white rounded-full hover:bg-opacity-90 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
+                                            className="flex-1 px-6 py-3 bg-secColor text-white rounded-full hover:opacity-80 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
                                             onClick={() =>
                                                 router.push(
                                                     `/${locale}/${slug}/${_id}`
                                                 )
                                             }
                                         >
-                                            {t('showMore')}
                                             <Eye className="w-5 h-5" />
+                                            {t('showMore')}
                                         </button>
                                         <button
                                             className={`group p-3 border border-gray-400 rounded-full hover:border-gray-500 hover:bg-gray-200 active:scale-95 transition-all duration-300  ${isProductFavorite(_id)

@@ -67,13 +67,13 @@ function Details({ productDetails, className }) {
             <div className="space-y-4">
                 <div className="flex items-center gap-3">
                     <Button
-                        className="flex-grow bg-primaryColor hover:bg-primaryColor/90 text-white rounded-full transition-all duration-200 transform active:scale-95 flex items-center justify-center gap-3"
+                        className="flex-grow bg-primaryColor hover:bg-primaryColor/90 text-white rounded-full transition-all duration-200 transform active:scale-95 flex items-center justify-center gap-2"
                         onClick={() => {
                             addToCart(productDetails);
                         }}
                     >
-                        {t("addToCart")}
                         <ShoppingCart className="h-5 w-5" />
+                        {t("addToCart")}
                     </Button>
                 </div>
                 <Button
@@ -84,13 +84,13 @@ function Details({ productDetails, className }) {
                         }`}
                     onClick={() => toggleFavorite(productDetails)}
                 >
+                        <Heart
+                            className={`h-5 w-5 transition-all duration-300 ${isProductFavorite(_id)
+                                ? 'text-red-500 fill-red-500'
+                                : 'text-gray-600 hover:text-red-500'
+                                }`}
+                        />
                     {t('addToFavorite')}
-                    <Heart
-                        className={`h-5 w-5 transition-all duration-300 ${isProductFavorite(_id)
-                            ? 'text-red-500 fill-red-500'
-                            : 'text-gray-600 hover:text-red-500'
-                            }`}
-                    />
                 </Button>
 
             </div>

@@ -11,13 +11,15 @@ import Image from 'next/image'
 import { useLocale } from '@/context/LocaleProvider'
 import { useFavorites } from '@/context/favoriteProvider'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 const ProductCard = ({ details, mode = 'default', index }) => {
 
     const { toggleFavorite, isProductFavorite } = useFavorites()
-    const { locale } = useLocale()
+    const { locale,dir } = useLocale()
     const [quickAccess, setQuickAccess] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const { auth }: any = useAuth()
+    const t = useTranslations("Buttons");
 
     const handleMouseEnter = () => {
         if (!isModalOpen) {
@@ -56,7 +58,7 @@ const ProductCard = ({ details, mode = 'default', index }) => {
             animate="visible"
             transition={{ delay: index * 0.1, ease: easeInOut, duration: 0.5 }}
             viewport={{ amount: 0 }}
-            className="flex flex-col  w-[170px] md:w-[220px] h-[300px] md:h-[350px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300"
+            className="flex flex-col  w-[200px] md:w-[220px] h-[300px] md:h-[350px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300"
         >
             <div
                 className="relative w-full h-60 overflow-hidden"
@@ -72,12 +74,12 @@ const ProductCard = ({ details, mode = 'default', index }) => {
                 />
                 <AnimatePresence>
                     {quickAccess && (
-                        <QuickAccess setIsModalOpen={setIsModalOpen} />
+                        <QuickAccess t={t} setIsModalOpen={setIsModalOpen} />
                     )}
                 </AnimatePresence>
             </div>
 
-            <div className="flex flex-col p-3 gap-3">
+            <div dir={dir} className="flex flex-col p-3 gap-3">
                 <Link
                     className="cursor-pointer"
                     href={`/${locale}/${slug}/${_id}`}
@@ -113,16 +115,16 @@ const ProductCard = ({ details, mode = 'default', index }) => {
                             onClick={() => {
                                 addToCart(details)
                             }}
-                            className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105"
+                            className="flex bg-primaryColor px-5 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105"
                         >
-                            <p className='hidden md:block'>
-                                Add to cart
+                            <ShoppingCart className="w-3 h-3 md:w-5 md:h-5" />
+                            <p className='text-[11px] md:block'>
+                                {t("addToCart")}
                             </p>
-                            <ShoppingCart className="w-5 h-5" />
                         </button>
                     ) : (
                         <button className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105">
-                            Show more
+                                {t("showMore")}
                             <Eye className="w-5 h-5" />
                         </button>
                     )}
@@ -142,7 +144,8 @@ const ProductCard = ({ details, mode = 'default', index }) => {
 
 export default ProductCard
 
-const QuickAccess = ({ setIsModalOpen }) => (
+const QuickAccess = ({ setIsModalOpen,t }) => (
+    
     <motion.div
         initial={{ opacity: 0 }}
         animate={{
@@ -160,9 +163,9 @@ const QuickAccess = ({ setIsModalOpen }) => (
         >
             <button
                 onClick={() => setIsModalOpen(true)}
-                className="bg-white px-6 py-3 rounded-full text-primaryColor hover:bg-secColor hover:text-white font-medium transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-secColor focus:ring-opacity-50"
+                className="bg-white px-4 py-2 rounded-full text-primaryColor hover:bg-secColor hover:text-white font-medium transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-secColor focus:ring-opacity-50"
             >
-                Quick View
+                {t("quickView")}
             </button>
         </motion.div>
     </motion.div>

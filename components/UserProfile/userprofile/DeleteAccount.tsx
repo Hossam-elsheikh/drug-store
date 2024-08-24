@@ -23,7 +23,7 @@ export function DeleteAccount() {
 			<AlertDialogTrigger asChild>
 				<Button
 					variant="outline"
-					className="bg-red-100 hover:bg-red-600 text-red-600 hover:text-white  hover:border-red-600 font-semibold py-2 px-4 rounded-md transition-all duration-300 ease-in-out focus:outline-none  "
+					className="bg-red-100 hover:bg-red-600 text-red-600 hover:text-white  hover:border-red-600 font-semibold py-2 px-4 rounded-full transition-all duration-300 ease-in-out focus:outline-none  "
 				>
 					{f("delete")}
 				</Button>

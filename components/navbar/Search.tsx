@@ -96,7 +96,7 @@ export default function SearchMed(): JSX.Element {
                                         <Field
                                             name="input"
                                             placeholder="Search any medicine..."
-                                            className="rounded-2.5 pl-[40px] text-4"
+                                            className="rounded-lg pl-[40px] text-4"
                                             as={Input}
                                             onFocus={() => setIsOpen(true)}
                                             onBlur={(e: React.FocusEvent<HTMLInputElement>) => {

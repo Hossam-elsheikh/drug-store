@@ -44,7 +44,7 @@ export default function UserProfilePassword() {
     return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button variant="outline">{t("editPass")}</Button>
+				<Button className=" rounded-full" variant="outline">{t("editPass")}</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
@@ -76,7 +76,7 @@ export default function UserProfilePassword() {
 								</div>
 							)}
 							<DialogFooter className="w-full">
-								<div className="flex gap-3">
+								<div className="flex gap-3 w-full">
 									<button
 										type="submit"
 										disabled={isSubmitting}
