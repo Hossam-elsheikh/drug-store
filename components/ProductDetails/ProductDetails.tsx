@@ -9,6 +9,7 @@ import About from "./About";
 import { useLocale } from "@/context/LocaleProvider";
 import { useQuery } from "@tanstack/react-query";
 import { getOneProduct } from "@/axios/instance";
+import { useTranslations } from "next-intl";
 
 type productDetailsProps = {
     params: string,
@@ -16,6 +17,7 @@ type productDetailsProps = {
 
 export function ProductDetails({ params }: productDetailsProps,) {
     const { locale, dir } = useLocale()
+    const t = useTranslations("ProductDetailsPage");
 
     const { data: productDetails, isLoading, isError } = useQuery({
         queryFn: () => getOneProduct(params?.['product-slug']),
@@ -50,12 +52,12 @@ export function ProductDetails({ params }: productDetailsProps,) {
                     <About productDetails={productDetails} />
                     
                     <div className="bg-gray-50 p-6 rounded-lg">
-                        <h3 className="text-xl font-semibold mb-4">Related Products</h3>
+                        <h3 className="text-xl font-semibold mb-4">{t('relatedProducts')}</h3>
                         <ProductsCarousel mode='n' products={products} />
                     </div>
                     
                     <div className='space-y-6'>
-                        <h3 className="text-xl font-semibold">Customer Reviews</h3>
+                        <h3 className="text-xl font-semibold">{t('customerReviews')}</h3>
                         <ReviewComment userName={'abdul'} rating={5} comment={'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'} />
                         <ReviewComment userName={'abdul'} rating={3} comment={'This product could use some improvements.'} />
                         <ReviewComment userName={'abdul'} rating={2} comment={'Not satisfied with the quality.'} />

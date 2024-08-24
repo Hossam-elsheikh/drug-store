@@ -8,11 +8,15 @@ import { X, Eye, Heart } from 'lucide-react'
 import { useFavorites } from '@/context/favoriteProvider'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { useLocale } from '@/context/LocaleProvider'
+import { getColorClass } from '@/lib/utils'
 
-function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
+function Modal({ setIsModalOpen, setQuickAccess, details }) {
+    const { locale, dir } = useLocale()
     let [isOpen, setIsOpen] = useState(true)
     const { toggleFavorite, isProductFavorite } = useFavorites()
     const t = useTranslations("Buttons");
+    const p = useTranslations("ProductCard");
     const router = useRouter()
     useEffect(() => {
         setIsModalOpen(isOpen)
@@ -30,6 +34,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
         brand,
         image,
         description,
+        sale,
         category: { slug },
     } = details
 
@@ -102,12 +107,20 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
                                         {description?.[locale]}
                                     </p>
 
-                                    <p className="mt-1 text-secColor font-semibold flex gap-1 text-2xl">
+                                    <div className="mt-1 text-secColor font-semibold flex text-2xl gap-5 justify-around">
+                                        <div>
                                         <span className="font-medium text-sm">
                                             KWT
                                         </span>
                                         {price}
-                                    </p>
+
+                                        </div>
+                                            {sale &&
+                                                <span className={` inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(sale)} rounded-full`}>
+                                                    <span className='items-center'>{p('save')}</span> {sale}%
+                                                </span>
+                                            }
+                                    </div>
 
                                     <div className="flex gap-4">
 

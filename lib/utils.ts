@@ -5,8 +5,21 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
-
-
+export const getColorClass = (percentage) => {
+    if (percentage <= 5) return 'bg-indigo-100 text-indigo-800'
+    if (percentage <= 10) return 'bg-blue-100 text-blue-800'
+    if (percentage <= 15) return 'bg-amber-100 text-amber-800'
+    if (percentage <= 20) return 'bg-teal-100 text-teal-800'
+    if (percentage <= 25) return 'bg-green-100 text-green-800'
+    if (percentage <= 30) return 'bg-lime-100 text-lime-800'
+    if (percentage <= 35) return 'bg-yellow-100 text-yellow-800'
+    if (percentage <= 40) return 'bg-amber-100 text-amber-800'
+    if (percentage <= 45) return 'bg-orange-100 text-orange-800'
+    if (percentage <= 50) return 'bg-red-100 text-red-800'
+    if (percentage <= 55) return 'bg-rose-100 text-rose-800'
+    if (percentage <= 60) return 'bg-pink-100 text-pink-800'
+    return 'bg-purple-100 text-purple-800'
+}
 export const aboutUsContent = [
     {
         title: 'Emergency Services',

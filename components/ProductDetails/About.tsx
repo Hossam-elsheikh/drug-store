@@ -2,6 +2,7 @@
 import React,{useState} from "react";
 import { ChevronDown } from 'lucide-react';
 import { useLocale } from "@/context/LocaleProvider";
+import { useTranslations } from "next-intl";
 
 type AboutPropsProps = {
     productDetails?: {
@@ -15,6 +16,8 @@ type AboutPropsProps = {
 
 function About({ productDetails }: AboutPropsProps) {
     const [isExpanded, setIsExpanded] = useState(false);
+    const t = useTranslations("ProductDetailsPage");
+
     const { locale, dir } = useLocale()
     const description = productDetails?.description?.[locale] || "No description available.";
     const features = productDetails?.features || [];
@@ -22,7 +25,7 @@ function About({ productDetails }: AboutPropsProps) {
     return (
         <section className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
             <div className="p-6">
-                <h2 className="text-2xl font-semibold text-gray-800 mb-4">About this item</h2>
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4">{ t('aboutItem')}</h2>
                 <div className={`prose max-w-none ${isExpanded ? '' : 'line-clamp-3'}`}>
                     <p className="text-base text-gray-600 leading-relaxed">
                         {description}

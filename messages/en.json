@@ -26,7 +26,7 @@
         "contactUs": "Contact Us"
     },
     "Buttons": {
-        "addToCart": "Add To Cart",
+        "addToCart": "Add",
         "buyNow": "Buy now",
         "viewDetails": "View details",
         "backToHome": "Back to home",
@@ -34,8 +34,8 @@
         "edit": "Edit",
         "delete": "Delete",
         "showMore": "Show More",
-        "addToFavorite":"Add To Favorites",
-        "quickView":"Quick View"
+        "addToFavorite": "Add To Favorites",
+        "quickView": "Quick View"
     },
     "cart": {
         "myCart": "My cart",
@@ -111,7 +111,7 @@
         "userInfo": "User Information",
         "editInfo": "Edit Your Information",
         "editPass": "Edit Your Passowrd",
-        "personalAcc":"Account"
+        "personalAcc": "Account"
     },
     "Favorites": {
         "favorites": "Favorites",
@@ -147,5 +147,13 @@
     },
     "SuccessPage": {
         "thanksTitle": "Thank you for your purchase"
+    },
+    "ProductDetailsPage": {
+        "aboutItem": "About This Item",
+        "customerReviews": "Customer Reviews",
+        "relatedProducts": "Related Products"
+    },
+    "ProductCard": {
+        "save": "Save"
     }
 }

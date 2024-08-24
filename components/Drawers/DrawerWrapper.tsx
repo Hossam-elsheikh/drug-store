@@ -8,12 +8,12 @@ import FilterDrawer from "../FilterDrawer/FilterDrawer";
 import AuthForm from "../Form/AuthForm";
 
 import CartDrawer from "./cart/CartDrawer";
-import { useLocale } from "@/context/LocaleProvider";
+
 import { useFavorites } from "@/context/favoriteProvider";
 import Favorites from "./Favorites/Favorites";
 import Image from "next/image";
 import image from "@/public/logo.svg";
-import useAuth from "@/hooks/useAuth";
+
 import { motion, AnimatePresence } from "framer-motion";
 
 
@@ -61,12 +61,13 @@ function DrawerWrapper({ showSec }: Props) {
                     <>
                         {totalFavorite > 0 ? (
                             <AnimatePresence>
-                                <motion.div
+                                        <motion.div
+                                            
                                     className="relative inline-block"
                                     whileHover="hover"
                                 >
                                     <motion.span
-                                        className="absolute -top-2 -left-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
                                         initial={{ opacity: 0 }}
                                         animate={{
                                             opacity: 1,

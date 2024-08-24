@@ -10,8 +10,10 @@ import useSignOut from "@/hooks/useSignOut";
 import { useRouter } from 'next/navigation';
 import classNames from 'classnames';
 import { useMemo } from 'react';
+import { useUser } from '@/context/UserProvider';
 
 export default function UserPopUp() {
+    const { userInfo,isLoading } = useUser();
     const t = useTranslations("AsideMenu");
     const { locale } = useLocale();
     const p = useTranslations("UserInfoPage");
@@ -40,12 +42,12 @@ export default function UserPopUp() {
                 <>
                     <PopoverButton
                         className={classNames(
-                            "hidden md:flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-full shadow-sm hover:bg-gray-50 focus:outline-none ",
+                            "hidden md:flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-full shadow-sm hover:bg-gray-50 focus:outline-none duration-200 ",
 
                         )}
                     >
                         <User2Icon className="w-5 h-5" />
-                        <span className="hidden sm:inline">{p('personalAcc')}</span>
+                        <span className="hidden sm:inline">{userInfo?.name}</span>
                         <ChevronDownIcon className="w-4 h-4 ml-1" aria-hidden="true" />
                     </PopoverButton>
                     <AnimatePresence>

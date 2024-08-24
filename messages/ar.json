@@ -26,7 +26,7 @@
         "contactUs": "التواصل معنا"
     },
     "Buttons": {
-        "addToCart": "أضف الى السلة",
+        "addToCart": "أضف",
         "buyNow": "شراء الآن",
         "viewDetails": "عرض التفاصيل",
         "viewMore": "عرض المزيد",
@@ -34,10 +34,9 @@
         "addAddress": "أضف عنوانك",
         "edit": "تعديل",
         "delete": "حذف",
-        "showMore":"أظهر المزيد",
-        "addToFavorite":"أضف إلى المفضلة",
-        "quickView":"نظرة سريعة"
-        
+        "showMore": "أظهر المزيد",
+        "addToFavorite": "أضف إلى المفضلة",
+        "quickView": "نظرة سريعة"
     },
     "cart": {
         "myCart": "عربة التسوق",
@@ -153,7 +152,12 @@
     "SuccessPage": {
         "thanksTitle": "شكرا على شرائك"
     },
-    "ProductDetailsPage":{
-        
+    "ProductDetailsPage": {
+        "aboutItem": "نبذه عن المنتج",
+        "customerReviews": "آراء العملاء",
+        "relatedProducts": "منتجات ذات صلة"
+    },
+    "ProductCard": {
+        "save": "وفر"
     }
 }
