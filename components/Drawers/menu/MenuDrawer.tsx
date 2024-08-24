@@ -1,7 +1,6 @@
 'use client'
 import { useTranslations } from 'next-intl'
-import Link from 'next/link'
-import React, { useState, useTransition } from 'react'
+import React, {  useState, useTransition } from 'react'
 import DropList from './DropList'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useQuery } from '@tanstack/react-query'
@@ -10,6 +9,7 @@ import { Loader2 } from 'lucide-react'
 import NotFound from '@/app/not-found'
 import { useLocale } from '@/context/LocaleProvider'
 import BrandsDropList from './BrandsDropList'
+import Menu from './Menu'
 
 interface Categories {
     name: {
@@ -28,6 +28,7 @@ interface Brand {
     }
 }
 
+
 const MenuDrawer = () => {
     const t = useTranslations('Navigation')
     const [isPending, startTransition] = useTransition()
@@ -39,6 +40,7 @@ const MenuDrawer = () => {
             setActiveTab(value)
         })
     }
+
 
     const {
         data: categories,
@@ -80,20 +82,7 @@ const MenuDrawer = () => {
         </div>
     )
 
-    const Menu = () => (
-        <div>
-            <ul className="p-4" dir={dir}>
-                <li>
-                    <Link
-                        className="font-medium text-primaryColor hover:text-secColor"
-                        href="#"
-                    >
-                        Home
-                    </Link>
-                </li>
-            </ul>
-        </div>
-    )
+ 
 
     return (
         <Tabs
@@ -143,7 +132,7 @@ const MenuDrawer = () => {
                         <h1 className='text-center font-xl font-medium p-3'>Brands</h1>
                         <Brands />
 
-                            <h1 className='text-center font-xl font-medium p-3'>Subcategories</h1>
+                        <h1 className='text-center font-xl font-medium p-3'>Subcategories</h1>
                         <Categories />
                     </>
                 )}

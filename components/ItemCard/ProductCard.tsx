@@ -12,7 +12,7 @@ import { useLocale } from '@/context/LocaleProvider'
 import { useFavorites } from '@/context/favoriteProvider'
 import Link from 'next/link'
 const ProductCard = ({ details, mode = 'default', index }) => {
-    
+
     const { toggleFavorite, isProductFavorite } = useFavorites()
     const { locale } = useLocale()
     const [quickAccess, setQuickAccess] = useState(false)
@@ -40,8 +40,8 @@ const ProductCard = ({ details, mode = 'default', index }) => {
         description,
         category: { slug },
     } = details
-    
-    const addToCart = (product:any)=> AddToCart(product,auth)
+
+    const addToCart = (product: any) => AddToCart(product, auth)
 
     const variants = {
         hidden: { opacity: 0, y: 20 },
@@ -87,9 +87,9 @@ const ProductCard = ({ details, mode = 'default', index }) => {
                             {brand?.name?.[locale]}
                         </h5>
                         <h2 className="font-semibold text-md  truncate hover:text-secColor transition-colors duration-200">
-                            {name?.[locale]}
+                            {name[locale] || ''}
                         </h2>
-                      
+
                         <p className="mt-1 text-secColor font-semibold flex items-center gap-1 text-lg">
                             {price}
                             <span className="font-medium text-xs">KWD</span>
@@ -102,11 +102,10 @@ const ProductCard = ({ details, mode = 'default', index }) => {
                         onClick={() => toggleFavorite(details)}
                     >
                         <Heart
-                            className={`w-6 h-6 transition-all duration-300 delay-400 ${
-                                isProductFavorite(_id)
+                            className={`w-6 h-6 transition-all duration-300 delay-400 ${isProductFavorite(_id)
                                     ? 'text-red-500 fill-red-500'
                                     : 'text-gray-600 hover:text-red-500'
-                            }`}
+                                }`}
                         />
                     </button>
                     {mode === 'default' ? (
@@ -118,7 +117,7 @@ const ProductCard = ({ details, mode = 'default', index }) => {
                         >
                             <p className='hidden md:block'>
                                 Add to cart
-                                </p>
+                            </p>
                             <ShoppingCart className="w-5 h-5" />
                         </button>
                     ) : (

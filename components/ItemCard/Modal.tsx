@@ -7,10 +7,12 @@ import { useState, useEffect } from 'react'
 import { X, Eye, Heart } from 'lucide-react'
 import { useFavorites } from '@/context/favoriteProvider'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
     let [isOpen, setIsOpen] = useState(true)
     const { toggleFavorite, isProductFavorite } = useFavorites()
+    const t = useTranslations("Buttons");
     const router = useRouter()
     useEffect(() => {
         setIsModalOpen(isOpen)
@@ -32,6 +34,16 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
     } = details
 
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
+
+    const variants = {
+        hidden: { opacity: 0, y: 20, scale: 0.95 },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            transition: { duration: 0.3 }
+        },
+    };
     return (
         <>
             {isOpen && (
@@ -42,25 +54,18 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
                     className="relative z-50"
                 >
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
+                        initial={{ opacity: 0, }}
+                        animate={{ opacity: 1, }}
                         exit={{ opacity: 0, transition: { duration: 0.3 } }}
                         className="fixed inset-0 bg-black/50 backdrop-blur-sm"
                     />
                     <div className="fixed inset-0 flex items-center justify-center p-4">
                         <DialogPanel
                             as={motion.div}
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{
-                                opacity: 1,
-                                scale: 1,
-                                transition: { duration: 0.3 },
-                            }}
-                            exit={{
-                                opacity: 0,
-                                scale: 0.95,
-                                transition: { duration: 0.3 },
-                            }}
+                            variants={variants}
+                            initial='hidden'
+                            animate='visible'
+                            exit='hidden'
                             className="w-full max-w-3xl bg-white rounded-2xl overflow-hidden shadow-2xl relative"
                         >
                             <button
@@ -80,7 +85,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
                                     />
                                 </div>
 
-                                <div className="w-full md:w-1/2 p-8 space-y-6">
+                                <div className="w-full md:w-1/2 p-8 justify-around flex flex-col">
                                     <DialogTitle className="text-2xl font-bold text-gray-800">
                                         <h1 className="font-base text-sm">
                                             {brand?.name?.[locale]}
@@ -89,7 +94,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
                                             href={`/${locale}/${slug}/${_id}`}
                                             className="hover:text-secColor transition-colors duration-200"
                                         >
-                                            {name?.[locale]}
+                                            {name[locale] || ''}
                                         </Link>
                                     </DialogTitle>
 
@@ -97,23 +102,15 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
                                         {description?.[locale]}
                                     </p>
 
-                                    <div className="space-y-2">
-                                    
-                                            <p className="mt-1 text-secColor font-semibold flex gap-1 text-2xl">
-                                                            <span className="font-medium text-sm">
-                                                                KWT
-                                                            </span>
-                                                            {price}
-                                                        </p>
-                                    </div>
+                                    <p className="mt-1 text-secColor font-semibold flex gap-1 text-2xl">
+                                        <span className="font-medium text-sm">
+                                            KWT
+                                        </span>
+                                        {price}
+                                    </p>
 
-                                    <div className="flex gap-4 pt-6">
-                                        {/* <button
-                                            className="flex-1 px-6 py-3 bg-secColor text-white rounded-full hover:bg-opacity-90 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
-                                        >
-                                            <ShoppingCart size={20} />
-                                            Add to Cart
-                                        </button> */}
+                                    <div className="flex gap-4">
+
                                         <button
                                             className="flex-1 px-6 py-3 bg-secColor text-white rounded-full hover:bg-opacity-90 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
                                             onClick={() =>
@@ -122,22 +119,21 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
                                                 )
                                             }
                                         >
-                                            Show more
+                                            {t('showMore')}
                                             <Eye className="w-5 h-5" />
                                         </button>
                                         <button
-                                            className="p-3 border border-gray-300 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200"
-                                            onMouseDown={() =>
-                                                toggleFavorite(details)
-                                            }
+                                            className={`group p-3 border border-gray-400 rounded-full hover:border-gray-500 hover:bg-gray-200 active:scale-95 transition-all duration-300  ${isProductFavorite(_id)
+                                                ? ' bg-red-100 text-red-700'
+                                                : 'text-gray-600 hover:text-red-500'}`}
+                                            onMouseDown={() => toggleFavorite(details)}
                                         >
                                             <Heart
                                                 size={20}
-                                                className={` transition-all duration-300 delay-400 ${
-                                                    isProductFavorite(_id)
-                                                        ? 'text-red-500 fill-red-500'
-                                                        : 'text-gray-600 hover:text-red-500'
-                                                }`}
+                                                className={` transition-all duration-300 delay-400 ${isProductFavorite(_id)
+                                                    ? 'text-red-500 fill-red-500'
+                                                    : 'text-gray-600 group-hover:text-red-500'
+                                                    }`}
                                             />
                                         </button>
                                     </div>

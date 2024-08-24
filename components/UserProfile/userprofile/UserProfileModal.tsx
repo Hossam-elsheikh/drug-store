@@ -101,7 +101,7 @@ export default function UserProfileModal({ userInfo }) {
 									<button
 										type="submit"
 										disabled={isSubmitting}
-										className="ModalUbdateButton"
+										className="ModalUpdateButton"
 									>
 										{isSubmitting ? (
 											<>

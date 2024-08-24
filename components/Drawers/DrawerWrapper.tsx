@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Filter, Heart, Menu, ShoppingCart, User2Icon } from "lucide-react";
 
 import { useTranslations } from "next-intl";
@@ -14,15 +14,16 @@ import Favorites from "./Favorites/Favorites";
 import Image from "next/image";
 import image from "@/public/logo.svg";
 import useAuth from "@/hooks/useAuth";
+import { motion, AnimatePresence } from "framer-motion";
 
 
 function SignInForm() {
 
- 
+
     return (
         <>
             <AuthForm Type="sign-in" variant="drawer" />
-        
+
         </>
     );
 }
@@ -32,14 +33,20 @@ type Props = {
 };
 
 function DrawerWrapper({ showSec }: Props) {
-    const { dir } = useLocale();
-
-
-    const t = useTranslations("DrawerWrapper");
-    const { auth }: any = useAuth();
+    const [animateBounce, setAnimateBounce] = useState(false)
     const { getTotalFavorites } = useFavorites();
-
+    const t = useTranslations("DrawerWrapper");
     const totalFavorite = getTotalFavorites();
+
+    useEffect(() => {
+        if (totalFavorite > 0) {
+            setAnimateBounce(true)
+            setTimeout(() => {
+                setAnimateBounce(false)
+            }, 600)
+        }
+    }, [totalFavorite])
+
 
     return (
         <div >
@@ -53,12 +60,31 @@ function DrawerWrapper({ showSec }: Props) {
                     ) : showSec === "Favorites" ? (
                         <>
                             {totalFavorite > 0 ? (
-                                <span className="relative inline-block">
-                                    <span className="absolute -top-2 -left-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                                        {totalFavorite}
-                                    </span>
-                                    <Heart className="cursor-pointer hover:text-red-500 transition-colors duration-200" />
-                                </span>
+                                <AnimatePresence>
+                                    <motion.div
+                                        className="relative inline-block"
+                                        whileHover="hover"
+                                    >
+                                        <motion.span
+                                            className="absolute -top-2 -left-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                                            initial={{ opacity: 0 }}
+                                            animate={{
+                                                opacity: 1,
+                                                scale: animateBounce ? [1, 1.01, 0.9, 1] : 1
+                                            }}
+                                            exit={{ opacity: 0 }}
+                                            transition={{
+                                                duration: 0.6,
+                                                ease: 'easeInOut'
+                                            }}
+
+                                        >
+                                            {totalFavorite}
+                                        </motion.span>
+                                        <Heart className="cursor-pointer hover:text-red-500 transition-colors duration-200" />
+                                    </motion.div>
+                                </AnimatePresence>
+
                             ) : (
                                 <Heart className="cursor-pointer hover:text-red-500 transition-colors duration-200" />
                             )}
@@ -77,7 +103,7 @@ function DrawerWrapper({ showSec }: Props) {
                 </SheetTrigger>
                 <SheetContent
                     className="w-[300px] flex flex-col h-dvh p-2"
-                    // side={dir === "rtl" ? "right" : "left"}
+                // side={dir === "rtl" ? "right" : "left"}
                 >
                     <SheetHeader className="items-center p-5">
                         <SheetHeader className="items-center p-5">
@@ -93,7 +119,7 @@ function DrawerWrapper({ showSec }: Props) {
                         </SheetHeader>
                     </SheetHeader>
                     {showSec === "signInForm" ? (
-                            <SignInForm />
+                        <SignInForm />
                     ) : showSec === "Favorites" ? (
                         <Favorites />
                     ) : showSec === "cart" ? (

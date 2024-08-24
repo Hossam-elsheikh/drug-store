@@ -12,11 +12,7 @@ import NotFound from '@/app/not-found';
 import { useLocale } from '@/context/LocaleProvider';
 import { encodeId } from '@/lib/idCipher';
 
-interface SubCategory {
-    _id: string;
-    slug: string;
-    name:string
-}
+
 
 const DropList = ({ id, name }: { id: string; name: { en: string; ar: string }; }) => {
     const { locale } = useLocale();
@@ -43,7 +39,7 @@ const DropList = ({ id, name }: { id: string; name: { en: string; ar: string }; 
             >
                 <AccordionItem value={id} className="border-b">
         <AccordionTrigger className="font-medium p-4 hover:bg-gray-100 transition-all duration-200 focus:bg-gray-100 focus:outline-none">
-                        <span className="flex items-center">{name?.[locale]}</span>
+                        <span className="flex items-center"> {name[locale as keyof typeof name] || ''}</span>
                     </AccordionTrigger>
                     <AccordionContent className="p-6 bg-gray-50">
                         {isLoading ? (
@@ -62,7 +58,7 @@ const DropList = ({ id, name }: { id: string; name: { en: string; ar: string }; 
                                                 query: { ref: encodeId(_id) },
                                             }}
                                         >
-                                            {name?.[locale]}
+                                            {name[locale as keyof typeof name] || ''}
                                         </Link>
                                     </li>
                                 ))}
