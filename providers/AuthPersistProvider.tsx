@@ -1,5 +1,5 @@
 'use client'
-import Loading from "@/app/[locale]/loading";
+import Loading from "@/app/loading";
 import useAuth from "@/hooks/useAuth";
 import useRefreshToken from "@/hooks/useRefreshToken";
 import { useRouter } from "next/navigation";

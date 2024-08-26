@@ -60,7 +60,7 @@ export default function UserProfileModal({ userInfo }) {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button variant="outline">{t("editInfo")}</Button>
+				<Button className="rounded-full" variant="outline">{t("editInfo")}</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
@@ -97,11 +97,12 @@ export default function UserProfileModal({ userInfo }) {
 							)}
 
 							<DialogFooter>
-								<div className="flex gap-3">
+								<div className="flex gap-3 w-full">
 									<button
 										type="submit"
 										disabled={isSubmitting}
-										className="ModalUbdateButton"
+                                        className="ModalUpdateButton"
+                                        
 									>
 										{isSubmitting ? (
 											<>

@@ -1,270 +1,270 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 ::-webkit-scrollbar {
-	width: 10px;
+    width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-	background-color: #d1d5db; /* Equivalent to Tailwind's gray-300 */
+    background-color: #d1d5db; /* Equivalent to Tailwind's gray-300 */
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: #282a3f;
-	border-radius: 12px;
+    background-color: #282a3f;
+    border-radius: 12px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	background-color: #5ac5e7;
+    background-color: #5ac5e7;
 }
 
 body {
-	-webkit-user-select: none;
-	-moz-user-select: -moz-none;
-	-ms-user-select: none;
-	user-select: none;
-	font-family: "Roboto", sans-serif;
-	height: 100dvh;
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+    font-family: 'Roboto', sans-serif;
+    height: 100dvh;
 }
 
 .embla__button {
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0.5);
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	background-color: transparent;
-	touch-action: manipulation;
-	display: inline-flex;
-	text-decoration: none;
-	cursor: pointer;
-	border: 0;
-	padding: 0;
-	margin: 0;
-	opacity: 0.6;
-	width: 3.6rem;
-	height: 3.6rem;
-	border-radius: 50%;
-	color: #000;
-	align-items: center;
-	justify-content: center;
-	background: rgba(255, 255, 255, 0.4);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.5);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    touch-action: manipulation;
+    display: inline-flex;
+    text-decoration: none;
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    opacity: 0.6;
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 50%;
+    color: #000;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.4);
 
-	transition: all 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .embla__button:hover {
-	background: rgba(255, 255, 255, 1);
-	opacity: 0.8;
+    background: rgba(255, 255, 255, 1);
+    opacity: 0.8;
 }
 
 .embla__button:active {
-	scale: 0.9;
-	opacity: 1;
+    scale: 0.9;
+    opacity: 1;
 }
 
 .embla__button:disabled {
-	cursor: not-allowed;
-	opacity: 0.5;
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 .embla__button--prev {
-	position: absolute;
-	top: 44%;
-	left: 10px;
-	/* Adjust as necessary */
+    position: absolute;
+    top: 44%;
+    left: 10px;
+    /* Adjust as necessary */
 }
 
 .embla__button--next {
-	position: absolute;
-	right: 10px;
-	top: 44%;
-	/* Adjust as necessary */
+    position: absolute;
+    right: 10px;
+    top: 44%;
+    /* Adjust as necessary */
 }
 
 .swiper-button-next,
 .swiper-button-prev {
-	color: #282a3f !important ;
-	padding: 10px;
-	transition: all 0.4s;
+    color: #282a3f !important ;
+    padding: 10px;
+    transition: all 0.4s;
 }
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-	color: #cbcbcb !important ;
-	padding: 10px;
+    color: #cbcbcb !important ;
+    padding: 10px;
 }
 .swiper-button-next:active,
 .swiper-button-prev:active {
-	scale: 0.9;
+    scale: 0.9;
 }
 
 .swiper-button-next:after,
 .swiper-button-prev:after {
-	font-size: 30px !important;
+    font-size: 30px !important;
 }
 
 .swiper-pagination-bullet-active {
-	background-color: #282a3f !important;
-	transition: all 1.5s;
-	scale: 1.3;
+    background-color: #282a3f !important;
+    transition: all 1.5s;
+    scale: 1.3;
 }
 .swiper-pagination-bullet:hover {
-	background-color: #282a3f !important;
-	transition: all 1.5s;
-	scale: 1.3;
+    background-color: #282a3f !important;
+    transition: all 1.5s;
+    scale: 1.3;
 }
 
 .swiper-pagination-bullet {
-	background-color: #282a3f;
+    background-color: #282a3f;
 }
 
 .embla__button {
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0.5);
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	background-color: transparent;
-	touch-action: manipulation;
-	display: inline-flex;
-	text-decoration: none;
-	cursor: pointer;
-	border: 0;
-	padding: 0;
-	margin: 0;
-	opacity: 0.6;
-	width: 3.6rem;
-	height: 3.6rem;
-	border-radius: 50%;
-	color: #000;
-	align-items: center;
-	justify-content: center;
-	background: rgba(255, 255, 255, 0.4);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.5);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    touch-action: manipulation;
+    display: inline-flex;
+    text-decoration: none;
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    opacity: 0.6;
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 50%;
+    color: #000;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.4);
 
-	transition: all 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .embla__button:hover {
-	background: rgba(255, 255, 255, 1);
-	opacity: 0.8;
+    background: rgba(255, 255, 255, 1);
+    opacity: 0.8;
 }
 
 .embla__button:active {
-	scale: 0.9;
-	opacity: 1;
+    scale: 0.9;
+    opacity: 1;
 }
 
 .embla__button:disabled {
-	cursor: not-allowed;
-	opacity: 0.5;
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 .embla__button--prev {
-	position: absolute;
-	top: 44%;
-	left: 10px;
-	/* Adjust as necessary */
+    position: absolute;
+    top: 44%;
+    left: 10px;
+    /* Adjust as necessary */
 }
 
 .embla__button--next {
-	position: absolute;
-	right: 10px;
-	top: 44%;
-	/* Adjust as necessary */
+    position: absolute;
+    right: 10px;
+    top: 44%;
+    /* Adjust as necessary */
 }
 @layer base {
-	:root {
-		--background: 0 0% 100%;
-		--foreground: 222.2 84% 4.9%;
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 222.2 84% 4.9%;
 
-		--card: 0 0% 100%;
-		--card-foreground: 222.2 84% 4.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 222.2 84% 4.9%;
 
-		--popover: 0 0% 100%;
-		--popover-foreground: 222.2 84% 4.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 84% 4.9%;
 
-		--primary: 222.2 47.4% 11.2%;
-		--primary-foreground: 210 40% 98%;
+        --primary: 222.2 47.4% 11.2%;
+        --primary-foreground: 210 40% 98%;
 
-		--secondary: 210 40% 96.1%;
-		--secondary-foreground: 222.2 47.4% 11.2%;
+        --secondary: 210 40% 96.1%;
+        --secondary-foreground: 222.2 47.4% 11.2%;
 
-		--muted: 210 40% 96.1%;
-		--muted-foreground: 215.4 16.3% 46.9%;
+        --muted: 210 40% 96.1%;
+        --muted-foreground: 215.4 16.3% 46.9%;
 
-		--accent: 210 40% 96.1%;
-		--accent-foreground: 222.2 47.4% 11.2%;
+        --accent: 210 40% 96.1%;
+        --accent-foreground: 222.2 47.4% 11.2%;
 
-		--destructive: 0 84.2% 60.2%;
-		--destructive-foreground: 210 40% 98%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 98%;
 
-		--border: 214.3 31.8% 91.4%;
-		--input: 214.3 31.8% 91.4%;
-		--ring: 222.2 84% 4.9%;
+        --border: 214.3 31.8% 91.4%;
+        --input: 214.3 31.8% 91.4%;
+        --ring: 222.2 84% 4.9%;
 
-		--radius: 0.5rem;
-	}
+        --radius: 0.5rem;
+    }
 
-	.dark {
-		--background: 222.2 84% 4.9%;
-		--foreground: 210 40% 98%;
+    .dark {
+        --background: 222.2 84% 4.9%;
+        --foreground: 210 40% 98%;
 
-		--card: 222.2 84% 4.9%;
-		--card-foreground: 210 40% 98%;
+        --card: 222.2 84% 4.9%;
+        --card-foreground: 210 40% 98%;
 
-		--popover: 222.2 84% 4.9%;
-		--popover-foreground: 210 40% 98%;
+        --popover: 222.2 84% 4.9%;
+        --popover-foreground: 210 40% 98%;
 
-		--primary: 210 40% 98%;
-		--primary-foreground: 222.2 47.4% 11.2%;
+        --primary: 210 40% 98%;
+        --primary-foreground: 222.2 47.4% 11.2%;
 
-		--secondary: 217.2 32.6% 17.5%;
-		--secondary-foreground: 210 40% 98%;
+        --secondary: 217.2 32.6% 17.5%;
+        --secondary-foreground: 210 40% 98%;
 
-		--muted: 217.2 32.6% 17.5%;
-		--muted-foreground: 215 20.2% 65.1%;
+        --muted: 217.2 32.6% 17.5%;
+        --muted-foreground: 215 20.2% 65.1%;
 
-		--accent: 217.2 32.6% 17.5%;
-		--accent-foreground: 210 40% 98%;
+        --accent: 217.2 32.6% 17.5%;
+        --accent-foreground: 210 40% 98%;
 
-		--destructive: 0 62.8% 30.6%;
-		--destructive-foreground: 210 40% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 40% 98%;
 
-		--border: 217.2 32.6% 17.5%;
-		--input: 217.2 32.6% 17.5%;
-		--ring: 212.7 26.8% 83.9%;
-	}
+        --border: 217.2 32.6% 17.5%;
+        --input: 217.2 32.6% 17.5%;
+        --ring: 212.7 26.8% 83.9%;
+    }
 }
 
 /* swiper custom styls */
 .swiper-pagination-bullet-active {
-	background-color: #2ab3e1 !important;
+    background-color: #2ab3e1 !important;
 }
 
 .swiper-pagination {
-	padding-top: 1rem !important;
+    padding-top: 1rem !important;
 }
 
 /* accordion cancelling box shadow */
 .css-1086bdv-MuiPaper-root-MuiAccordion-root {
-	box-shadow: none !important;
+    box-shadow: none !important;
 }
 
 /* drawer cancel padding */
 
 @layer base {
-	* {
-		@apply border-border;
-	}
+    * {
+        @apply border-border;
+    }
 
-	body {
-		@apply bg-background text-foreground;
-	}
+    body {
+        @apply bg-background text-foreground;
+    }
 }
 
-.ModalUpdateButton{
-	@apply w-full bg-green-100 hover:bg-green-600 text-green-600 hover:text-white hover:border-green-600 font-semibold py-2 px-4 rounded-md transition-all  duration-300 ease-in-out focus:outline-none
+.ModalUpdateButton {
+    @apply w-full bg-green-100 hover:bg-green-600 text-green-600 hover:text-white hover:border-green-600 font-semibold py-2 px-4 rounded-full transition-all  duration-300 ease-in-out focus:outline-none;
 }
-.ModalCloseButton{
-	@apply bg-red-100 hover:bg-red-600 text-red-600 hover:text-white  hover:border-red-600 font-semibold py-2 px-4 rounded-md transition-all duration-300 ease-in-out focus:outline-none
+.ModalCloseButton {
+    @apply bg-red-100 hover:bg-red-600 text-red-600 hover:text-white  hover:border-red-600 font-semibold py-2 px-4 rounded-full transition-all duration-300 ease-in-out focus:outline-none w-full;
 }

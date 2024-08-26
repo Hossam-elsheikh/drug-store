@@ -1,148 +1,163 @@
 {
-	"Index": {
-		"title": "هذا مثال",
-		"description": " مرحبا بالترجمه العربية"
-	},
-	"NotFoundPage": {
-		"title": "بالعربيه2",
-		"description": "بالعربيه3"
-	},
-	"Navigation": {
-		"home": "بالعربيه4",
-		"main": "القائمة الرئيسية",
-		"categories": "الأقسام"
-	},
-	"Footer": {
-		"copyright": "بالعربيه5"
-	},
-	"categories": {
-		"allCategories": "كل الأقسام",
-		"home": "الصفحة الرئيسية",
-		"allProducts": "كل المنتجات",
-		"ourCollections": "المجموعات",
-		"shopByBrand": "تسوق بالبراند",
-		"Offers": "عروض"
-	},
-	"Buttons": {
-		"addToCart": "أضف الى السلة",
-		"buyNow": "شراء الآن",
-		"viewDetails": "عرض التفاصيل",
-		"viewMore": "عرض المزيد",
-		"viewLess": "عرض أقل",
-		"addAddress": "أضف عنوانك",
-		"edit": "تعديل",
-		"delete": "حذف"
-	},
-	"cart": {
-		"myCart": "عربة التسوق",
-		"totalPrice": "المبلغ الإجمالي",
-		"taxes": "يتم احتساب الضرائب والشحن عند الدفع",
-		"expandCart": "افتح عربة التسوق",
-		"checkout": "اتمام عملية الشراء",
-		"dinar": "دينار كويتي",
-		"addMore": "لا يوجد شيء في عربه التسوق أضف البعض"
-	},
-	"Form": {
-    "firstName": "الأسم الأول",
-    "lastName": "الأسم الأخير",
-    "country": "البلد",
-    "postalCode": "الرمز البريدي",
-    "address": "العنوان",
-    "YourAddress": "أضف عنوانك",
-    "addAddress": "أضف العنوان",
-    "dateOfBirth": "تاريخ الميلاد",
-    "email": "البريد الألكتروني",
-    "emailHolder": "أدخل بريدك الإلكتروني",
-    "signUp": "سجل",
-    "signIn": "تسجيل الدخول",
-    "password": "الرمز السري",
-    "passHolder": "أدخل الرمز السري",
-    "update": "تحديث",
-    "mobileNumber": "رقم الجوال",
-    "placeholderNumber": "أدخل رقم جوالك",
-    "state": "الولاية",
-    "placeholderState": "أدخل ولايتك",
-    "city": "المدينة",
-    "cityHolder": "أدخل مدينتك",
-    "street": "الشارع",
-    "streetHolder": "أدخل الشارع",
-    "male": "ذكر",
-    "female": "أنثي",
-    "gender": "الجنس",
-    "name": "الأسم",
-    "placeholderName": "أدخل الأسم",
-    "delete": "حذف الحساب",
-    "confirmPassword": "تأكيد كلمة السر",
-    "confirmPassHolder": "أعد إدخال الرمز السري",
-    "newPassword": "كلمة المرور الجديدة",
-    "dialogAlertTitle": "هل أنت متأكد تماما؟",
-    "dialogDisc": "لا يمكن التراجع عن هذا الإجراء.\nسيتم حذف حسابك وإزالة بياناتك من خوادمنا بشكل دائم.",
-    "cancel": "إلغاء",
-    "continue": "متابعة",
-    "changePass": "تغير كلمة المرور",
-    "changeInfo": "تغير البيانات",
-    "createAcc": "أنشئ حسابك",
-    "signInAcc": "تسجيل الدخول باستخدام حسابك",
-    "dontHaveAcc": "لا تملك حساباً؟",
-    "haveAnAcc": "هل لديك حساب؟",
-    "expand": "توسيع النافذة",
-    "forgetPass": "هل نسيت كلمة المرور؟",
-"enterDetails": "يرجى إدخال بياناتك",
-"joinDate":"تاريخ الأنضمام"
+    "Index": {
+        "title": "هذا مثال",
+        "description": " مرحبا بالترجمه العربية"
+    },
+    "NotFoundPage": {
+        "title": "بالعربيه2",
+        "description": "بالعربيه3"
+    },
+    "Navigation": {
+        "home": "بالعربيه4",
+        "main": "القائمة الرئيسية",
+        "categories": "الأقسام"
+    },
+    "Footer": {
+        "copyright": "بالعربيه5"
+    },
+    "categories": {
+        "allCategories": "كل الأقسام",
+        "home": "الصفحة الرئيسية",
+        "allProducts": "كل المنتجات",
+        "ourCollections": "المجموعات",
+        "shopByBrand": "تسوق بالبراند",
+        "Offers": "عروض",
+        "aboutUs": "من نحن",
+        "contactUs": "التواصل معنا"
+    },
+    "Buttons": {
+        "addToCart": "أضف",
+        "buyNow": "شراء الآن",
+        "viewDetails": "عرض التفاصيل",
+        "viewMore": "عرض المزيد",
+        "viewLess": "عرض أقل",
+        "addAddress": "أضف عنوانك",
+        "edit": "تعديل",
+        "delete": "حذف",
+        "showMore": "أظهر المزيد",
+        "addToFavorite": "أضف إلى المفضلة",
+        "quickView": "نظرة سريعة"
+    },
+    "cart": {
+        "myCart": "عربة التسوق",
+        "totalPrice": "المبلغ الإجمالي",
+        "taxes": "يتم احتساب الضرائب والشحن عند الدفع",
+        "expandCart": "افتح عربة التسوق",
+        "checkout": "اتمام عملية الشراء",
+        "dinar": "دينار كويتي",
+        "addMore": "لا يوجد شيء في عربه التسوق أضف البعض"
+    },
+    "Form": {
+        "firstName": "الأسم الأول",
+        "lastName": "الأسم الأخير",
+        "country": "البلد",
+        "postalCode": "الرمز البريدي",
+        "address": "العنوان",
+        "YourAddress": "أضف عنوانك",
+        "addAddress": "أضف العنوان",
+        "dateOfBirth": "تاريخ الميلاد",
+        "email": "البريد الألكتروني",
+        "emailHolder": "أدخل بريدك الإلكتروني",
+        "signUp": "سجل",
+        "signIn": "تسجيل الدخول",
+        "password": "الرمز السري",
+        "passHolder": "أدخل الرمز السري",
+        "update": "تحديث",
+        "mobileNumber": "رقم الجوال",
+        "placeholderNumber": "أدخل رقم جوالك",
+        "state": "الولاية",
+        "placeholderState": "أدخل ولايتك",
+        "city": "المدينة",
+        "cityHolder": "أدخل مدينتك",
+        "street": "الشارع",
+        "streetHolder": "أدخل الشارع",
+        "male": "ذكر",
+        "female": "أنثي",
+        "gender": "الجنس",
+        "name": "الأسم",
+        "placeholderName": "أدخل الأسم",
+        "delete": "حذف الحساب",
+        "confirmPassword": "تأكيد كلمة السر",
+        "confirmPassHolder": "أعد إدخال الرمز السري",
+        "newPassword": "كلمة المرور الجديدة",
+        "dialogAlertTitle": "هل أنت متأكد تماما؟",
+        "dialogDisc": "لا يمكن التراجع عن هذا الإجراء.\nسيتم حذف حسابك وإزالة بياناتك من خوادمنا بشكل دائم.",
+        "cancel": "إلغاء",
+        "continue": "متابعة",
+        "changePass": "تغير كلمة المرور",
+        "changeInfo": "تغير البيانات",
+        "createAcc": "أنشئ حسابك",
+        "signInAcc": "تسجيل الدخول باستخدام حسابك",
+        "dontHaveAcc": "لا تملك حساباً؟",
+        "haveAnAcc": "هل لديك حساب؟",
+        "expand": "توسيع النافذة",
+        "forgetPass": "هل نسيت كلمة المرور؟",
+        "enterDetails": "يرجى إدخال بياناتك",
+        "joinDate": "تاريخ الأنضمام"
+    },
 
+    "AddressPage": {
+        "yourAddresses": "جميع العناوين"
+    },
+    "OrderPage": {
+        "orders": "جميع الطلبات",
+        "orderState": "حالة الطلب",
+        "orderStates": {
+            "delivered": "تم التوصيل",
+            "shipped": "تم الشحن",
+            "canceled": "ملغي",
+            "pinned": "مثبت"
+        }
+    },
+    "UserInfoPage": {
+        "userInfo": "بيانات المستخدم",
+        "editInfo": "تعديل بيانات المستخدم",
+        "editPass": "تعديل الرمز السري",
+        "personalAcc": "الحساب الشخصي"
+    },
+    "Favorites": {
+        "Favorites": "قائمة الرغبات",
+        "addToFavorites": "أضف الي قائمة الرغبات"
+    },
 
-},
+    "AsideMenu": {
+        "profile": "الملف الشخصي",
+        "Favorites": "قائمة الرغبات",
+        "addresses": "العناوين",
+        "orders": "الطلبات",
+        "payments": "طرق الدفع",
+        "returns": "المرتجعات",
+        "settings": "الإعدادات",
+        "password": "كلمة المرور",
 
-	"AddressPage": {
-		"yourAddresses": "جميع العناوين"
-	},
-	"OrderPage": {
-		"orders": "جميع الطلبات",
-		"orderState": "حالة الطلب",
-		"orderStates": {
-			"delivered": "تم التوصيل",
-			"shipped": "تم الشحن",
-			"canceled": "ملغي",
-			"pinned": "مثبت"
-		}
-	},
-	"UserInfoPage": {
-		"userInfo": "بيانات المستخدم",
-		"editInfo": "تعديل بيانات المستخدم",
-		"editPass": "تعديل الرمز السري"
-	},
-	"Favorites": {
-		"Favorites": "قائمة الرغبات",
-		"addToFavorites": "أضف الي قائمة الرغبات"
-	},
-
-	"AsideMenu": {
-		"profile": "الملف الشخصي",
-		"Favorites": "قائمة الرغبات",
-		"addresses": "العناوين",
-		"orders": "الطلبات",
-		"payments": "طرق الدفع",
-		"returns": "المرتجعات",
-		"settings": "الإعدادات",
-		"password": "كلمة المرور",
-
-		"logOut": "تسجيل الخروج"
-	},
-	"CheckOutPage": {
-		"subtotal": "المجموع الفرعي",
-		"taxes": "الضرائب",
-		"shipping": "الشحن",
-		"promoCode": "كوبون الخصم"
-	},
-	"NotFound": {
-		"backToHome": "العودة الي الصفحة الرئيسية",
-		"somethingWentWrong": "طرأ خطأ ما في خوادمنا"
-	},
-	"DrawerWrapper": {
-		"categories": "أقسام",
-		"signInForm": "تسجيل الدخول",
-		"Favorites": "قائمة المفضلة",
-		"cart": "عربة التسوق",
-		"filter": "فلتر المنتجات"
-	}
+        "logOut": "تسجيل الخروج"
+    },
+    "CheckOutPage": {
+        "subtotal": "المجموع الفرعي",
+        "taxes": "الضرائب",
+        "shipping": "الشحن",
+        "promoCode": "كوبون الخصم"
+    },
+    "NotFound": {
+        "backToHome": "العودة الي الصفحة الرئيسية",
+        "somethingWentWrong": "طرأ خطأ ما في خوادمنا"
+    },
+    "DrawerWrapper": {
+        "categories": "أقسام",
+        "signInForm": "تسجيل الدخول",
+        "Favorites": "قائمة المفضلة",
+        "cart": "عربة التسوق",
+        "filter": "فلتر المنتجات"
+    },
+    "SuccessPage": {
+        "thanksTitle": "شكرا على شرائك"
+    },
+    "ProductDetailsPage": {
+        "aboutItem": "نبذه عن المنتج",
+        "customerReviews": "آراء العملاء",
+        "relatedProducts": "منتجات ذات صلة"
+    },
+    "ProductCard": {
+        "save": "وفر"
+    }
 }

@@ -42,9 +42,12 @@ export default function Orders() {
                             {t("error_loading_orders")} 
                         </div>
                     ) : OrdersInfo.length === 0 ? (
-                        <div>
-                            <Image src={addImage} width={200} height={200} alt="Add Image" />
-                        </div>
+                                <div className='items-center flex flex-col h-fit w-full'>
+                                    <div className="w-full max-w-md">
+                                        <Image src={addImage} layout="responsive" width={100} height={100} alt="No items in the Favorites" />
+                                    </div>
+                                    <h1 className='text-lg'>No items in the Orders.</h1>
+                                </div>
                     ) : (
                         OrdersInfo.map((item: any) => (
                             <div key={item.id}>

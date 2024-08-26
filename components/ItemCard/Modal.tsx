@@ -7,10 +7,16 @@ import { useState, useEffect } from 'react'
 import { X, Eye, Heart } from 'lucide-react'
 import { useFavorites } from '@/context/favoriteProvider'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import { useLocale } from '@/context/LocaleProvider'
+import { getColorClass } from '@/lib/utils'
 
-function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
+function Modal({ setIsModalOpen, setQuickAccess, details }) {
+    const { locale, dir } = useLocale()
     let [isOpen, setIsOpen] = useState(true)
     const { toggleFavorite, isProductFavorite } = useFavorites()
+    const t = useTranslations("Buttons");
+    const p = useTranslations("ProductCard");
     const router = useRouter()
     useEffect(() => {
         setIsModalOpen(isOpen)
@@ -28,10 +34,21 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
         brand,
         image,
         description,
+        sale,
         category: { slug },
     } = details
 
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
+
+    const variants = {
+        hidden: { opacity: 0, y: 20, scale: 0.95 },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            transition: { duration: 0.3 }
+        },
+    };
     return (
         <>
             {isOpen && (
@@ -42,30 +59,23 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
                     className="relative z-50"
                 >
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
+                        initial={{ opacity: 0, }}
+                        animate={{ opacity: 1, }}
                         exit={{ opacity: 0, transition: { duration: 0.3 } }}
                         className="fixed inset-0 bg-black/50 backdrop-blur-sm"
                     />
                     <div className="fixed inset-0 flex items-center justify-center p-4">
                         <DialogPanel
                             as={motion.div}
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{
-                                opacity: 1,
-                                scale: 1,
-                                transition: { duration: 0.3 },
-                            }}
-                            exit={{
-                                opacity: 0,
-                                scale: 0.95,
-                                transition: { duration: 0.3 },
-                            }}
+                            variants={variants}
+                            initial='hidden'
+                            animate='visible'
+                            exit='hidden'
                             className="w-full max-w-3xl bg-white rounded-2xl overflow-hidden shadow-2xl relative"
                         >
                             <button
                                 onClick={closeModal}
-                                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors duration-200 z-10"
+                                className="absolute top-4 right-4 text-gray-200 hover:text-gray-600 transition-all duration-200 z-10"
                             >
                                 <X size={24} />
                             </button>
@@ -80,7 +90,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
                                     />
                                 </div>
 
-                                <div className="w-full md:w-1/2 p-8 space-y-6">
+                                <div className="w-full md:w-1/2 p-8 justify-around flex flex-col">
                                     <DialogTitle className="text-2xl font-bold text-gray-800">
                                         <h1 className="font-base text-sm">
                                             {brand?.name?.[locale]}
@@ -89,7 +99,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
                                             href={`/${locale}/${slug}/${_id}`}
                                             className="hover:text-secColor transition-colors duration-200"
                                         >
-                                            {name?.[locale]}
+                                            {name[locale] || ''}
                                         </Link>
                                     </DialogTitle>
 
@@ -97,47 +107,46 @@ function Modal({ setIsModalOpen, setQuickAccess, details, locale }) {
                                         {description?.[locale]}
                                     </p>
 
-                                    <div className="space-y-2">
-                                    
-                                            <p className="mt-1 text-secColor font-semibold flex gap-1 text-2xl">
-                                                            <span className="font-medium text-sm">
-                                                                KWT
-                                                            </span>
-                                                            {price}
-                                                        </p>
+                                    <div className="mt-1 text-secColor font-semibold flex text-2xl gap-5 justify-around">
+                                        <div>
+                                        <span className="font-medium text-sm">
+                                            KWT
+                                        </span>
+                                        {price}
+
+                                        </div>
+                                            {sale &&
+                                                <span className={` inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(sale)} rounded-full`}>
+                                                    <span className='items-center'>{p('save')}</span> {sale}%
+                                                </span>
+                                            }
                                     </div>
 
-                                    <div className="flex gap-4 pt-6">
-                                        {/* <button
-                                            className="flex-1 px-6 py-3 bg-secColor text-white rounded-full hover:bg-opacity-90 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
-                                        >
-                                            <ShoppingCart size={20} />
-                                            Add to Cart
-                                        </button> */}
+                                    <div className="flex gap-4">
+
                                         <button
-                                            className="flex-1 px-6 py-3 bg-secColor text-white rounded-full hover:bg-opacity-90 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
+                                            className="flex-1 px-6 py-3 bg-secColor text-white rounded-full hover:opacity-80 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
                                             onClick={() =>
                                                 router.push(
                                                     `/${locale}/${slug}/${_id}`
                                                 )
                                             }
                                         >
-                                            Show more
                                             <Eye className="w-5 h-5" />
+                                            {t('showMore')}
                                         </button>
                                         <button
-                                            className="p-3 border border-gray-300 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200"
-                                            onMouseDown={() =>
-                                                toggleFavorite(details)
-                                            }
+                                            className={`group p-3 border border-gray-400 rounded-full hover:border-gray-500 hover:bg-gray-200 active:scale-95 transition-all duration-300  ${isProductFavorite(_id)
+                                                ? ' bg-red-100 text-red-700'
+                                                : 'text-gray-600 hover:text-red-500'}`}
+                                            onMouseDown={() => toggleFavorite(details)}
                                         >
                                             <Heart
                                                 size={20}
-                                                className={` transition-all duration-300 delay-400 ${
-                                                    isProductFavorite(_id)
-                                                        ? 'text-red-500 fill-red-500'
-                                                        : 'text-gray-600 hover:text-red-500'
-                                                }`}
+                                                className={` transition-all duration-300 delay-400 ${isProductFavorite(_id)
+                                                    ? 'text-red-500 fill-red-500'
+                                                    : 'text-gray-600 group-hover:text-red-500'
+                                                    }`}
                                             />
                                         </button>
                                     </div>

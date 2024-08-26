@@ -6,22 +6,13 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from '@/components/ui/accordion';
-import NotFound from '@/app/not-found';
 import { useLocale } from '@/context/LocaleProvider';
 import { encodeId } from '@/lib/idCipher';
 import { SkeletonAccordion } from './DropList';
 
-interface Brand {
-    _id: string;
-    slug: string;
-    name: {
-        en: string;
-        ar: string;
-    };
-    
-}
 
-const BrandsDropList = ({ isLoading, brands }: {isLoading:boolean, brands: Brand[] }) => {
+
+const BrandsDropList = ({ isLoading, brands }: { isLoading: boolean, brands: Brand[] }) => {
     const { locale } = useLocale();
 
     return (
@@ -52,7 +43,7 @@ const BrandsDropList = ({ isLoading, brands }: {isLoading:boolean, brands: Brand
                                                 query: { ref: encodeId(_id) },
                                             }}
                                         >
-                                            {name?.[locale]}
+                                            {name[locale as keyof typeof name] || ''}
                                         </Link>
                                     </li>
                                 ))}

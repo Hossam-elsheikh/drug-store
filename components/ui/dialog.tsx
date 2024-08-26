@@ -41,6 +41,7 @@ const DialogContent = React.forwardRef<
         return (
             <DialogPortal>
                 <DialogOverlay
+                    className="backdrop-blur-sm"
                     onClick={(event) => {
                         if (handleClose) {
                             event.stopPropagation()
@@ -55,12 +56,12 @@ const DialogContent = React.forwardRef<
                     >
                         {children}
                     </DialogPrimitive.Content>
-                    {/* <DialogPrimitive.Close
+                    <DialogPrimitive.Close
                         className="fixed right-4 top-4 rounded-full opacity-100 ring-offset-background transition-opacity hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none bg-accent text-accent-foreground p-2 z-[60]"
                     >
                         <X className="h-4 w-4" />
                         <span className="sr-only">Close</span>
-                    </DialogPrimitive.Close> */}
+                    </DialogPrimitive.Close>
                 </DialogOverlay>
             </DialogPortal>
         );

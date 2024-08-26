@@ -8,8 +8,8 @@ import { useFavorites } from "@/context/favoriteProvider";
 
 export default function Favorites() {
     const t = useTranslations("Favorites");
-    const { getTotalFavorites,favoriteProducts } = useFavorites()
-          const totalFavorite = getTotalFavorites()
+    const { getTotalFavorites, favoriteProducts } = useFavorites()
+    const totalFavorite = getTotalFavorites()
     return (
         <div className="h-dvh overflow-auto overflow-x-hidden p-2 pb-20 space-y-2 border-b-2">
             {totalFavorite === 0 ? (
@@ -18,7 +18,7 @@ export default function Favorites() {
                     <h1 className='font-semibold md:text-xl text-lg pt-5'>{t('toggleFavorite')}</h1>
                 </div>
             ) : (
-                    favoriteProducts.map((prod, i) => (
+                favoriteProducts.map((prod, i) => (
 
                     <div key={i}>
                         <CartDrawerItem mode="Favorites" details={prod} />
