@@ -32,9 +32,8 @@ type Props = {
 };
 
 function DrawerWrapper({ showSec }: Props) {
+    
     const { dir } = useLocale();
-
-
     const t = useTranslations("DrawerWrapper");
     const { auth }: any = useAuth();
     const { getTotalFavorites } = useFavorites();

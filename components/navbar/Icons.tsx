@@ -7,11 +7,15 @@ import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
 import UserPopUp from '../UserProfile/UserPopUp';
 import { usePathname } from "next/navigation";
+import { ShoppingCart } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 const Icons = () => {
+    
     const { locale } = useLocale();
     const { auth }: any = useAuth();
     const pathName: string = usePathname();
+    const t = useTranslations("DrawerWrapper");
 
     useEffect(() => {
 
@@ -39,8 +43,13 @@ const Icons = () => {
                 )}
 
                 <DrawerWrapper showSec='Favorites' />
-                
-                {pathName === `/${locale}/checkout` ? null : <DrawerWrapper showSec='cart' />}
+
+                {pathName === `/${locale}/checkout` ?
+                    <Link href={`/${locale}/cart`} className="flex items-center bg-secColor p-2 px-4 hover:bg-primaryColor hover:scale-105 cursor-pointer transition-all duration-200 rounded-3xl text-white gap-2 ">
+                        <p className="font-semibold">{t("cart")}</p>
+                        <ShoppingCart />
+                    </Link>
+                    : <DrawerWrapper showSec='cart' />}
 
             </div>
         </>

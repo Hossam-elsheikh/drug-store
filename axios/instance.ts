@@ -360,7 +360,7 @@ export const availablePayment = async (InvoiceAmount: any) => {
 export const executePayment = async (payload: any) => {
 	try {
 		const response = await axios.post(`${API_URL}/payment/execute`, payload);
-		console.log(response.data);
+		console.log(response);
 		return response.data
 	} catch (error) {
 		console.error('error while executing payment', error);
