@@ -25,7 +25,7 @@ function Home() {
     })
     return (
         <>
-            <Suspense fallback={<Loading />}>
+          
                 <div className="flex flex-col items-center">
                     <Container className="max-w-[1600px] ">
                         <HeroCarousel items={mediaQuery?.data?.filter((m) => m.position === 'Main Carousel')} />
@@ -54,12 +54,11 @@ function Home() {
                         );
                     })}
 
-                    {/* <WhyUs /> */}
+                
                 </div>
-            </Suspense>
+        
         </>
     );
 }
 
-// export default PersistLogin(Home)
 export default Home;

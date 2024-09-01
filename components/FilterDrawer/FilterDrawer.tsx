@@ -23,9 +23,9 @@ function FilterDrawer() {
     const [priceRange, setPriceRange] = useState<number[]>([0, 100_000]);
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-      const Data= {
+        const Data = {
             ...values,
-                priceRange: priceRange,
+            priceRange: priceRange,
         }
         console.log(Data);
     }
@@ -53,7 +53,7 @@ function FilterDrawer() {
                                 <PriceControl onChange={setPriceRange} />
                                 <button
                                     type="submit"
-                                    className="bg-[#282a3f] hover:bg-blue-900 text-white font-bold py-2 px-3 rounded-lg duration-300 active:scale-95"
+                                    className="bg-[#363955] hover:bg-blue-900 text-white font-bold py-2 px-3 rounded-lg duration-300 active:scale-95"
                                 >
                                     Submit
                                 </button>

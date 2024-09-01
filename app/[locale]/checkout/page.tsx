@@ -19,6 +19,7 @@ import { Loader, X } from "lucide-react";
 import AddNewAddress from "@/components/Checkout/newAddressForm/AddNewAddress";
 import OrderSummary from "@/components/Checkout/OrderSummary";
 import { useRouter } from "next/router";
+import AddNewAndEditAddresses from "@/components/Checkout/newAddressForm/AddNewAndEditAddresses";
 
 const Checkout = () => {
 
@@ -231,7 +232,7 @@ const Checkout = () => {
                         <div className="space-y-10">
                             <p className="  font-semibold text-xl px-3">Your Cart is Empty, Add some Products First</p>
                             <p className="px-3"></p>
-                            <Link href={'/'} className="mx-auto border p-4  rounded-md text-white font-medium bg-[#5ac5e7] hover:bg-[#198ab0] transition-all">Return to Home</Link>
+                            <Link href={'/'} className="mx-auto border p-4  rounded-md text-white font-medium bg-[#282a3f] hover:bg-[#198ab0] transition-all">Return to Home</Link>
                         </div>
                     </div>
                 </>
@@ -253,11 +254,9 @@ const Checkout = () => {
                                                 <p className="font-medium text-xl pt-5 pb-3">Shipping Address</p>
 
                                                 <div className="self-end">
-                                                    <AddNewAddress
-                                                        handleFormAddressSubmit={handleFormAddressSubmit}
-                                                        formik={formik}
-                                                        addUserAddressMutation={addUserAddressMutation}
-                                                        formErrors={formErrors}
+                                                    <AddNewAndEditAddresses
+                                                        mode="edit"
+
                                                     />
                                                 </div>
                                             </div>
@@ -326,8 +325,8 @@ const Checkout = () => {
                                 <div className=" justify-center py-5">
                                     <button
                                         className={`
-                                    flex justify-center gap-2  w-full p-4 text-center text-white font-medium bg-[#5ac5e7] 
-                                    rounded-md hover:bg-[#198ab0] transition-all 
+                                    flex justify-center gap-2  w-full p-4 text-center text-white font-medium bg-[#282a3f] 
+                                    rounded-full hover:bg-[#5d6195] transition-all 
                                     ${Object.keys(validateFields()).length > 0 || executePayMutation.isPending !== false ? 'disabled:bg-gray-200' : null}
                                     ${executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery' ? 'disabled:bg-green-400' : null}`
                                         }

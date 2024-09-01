@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState, useEffect, FC } from "react";
 
 interface StarProps {
     onRate?: () => void;
@@ -17,7 +17,7 @@ interface StarRatingProps {
     size?: number;
     messages?: string[];
     className?: string;
-    onSetRating?: (rating: number) => void; // Make onSetRating optional
+    onSetRating?: (rating: number) => void;
     mode: "rating" | "review";
 }
 
@@ -72,8 +72,15 @@ const StarRating: FC<StarRatingProps> = ({
     const [rating, setRating] = useState<number>(defaultRating);
     const [tempRating, setTempRating] = useState<number>(0);
 
+    useEffect(() => {
+    
+        setRating(defaultRating);
+        setTempRating(0);
+    }, [defaultRating]);
+
     function handleRating(rating: number) {
         setRating(rating);
+        setTempRating(0); 
         if (onSetRating && mode === "rating") {
             onSetRating(rating);
         }

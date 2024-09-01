@@ -7,7 +7,7 @@ type DataType = {
     defaultValue: any,
     formikErrors: any,
     formikTouched: any,
-    formik:any,
+    formik: any,
 }
 
 function EditAddressInput({
@@ -23,7 +23,7 @@ function EditAddressInput({
         <div className='mx-auto w-full'>
             <input
                 type="text"
-                className='w-full p-3 border-2 focus:border-[#5ac5e7]  rounded-lg focus:outline-none focus:shadow-md'
+                className='w-full p-3 border-2 focus:border-[#282a3f]  rounded-lg focus:outline-none focus:shadow-md'
                 onChange={onChange}
                 name={name}
                 value={value}

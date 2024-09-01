@@ -1,5 +1,6 @@
 'use client'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import { SheetClose } from '@/components/ui/sheet'
 import ASidebar from '@/components/UserProfile/Aside'
 import { useLocale } from '@/context/LocaleProvider'
 import useAuth from '@/hooks/useAuth'
@@ -41,12 +42,15 @@ export default function Menu() {
                 <ul className="py-2 space-y-1">
                     {links.map(({ href, label }, index) => (
                         <li key={index}>
-                            <Link
-                                className="block px-4 py-2  font-medium text-primaryColor hover:text-secColor hover:bg-gray-100 rounded-md hover:font-bold duration-300 transition-all"
-                                href={href}
-                            >
-                                {c(label)}
-                            </Link>
+                            <SheetClose asChild >
+
+                                <Link
+                                    className="block px-4 py-3 font-medium text-primaryColor hover:text-[#363955] hover:bg-gray-100 rounded-md hover:font-bold duration-300 transition-all"
+                                    href={href}
+                                >
+                                    {c(label)}
+                                </Link>
+                            </SheetClose>
                         </li>
                     ))}
                 </ul>

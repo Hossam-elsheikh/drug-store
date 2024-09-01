@@ -1,3 +1,38 @@
+// -------------------------------------------------USER
+
+interface Address {
+    state: string
+    city: string
+    street: string
+    _id: string
+}
+
+interface CartItem {
+    productId: string
+    quantity: number
+    _id: string
+}
+
+interface User {
+    _id: string
+    name: string
+    email: string
+    password: string
+    addresses: Address[]
+    wishList: any[] 
+    mobile: string
+    failedLoginAttempts: number
+    createdAt: string
+    updatedAt: string
+    __v: number
+    refreshToken: string
+    cart: CartItem[]
+}
+
+
+
+
+
 interface FormValues {
     input: string
 }
@@ -39,12 +74,13 @@ type Product = {
         slug: string
     }
     price: number
+    stock: number
     netPrice: number
     sale: number
     sold: number
     image: string
-    customerReviews: any[] // If you know the structure of customerReviews, replace `any` with the appropriate type
-    createdAt: string // You could use Date type here if you plan to convert these strings into Date objects
+    customerReviews: any[]
+    createdAt: string
     updatedAt: string
     __v: number
 }
@@ -80,4 +116,39 @@ declare interface Category {
     }
     _id: string
     slug: string
+}
+
+// Cart Item type
+type CartItem = {
+    data: [productId: Product, quantity: number, _id: string]
+}
+
+type ReviewData = {
+    comment: string
+    rating: number
+    createdAt?: string
+}
+
+type TotalPrice = {
+    data: {
+        cartTotalPrice: number
+    }
+}
+
+// ----------------------------------------Pages----------------------------------------
+
+// ProductDetails
+
+type ProductDetailsProps = {
+    params: {
+        locale: string
+        'collection-slug': string
+        'product-slug': string
+    }
+}
+
+// --------------------------------------------------------
+interface QuickAccessProps {
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+    t: (key: string) => string
 }

@@ -5,17 +5,10 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "@/hooks/useAuth";
 import { getUser } from "@/axios/instance";
 
-interface UserInfo {
-	id: string;
-	name: string;
-	email: string;
-	mobile: string;
-	createdAt: string;
-	updatedAt: string;
-}
+
 
 interface UserContextType {
-	userInfo: UserInfo | null;
+	userInfo: User | null;
 	isLoading: boolean;
 	isError: boolean;
 	error: unknown;

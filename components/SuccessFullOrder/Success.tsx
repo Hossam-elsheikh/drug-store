@@ -28,7 +28,7 @@ function Success() {
                             type: "spring",
                             stiffness: 260,
                             damping: 20,
-                            delay: 0.3
+                            delay: 0.4
                         }}
                     >
                         <Check className='text-white w-8 h-8' />

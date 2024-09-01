@@ -12,12 +12,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #282a3f;
+    background-color: #363955;
     border-radius: 12px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #5ac5e7;
+    background-color: #5d6195;
 }
 
 body {
@@ -85,7 +85,7 @@ body {
 
 .swiper-button-next,
 .swiper-button-prev {
-    color: #282a3f !important ;
+    color: #363955 !important ;
     padding: 10px;
     transition: all 0.4s;
 }
@@ -105,18 +105,18 @@ body {
 }
 
 .swiper-pagination-bullet-active {
-    background-color: #282a3f !important;
+    background-color: #363955 !important;
     transition: all 1.5s;
     scale: 1.3;
 }
 .swiper-pagination-bullet:hover {
-    background-color: #282a3f !important;
+    background-color: #363955 !important;
     transition: all 1.5s;
     scale: 1.3;
 }
 
 .swiper-pagination-bullet {
-    background-color: #282a3f;
+    background-color: #363955;
 }
 
 .embla__button {
@@ -263,8 +263,8 @@ body {
 }
 
 .ModalUpdateButton {
-    @apply w-full bg-green-100 hover:bg-green-600 text-green-600 hover:text-white hover:border-green-600 font-semibold py-2 px-4 rounded-full transition-all  duration-300 ease-in-out focus:outline-none;
+    @apply w-full bg-green-100 shadow-sm hover:bg-green-600 text-green-600 hover:text-white hover:border-green-600 font-semibold py-2 px-4 rounded-full transition-all  duration-300 ease-in-out focus:outline-none;
 }
 .ModalCloseButton {
-    @apply bg-red-100 hover:bg-red-600 text-red-600 hover:text-white  hover:border-red-600 font-semibold py-2 px-4 rounded-full transition-all duration-300 ease-in-out focus:outline-none w-full;
+    @apply bg-red-100 shadow-sm hover:bg-red-600 text-red-600 hover:text-white  hover:border-red-600 font-semibold py-2 px-4 rounded-full transition-all duration-300 ease-in-out focus:outline-none w-full;
 }

@@ -12,7 +12,7 @@ type Props = {
     title?: string;
     direction?: "ltr" | "rtl";
     cart?: boolean;
-    price?:string;
+    price?: string;
 };
 
 export default function ItemCard({
@@ -63,11 +63,11 @@ export default function ItemCard({
                 </>
             ) : (
                 <div className="flex gap-2">
-                        <button className="group flex items-center justify-center rounded-md hover:bg-red-500  active:bg-red-600 px-2 py-2 text-center text-sm font-medium  hover:shadow-md outline-none duration-300 active:scale-[0.98]">
+                    <button className="group flex items-center justify-center rounded-md hover:bg-red-500  active:bg-red-600 px-2 py-2 text-center text-sm font-medium  hover:shadow-md outline-none duration-300 active:scale-[0.98]">
                         <Heart className='text-red-700 group-hover:text-white' />
                     </button>
                     <button className="flex items-center gap-4 justify-center rounded-md bg-slate-900 w-full px-2 py-2 text-center text-sm font-medium text-white hover:bg-gray-700 hover:shadow-md outline-none duration-300 active:scale-[0.98] ">
-                        <span className="hidden md:block">Add to cart</span> <ShoppingCart  />
+                        <span className="hidden md:block">Add to cart</span> <ShoppingCart />
                     </button>
                 </div>
             )}
@@ -96,7 +96,7 @@ export default function ItemCard({
                                 transition: { duration: 0.45 },
                             }}
                             exit={{ opacity: 0 }}
-                            className="absolute inset-0 z-20 flex justify-center items-center bg-[#282a3f]/[0.5]"
+                            className="absolute inset-0 z-20 flex justify-center items-center bg-[#363955]/[0.5]"
                         >
                             <motion.div
                                 initial={{ y: 10 }}
@@ -114,7 +114,7 @@ export default function ItemCard({
                 </AnimatePresence>
                 <Image
                     layout="responsive"
-                    width={400} height={400}    
+                    width={400} height={400}
                     className="object-cover z-10"
                     src={
                         image ||
@@ -123,7 +123,7 @@ export default function ItemCard({
                     alt="product image"
                 />
 
-             
+
             </a>
             {isVertical ? (
                 content

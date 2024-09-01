@@ -5,21 +5,21 @@ const items = [
     {
         title: "Free Shipping",
         description: "On orders over $200",
-        icon: <Truck className="h-5 w-5" />,
+        icon: <Truck size={24} />,
     },
     {
         title: "Fast Delivery",
         description: "Get it in 24 hours",
-        icon: <PlaneTakeoff className="h-5 w-5" />,
+        icon: <PlaneTakeoff size={24} />,
     },
     {
         title: "24/7 Support",
         description: "We're here to help",
-        icon: <Headset className="h-5 w-5" />,
+        icon: <Headset size={24} />,
     },
 ];
 
-function SideBar({ dir  }) {
+function SideBar({ dir }: { dir: string }) {
     return (
         <div className="mt-6 border-t border-gray-200 pt-6">
             <h3 className="text-lg font-semibold mb-4">Why Shop With Us</h3>

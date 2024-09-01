@@ -9,14 +9,14 @@ import { useFavorites } from '@/context/favoriteProvider';
 
 
 export default function Favorites() {
-    const {favoriteProducts} = useFavorites()
+    const { favoriteProducts } = useFavorites()
     const t = useTranslations("Favorites");
 
     return (
-        <div>
+        <>
             <h1 className="text-2xl p-3 md:text-3xl font-base mb-4 md:mb-0">{t('favorites')}</h1>
 
-            <div>
+            <section className='mt-5'>
                 {favoriteProducts.length === 0 ? (
                     <div className='items-center flex flex-col h-fit w-full'>
                         <div className="w-full max-w-md">
@@ -33,7 +33,7 @@ export default function Favorites() {
                         ))}
                     </div>
                 )}
-            </div>
-        </div>
+            </section>
+        </>
     );
 }

@@ -1,9 +1,14 @@
-import React from 'react'
-const Home = ({params}) => {
-    const category = params["collection-slug"]
-  return (
-    <div>{category}</div>
-  )
-}
+import React from 'react';
 
-export default Home
+type Params = {
+    "collection-slug": string;
+};
+
+const Home = ({ params }: { params: Params }) => {
+    const category = params["collection-slug"];
+    return (
+        <div>{category}</div>
+    );
+};
+
+export default Home;

@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { instancePrivate } from "@/axios/instance";
 import useAuth from "@/hooks/useAuth";
 
-const QuickAccess = ({ setIsModalOpen }:any) => (
+const QuickAccess = ({ setIsModalOpen }: any) => (
     <motion.div
         initial={{ opacity: 0 }}
         animate={{
@@ -17,7 +17,7 @@ const QuickAccess = ({ setIsModalOpen }:any) => (
             transition: { duration: 0.45 },
         }}
         exit={{ opacity: 0 }}
-        className="absolute inset-0 z-20 flex justify-center items-center rounded-lg bg-[#282a3f]/[0.2]"
+        className="absolute inset-0 z-20 flex justify-center items-center rounded-lg bg-[#363955]/[0.2]"
     >
         <motion.div
             initial={{ y: 10 }}
@@ -39,7 +39,7 @@ const QuickAccess = ({ setIsModalOpen }:any) => (
     </motion.div>
 );
 
-    const ProductCard = ({ details, mode = "default"}) => {
+const ProductCard = ({ details, mode = "default" }) => {
     const router = useRouter();
     // const navigate = (path: string) => {
     //     const normalizedPath = path.startsWith("/") ? path : `/${path}`;
@@ -67,10 +67,10 @@ const QuickAccess = ({ setIsModalOpen }:any) => (
         }
     }
 
-    const {auth}:any= useAuth()
-    const addToCart = async(product:any)=>{
+    const { auth }: any = useAuth()
+    const addToCart = async (product: any) => {
 
-        try{
+        try {
             const response = await instancePrivate.post('/order', {
                 cart: [{
                     id: product.id,
@@ -82,14 +82,14 @@ const QuickAccess = ({ setIsModalOpen }:any) => (
                 customerId: auth.userId,
             });
             console.log(response);
-        }catch(err){
-            console.error('error while adding to cart',err);
+        } catch (err) {
+            console.error('error while adding to cart', err);
         }
     }
 
     // const addToCart = async (product: any) => {
     //     console.log(product);
-        
+
     //     try {
     //         const response = await axiosPrivate.post('/order', {
     //             cart: [{
@@ -123,65 +123,65 @@ const QuickAccess = ({ setIsModalOpen }:any) => (
             viewport={{ amount: 0 }}
             className="flex flex-col w-[220px] h-[350px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300"
         >
-        <div>
-            <div
-                className="relative w-full h-60 overflow-hidden"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-            >
-                {/* <Image src={details.image} alt={details.title} fill /> */}
-                <img src={`http://localhost:4000/uploads/photos/${details.image}`}/>
-                <AnimatePresence>
-                    {quickAccess && (
-                        <QuickAccess setIsModalOpen={setIsModalOpen} />
-                    )}
-                </AnimatePresence>
-            </div>
-
-            <div className="flex flex-col p-3 gap-3">
-                <div>
-                    {/* <Link href={details.src}> */}
-                        <h2 className="font-medium text-md truncate hover:text-secColor">
-                            {details.name?.en}  
-                        </h2>
-                    {/* </Link> */}
-                    <p className="font-semibold text-start text-secColor">
-                        {details.price} <span className="font-light">KWD</span>
-                    </p>
-                </div>
-                <div className="flex items-center justify-between">
-                    <Heart className="cursor-pointer hover:text-red-500 transition" />
-                    <div onClick={()=> addToCart(details)} className="flex bg-primaryColor px-3 py-2 rounded-md text-white items-center gap-2 hover:bg-secColor transition cursor-pointer">
-                        <p className="text-sm font-medium hidden sm:block">
-                            Add to cart
-                        </p>
-                    
-                </div>
+            <div>
                 <div
-                    className={`flex items-center  ${mode === "default"
-                            ? "justify-between"
-                            : "items-center justify-center"
-                        }`}
+                    className="relative w-full h-60 overflow-hidden"
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
                 >
-                    <Heart className="cursor-pointer hover:text-red-500 transition" />
-                    {mode === "default" && (
-                        <button className="flex bg-primaryColor px-3 py-2 rounded-md text-white items-center gap-2 hover:bg-secColor transition cursor-pointer">
-                            Add to cart
-                            <ShoppingCart />
-                        </button>
+                    {/* <Image src={details.image} alt={details.title} fill /> */}
+                    <img src={`http://localhost:4000/uploads/photos/${details.image}`} />
+                    <AnimatePresence>
+                        {quickAccess && (
+                            <QuickAccess setIsModalOpen={setIsModalOpen} />
+                        )}
+                    </AnimatePresence>
+                </div>
+
+                <div className="flex flex-col p-3 gap-3">
+                    <div>
+                        {/* <Link href={details.src}> */}
+                        <h2 className="font-medium text-md truncate hover:text-secColor">
+                            {details.name?.en}
+                        </h2>
+                        {/* </Link> */}
+                        <p className="font-semibold text-start text-secColor">
+                            {details.price} <span className="font-light">KWD</span>
+                        </p>
+                    </div>
+                    <div className="flex items-center justify-between">
+                        <Heart className="cursor-pointer hover:text-red-500 transition" />
+                        <div onClick={() => addToCart(details)} className="flex bg-primaryColor px-3 py-2 rounded-md text-white items-center gap-2 hover:bg-secColor transition cursor-pointer">
+                            <p className="text-sm font-medium hidden sm:block">
+                                Add to cart
+                            </p>
+
+                        </div>
+                        <div
+                            className={`flex items-center  ${mode === "default"
+                                ? "justify-between"
+                                : "items-center justify-center"
+                                }`}
+                        >
+                            <Heart className="cursor-pointer hover:text-red-500 transition" />
+                            {mode === "default" && (
+                                <button className="flex bg-primaryColor px-3 py-2 rounded-md text-white items-center gap-2 hover:bg-secColor transition cursor-pointer">
+                                    Add to cart
+                                    <ShoppingCart />
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                    {isModalOpen && (
+                        <Modal
+                            details={details}
+                            setIsModalOpen={setIsModalOpen}
+                            setQuickAccess={setQuickAccess}
+                        />
                     )}
                 </div>
             </div>
-            {isModalOpen && (
-                <Modal
-                    details={details}
-                    setIsModalOpen={setIsModalOpen}
-                    setQuickAccess={setQuickAccess}
-                />
-            )}
-        </div>
-        </div>
-    );
+            );
 };
 
-export default ProductCard;
+            export default ProductCard;

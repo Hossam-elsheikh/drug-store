@@ -20,6 +20,7 @@ import { Formik, Form } from "formik";
 import useAuth from "@/hooks/useAuth";
 import { updateUser } from "@/axios/instance";
 import { UserProfileDataValidationSchema } from "@/lib/schema";
+import { toast, Toaster } from "sonner";
 
 export default function UserProfileModal({ userInfo }) {
 	const router = useRouter();
@@ -47,11 +48,13 @@ export default function UserProfileModal({ userInfo }) {
 
 			const response = await updateUser(auth.userId, updatedValues);
 			console.log("User profile updated:", response);
-			setStatus("Profile updated successfully");
+            setStatus("Profile updated successfully");
+            toast.success("Profile updated successfully");
 			router.refresh();
 		} catch (error) {
 			console.error("Error updating user profile:", error);
 			setStatus("Failed to update profile. Please try again.");
+            toast.error("Failed to update profile. Please try again.",);
 		} finally {
 			setSubmitting(false);
 		}
@@ -60,7 +63,7 @@ export default function UserProfileModal({ userInfo }) {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button className="rounded-full" variant="outline">{t("editInfo")}</Button>
+				<Button className="rounded-full items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300  shadow-sm hover:bg-gray-50 focus:outline-none duration-200" variant="outline">{t("editInfo")}</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
@@ -115,7 +118,8 @@ export default function UserProfileModal({ userInfo }) {
 										) : (
 											f("update")
 										)}
-									</button>
+                                    </button>
+                                    <Toaster richColors position="top-center" closeButton />
 									<DialogClose className="ModalCloseButton">
 										Close
 									</DialogClose>

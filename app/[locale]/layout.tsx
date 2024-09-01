@@ -12,6 +12,8 @@ import { UserProvider } from "@/context/UserProvider";
 import { ProductsProvider } from "@/context/ProductsProvider";
 import { LocaleProvider } from "@/context/LocaleProvider";
 import { FavoritesProvider } from "@/context/favoriteProvider";
+import { Suspense } from "react";
+import Loading from "../loading";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -50,10 +52,12 @@ export default async function RootLayout({
                                                 <div id="modal-root"></div>
                                                 <div className="flex h-[100dvh] flex-col justify-between ">
                                                     <div>
-                                                        <NavBar />
+                                                        <Suspense fallback={<Loading />}>
 
-                                                        {children}
+                                                            <NavBar />
 
+                                                            {children}
+                                                        </Suspense>
                                                     </div>
                                                     <Footer />
                                                 </div>

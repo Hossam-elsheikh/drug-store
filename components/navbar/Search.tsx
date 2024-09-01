@@ -66,7 +66,7 @@ export default function SearchMed(): JSX.Element {
         if (values.input) {
             startTransition(() => {
                 const newPath = `/${locale}/search/${encodeURIComponent(values.input.replace(/ /g, '-'))}`;
-                router.replace(newPath, { shallow: true });
+                router.replace(newPath);
             });
             setIsOpen(false);
             resetForm();
@@ -85,7 +85,7 @@ export default function SearchMed(): JSX.Element {
                         <Form className="space-y-8">
                             <div className="flex items-center gap-2 relative">
                                 <div className="flex w-full max-w-[760px] gap-x-2">
-                                    <div className="relative grow p-px">
+                                    <div className="relative grow p-px pt-1 md:pt-0">
                                         {(isLoading || isFetching || isPending) && inputValue.length >= 3 ? (
                                             <div className="absolute left-2 top-1/2 -translate-y-1/2 z-10">
                                                 <Loader2 className="text-gray-400 text-muted-foreground animate-spin" />

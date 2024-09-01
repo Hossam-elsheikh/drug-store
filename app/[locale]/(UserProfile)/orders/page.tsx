@@ -27,14 +27,13 @@ export default function Orders() {
     const t = useTranslations("OrderPage");
 
     return (
-        <div className="container mx-auto px-4">
+        <section className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-center">
                 <h1 className="text-2xl p-3 md:text-3xl font-base md:mb-0">
                     {t("orders")}
                 </h1>
             </div>
-            <div>
-                <div className="grid grid-cols-1 gap-4">
+                <div className="grid grid-cols-1 gap-4 mt-5">
                     {isLoading ? (
                         <UserOrderSkeleton />
                     ) : isError ? (
@@ -56,7 +55,6 @@ export default function Orders() {
                         ))
                     )}
                 </div>
-            </div>
-        </div>
+            </section>
     );
 }

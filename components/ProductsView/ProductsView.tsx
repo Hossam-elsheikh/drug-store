@@ -13,8 +13,8 @@ type Props = {
         id?: string;
         searchCategory?: string;
     };
-    SubId: string | null;
-    brand: string | null;
+    SubId?: string | null;
+    brand?: string | null;
 };
 
 function ProductsContent({ params = {}, SubId, brand }: Props) {

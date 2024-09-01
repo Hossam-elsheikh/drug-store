@@ -1,5 +1,6 @@
-import { Tablets , ShieldPlus, Medal } from "lucide-react";
-import Container from "../Container";
+'use client'
+import { Tablets, ShieldPlus, Medal } from "lucide-react";
+import { useLocale } from "@/context/LocaleProvider";
 
 const items = [
     {
@@ -19,7 +20,8 @@ const items = [
     },
 ];
 
-function SecSideBanar({ dir = "ltr" }) {
+function SecSideBanar() {
+    const {dir} = useLocale()
     return (
         <section className="w-full p-0">
            

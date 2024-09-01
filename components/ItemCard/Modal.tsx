@@ -91,7 +91,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details }) {
                                 </div>
 
                                 <div className="w-full md:w-1/2 p-8 justify-around flex flex-col">
-                                    <DialogTitle className="text-2xl font-bold text-gray-800">
+                                    <DialogTitle className="flex flex-col space-y-4 text-2xl font-bold text-gray-800">
                                         <h1 className="font-base text-sm">
                                             {brand?.name?.[locale]}
                                         </h1>
@@ -103,11 +103,12 @@ function Modal({ setIsModalOpen, setQuickAccess, details }) {
                                         </Link>
                                     </DialogTitle>
 
+
                                     <p className="text-gray-600 leading-relaxed">
                                         {description?.[locale]}
                                     </p>
 
-                                    <div className="mt-1 text-secColor font-semibold flex text-2xl gap-5 justify-around">
+                                    <div className="p-4 text-secColor font-semibold flex text-2xl gap-5 justify-around">
                                         <div>
                                         <span className="font-medium text-sm">
                                             KWT

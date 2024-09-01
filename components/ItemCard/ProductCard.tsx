@@ -3,23 +3,24 @@ import React, { useState } from 'react'
 import { Heart, ShoppingCart, Eye } from 'lucide-react'
 import Modal from './Modal'
 import { AnimatePresence, easeInOut, motion } from 'framer-motion'
-import { AddToCart, instancePrivate } from '@/axios/instance'
+import { AddToCart } from '@/axios/instance'
 import useAuth from '@/hooks/useAuth'
 import Image from 'next/image'
 import { useLocale } from '@/context/LocaleProvider'
 import { useFavorites } from '@/context/favoriteProvider'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
+import QuickAccess from './QuickAccess'
 import { getColorClass } from '@/lib/utils'
 
 
 
-const ProductCard = ({ details, mode = 'default', index,  }) => {
+const ProductCard = ({ details, mode = 'default', index, }: { details: Product, mode: string, index: number }) => {
     const { toggleFavorite, isProductFavorite } = useFavorites()
     const { locale, dir } = useLocale()
     const [quickAccess, setQuickAccess] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const { auth } :any= useAuth()
+    const { auth }: any = useAuth()
     const t = useTranslations("Buttons");
     const p = useTranslations("ProductCard");
 
@@ -47,7 +48,7 @@ const ProductCard = ({ details, mode = 'default', index,  }) => {
     } = details
     console.log(details)
 
-    const addToCart = (product) => AddToCart(product, auth)
+    const addToCart = (product: Product) => AddToCart(product, auth)
 
     const variants = {
         hidden: { opacity: 0, y: 20 },
@@ -64,16 +65,18 @@ const ProductCard = ({ details, mode = 'default', index,  }) => {
             transition={{ delay: index * 0.1, ease: easeInOut, duration: 0.5 }}
             viewport={{ amount: 0 }}
             className="flex flex-col w-[200px] md:w-[220px] h-[340px] md:h-[350px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300"
+
         >
             <div
                 className="relative w-full h-60 overflow-hidden"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
+                dir={dir}
             >
                 {sale && <span className={`absolute inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(sale)} ${dir === 'ltr' ? 'rounded-br-xl' : 'rounded-bl-xl'}`}>
                     <span className='items-center'>{p('save')}</span> {sale}%
-                </span> }
-             
+                </span>}
+
 
                 <Image
                     src={`${imagePath}${image}`}
@@ -99,7 +102,7 @@ const ProductCard = ({ details, mode = 'default', index,  }) => {
                             {brand?.name?.[locale]}
                         </h5>
                         <h2 className="font-semibold text-md truncate hover:text-secColor transition-colors duration-200">
-                            {name[locale] || ''}
+                            {name[locale as keyof typeof name]}
                         </h2>
 
                         <p className="mt-1 text-secColor font-semibold flex items-center gap-1 text-lg">
@@ -125,9 +128,9 @@ const ProductCard = ({ details, mode = 'default', index,  }) => {
                             onClick={() => {
                                 addToCart(details)
                             }}
-                            className="flex bg-primaryColor px-5 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105"
+                            className="flex bg-primaryColor hover:bg-[#363955] px-5 py-2 rounded-full text-white text-sm font-medium items-center gap-2  transition-all duration-200 transform hover:scale-105"
                         >
-                            <ShoppingCart className="w-3 h-3 md:w-5 md:h-5" />
+                            <ShoppingCart size={20} />
                             <p className='text-sm md:block'>
                                 {t("addToCart")}
                             </p>
@@ -153,31 +156,7 @@ const ProductCard = ({ details, mode = 'default', index,  }) => {
 
 export default ProductCard
 
-const QuickAccess = ({ setIsModalOpen, t }) => (
-    <motion.div
-        initial={{ opacity: 0 }}
-        animate={{
-            opacity: 1,
-            transition: { duration: 0.3 },
-        }}
-        exit={{ opacity: 0 }}
-        className="absolute inset-0 z-20 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm"
-    >
-        <motion.div
-            initial={{ y: 10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 10, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-        >
-            <button
-                onClick={() => setIsModalOpen(true)}
-                className="bg-white px-4 py-2 rounded-full text-primaryColor hover:bg-secColor hover:text-white font-medium transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-secColor focus:ring-opacity-50"
-            >
-                {t("quickView")}
-            </button>
-        </motion.div>
-    </motion.div>
-)
+
 
 export const ProductCardSkeleton = () => (
     <div className="flex flex-col max-w-sm rounded-xl shadow-lg overflow-hidden bg-white animate-pulse">
