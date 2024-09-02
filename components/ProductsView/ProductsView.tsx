@@ -30,13 +30,12 @@ function ProductsContent({ params = {}, SubId, brand }: Props) {
     } else if (id && searchCategory) {
         title = `Category: ${searchCategory} - ID: ${id}`;
     }
-    // console.log(products)
 
     useEffect(() => {
-        if (inView && hasNextPage) {
+        if (inView && hasNextPage && !isFetchingNextPage) {
             fetchNextPage();
         }
-    }, [inView, fetchNextPage, hasNextPage]);
+    }, [inView, fetchNextPage, hasNextPage, isFetchingNextPage]);
 
     useEffect(() => {
         const filters: any = { page: 1 };

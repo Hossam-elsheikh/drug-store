@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image'; // Importing the Image component
+import Image from 'next/image';
 
 import faceBook from '@/public/mage--facebook-square.svg';
 import Instagram from '@/public/mdi--instagram.svg';
@@ -13,13 +13,13 @@ const Icons = [
 
 function FooterIcons() {
     return (
-        <div className="sm:flex sm:items-center sm:justify-between">
-            <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="/" className="hover:underline">DevOnion</a>. All Rights Reserved.</span>
-            <div className="flex mt-4 sm:justify-center sm:mt-0 space-x-5">
+        <div className="sm:flex sm:items-center sm:justify-between p-3">
+      
+            <div className="flex mt-3 sm:justify-center sm:mt-0 space-x-4">
                 {Icons.map((icon, i) => (
-                    <a href={icon.path} key={i} className=" hover:scale-[1.1] duration-300 dark:hover:text-white">
+                    <a href={icon.path} key={i} className="hover:scale-105 transition-transform duration-300">
                         <div className="relative w-7 h-7">
-                            <Image 
+                            <Image
                                 src={icon.icon}
                                 alt={`${icon.name} page`}
                                 layout="responsive"
@@ -31,6 +31,9 @@ function FooterIcons() {
                     </a>
                 ))}
             </div>
+            <span className="text-xs text-gray-500 sm:text-center dark:text-gray-400">
+                © 2024 <a href="/" className="hover:underline">DevOnion</a>. All Rights Reserved.
+            </span>
         </div>
     );
 }

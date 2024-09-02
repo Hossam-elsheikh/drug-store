@@ -232,7 +232,7 @@ const Checkout = () => {
                         <div className="space-y-10">
                             <p className="  font-semibold text-xl px-3">Your Cart is Empty, Add some Products First</p>
                             <p className="px-3"></p>
-                            <Link href={'/'} className="mx-auto border p-4  rounded-md text-white font-medium bg-[#282a3f] hover:bg-[#198ab0] transition-all">Return to Home</Link>
+                            <Link href={'/'} className="mx-auto border p-4  rounded-md text-white font-medium bg-[#282a3f] hover:bg-[#5d6195] transition-all">Return to Home</Link>
                         </div>
                     </div>
                 </>

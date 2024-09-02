@@ -1,11 +1,24 @@
-import { MapPin, Phone, Mail, Headset, LineChart, Shield, Handshake } from 'lucide-react';
+'use client'
+import { MapPin, Phone, Mail, Headset, LineChart, Shield, Handshake, Info } from 'lucide-react';
 import React from 'react';
 import Image from 'next/image';
 import logo from "@/public/logo.svg";
 import Link from 'next/link';
 import FooterIcons from './FooterIcons';
+import { useLocale } from '@/context/LocaleProvider';
 
-export const footerData = [
+type SubObject = {
+    icon: React.ReactNode;
+    content: string;
+    path?: string;
+};
+
+type Section = {
+    mainTitle: string;
+    subObjects: SubObject[];
+};
+
+export const footerData: Section[] = [
     {
         mainTitle: "Keep Reaching Us",
         subObjects: [
@@ -24,70 +37,69 @@ export const footerData = [
         ]
     },
     {
-        mainTitle: "Additional Information",
-        subObjects: [
-            {
-                icon: <Headset />,
-                content: "support@company.com"
-            },
-            {
-                icon: <LineChart />,
-                content: "jobs@company.com"
-            }
-        ]
-    },
-    {
         mainTitle: "Legal",
         subObjects: [
             {
-                icon: <Shield />,
-                content: 'Privacy Policy'
+                icon: <Info />,
+                content: 'About Us',
+                path: 'aboutUs' // Path for About Us
             },
             {
                 icon: <Handshake />,
-                content: `Terms & Conditions`
+                content: `Terms & Conditions`,
+                path: '/terms' // Path for Terms & Conditions
             }
         ]
     }
 ];
 
-const Footer = ({ direction = 'ltr' }) => {
-    const textAlignClassName = direction === 'rtl' ? 'text-right' : 'text-left';
-
+const Footer = () => {
+    const { locale } = useLocale();
     return (
-        <footer className="bg-gray-50 border flex  dark:bg-gray-900 ">
-            <div className="mx-auto flex flex-col w-full max-w-screen-xl p-4 py-6 lg:py-8">
+        <footer className="bg-gray-50 border flex dark:bg-gray-900">
+            <div className="mx-auto flex flex-col w-full max-w-screen-xl p-4 py-4 lg:py-6">
                 <div className="md:flex md:justify-between">
-                    <div className="mb-6 m-2 md:mb-0 relative size-40">
-                        <a href="/" className="flex items-center">
-                            <Image src={logo} width={140} height={140} className="w-full me-3" alt="Logo" />
+                    <div className="relative w-72 p-4 md:mb-0 md:w-40 self-center">
+                        <a href="/" className="flex items-center self-center">
+                            <Image
+                                src={logo}
+                                width={120}
+                                height={120}
+                                className="w-full h-auto object-contain"
+                                alt="Logo"
+                            />
                         </a>
                     </div>
-                    <div className="grid grid-cols-1 gap-8 sm:gap-6 items-center sm:grid-cols-3">
+
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                         {footerData.map((section, sectionIndex) => (
                             <div key={sectionIndex}>
-                                <h2 className="mb-3 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+                                <h2 className="mb-2 text-sm font-semibold text-gray-900 uppercase dark:text-white">
                                     {section.mainTitle}
                                 </h2>
                                 <ul className="text-gray-500 dark:text-gray-400 font-medium">
                                     {section.subObjects.map((item, itemIndex) => (
-                                        <Link href='/' key={itemIndex}>
-                                            <li className="hover:text-black flex items-center p-3 rounded-lg hover:shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
-                                                <div className={`mr-3 ${direction === 'rtl' ? 'ml-4' : ''}`}>
-                                                    {item.icon}
-                                                </div>
-                                                <div className="flex flex-col ">
-                                                    <p className="mt-1">{item.content}</p>
-                                                </div>
-                                            </li>
-                                        </Link>
+                                        <li key={itemIndex} className="hover:text-black flex gap-2 items-center p-2 rounded-lg hover:shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                                            {item.path ? (
+                                                <Link className="gap-3 flex" href={`/${locale}/${item.path}`}>
+                                            <span >
+                                                {item.icon}
+                                            </span>
+                                                 {item.content}
+                                                </Link>
+                                            ) : (
+                                                    <div className="flex gap-3"> <span >
+                                                        {item.icon}
+                                                    </span>{item.content}</div>
+                                            )}
+                                        </li>
                                     ))}
                                 </ul>
                             </div>
                         ))}
                     </div>
                 </div>
-                <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+
                 <FooterIcons />
             </div>
         </footer>
