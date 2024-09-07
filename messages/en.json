@@ -44,7 +44,13 @@
         "expandCart": "Go to Cart",
         "checkout": "Proceed to Checkout",
         "dinar": "KWD",
-        "addMore": "Add Some Products in Your Cart"
+        "addMore": "Add Some Products in Your Cart",
+        "emptyCart": "Your Cart Is Empty",
+        "addProducts": "Add some products to your cart",
+        "startShopping": "Start Shopping",
+        "errorLoadingCart": "Failed to load cart items.",
+        "errorCalculatingTotal": "Failed to calculate total price.",
+        "tryAgainLater": "Please try again later."
     },
     "Form": {
         "firstName": "First Name",

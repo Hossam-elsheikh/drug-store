@@ -18,9 +18,11 @@ export default function RootLayout({
     const router = useRouter()
 
     const userProfilePath = `/${locale}/userProfile`
+    const userOrderPath = `/${locale}/orders`
+    const userFavoritesPath = `/${locale}/favorites`
 
     useEffect(() => {
-        if (!auth?.userId && pathname === userProfilePath) {
+        if (!auth?.userId && pathname === userProfilePath || pathname === userOrderPath || pathname === userFavoritesPath) {
             router.push('/')
         }
     }, [auth, router, pathname, userProfilePath])

@@ -96,7 +96,7 @@ export default function ItemCard({
                                 transition: { duration: 0.45 },
                             }}
                             exit={{ opacity: 0 }}
-                            className="absolute inset-0 z-20 flex justify-center items-center bg-[#363955]/[0.5]"
+                            className="absolute inset-0 z-20 flex justify-center items-center bg-[#282a3f]/[0.5]"
                         >
                             <motion.div
                                 initial={{ y: 10 }}

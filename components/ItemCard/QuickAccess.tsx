@@ -21,7 +21,7 @@ const QuickAccess = ({ setIsModalOpen, t }: QuickAccessProps) => (
         >
             <button
                 onClick={() => setIsModalOpen(true)}
-                className="bg-white px-4 py-2 rounded-full text-primaryColor hover:bg-gray-50  hover:text-gray-900 font-medium transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-secColor focus:ring-opacity-50"
+                className="bg-white px-4 py-2 rounded-full text-primaryColor hover:bg-gray-50  hover:text-gray-900 font-medium transition-all duration-200 transform hover:scale-105 focus:outline-none   focus:ring-opacity-50"
             >
                 {t("quickView")}
             </button>

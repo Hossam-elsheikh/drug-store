@@ -86,7 +86,7 @@ function UserInfo({ user, setShippingAddress, shippingAddress, formErrors, setFo
     const { name, email, mobile, createdAt } = userInfo || {};
     return (
 
-        <div className='flex flex-col py-2'>
+        <div className='flex flex-col py-2 '>
 
             <div className=''>
                 <h2 className="text-2xl font-bold text-gray-800 p-2 border-b-2">{t("userInfo")}</h2>
@@ -135,9 +135,9 @@ function UserInfo({ user, setShippingAddress, shippingAddress, formErrors, setFo
 
             <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-gray-800 p-2 border-b-2">{t("addresses")}</h2>
-                <div className="h-72 overflow-y-auto p-4 rounded-md border border-gray-200">
+                <div className="h-72 overflow-y-auto p-4 rounded-md border border-gray-200 shadow-sm">
                     {user.addresses.map((address) => (
-                        <div key={address.id} className="mb-4 last:mb-0">
+                        <div key={address.id} className="mb-4 last:mb-0 ">
                             <label htmlFor={address.id} className={`${formErrors.shippingAddress && 'border-red-500'} flex items-start space-x-3 cursor-pointer p-3 rounded-md hover:bg-gray-50 transition-colors duration-200`}>
                                 <input
                                     type="radio"

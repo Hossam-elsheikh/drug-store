@@ -1,17 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from '@/components/ui/accordion';
+
 import { useQuery } from '@tanstack/react-query';
 import { getSubCategories } from '@/axios/instance';
 import NotFound from '@/app/not-found';
 import { useLocale } from '@/context/LocaleProvider';
 import { encodeId } from '@/lib/idCipher';
 import { SheetClose } from '@/components/ui/sheet';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 
 
@@ -54,7 +50,7 @@ const DropList = ({ id, name }: { id: string; name: { en: string; ar: string }; 
                                     >
                                         <SheetClose asChild >
                                             <Link
-                                                className="font-medium text-base text-primaryColor hover:text-[#363955] flex items-center p-3"
+                                                className="font-medium text-base text-primaryColor hover:text-[#282a3f] flex items-center p-3"
                                                 href={{
                                                     pathname: `/${locale}/category/${slug}`,
                                                     query: { ref: encodeId(_id) },

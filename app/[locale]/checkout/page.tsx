@@ -239,7 +239,7 @@ const Checkout = () => {
 
                 :
 
-                <div className="bg-gray-50 w-[80%] mx-auto flex flex-col min-h-dvh">
+                <div className="bg-gray-50 w-full mx-auto flex flex-col min-h-dvh">
                     {/* <BreadCrumb /> */}
                     <div className="grid  xl:grid-cols-2 md:grid-cols-1  bg-white ">
 
@@ -289,12 +289,12 @@ const Checkout = () => {
 
                                 <div className="">
                                     <p className="text-xl pt-5 pb-3 font-medium">Your Order</p>
-                                    <div className="p-5 rounded-md border">
+                                    <div className="p-5 rounded-md border space-y-3 shadow-sm">
                                         {cartItems.data.length > 0 ?
                                             cartItems.data.map((cartItem: any) =>
-                                                <div id={cartItem._id}>
-                                                    <Order cartItem={cartItem} />
-                                                </div>
+
+                                                <Order cartItem={cartItem} id={cartItem._id} />
+
                                             )
                                             :
                                             <>
@@ -321,6 +321,15 @@ const Checkout = () => {
                         :
                         null
                     } */}
+                                <div className="block xl:hidden sm:mt-10">
+                                    <h2 className="text-lg font-medium text-gray-900 mb-4">Order Summary</h2>
+                                    <OrderSummary
+                                        couponFormik={couponFormik}
+                                        applyCouponMutation={applyCouponMutation}
+                                        applyCouponEvent={applyCouponEvent}
+                                        totalPrice={totalPrice}
+                                    />
+                                </div>
 
                                 <div className=" justify-center py-5">
                                     <button
@@ -361,7 +370,7 @@ const Checkout = () => {
                         </form>
 
 
-                        <div className=" h-full bg-[#ffffff]">
+                        <div className="hidden xl:block h-full bg-[#ffffff]">
                             <div className=" rounded-md  overflow-hidden sticky top-28 self-start">
                                 <div className="pt-5 px-10">
                                     <h2 className="text-lg font-medium text-gray-900 mb-4">

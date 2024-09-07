@@ -15,6 +15,8 @@ import Image from "next/image";
 import image from "@/public/logo.svg";
 
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { useLocale } from "@/context/LocaleProvider";
 
 
 function SignInForm() {
@@ -34,6 +36,7 @@ type Props = {
 
 function DrawerWrapper({ showSec }: Props) {
     const [animateBounce, setAnimateBounce] = useState(false)
+    const { dir, locale } = useLocale()
     const { getTotalFavorites } = useFavorites();
     const t = useTranslations("DrawerWrapper");
     const totalFavorite = getTotalFavorites();
@@ -56,10 +59,11 @@ function DrawerWrapper({ showSec }: Props) {
                     <Menu />
                 ) : showSec === "signInForm" ? (
 
-                    <User2Icon className="cursor-pointer hidden md:block" />
+                    <User2Icon className="cursor-pointer" />
                 ) : showSec === "Favorites" ? (
                     <>
                         {totalFavorite > 0 ? (
+
                             <AnimatePresence>
                                 <motion.div
 
@@ -86,6 +90,7 @@ function DrawerWrapper({ showSec }: Props) {
                                 </motion.div>
                             </AnimatePresence>
 
+
                         ) : (
                             <Heart className="cursor-pointer hover:text-red-500 transition-colors duration-200" />
                         )}
@@ -104,7 +109,7 @@ function DrawerWrapper({ showSec }: Props) {
             </SheetTrigger>
             <SheetContent
                 className="w-[300px] flex flex-col h-dvh p-2"
-           
+
             >
                 <SheetHeader className="items-center p-5 mt-5 ">
                     <SheetHeader className="items-center ">

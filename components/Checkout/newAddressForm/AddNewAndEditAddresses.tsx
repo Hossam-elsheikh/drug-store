@@ -83,9 +83,9 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
             <Dialog >
                 <DialogTrigger asChild>
                     <Button
-                        className={`
+                        className={` bg-gray-50
         ${mode === 'add'
-                                ? 'rounded-full items-center gap-2 px-3 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 focus:outline-none duration-200'
+                                ? 'rounded-full items-center gap-2 px-3 py-3 text-sm font-medium text-gray-700  border border-gray-300 shadow-sm hover:bg-gray-100 focus:outline-none duration-200'
                                 : 'border-0 rounded-full hover:shadow-sm'
                             }
       `}

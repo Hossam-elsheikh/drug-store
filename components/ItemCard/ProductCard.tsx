@@ -11,8 +11,22 @@ import { useFavorites } from '@/context/favoriteProvider'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import QuickAccess from './QuickAccess'
-import { getColorClass } from '@/lib/utils'
-
+import { useRouter } from 'next/navigation'
+export const getColorClass = (percentage: number) => {
+    if (percentage <= 5) return 'bg-indigo-100 text-indigo-800'
+    if (percentage <= 10) return 'bg-blue-100 text-blue-800'
+    if (percentage <= 15) return 'bg-amber-100 text-amber-800'
+    if (percentage <= 20) return 'bg-teal-100 text-teal-800'
+    if (percentage <= 25) return 'bg-green-100 text-green-800'
+    if (percentage <= 30) return 'bg-lime-100 text-lime-800'
+    if (percentage <= 35) return 'bg-yellow-100 text-yellow-800'
+    if (percentage <= 40) return 'bg-amber-100 text-amber-800'
+    if (percentage <= 45) return 'bg-orange-100 text-orange-800'
+    if (percentage <= 50) return 'bg-red-100 text-red-800'
+    if (percentage <= 55) return 'bg-rose-100 text-rose-800'
+    if (percentage <= 60) return 'bg-pink-100 text-pink-800'
+    return 'bg-purple-100 text-purple-800'
+}
 
 
 const ProductCard = ({ details, mode = 'default', index, }: { details: Product, mode: string, index: number }) => {
@@ -20,6 +34,7 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
     const { locale, dir } = useLocale()
     const [quickAccess, setQuickAccess] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const router = useRouter()
     const { auth }: any = useAuth()
     const t = useTranslations("Buttons");
     const p = useTranslations("ProductCard");
@@ -46,7 +61,7 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
         sale,
         category: { slug },
     } = details
-    console.log(details)
+
 
     const addToCart = (product: Product) => AddToCart(product, auth)
 
@@ -101,11 +116,11 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
                         <h5 className="font-base text-xs md:text-sm">
                             {brand?.name?.[locale]}
                         </h5>
-                        <h2 className="font-semibold text-md truncate hover:text-secColor transition-colors duration-200">
+                        <h2 className="font-semibold text-md truncate text-primaryColor hover:text-[#5d6195] transition-colors duration-200">
                             {name[locale as keyof typeof name]}
                         </h2>
 
-                        <p className="mt-1 text-secColor font-semibold flex items-center gap-1 text-lg">
+                        <p className="mt-1 text-primaryColor font-semibold flex items-center gap-1 text-lg">
                             {price}
                             <span className="font-medium text-xs">KWD</span>
                         </p>
@@ -128,7 +143,7 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
                             onClick={() => {
                                 addToCart(details)
                             }}
-                            className="flex bg-primaryColor hover:bg-[#363955] px-5 py-2 rounded-full text-white text-sm font-medium items-center gap-2  transition-all duration-200 transform hover:scale-105"
+                            className="flex bg-primaryColor hover:bg-[#282a3f] px-5 py-2 rounded-full text-white text-sm font-medium items-center gap-2  transition-all duration-200 transform hover:scale-105"
                         >
                             <ShoppingCart size={20} />
                             <p className='text-sm md:block'>
@@ -136,7 +151,10 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
                             </p>
                         </button>
                     ) : (
-                        <button className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105">
+                        <button
+                            onClick={() => router.push(`/${locale}/${slug}/${_id}`)}
+                            className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105"
+                        >
                             {t("showMore")}
                             <Eye className="w-5 h-5" />
                         </button>

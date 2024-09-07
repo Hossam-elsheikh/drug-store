@@ -20,7 +20,7 @@ function EmptyCart() {
             <p className="text-gray-600 mb-8 max-w-md mx-auto">{c('emptyCartDescription')}</p>
             <Link
                 href={'/'}
-                className="inline-flex items-center justify-center w-48 text-center text-white font-medium py-3 px-6 bg-[#363955] rounded-full hover:bg-[#3a3c57] transition duration-300 group gap-3"
+                className="inline-flex items-center justify-center w-48 text-center text-white font-medium py-3 px-6  bg-primaryColor rounded-full hover:bg-[#3a3c57] transition duration-300 group gap-3"
             >
                 {c('startShopping')}
                 <ArrowRight className=" group-hover:translate-x-1 transition-transform" />

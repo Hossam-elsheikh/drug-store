@@ -7,7 +7,7 @@ import { SheetClose } from "@/components/ui/sheet";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import { ArrowRight, ShoppingCart } from "lucide-react";
+import { AlertCircle, ArrowRight, ShoppingCart } from "lucide-react";
 import useCalcCartMutation from "@/hooks/calcCartMutation";
 import { useLocale } from "@/context/LocaleProvider";
 import CartSvg from '@/public/Add to Cart-amico.svg'
@@ -50,16 +50,52 @@ const CartDrawer = () => {
         enabled: !!cartItems,
     })
 
-    if (isCartLoading) return <p>cart items loading...</p>;
-    if (cartError) return <h1>error while fetching cart</h1>
-    if (isTotalPriceLoading) return <p>total price loading...</p>;
-    if (totalPriceError) return <h1>error while fetching total price</h1>
-
+    if (isCartLoading || isTotalPriceLoading) {
+        return (
+            <div className="p-4 space-y-4">
+                <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
+                <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
+                <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
+                <div className="h-10 w-1/2 bg-gray-200 animate-pulse rounded"></div>
+            </div>
+        );
+    }
+    if (cartError || totalPriceError) {
+        return (
+            <div className="p-4 bg-red-100 border-l-4 border-red-500 text-red-700">
+                <div className="flex items-center">
+                    <AlertCircle className="h-5 w-5 mr-2" />
+                    <p className="font-bold">Error</p>
+                </div>
+                <p className="mt-2">
+                    {cartError ? "Failed to load cart items." : "Failed to calculate total price."}
+                    Please try again later.
+                </p>
+            </div>
+        );
+    }
+    const isEmpty = cartItems.data.length === 0;
     return (
-        <>
-            {cartItems.data.length >= 1 ?
-                <div className=" flex flex-col " dir={dir}>
-                    <ScrollArea className="h-[700px]">
+
+        <section className="flex flex-col h-full" dir={dir}>
+            {isEmpty ? (
+                <div className="flex flex-col items-center justify-center h-full text-center p-4">
+                    <ShoppingCart className="h-24 w-24 mb-4 text-gray-400" />
+                    <h2 className="text-2xl font-semibold mb-2">{t("emptyCart")}</h2>
+                    <p className="text-gray-500 mb-4">{t("addProducts")}</p>
+                    <SheetClose asChild >
+
+                        <Link
+                            href={`/${locale}/`}
+                            className="bg-[#282a3f] text-white py-2 px-4 rounded-full hover:bg-[#3a3c57] transition-colors duration-300"
+                        >
+                            {t("startShopping")}
+                        </Link>
+                    </SheetClose>
+                </div>
+            ) : (
+                <>
+                    <div className="flex-grow overflow-auto">
                         {cartItems.data.map((cartItem, i) => (
                             <CartDrawerItem
                                 cartItem={cartItem}
@@ -69,18 +105,19 @@ const CartDrawer = () => {
                                 calculateCartMutation={calculateCartMutation}
                             />
                         ))}
-                    </ScrollArea>
-                    <div className="p-3  flex flex-col gap-4">
-                        <div className="flex text-lg font-medium justify-between items-center">
-                            <h3>{t("totalPrice")}</h3>
-                            <p>
-                                {totalPrice.data.cartTotalPrice} <span className="text-sm font-light">{t("dinar")}</span>
+                    </div>
+                    <div className="p-4 border-t border-gray-200">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-lg font-medium">{t("totalPrice")}</h3>
+                            <p className="text-lg font-bold">
+                                {totalPrice.data.cartTotalPrice} <span className="text-sm font-normal">{t("dinar")}</span>
                             </p>
                         </div>
-                        <p className="text-xs bg-green-700 p-1 rounded-md text-white">
+                        <p className="text-xs bg-green-700 text-white p-2 rounded-md mb-4">
                             {t("taxes")}
                         </p>
-                        <div className="flex flex-col items-center gap-3">
+
+                        <div className="space-y-3">
                             <SheetClose asChild >
 
                                 <Link
@@ -103,22 +140,12 @@ const CartDrawer = () => {
                             </SheetClose>
                         </div>
                     </div>
-                </div>
-                :
-                <></>
-            }
-            {cartItems.data.length <= 0 ?
-                <div className=" h-full  flex text-center">
-                    <div className="my-auto space-y-5 ">
-                        <ShoppingCart className="mx-auto h-[130px] w-[130px]" />
-                        <p className="  font-semibold text-3xl px-3">Your Cart Is Empty</p>
-                        <p className="px-3">Add some Products to Your Cart</p>
-                    </div>
-                </div>
-                :
-                <></>
-            }
-        </>
+                </>
+            )}
+        </section>
+
+
+
     );
 }
 export default CartDrawer

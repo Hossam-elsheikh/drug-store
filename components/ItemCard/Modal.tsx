@@ -110,23 +110,23 @@ function Modal({ setIsModalOpen, setQuickAccess, details }) {
 
                                     <div className="p-4 text-secColor font-semibold flex text-2xl gap-5 justify-around">
                                         <div>
-                                        <span className="font-medium text-sm">
-                                            KWT
-                                        </span>
-                                        {price}
+                                            <span className="font-medium text-sm">
+                                                KWT
+                                            </span>
+                                            {price}
 
                                         </div>
-                                            {sale &&
-                                                <span className={` inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(sale)} rounded-full`}>
-                                                    <span className='items-center'>{p('save')}</span> {sale}%
-                                                </span>
-                                            }
+                                        {sale &&
+                                            <span className={` inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(sale)} rounded-full`}>
+                                                <span className='items-center'>{p('save')}</span> {sale}%
+                                            </span>
+                                        }
                                     </div>
 
                                     <div className="flex gap-4">
 
                                         <button
-                                            className="flex-1 px-6 py-3 bg-secColor text-white rounded-full hover:opacity-80 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
+                                            className="flex-1 px-6 py-3 bg-primaryColor text-white rounded-full hover:bg-[#282a3f] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
                                             onClick={() =>
                                                 router.push(
                                                     `/${locale}/${slug}/${_id}`

@@ -19,25 +19,24 @@ const Icons = () => {
 
     return (
         <>
-            <div className='flex items-center gap-5'>
+
+            {auth?.userId ? <div className='flex items-center gap-5'>
 
                 {auth?.userId && !(pathName === `/${locale}/sign-in` || pathName === `/${locale}/sign-up`) && (
                     <UserPopUp />
                 )}
 
-                {!auth?.userId && !(pathName === `/${locale}/sign-in` || pathName === `/${locale}/sign-up`) && (
-                    <DrawerWrapper showSec='signInForm' />
-                )}
-
-                
                 {pathName === `/${locale}/checkout` ? null : <DrawerWrapper showSec='cart' />}
-                
-                {/* <DrawerWrapper showSec='cart' /> */}
+
                 <DrawerWrapper showSec='Favorites' />
                 <LanguageSwitcher classes='hidden md:block' />
 
-                {/* <DrawerWrapper showSec='signInForm' /> */}
-            </div>
+            </div> : <>
+
+                <DrawerWrapper showSec='signInForm' />
+            </>
+            }
+
         </>
     );
 };

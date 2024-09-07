@@ -8,7 +8,8 @@ function AsideCart({ totalPrice, cartItems }: { totalPrice: any, cartItems: any 
     const c = useTranslations("CartPage");
 
     // Check if totalPrice and cartItems are defined and have data
-    const price = totalPrice?.data?.cartTotalPrice || 0;
+    // const totalPrice = (cartItem.productId.price * cartItem.quantity).toFixed(2)
+    const price = (totalPrice?.data?.cartTotalPrice).toFixed(2) || 0;
     const itemCount = cartItems?.data?.length || 0;
 
     return (
@@ -27,7 +28,7 @@ function AsideCart({ totalPrice, cartItems }: { totalPrice: any, cartItems: any 
                 </div>
                 <Link
                     href="/en/checkout"
-                    className="w-full text-center text-white justify-center gap-2 font-medium py-3 px-4 bg-[#363955] rounded-full hover:bg-[#3a3c57] transition duration-300 flex group"
+                    className="w-full text-center text-white justify-center gap-2 font-medium py-3 px-4  bg-primaryColor rounded-full hover:bg-[#363955] transition duration-300 flex group"
                 >
                     {c('proceedToCheckout')}
                     <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform duration-200" />

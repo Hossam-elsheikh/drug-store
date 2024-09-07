@@ -1,18 +1,20 @@
 import Image from 'next/image'
 import React from 'react'
 
-function Order({cartItem}:any) {
-    
+function Order({ cartItem }: any) {
+    const { productId: { image, name, price }, quantity, } = cartItem
+    const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
+
     return (
-        <div className=" flex space-x-4 rounded-lg border-b py-4">
+        <div className=" flex space-x-4 rounded-lg border shadow-sm p-3 hover:shadow-md duration-300  py-4">
 
             <div className="flex-shrink-0">
                 <Image
                     width={90}
                     height={90}
                     className="rounded-md object-cover"
-                    src={`http://localhost:4000/uploads/photos/${cartItem.productId.image}`}
-                    alt={cartItem.productId.name.en}
+                    src={`${imagePath}${image}`}
+                    alt={name?.en}
                 />
             </div>
 
@@ -20,16 +22,16 @@ function Order({cartItem}:any) {
 
                 <div className="flex items-start justify-between ">
                     <h3 className="text-sm font-medium text-gray-900 line-clamp-2">
-                        {cartItem.productId.name.en}
+                        {name?.en}
                     </h3>
                 </div>
 
                 <div className="space-y-5 my-auto pt-3 w-full flex justify-between">
                     <p >
-                        <span className="text-sm">Quantity</span> {cartItem.quantity}
+                        <span className="text-sm">Quantity :</span> {quantity}
                     </p>
                     <p>
-                        <span className="font-semibold text-lg ">{cartItem.productId.price}</span> <span className="font-medium text-xs">KWD</span>
+                        <span className="font-semibold text-lg ">{(price.toFixed(2))}</span> <span className="font-medium text-xs">KWD</span>
                     </p>
                 </div>
 

@@ -45,7 +45,7 @@ export default function Menu() {
                             <SheetClose asChild >
 
                                 <Link
-                                    className="block px-4 py-3 font-medium text-primaryColor hover:text-[#363955] hover:bg-gray-100 rounded-md hover:font-bold duration-300 transition-all"
+                                    className="block px-4 py-3 font-medium text-primaryColor hover:text-[#282a3f] hover:bg-gray-100 rounded-md hover:font-bold duration-300 transition-all"
                                     href={href}
                                 >
                                     {c(label)}

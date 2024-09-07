@@ -1,11 +1,11 @@
 "use client";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import BreadCrumb from '@/components/Breadcrumb/BreadCrumb';
 import DrawerWrapper from '@/components/Drawers/DrawerWrapper';
 import ProductCard, { ProductCardSkeleton } from '@/components/ItemCard/ProductCard';
 import { ProductsProvider, useAllProducts } from '@/context/ProductsProvider';
-import { useInView } from 'react-intersection-observer';
 import NotFound from '@/app/not-found';
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 type Props = {
     params?: {
@@ -18,9 +18,9 @@ type Props = {
 };
 
 function ProductsContent({ params = {}, SubId, brand }: Props) {
-    const { ref, inView } = useInView();
-    const { products, isLoading, isError, error, setSearchParams, fetchNextPage, hasNextPage, isFetchingNextPage } = useAllProducts();
+    const { products, isLoading, isError, error, setSearchParams, totalPages, currentPage } = useAllProducts();
     const { term, id, searchCategory } = params;
+    const [page, setPage] = useState(1);
 
     let title = 'Products';
     if (id && SubId) {
@@ -32,13 +32,7 @@ function ProductsContent({ params = {}, SubId, brand }: Props) {
     }
 
     useEffect(() => {
-        if (inView && hasNextPage && !isFetchingNextPage) {
-            fetchNextPage();
-        }
-    }, [inView, fetchNextPage, hasNextPage, isFetchingNextPage]);
-
-    useEffect(() => {
-        const filters: any = { page: 1 };
+        const filters: any = { page };
         if (term) {
             filters.name = term;
         } else if (SubId) {
@@ -47,11 +41,14 @@ function ProductsContent({ params = {}, SubId, brand }: Props) {
             filters.brand = brand;
         }
         setSearchParams(filters);
-    }, [term, id, searchCategory, SubId, brand, setSearchParams]);
+    }, [term, id, searchCategory, SubId, brand, setSearchParams, page]);
+
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage);
+    };
 
     return (
         <section className="bg-gray-50 pb-5">
-            {/* <BreadCrumb /> */}
             <div className="p-0 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg border">
                 <div className="p-5 flex justify-between">
                     <h1 className="text-md md:text-3xl font-semibold px-5 md:px-10">
@@ -70,16 +67,43 @@ function ProductsContent({ params = {}, SubId, brand }: Props) {
                     ) : (
                         products && products.length > 0 ? (
                             products.map((item, i) => (
-                                <div key={i} ref={i === products.length - 1 ? ref : null}>
-                                    <ProductCard details={item} index={i} />
-                                </div>
+                                <ProductCard key={item._id} details={item} index={i} />
                             ))
                         ) : (
                             <NotFound />
                         )
                     )}
                 </section>
-                {isFetchingNextPage && <div>Loading more...</div>}
+
+                {totalPages > 1 && (
+                    <Pagination>
+                        <PaginationContent>
+                            <PaginationItem>
+                                <PaginationPrevious
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                />
+                            </PaginationItem>
+                            {[...Array(totalPages)].map((_, index) => (
+                                <PaginationItem key={index}>
+                                    <PaginationLink
+                                        href="#"
+                                        onClick={() => handlePageChange(index + 1)}
+                                        isActive={currentPage === index + 1}
+                                    >
+                                        {index + 1}
+                                    </PaginationLink>
+                                </PaginationItem>
+                            ))}
+                            <PaginationItem>
+                                <PaginationNext
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
+                                />
+                            </PaginationItem>
+                        </PaginationContent>
+                    </Pagination>
+                )}
             </div>
         </section>
     );

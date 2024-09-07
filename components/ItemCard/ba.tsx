@@ -17,7 +17,7 @@ const QuickAccess = ({ setIsModalOpen }: any) => (
             transition: { duration: 0.45 },
         }}
         exit={{ opacity: 0 }}
-        className="absolute inset-0 z-20 flex justify-center items-center rounded-lg bg-[#363955]/[0.2]"
+        className="absolute inset-0 z-20 flex justify-center items-center rounded-lg bg-[#282a3f]/[0.2]"
     >
         <motion.div
             initial={{ y: 10 }}

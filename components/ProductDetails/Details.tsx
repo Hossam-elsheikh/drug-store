@@ -67,7 +67,7 @@ function Details({ productDetails, className }: { productDetails: Product, class
             <div className="space-y-4">
                 <div className="flex items-center gap-3">
                     <Button
-                        className="flex-grow bg-primaryColor hover:bg-primaryColor/90 text-white rounded-full transition-all shadow-sm duration-200 transform active:scale-95 flex items-center justify-center gap-2"
+                        className="flex-grow bg-primaryColor hover:bg-[#363955] text-white rounded-full transition-all shadow-sm duration-200 transform active:scale-95 flex items-center justify-center gap-2"
                         onClick={() => {
                             addToCart(productDetails);
                         }}
