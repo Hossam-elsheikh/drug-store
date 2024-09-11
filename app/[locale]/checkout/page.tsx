@@ -317,7 +317,7 @@ const Checkout = () => {
                                         type="submit"
                                         disabled={executePayMutation.isPending !== false || executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery'}
                                     >
-                                        {executePayMutation.isPending ? (
+                                        {/* {executePayMutation.isPending ? (
                                             <p>Processing</p>
                                         ) : executePayMutation.isSuccess || payWithCash === 'cash-on-delivery' ? (
                                             (window.location.href = payWithCash === 'cash-on-delivery' ? 'http://localhost:3000/en'
@@ -327,7 +327,7 @@ const Checkout = () => {
                                             <>
                                                 {paymentMethod === 'cash-on-delivery' ? <p>Order Now</p> : <p>Pay Now</p>}
                                             </>
-                                        }
+                                        } */}
                                         {executePayMutation.isPending !== false ? <Loader className="animate-spin" /> : null}
                                     </button>
                                     <p className="py-2">{executePayMutation.isError ? <p className="text-red-400 text-center">Error, please try again.</p> : null}</p>

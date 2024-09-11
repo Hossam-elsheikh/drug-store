@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use } from 'react';
 import StarRating from '../CustomerReview/StarRating';
 import { Heart, ShoppingCart } from 'lucide-react';
 import Counter from "../ItemCard/Counter";
@@ -10,8 +10,9 @@ import { useFavorites } from "@/context/favoriteProvider";
 import { Button } from '@/components/ui/button';
 import { AddToCart } from '@/axios/instance';
 import useAuth from '@/hooks/useAuth';
+import { useLocalCart } from '@/hooks/useLocalCart';
 
-function Details({ productDetails, className }) {
+function Details({ productDetails, className }: any) {
     const { _id, price, name, brand, image, description, category: { slug }, stock } = productDetails || {};
     const { toggleFavorite, isProductFavorite } = useFavorites()
     const { locale, dir } = useLocale()
@@ -21,7 +22,12 @@ function Details({ productDetails, className }) {
 
     const t = useTranslations("Buttons");
     const { auth }: any = useAuth()
+
+    //add to cart handler with API call
     const addToCart = (product: any) => AddToCart(product, auth)
+
+    //add to cart handler with localStorage
+    const {addToLocalCartDispatch} = useLocalCart()
 
     return (
         <div className={classNames(
@@ -68,9 +74,7 @@ function Details({ productDetails, className }) {
                 <div className="flex items-center gap-3">
                     <Button
                         className="flex-grow bg-primaryColor hover:bg-primaryColor/90 text-white rounded-full transition-all duration-200 transform active:scale-95 flex items-center justify-center gap-2"
-                        onClick={() => {
-                            addToCart(productDetails);
-                        }}
+                        onClick={() => auth && auth.userId ?  addToCart(productDetails) : addToLocalCartDispatch(productDetails)}
                     >
                         <ShoppingCart className="h-5 w-5" />
                         {t("addToCart")}
@@ -84,12 +88,12 @@ function Details({ productDetails, className }) {
                         }`}
                     onClick={() => toggleFavorite(productDetails)}
                 >
-                        <Heart
-                            className={`h-5 w-5 transition-all duration-300 ${isProductFavorite(_id)
-                                ? 'text-red-500 fill-red-500'
-                                : 'text-gray-600 hover:text-red-500'
-                                }`}
-                        />
+                    <Heart
+                        className={`h-5 w-5 transition-all duration-300 ${isProductFavorite(_id)
+                            ? 'text-red-500 fill-red-500'
+                            : 'text-gray-600 hover:text-red-500'
+                            }`}
+                    />
                     {t('addToFavorite')}
                 </Button>
 

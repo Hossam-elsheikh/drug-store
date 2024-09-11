@@ -1,9 +1,9 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Heart, ShoppingCart, Eye } from 'lucide-react'
 import Modal from './Modal'
 import { AnimatePresence, easeInOut, motion } from 'framer-motion'
-import { AddToCart, instancePrivate } from '@/axios/instance'
+import { AddToCart, instancePrivate, transCartToAPI } from '@/axios/instance'
 import useAuth from '@/hooks/useAuth'
 import Image from 'next/image'
 import { useLocale } from '@/context/LocaleProvider'
@@ -11,15 +11,21 @@ import { useFavorites } from '@/context/favoriteProvider'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { getColorClass } from '@/lib/utils'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToLocalCart } from '@/redux/slices/addToCart'
+import { useLocalCart } from '@/hooks/useLocalCart'
+import { useMutation } from '@tanstack/react-query'
 
+type DataType = {
+    product: object
+}
 
-
-const ProductCard = ({ details, mode = 'default', index,  }) => {
+const ProductCard = ({ details, mode = 'default', index, }: any) => {
     const { toggleFavorite, isProductFavorite } = useFavorites()
     const { locale, dir } = useLocale()
     const [quickAccess, setQuickAccess] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const { auth } :any= useAuth()
+    const { auth }: any = useAuth()
     const t = useTranslations("Buttons");
     const p = useTranslations("ProductCard");
 
@@ -45,9 +51,12 @@ const ProductCard = ({ details, mode = 'default', index,  }) => {
         sale,
         category: { slug },
     } = details
-    console.log(details)
 
-    const addToCart = (product) => AddToCart(product, auth)
+    //add to cart handler with API call
+    const addToCart = (product: object) => AddToCart(product, auth)
+
+    //add to cart handler with localStorage
+    const { addToLocalCartDispatch } = useLocalCart()
 
     const variants = {
         hidden: { opacity: 0, y: 20 },
@@ -72,8 +81,8 @@ const ProductCard = ({ details, mode = 'default', index,  }) => {
             >
                 {sale && <span className={`absolute inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(sale)} ${dir === 'ltr' ? 'rounded-br-xl' : 'rounded-bl-xl'}`}>
                     <span className='items-center'>{p('save')}</span> {sale}%
-                </span> }
-             
+                </span>}
+
 
                 <Image
                     src={`${imagePath}${image}`}
@@ -121,10 +130,9 @@ const ProductCard = ({ details, mode = 'default', index,  }) => {
                         />
                     </button>
                     {mode === 'default' ? (
+
                         <button
-                            onClick={() => {
-                                addToCart(details)
-                            }}
+                            onClick={() => auth && auth.userId ? addToCart(details) : addToLocalCartDispatch(details)}
                             className="flex bg-primaryColor px-5 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105"
                         >
                             <ShoppingCart className="w-3 h-3 md:w-5 md:h-5" />
@@ -153,7 +161,7 @@ const ProductCard = ({ details, mode = 'default', index,  }) => {
 
 export default ProductCard
 
-const QuickAccess = ({ setIsModalOpen, t }) => (
+const QuickAccess = ({ setIsModalOpen, t }: any) => (
     <motion.div
         initial={{ opacity: 0 }}
         animate={{

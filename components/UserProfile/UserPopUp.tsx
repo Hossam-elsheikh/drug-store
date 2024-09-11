@@ -30,7 +30,8 @@ export default function UserPopUp() {
     const signOut = async () => {
         try {
             await signOutHook();
-            router.push(`/${locale}/sign-in`);
+            router.push(`/${locale}`);
+            window.location.reload();
         } catch (error) {
             console.error("Error during sign out:", error);
         }
