@@ -30,12 +30,12 @@ const CustomInput: React.FC<CustomInputProps> = ({
     const inputType = type === "password" ? (showPassword ? "text" : "password") : type;
 
     const inputClass = classNames(
-        'focus:shadow-lg focus:border-[#198AB0]  transition-all duration-300 outline-none -translate-y-0.5 flex h-10 w-full rounded-lg border px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50',
+        'focus:shadow-lg focus:border-[#198AB0] transition-all duration-300 outline-none -translate-y-0.5 flex h-10 w-full rounded-lg border px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50',
         {
             'border-slate-300 bg-white': !meta.error || !meta.touched,
             'border-red-500 bg-red-50': meta.error && meta.touched,
-            'gap-10': icon,
-            'gap-5': type === "password" || icon,
+            'pr-20': type === "password", // Increased right padding for both icons
+            'pl-10': icon,
         }
     );
 
@@ -57,7 +57,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
                     </span>
                 )}
                 <Field
-                    
                     placeholder={placeholder}
                     {...field}
                     type={inputType}
@@ -66,22 +65,23 @@ const CustomInput: React.FC<CustomInputProps> = ({
                     aria-describedby={`${name}-error`}
                     disabled={disabled}
                 />
-                {type === "password" && (
-                    <button
-                        type="button"
-                        className={classNames('absolute inset-y-0 flex items-center px-3', {
-                            'right-0': dir === 'ltr',
-                            'left-0': dir === 'rtl'
-                        })}
-                        onClick={() => setShowPassword(!showPassword)}
-                        aria-label={showPassword ? "Hide password" : "Show password"}
-                    >
-                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </button>
-                )}
-                {meta.error && meta.touched && (
-                    <AlertCircle size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500" />
-                )}
+                <div className={classNames('absolute inset-y-0 flex items-center gap-1', {
+                    'right-3': dir === 'ltr',
+                    'left-3': dir === 'rtl'
+                })}>
+                    {meta.error && meta.touched && (
+                        <AlertCircle size={18} className="text-red-500" />
+                    )}
+                    {type === "password" && (
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            aria-label={showPassword ? "Hide password" : "Show password"}
+                        >
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                    )}
+                </div>
             </div>
             <ErrorMessage
                 component="div"

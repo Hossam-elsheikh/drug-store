@@ -22,7 +22,7 @@ export default function RootLayout({
     const userFavoritesPath = `/${locale}/favorites`
 
     useEffect(() => {
-        if (!auth?.userId && pathname === userProfilePath || pathname === userOrderPath || pathname === userFavoritesPath) {
+        if (!auth?.userId && pathname === userProfilePath ) {
             router.push('/')
         }
     }, [auth, router, pathname, userProfilePath])

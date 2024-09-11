@@ -97,7 +97,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details }) {
                                         </h1>
                                         <Link
                                             href={`/${locale}/${slug}/${_id}`}
-                                            className="hover:text-secColor transition-colors duration-200"
+                                            className="bg-primaryColor hover:text-secColor transition-colors duration-200"
                                         >
                                             {name[locale] || ''}
                                         </Link>
@@ -108,7 +108,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details }) {
                                         {description?.[locale]}
                                     </p>
 
-                                    <div className="p-4 text-secColor font-semibold flex text-2xl gap-5 justify-around">
+                                    <div className="p-4 bg-primaryColor hover:bg-[#45486e]  font-semibold flex text-2xl gap-5 justify-around">
                                         <div>
                                             <span className="font-medium text-sm">
                                                 KWT
@@ -126,7 +126,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details }) {
                                     <div className="flex gap-4">
 
                                         <button
-                                            className="flex-1 px-6 py-3 bg-primaryColor text-white rounded-full hover:bg-[#282a3f] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
+                                            className="flex-1 px-6 py-3 bg-primaryColor text-white rounded-full hover:bg-[#45486e]active:scale-[.99] transition-all duration-200 flex items-center justify-center gap-2"
                                             onClick={() =>
                                                 router.push(
                                                     `/${locale}/${slug}/${_id}`
@@ -137,7 +137,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details }) {
                                             {t('showMore')}
                                         </button>
                                         <button
-                                            className={`group p-3 border border-gray-400 rounded-full hover:border-gray-500 hover:bg-gray-200 active:scale-95 transition-all duration-300  ${isProductFavorite(_id)
+                                            className={`group p-3 border border-gray-400 rounded-full hover:border-gray-500 hover:bg-gray-200 active:scale-[.96] transition-all duration-300  ${isProductFavorite(_id)
                                                 ? ' bg-red-100 text-red-700'
                                                 : 'text-gray-600 hover:text-red-500'}`}
                                             onMouseDown={() => toggleFavorite(details)}

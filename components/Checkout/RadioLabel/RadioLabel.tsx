@@ -1,3 +1,4 @@
+// RadioLabel.tsx
 import React from 'react'
 import Label from "@/components/Checkout/RadioLabel/Label";
 import { CreditCard, HandCoins, Store, Truck } from 'lucide-react';
@@ -13,15 +14,14 @@ type DataTypes = {
 }
 
 function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, paymentMethod, formErrors, setFormErrors }: DataTypes) {
-
     return (
         <>
             <SectionTitle title="Delivery">
                 <Label
                     method="delivery"
                     methodValue="ship"
-                    methodName="ship"
-                    icon={<Truck />}
+                    methodName="Ship to Address"
+                    icon={<Truck className="h-6 w-6 text-gray-800" />}
                     isFirst={true}
                     isLast={false}
                     setDeliveryMethod={setDeliveryMethod}
@@ -35,12 +35,11 @@ function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, payme
                             }))
                         }
                     }} />
-                <hr />
                 <Label
                     method="delivery"
                     methodValue="pickup-in-store"
                     methodName="Pickup in Store"
-                    icon={<Store />}
+                    icon={<Store className="h-6 w-6 text-gray-800" />}
                     isFirst={false}
                     isLast={true}
                     setDeliveryMethod={setDeliveryMethod}
@@ -56,18 +55,19 @@ function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, payme
                     }}
                 />
             </SectionTitle>
-            {formErrors ? <p className="text-red-400">{formErrors?.deliveryMethod}</p> : null}
+            {formErrors?.deliveryMethod && <p className="text-red-800 mt-2">{formErrors.deliveryMethod}</p>}
             <SectionTitle title="Payment">
                 <Label
                     method="payment"
                     methodValue="cash-on-delivery"
                     methodName="Cash on Delivery"
-                    icon={<HandCoins />}
+                    icon={<HandCoins className="h-6 w-6 text-gray-800" />}
                     isFirst={true}
                     isLast={false}
                     setDeliveryMethod={setDeliveryMethod}
                     setPaymentMethod={setPaymentMethod}
                     methodState={paymentMethod}
+
                     formErrorPayment={() => {
                         if (formErrors.paymentMethod) {
                             setFormErrors((errors: any) => ({
@@ -77,12 +77,11 @@ function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, payme
                         }
                     }}
                 />
-                <hr />
                 <Label
                     method="payment"
                     methodValue="paying-with-visa"
-                    methodName="paying with visa"
-                    icon={<CreditCard />}
+                    methodName="Pay with Visa"
+                    icon={<CreditCard className="h-6 w-6 text-gray-800" />}
                     isFirst={false}
                     isLast={true}
                     setDeliveryMethod={setDeliveryMethod}
@@ -98,8 +97,7 @@ function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, payme
                     }}
                 />
             </SectionTitle>
-            {formErrors ? <p className="text-red-400">{formErrors?.paymentMethod}</p> : null}
-
+            {formErrors?.paymentMethod && <p className="text-red-800 mt-2">{formErrors.paymentMethod}</p>}
         </>
     )
 }

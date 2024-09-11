@@ -16,7 +16,6 @@ export default function UserPopUp() {
     const { userInfo, isLoading } = useUser();
     const t = useTranslations("AsideMenu");
     const { locale } = useLocale();
-    const p = useTranslations("UserInfoPage");
     const signOutHook = useSignOut();
     const router = useRouter();
 

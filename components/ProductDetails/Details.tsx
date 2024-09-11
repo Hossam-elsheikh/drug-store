@@ -1,7 +1,6 @@
 import React from 'react';
 import StarRating from '../CustomerReview/StarRating';
 import { Heart, ShoppingCart } from 'lucide-react';
-import Counter from "../ItemCard/Counter";
 import SideBar from './SideBar';
 import { useTranslations } from 'next-intl';
 import classNames from 'classnames';
@@ -30,7 +29,7 @@ function Details({ productDetails, className }: { productDetails: Product, class
         )}>
             <div className="space-y-3">
                 <h3 className="text-sm text-gray-500 font-medium uppercase tracking-wider">
-                    {brand.name?.[locale] || "Johnson"}
+                    {brand.name?.[locale] }
                 </h3>
                 <h2 className="text-3xl font-bold text-gray-900">
                     {name[locale as keyof typeof name]}
@@ -67,18 +66,18 @@ function Details({ productDetails, className }: { productDetails: Product, class
             <div className="space-y-4">
                 <div className="flex items-center gap-3">
                     <Button
-                        className="flex-grow bg-primaryColor hover:bg-[#363955] text-white rounded-full transition-all shadow-sm duration-200 transform active:scale-95 flex items-center justify-center gap-2"
+                        className="flex-grow bg-primaryColor hover:bg-[#45486e] text-white rounded-full transition-all shadow-sm duration-200 transform active:scale-[.99] flex items-center justify-center gap-2"
                         onClick={() => {
                             addToCart(productDetails);
                         }}
                     >
-                        <ShoppingCart size={24}  />
+                        <ShoppingCart size={24} />
                         {t("addToCart")}
                     </Button>
                 </div>
                 <Button
                     variant="outline"
-                    className={`group w-full active:scale-95 rounded-full flex items-center bg-white justify-center border border-gray-300 gap-3 transition-all shadow-sm duration-300 ${isProductFavorite(_id)
+                    className={`group w-full active:scale-[.99] rounded-full flex items-center bg-white justify-center border border-gray-300 gap-3 transition-all shadow-sm duration-300 ${isProductFavorite(_id)
                         ? ' bg-red-100 text-red-700'
                         : 'text-gray-700 hover:text-red-500'
                         }`}

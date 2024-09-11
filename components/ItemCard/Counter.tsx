@@ -53,7 +53,7 @@ function Counter({ itemQuantity, cartItem, calculateCartMutation }: any) {
                 type="button"
                 // disabled={ quantity >= cartItem.productId.stock}
                 onClick={quantityPlus}
-                className="inline-flex px-[4px] py-0.5 shrink-0 items-center justify-center text-slate-100 rounded-full bg-secColor hover:opacity-75 focus:outline-none  active:scale-90 duration-200 disabled:bg-gray-300 "
+                className="inline-flex px-[4px] py-0.5 shrink-0 items-center justify-center text-slate-100 rounded-full bg-secColor hover:opacity-75 focus:outline-none  active:scale-[.99] duration-200 disabled:bg-gray-300 "
             >
                 <Plus className="w-5" />
             </button>
@@ -70,7 +70,7 @@ function Counter({ itemQuantity, cartItem, calculateCartMutation }: any) {
                 type="button"
                 disabled={quantity <= 1}
                 onClick={quantityMinus}
-                className="inline-flex px-[4px] py-0.5 shrink-0 items-center justify-center rounded-full text-white   bg-gray-500 hover:opacity-75 focus:outline-none disabled:bg-gray-300  active:scale-90 duration-200 "
+                className="inline-flex px-[4px] py-0.5 shrink-0 items-center justify-center rounded-full text-white   bg-gray-500 hover:opacity-75 focus:outline-none disabled:bg-gray-300  active:scale-[.99] duration-200 "
             >
                 <Minus className="w-5" />
             </button>

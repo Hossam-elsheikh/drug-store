@@ -16,6 +16,8 @@ import Link from "next/link";
 import { calcCart, fetchCartItems } from "@/axios/instance";
 import removeItemMutation from "@/hooks/removeItemCartMutation";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { AnimatePresence } from "framer-motion";
+import SlideCardAnimation from "@/components/Animation/SlideCardAnimation";
 
 
 const CartDrawer = () => {
@@ -87,7 +89,7 @@ const CartDrawer = () => {
 
                         <Link
                             href={`/${locale}/`}
-                            className="bg-[#282a3f] text-white py-2 px-4 rounded-full hover:bg-[#3a3c57] transition-colors duration-300"
+                            className="bg-primaryColor text-white py-2 px-4 rounded-full hover:bg-[#3a3c57] transition-colors duration-300"
                         >
                             {t("startShopping")}
                         </Link>
@@ -95,17 +97,20 @@ const CartDrawer = () => {
                 </div>
             ) : (
                 <>
-                    <div className="flex-grow overflow-auto">
-                        {cartItems.data.map((cartItem, i) => (
-                            <CartDrawerItem
-                                cartItem={cartItem}
-                                key={i}
-                                auth={auth}
-                                removeItemCartMutation={removeItemCartMutation}
-                                calculateCartMutation={calculateCartMutation}
-                            />
-                        ))}
-                    </div>
+                    <ScrollArea className="h-[700px]">
+                        <AnimatePresence>
+                            {cartItems.data.map((cartItem) => (
+                                <SlideCardAnimation key={cartItem._id}>
+                                    <CartDrawerItem
+                                        cartItem={cartItem}
+                                        auth={auth}
+                                        removeItemCartMutation={removeItemCartMutation}
+                                        calculateCartMutation={calculateCartMutation}
+                                    />
+                                </SlideCardAnimation>
+                            ))}
+                        </AnimatePresence>
+                    </ScrollArea>
                     <div className="p-4 border-t border-gray-200">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-lg font-medium">{t("totalPrice")}</h3>
@@ -121,7 +126,7 @@ const CartDrawer = () => {
                             <SheetClose asChild >
 
                                 <Link
-                                    className=" flex justify-center w-full bg-primaryColor gap-2  font-medium text-white py-2 rounded-full hover:bg-[#3a3c57] duration-300 transition-all group"
+                                        className=" flex justify-center w-full bg-primaryColor gap-2  font-medium text-white py-2 rounded-full hover:bg-[#45486e] duration-300 transition-all group"
                                     href={`/${locale}/cart`}
                                 >
                                     {t("expandCart")}
@@ -132,7 +137,7 @@ const CartDrawer = () => {
 
                                 <Link
                                     href={`/${locale}/checkout`}
-                                    className=" flex justify-center w-full bg-primaryColor font-medium gap-2 text-white py-2 rounded-full hover:bg-[#3a3c57] duration-300 transition-all group"
+                                        className=" flex justify-center w-full bg-primaryColor font-medium gap-2 text-white py-2 rounded-full hover:bg-[#45486e] duration-300 transition-all group"
                                 >
                                     {t("checkout")}
                                     <ArrowRight size={22} className=" group-hover:translate-x-1 transition-transform duration-200" />

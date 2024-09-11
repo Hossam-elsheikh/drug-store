@@ -6,7 +6,7 @@ function Order({ cartItem }: any) {
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
 
     return (
-        <div className=" flex space-x-4 rounded-lg border shadow-sm p-3 hover:shadow-md duration-300  py-4">
+        <div className=" flex space-x-4 rounded-lg border shadow-sm p-2 hover:shadow-md duration-300  py-4">
 
             <div className="flex-shrink-0">
                 <Image

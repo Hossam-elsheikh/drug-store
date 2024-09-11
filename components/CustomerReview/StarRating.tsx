@@ -29,7 +29,7 @@ const Star: FC<StarProps> = ({ onRate, full, onHoverIn, onHoverOut, color, size,
             onClick={mode === 'rating' ? onRate : undefined}
             onMouseEnter={mode === 'rating' ? onHoverIn : undefined}
             onMouseLeave={mode === 'rating' ? onHoverOut : undefined}
-            className={mode === 'rating' ? 'active:scale-90 duration-200' : ''}
+            className={mode === 'rating' ? 'active:scale-[.90] duration-200' : ''}
         >
             {full ? (
                 <svg

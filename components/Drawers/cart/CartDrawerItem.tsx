@@ -32,10 +32,10 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
     const removeItemCart = ()=> useRemoveItemCart({auth,cartItem,removeItemCartMutation,calculateCartMutation})
 
     return (
-        <div className="flex justify-between gap-2 border-b py-4 h-30 shadow my-1 items-center rounded-lg p-2">
+        <div className="flex justify-between gap-2 border-b py-4 h-30 shadow my-1 items-center rounded-lg p-2 hover:shadow-md duration-300">
             <div className="w-1/3">
                 <Image
-                    src={`http://localhost:4000/uploads/photos/${cartItem?.productId?.image}`}
+                    src={`${imagePath}${cartItem?.productId?.image}`}
                     width={100}
                     height={100}
                     objectFit="cover"
@@ -53,12 +53,12 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
                             calculateCartMutation={calculateCartMutation}
                         />
                     ) : (
-                        <button className="p-2 rounded-full bg-pink-100 hover:bg-pink-200 transition-all active:scale-[.90] duration-300" onMouseDown={() => toggleFavorite(details)}>
+                            <button className="p-2 rounded-full bg-pink-100 hover:bg-pink-200 transition-all active:scale-[.99] duration-300" onMouseDown={() => toggleFavorite(details)}>
                             <Heart className="text-pink-500 w-5 h-5" />
                         </button>
                     )}
                     {/* <button className="p-2 rounded-full bg-red-100 hover:bg-red-200 transition-all active:scale-[.95] duration-300 ml-2" onMouseDown={() => deleteFav(cartItem)}> */}
-                    <button onClick={removeItemCart} className="p-2 rounded-full bg-red-100 hover:bg-red-200 transition-all active:scale-[.95] duration-300 ml-2" >
+                    <button onClick={removeItemCart} className="p-2 rounded-full bg-red-100 hover:bg-red-200 transition-all active:scale-[.99] duration-300 ml-2" >
                         <Trash2  className="text-red-500 w-5 h-5" />
                     </button>
                 </div>

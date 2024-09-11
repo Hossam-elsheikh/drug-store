@@ -92,7 +92,7 @@ function FilterDrawer() {
                                 <PriceControl onChange={setPriceRange} />
                                 <button
                                     type="submit"
-                                    className="bg-primaryColor hover:bg-blue-900 text-white font-bold py-2 px-3 rounded-lg duration-300 active:scale-95"
+                                    className="bg-primaryColor hover:bg-blue-900 text-white font-bold py-2 px-3 rounded-lg duration-300 active:scale-[.99]"
                                 >
                                     Submit
                                 </button>

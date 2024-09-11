@@ -48,7 +48,7 @@ function CustomerCommentDialog({ productId }: { productId: string }) {
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" className="items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-full shadow-sm hover:bg-gray-50 focus:outline-none transition-all duration-200 group">
+                <Button variant="outline" className="items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-full shadow-sm hover:bg-gray-50 active:scale-[.99] focus:outline-none transition-all duration-200 group">
                     <MessageCircleMore size={24}  />
                     Write A Comment
                 </Button>
@@ -82,7 +82,7 @@ function CustomerCommentDialog({ productId }: { productId: string }) {
                 <DialogFooter className="w-full">
                     <Button
                         type="submit"
-                        className="bg-green-500 w-full hover:bg-green-600 gap-2 rounded-full text-white transition-all duration-200"
+                        className="bg-green-500 w-full hover:bg-green-600 gap-2 rounded-full text-white transition-all duration-200 active:scale-[.99]"
                         onClick={handleSubmit}
                     >
                         <Send size={24}  />

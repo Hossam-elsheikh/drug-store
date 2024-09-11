@@ -53,20 +53,20 @@ export default function ItemCard({
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        <button className="flex items-center justify-center rounded-md bg-green-900 px-2 py-2 text-center text-sm font-medium text-white hover:bg-green-700 hover:shadow-md outline-none active:scale-[0.98] duration-300">
+                        <button className="flex items-center justify-center rounded-md bg-green-900 px-2 py-2 text-center text-sm font-medium text-white hover:bg-green-700 hover:shadow-md outline-none active:scale-[.99] duration-300">
                             Process to Checkout <ChevronsRight className="ml-2" />
                         </button>
-                        <button className="flex items-center justify-center rounded-md bg-red-900 px-2 py-2 text-center text-sm font-medium text-white hover:bg-red-700 hover:shadow-md outline-none active:scale-[0.98] duration-300">
+                        <button className="flex items-center justify-center rounded-md bg-red-900 px-2 py-2 text-center text-sm font-medium text-white hover:bg-red-700 hover:shadow-md outline-none active:scale-[.99] duration-300">
                             Remove <Trash2 className="ml-2" />
                         </button>
                     </div>
                 </>
             ) : (
                 <div className="flex gap-2">
-                    <button className="group flex items-center justify-center rounded-md hover:bg-red-500  active:bg-red-600 px-2 py-2 text-center text-sm font-medium  hover:shadow-md outline-none duration-300 active:scale-[0.98]">
+                    <button className="group flex items-center justify-center rounded-md hover:bg-red-500  active:bg-red-600 px-2 py-2 text-center text-sm font-medium  hover:shadow-md outline-none duration-300 active:scale-[.99]">
                         <Heart className='text-red-700 group-hover:text-white' />
                     </button>
-                    <button className="flex items-center gap-4 justify-center rounded-md bg-slate-900 w-full px-2 py-2 text-center text-sm font-medium text-white hover:bg-gray-700 hover:shadow-md outline-none duration-300 active:scale-[0.98] ">
+                    <button className="flex items-center gap-4 justify-center rounded-md bg-slate-900 w-full px-2 py-2 text-center text-sm font-medium text-white hover:bg-gray-700 hover:shadow-md outline-none duration-300 active:scale-[.99] ">
                         <span className="hidden md:block">Add to cart</span> <ShoppingCart />
                     </button>
                 </div>
@@ -96,7 +96,7 @@ export default function ItemCard({
                                 transition: { duration: 0.45 },
                             }}
                             exit={{ opacity: 0 }}
-                            className="absolute inset-0 z-20 flex justify-center items-center bg-[#282a3f]/[0.5]"
+                            className="absolute inset-0 z-20 flex justify-center items-center bg-primaryColor/[0.5]"
                         >
                             <motion.div
                                 initial={{ y: 10 }}

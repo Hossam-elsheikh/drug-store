@@ -28,7 +28,7 @@ function AsideCart({ totalPrice, cartItems }: { totalPrice: any, cartItems: any 
                 </div>
                 <Link
                     href="/en/checkout"
-                    className="w-full text-center text-white justify-center gap-2 font-medium py-3 px-4  bg-primaryColor rounded-full hover:bg-[#363955] transition duration-300 flex group"
+                    className="w-full text-center text-white justify-center gap-2 font-medium py-3 px-4  bg-primaryColor rounded-full hover:bg-[#45486e] transition duration-300 flex group"
                 >
                     {c('proceedToCheckout')}
                     <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform duration-200" />

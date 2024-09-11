@@ -15,7 +15,7 @@ const Container = ({ children, className, title, dir = 'ltr' }: Props) => {
             {title && (
                 <div className="flex justify-between items-center mb-10 ">
                     <h1 className='text-xl w-fit   border-b-4 border-secColor font-semibold'>{title}</h1>
-                    <button className="flex w-fit px-4 py-2 rounded-full bg-primaryColor text-slate-100 font-medium  hover:bg-[#282a3f] transition duration-300">View More</button>
+                    <button className="flex w-fit px-4 py-2 rounded-full bg-primaryColor text-slate-100 font-medium  hover:bg-primaryColor transition duration-300">View More</button>
                 </div>
 
             )}

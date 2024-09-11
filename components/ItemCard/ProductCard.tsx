@@ -116,7 +116,7 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
                         <h5 className="font-base text-xs md:text-sm">
                             {brand?.name?.[locale]}
                         </h5>
-                        <h2 className="font-semibold text-md truncate text-primaryColor hover:text-[#5d6195] transition-colors duration-200">
+                        <h2 className="font-semibold text-md truncate text-primaryColor hover:text-[#45486e] transition-colors duration-200">
                             {name[locale as keyof typeof name]}
                         </h2>
 
@@ -132,7 +132,7 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
                         onClick={() => toggleFavorite(details)}
                     >
                         <Heart
-                            className={`w-6 h-6 transition-all duration-300 delay-400 ${isProductFavorite(_id)
+                            className={`w-6 h-6 transition-all duration-300 delay-400 active:scale-[.96] ${isProductFavorite(_id)
                                 ? 'text-red-500 fill-red-500'
                                 : 'text-gray-600 hover:text-red-500'
                                 }`}
@@ -143,7 +143,7 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
                             onClick={() => {
                                 addToCart(details)
                             }}
-                            className="flex bg-primaryColor hover:bg-[#282a3f] px-5 py-2 rounded-full text-white text-sm font-medium items-center gap-2  transition-all duration-200 transform hover:scale-105"
+                            className="flex bg-primaryColor hover:bg-[#45486e] px-5 py-2 rounded-full text-white text-sm font-medium items-center gap-2  transition-all duration-200 transform hover:scale-[1.02]"
                         >
                             <ShoppingCart size={20} />
                             <p className='text-sm md:block'>
@@ -153,7 +153,7 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
                     ) : (
                         <button
                             onClick={() => router.push(`/${locale}/${slug}/${_id}`)}
-                            className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105"
+                            className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-[1.02]"
                         >
                             {t("showMore")}
                             <Eye className="w-5 h-5" />

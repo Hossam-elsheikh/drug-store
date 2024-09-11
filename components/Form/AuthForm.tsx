@@ -13,6 +13,8 @@ import { useTranslations } from "next-intl";
 import { AuthFormSchema, initialAuthFormValues } from "@/lib/schema";
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
+import Image from "next/image";
+import image from "@/public/logo.svg";
 
 interface authFormProps {
     Type: string;
@@ -78,41 +80,54 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
     };
 
     return (
-        <section
-            className={` ${variant === "drawer"
-                ? " mt-5 "
-                : "shadow-lg bg-[#F1F5F9] max-w-[500px] mx-auto p-5 my-10 rounded-lg"
-                }`}
-        >
-            <header className="flex flex-col gap-5 md:gap-8">
-                <div className=" text-center">
-                    <h1
-                        className={`pt-10 {variant === 'drawer' ? 'text-[16px] font-semibold' : 'text-[20px] font-semibold '} `}
+        <>
+
+
+            <section
+                className={` ${variant === "drawer"
+                    ? " mt-5 "
+                    : "shadow-lg bg-[#F1F5F9] max-w-[500px] mx-auto p-5 my-10 rounded-lg"
+                    }`}
+            >
+                <header className="flex flex-col pt-5 gap-5 md:gap-8">
+                    <div className=" text-center">
+                        {(variant === 'full') && (
+                            <section className="flex justify-center">
+                                <Image
+                                    src={image}
+                                    alt="logo"
+                                    width={150}
+                                    height={150}
+                                />
+                            </section>
+                        )}
+                        <h1
+                            className={`pt-5 {variant === 'drawer' ? 'text-[16px] font-semibold' : 'text-[20px] font-semibold '} `}
+                        >
+                            {type === "sign-in" ? f("signInAcc") : f("createAcc")}
+                        </h1>
+                        <p
+                            className={
+                                variant === "drawer"
+                                    ? "text-[12.5px] font-normal text-gray-600 pb-5"
+                                    : "text-[14px] font-normal text-gray-600 pb-5"
+                            }
+                        >
+                            {f("enterDetails")}
+                        </p>
+                    </div>
+                </header>
+                <>
+                    <Formik
+                        initialValues={initialAuthFormValues}
+                        validationSchema={validationSchema}
+                        onSubmit={onSubmit}
                     >
-                        {type === "sign-in" ? f("signInAcc") : f("createAcc")}
-                    </h1>
-                    <p
-                        className={
-                            variant === "drawer"
-                                ? "text-[12.5px] font-normal text-gray-600 pb-5"
-                                : "text-[14px] font-normal text-gray-600 pb-5"
-                        }
-                    >
-                        {f("enterDetails")}
-                    </p>
-                </div>
-            </header>
-            <>
-                <Formik
-                    initialValues={initialAuthFormValues}
-                    validationSchema={validationSchema}
-                    onSubmit={onSubmit}
-                >
-                    {({ isSubmitting }) => (
-                        <Form className="space-y-5">
-                            {type === "sign-up" && (
-                                <>
-                                    <div className="flex space-x-5">
+                        {({ isSubmitting }) => (
+                            <Form className="space-y-5">
+                                {type === "sign-up" && (
+                                    <>
+
                                         <CustomInput
                                             name="name"
                                             label={f("name")}
@@ -123,115 +138,116 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                             label={f("mobileNumber")}
                                             placeholder={f("placeholderNumber")}
                                         />
-                                    </div>
-                                    <div className="flex gap-4">
-                                        <CustomInput
-                                            name="addresses[0].state"
-                                            label={f("state")}
-                                            placeholder={f("placeholderState")}
-                                        />
-                                        <CustomInput
-                                            name="addresses[0].city"
-                                            label={f("city")}
-                                            placeholder={f("cityHolder")}
-                                        />
-                                        <CustomInput
-                                            name="addresses[0].street"
-                                            label={f("street")}
-                                            placeholder={f("streetHolder")}
-                                        />
-                                    </div>
-                                </>
-                            )}
-                            <CustomInput
-                                name="email"
-                                label={f("email")}
-                                placeholder={f("emailHolder")}
-                            />
-                            <div className="relative">
-                                <CustomInput
-                                    name="password"
-                                    label={f("password")}
-                                    placeholder={f("passHolder")}
-                                    type={showPassword ? "text" : "password"}
-                                />
 
-                                {type === "sign-in" && (
-                                    <Link
-                                        href={"/"}
-                                        className="font-medium text-[12px] text-[#198AB0] hover:text-[#363955] "
-                                    >
-                                        {f("forgetPass")}
-                                    </Link>
+                                        <div className="flex gap-2">
+                                            <CustomInput
+                                                name="addresses[0].state"
+                                                label={f("state")}
+                                                placeholder={f("placeholderState")}
+                                            />
+                                            <CustomInput
+                                                name="addresses[0].city"
+                                                label={f("city")}
+                                                placeholder={f("cityHolder")}
+                                            />
+                                            <CustomInput
+                                                name="addresses[0].street"
+                                                label={f("street")}
+                                                placeholder={f("streetHolder")}
+                                            />
+                                        </div>
+                                    </>
                                 )}
-                            </div>
-                            {type === "sign-up" && (
                                 <CustomInput
-                                    name="confirmPassword"
-                                    label={f("confirmPassword")}
-                                    placeholder={f("confirmPassHolder")}
-                                    type={
-                                        showConfirmPassword
-                                            ? "text"
-                                            : "password"
-                                    }
+                                    name="email"
+                                    label={f("email")}
+                                    placeholder={f("emailHolder")}
                                 />
-                            )}
-                            <div className="flex flex-col gap-4 pb-5">
-                                <Button
-                                    type="submit"
-                                    disabled={isSubmitting}
-                                    className="font-semibold bg-[#198AB0] hover:bg-[#363955]"
-                                >
-                                    {isSubmitting ? (
-                                        <Loader2 className=" animate-spin" />
-                                    ) : type === "sign-in" ? (
-                                        f("signIn")
-                                    ) : (
-                                        f("signUp")
-                                    )}
-                                </Button>
-                            </div>
-                        </Form>
-                    )}
-                </Formik>
-                <Toaster richColors position="top-center" closeButton />
+                                <div className="relative">
+                                    <CustomInput
+                                        name="password"
+                                        label={f("password")}
+                                        placeholder={f("passHolder")}
+                                        type={showPassword ? "text" : "password"}
+                                    />
 
-                <footer>
-                    <div className="flex justify-center gap-2">
-                        <p className="text-14 font-normal flex flex-row text-gray-600">
-                            {type === "sign-in"
-                                ? f("dontHaveAcc")
-                                : f("haveAnAcc")}
-                        </p>
-                        {variant === "full" && (
+                                    {type === "sign-in" && (
+                                        <Link
+                                            href={"/"}
+                                            className="font-medium text-[12px] text-primaryColor hover:text-[#363955] "
+                                        >
+                                            {f("forgetPass")}
+                                        </Link>
+                                    )}
+                                </div>
+                                {type === "sign-up" && (
+                                    <CustomInput
+                                        name="confirmPassword"
+                                        label={f("confirmPassword")}
+                                        placeholder={f("confirmPassHolder")}
+                                        type={
+                                            showConfirmPassword
+                                                ? "text"
+                                                : "password"
+                                        }
+                                    />
+                                )}
+                                <div className="flex flex-col gap-4 pb-5">
+                                    <Button
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        className="font-semibold rounded-full bg-primaryColor hover:bg-[#45486e] active:scale-[.99] duration-200 transition-all"
+                                    >
+                                        {isSubmitting ? (
+                                            <Loader2 className=" animate-spin" />
+                                        ) : type === "sign-in" ? (
+                                            f("signIn")
+                                        ) : (
+                                            f("signUp")
+                                        )}
+                                    </Button>
+                                </div>
+                            </Form>
+                        )}
+                    </Formik>
+                    <Toaster richColors position="top-center" closeButton />
+
+                    <footer>
+                        <div className="flex justify-center gap-2">
+                            <p className="text-14 font-normal flex flex-row text-gray-600">
+                                {type === "sign-in"
+                                    ? f("dontHaveAcc")
+                                    : f("haveAnAcc")}
+                            </p>
+                            {variant === "full" && (
+                                <Link
+                                    href={
+                                        type === "sign-in"
+                                            ? `/${locale}/sign-up`
+                                            : `/${locale}/sign-in`
+                                    }
+                                    className="form-link font-semibold text-primaryColor hover:text-[#363955] "
+                                >
+                                    {type === "sign-in" ? f("signUp") : f("signIn")}
+                                </Link>
+                            )}
+                            {variant === "drawer" && (
+                                <FormButton type={type} setType={setType} />
+                            )}
+                        </div>
+                        {variant === "drawer" && (
                             <Link
-                                href={
-                                    type === "sign-in"
-                                        ? `/${locale}/sign-up`
-                                        : `/${locale}/sign-in`
-                                }
-                                className="form-link font-semibold text-[#198AB0] hover:text-[#363955] "
+                                href={`/${locale}/${type}`}
+                                className="mt-10 flex gap-1 justify-center font-medium"
                             >
-                                {type === "sign-in" ? f("signUp") : f("signIn")}
+                                {f("expand")}{" "}
+                                <Expand className="size-[18px] my-auto" />
                             </Link>
                         )}
-                        {variant === "drawer" && (
-                            <FormButton type={type} setType={setType} />
-                        )}
-                    </div>
-                    {variant === "drawer" && (
-                        <Link
-                            href={`/${locale}/${type}`}
-                            className="mt-10 flex gap-1 justify-center font-medium"
-                        >
-                            {f("expand")}{" "}
-                            <Expand className="size-[18px] my-auto" />
-                        </Link>
-                    )}
-                </footer>
-            </>
-        </section>
+                    </footer>
+                </>
+            </section>
+        </>
     );
 };
 

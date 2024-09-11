@@ -14,6 +14,7 @@ import { LocaleProvider } from "@/context/LocaleProvider";
 import { FavoritesProvider } from "@/context/favoriteProvider";
 import { Suspense } from "react";
 import Loading from "../loading";
+import { ReactLenis } from '@/lib/lenis'
 
 const inter = Inter({
     subsets: ["latin"],
@@ -40,36 +41,34 @@ export default async function RootLayout({
     const messages = await getMessages();
     return (
         <html lang={locale}>
-            <body className={`${roboto.variable} ${inter.variable}`}>
-                <LocaleProvider initialLocale={locale}>
-                    <NextIntlClientProvider messages={messages}>
-                        <AuthProvider>
-                            <AuthPersistProvider>
-                                <ReactQueryProvider>
-                                    <ProductsProvider>
-                                        <FavoritesProvider>
-                                            <UserProvider>
-                                                <div id="modal-root"></div>
-                                                <div className="flex h-[100dvh] flex-col justify-between ">
-                                                    <div>
+            <ReactLenis root>
+                <body className={`${roboto.variable} ${inter.variable}`}>
+                    <LocaleProvider initialLocale={locale}>
+                        <NextIntlClientProvider messages={messages}>
+                            <AuthProvider>
+                                <AuthPersistProvider>
+                                    <ReactQueryProvider>
+                                        <ProductsProvider>
+                                            <FavoritesProvider>
+                                                <UserProvider>
+                                                    <div id="modal-root"></div>
+                                                    <div className="flex h-[100dvh] flex-col justify-between ">
                                                         <Suspense fallback={<Loading />}>
-
                                                             <NavBar />
-
                                                             {children}
                                                         </Suspense>
+                                                        <Footer />
                                                     </div>
-                                                    <Footer />
-                                                </div>
-                                            </UserProvider>
-                                        </FavoritesProvider>
-                                    </ProductsProvider>
-                                </ReactQueryProvider>
-                            </AuthPersistProvider>
-                        </AuthProvider>
-                    </NextIntlClientProvider>
-                </LocaleProvider>
-            </body>
+                                                </UserProvider>
+                                            </FavoritesProvider>
+                                        </ProductsProvider>
+                                    </ReactQueryProvider>
+                                </AuthPersistProvider>
+                            </AuthProvider>
+                        </NextIntlClientProvider>
+                    </LocaleProvider>
+                </body>
+            </ReactLenis>
         </html>
     );
 }
