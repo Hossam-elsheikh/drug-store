@@ -7,28 +7,27 @@ import { useUser } from '@/context/UserProvider';
 import AddNewAndEditAddresses from '../newAddressForm/AddNewAndEditAddresses';
 
 type DataTypes = {
-
-    setShippingAddress: any,
+    setShippingAddress: (address: any) => void,
     shippingAddress: any,
     formErrors: any,
-    setFormErrors: any,
+    setFormErrors: (errors: any) => void,
 }
 
 function UserInfo({ setShippingAddress, shippingAddress, formErrors, setFormErrors }: DataTypes) {
-    console.log();
-    const [selectedAddress, setSelectedAddress] = useState(null);
+    const [selectedAddress, setSelectedAddress] = useState(shippingAddress?._id || null);
 
     const f = useTranslations("Form");
     const t = useTranslations("UserInfoPage");
 
-    const { userInfo, isLoading, isError, error } = useUser()
-    const { name, email, mobile, createdAt, addresses } = userInfo || {};
+    const { userInfo, isLoading } = useUser();
+    const { name, email, mobile, addresses } = userInfo || {};
 
-    const handleAddressChange = (address) => {
-        setSelectedAddress(address.id);
+    const handleAddressChange = (address: any) => {
+        setSelectedAddress(address._id);
+        setShippingAddress(address);
 
         if (formErrors.shippingAddress) {
-            setFormErrors((errors) => ({
+            setFormErrors((errors: any) => ({
                 ...errors,
                 shippingAddress: ''
             }));
@@ -41,13 +40,9 @@ function UserInfo({ setShippingAddress, shippingAddress, formErrors, setFormErro
                 <p className="font-medium text-xl pt-5 pb-3">Shipping Address</p>
 
                 <div className="self-end">
-                    <AddNewAndEditAddresses
-                        mode="add"
-
-                    />
+                    <AddNewAndEditAddresses mode="add" />
                 </div>
             </div>
-
 
             <div className='flex flex-col py-2'>
                 <div>
@@ -98,14 +93,9 @@ function UserInfo({ setShippingAddress, shippingAddress, formErrors, setFormErro
                             <div key={address._id} className="mb-4 last:mb-0">
                                 <label
                                     htmlFor={address._id}
-                                    className={`
-                                    flex justify-between items-center p-4 cursor-pointer
-                                    rounded-md group transition-all duration-200 ease-in-out border
-                                    ${selectedAddress === address?._id
-                                            ? 'bg-gray-50 border-gray-300 text-gray-900 scale-[1.0090] shadow-sm'
-                                            : 'text-gray-700 hover:bg-gray-100'}
-                                    ${formErrors.shippingAddress ? 'border-red-500' : 'border-gray-200'}
-                                    `}
+                                    className={`flex justify-between items-center p-4 cursor-pointer rounded-md group transition-all duration-200 ease-in-out border hover:bg-gray-100
+                                        ${selectedAddress === address._id ? 'bg-gray-50 border-gray-300 text-gray-900 scale-[1.0090] shadow-sm' : 'text-gray-700 '}
+                                        ${formErrors.shippingAddress ? 'border-red-500' : 'border-gray-200'}`}
                                 >
                                     <div className="flex items-center space-x-4 transition-all duration-200">
                                         <input
@@ -114,7 +104,7 @@ function UserInfo({ setShippingAddress, shippingAddress, formErrors, setFormErro
                                             name="address"
                                             value={address._id}
                                             checked={selectedAddress === address._id}
-                                            onChange={() => { setShippingAddress(address) }}
+                                            onChange={() => handleAddressChange(address)}
                                             className="w-5 h-5 text-gray-600 bg-gray-700 border-gray-300 focus:outline-none accent-[#282a3f]"
                                         />
                                         <div className="flex-grow">
@@ -126,7 +116,6 @@ function UserInfo({ setShippingAddress, shippingAddress, formErrors, setFormErro
                                     </div>
                                     <div className="flex-shrink-0">
                                         <AddNewAndEditAddresses mode='edit' initialValues={address} key={address._id} addressId={address._id} />
-
                                     </div>
                                 </label>
                             </div>
