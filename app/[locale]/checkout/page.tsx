@@ -15,7 +15,6 @@ import * as Yup from 'yup';
 import { Loader, X } from "lucide-react";
 
 import OrderSummary from "@/components/Checkout/OrderSummary";
-import AddNewAndEditAddresses from "@/components/Checkout/newAddressForm/AddNewAndEditAddresses";
 import { useUser } from "@/context/UserProvider";
 import EmptyCart from "@/components/Cart/EmptyCart";
 import Loading from "@/app/loading";
@@ -30,30 +29,11 @@ const Checkout = () => {
     const [cartPrice, setCartPrice] = useState('')
     const [formErrors, setFormErrors] = useState('')
 
-    console.log(cartPrice);
+
 
     const axiosPrivate = useAxiosPrivate();
     const { auth }: any = useAuth()
 
-    const validationSchema = Yup.object({
-        city: Yup.string().required('City is required'),
-        state: Yup.string().required('State is required'),
-        street: Yup.string().required('Street is required'),
-    });
-
-    const formik = useFormik(
-        {
-            initialValues: {
-                city: '',
-                state: '',
-                street: ''
-            },
-            validationSchema: validationSchema,
-            onSubmit: async (values,) => {
-                handleFormAddressSubmit(values);
-            },
-        },
-    );
     const couponFormik = useFormik(
         {
             initialValues: {
@@ -72,17 +52,9 @@ const Checkout = () => {
         if (!shippingAddress) errors.shippingAddress = 'Shipping Address is required';
         return errors;
     };
-    const { userInfo, isLoading, isError, error } = useUser()
+    const { userInfo, isLoading: userInfoLoading, isError: userInfoError, error } = useUser()
     const { name, email, mobile, createdAt } = userInfo || {};
 
-    const {
-        data: user,
-        isLoading: userLoading,
-        error: userError,
-    } = useQuery({
-        queryFn: () => getUser(auth.userId),
-        queryKey: ['user'],
-    })
 
     const {
         data: cartItems,
@@ -90,7 +62,12 @@ const Checkout = () => {
         error: cartError,
     } = useQuery({
         queryFn: () => fetchCartItems(axiosPrivate, auth),
-        queryKey: ["cartItems"],
+        queryKey: ["cartItems", auth.userId],
+        enabled: !!auth.userId,
+        retry: 3,
+        retryDelay: 1000,
+        staleTime: 1000 * 60 * 60
+
     });
 
     const {
@@ -106,9 +83,9 @@ const Checkout = () => {
 
     const executePayMutation = useMutation({
         mutationFn: (values: any) => executePayment(values),
-        // onSuccess(data) {
-        //     setPaymentURL(data.Data.PaymentURL)
-        // },
+        onSuccess(data) {
+            setPaymentURL(data.Data.PaymentURL)
+        },
     })
     const applyCouponMutation = useMutation({
         mutationFn: () => applyCoupon(axiosPrivate, auth.userId, couponFormik.values.couponCode, totalPrice.data.cartTotalPrice),
@@ -137,7 +114,7 @@ const Checkout = () => {
 
 
     const order = async () => {
-        if (user && paymentMethod === "paying-with-visa") {
+        if (userInfo && paymentMethod === "paying-with-visa") {
             const payload = {
                 InvoiceValue: cartPrice,
                 PaymentMethodId: 2,
@@ -179,36 +156,7 @@ const Checkout = () => {
         }
     }
 
-    const userId = auth.userId
-    const queryClient = useQueryClient()
-    const addUserAddressMutation = useMutation({
-        mutationFn: () => updateUser({
-            userId,
-            data: {
-                newAddress: {
-                    city: formik.values.city,
-                    state: formik.values.state,
-                    street: formik.values.street
-                }
-            }
-        }),
-        onSuccess: () => {
-            queryClient.invalidateQueries()
-            formik.resetForm()
-        },
-        onSettled: () => {
-            setTimeout(() => {
-                addUserAddressMutation.reset()
-            }, 8000)
-        },
-        onError(error) {
-            console.log(error);
-        },
-    })
-    function handleFormAddressSubmit(event: any) {
-        event.preventDefault()
-        addUserAddressMutation.mutate()
-    }
+
     const handleCheckoutSubmit = async (event: any) => {
         event.preventDefault();
         const errors = validateFields();
@@ -218,8 +166,8 @@ const Checkout = () => {
         }
     };
 
-    if (userLoading || isCartLoading || isTotalPriceLoading) return <Loading />
-    if (userError) return <h1>error while fetching user</h1>
+    if (userInfoLoading || isCartLoading || isTotalPriceLoading) return <Loading />
+    if (userInfoError) return <h1>error while fetching user</h1>
 
     if (cartError) return <h1>error while fetching cart</h1>
 
@@ -227,7 +175,7 @@ const Checkout = () => {
 
     return (
         <>
-            {user.cart.length === 0 ?
+            {userInfo?.cart.length === 0 ?
                 <>
                     <div className="justify-center flex text-center py-52 ">
                         <div className="space-y-10">
@@ -250,26 +198,16 @@ const Checkout = () => {
 
                                 {auth.userId ?
                                     (
-
-
                                         <UserInfo
-                                            user={user}
                                             shippingAddress={shippingAddress}
                                             setShippingAddress={setShippingAddress}
                                             formErrors={formErrors}
                                             setFormErrors={setFormErrors}
                                         />
-
-
                                     )
                                     :
                                     (
                                         <>
-
-                                            <div className="overflow-hidden p-2">
-                                                <CheckoutForm />
-                                            </div>
-
                                         </>
                                     )}
 
@@ -299,16 +237,7 @@ const Checkout = () => {
                                     setFormErrors={setFormErrors}
                                 />
 
-                                {/* {shipmentMethod === "paying-with-visa" ?
-                        <>
-                            <p className="font-medium text-xl pt-5 pb-3">Payment Method</p>
-                            <AvailablePayment setPaymentMethodId={setPaymentMethodId}/>
-                        </>
-                        :
-                        null
-                    } */}
                                 <div className="block xl:hidden sm:mt-10">
-
                                     <OrderSummary
                                         couponFormik={couponFormik}
                                         applyCouponMutation={applyCouponMutation}
@@ -329,14 +258,14 @@ const Checkout = () => {
                                         disabled={executePayMutation.isPending !== false || executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery'}
                                     // disabled={Object.keys(validateFields()).length > 0 || executePayMutation.isPending !== false || executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery'}
                                     >
-                                        {executePayMutation.isPending ? (
+                                        {/* {executePayMutation.isPending ? (
                                             <p>Processing</p>
                                         ) : executePayMutation.isSuccess || payWithCash === 'cash-on-delivery' ? (
                                             (window.location.href = payWithCash === 'cash-on-delivery' ? 'http://localhost:3000/en' : executePayMutation.isSuccess ? paymentURL : ''),
                                             <p className="flex justify-center gap-2">Redirecting <Loader className="animate-spin" /></p>
                                         ) : (
                                             <p>Pay Now</p>
-                                        )}
+                                        )} */}
                                         {executePayMutation.isPending !== false ? <Loader className="animate-spin" /> : null}
                                     </button>
                                     <p className="py-2">{executePayMutation.isError ? <p className="text-red-400 text-center">Error, please try again.</p> : null}</p>

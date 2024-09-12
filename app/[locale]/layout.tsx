@@ -41,34 +41,34 @@ export default async function RootLayout({
     const messages = await getMessages();
     return (
         <html lang={locale}>
-            <ReactLenis root>
-                <body className={`${roboto.variable} ${inter.variable}`}>
-                    <LocaleProvider initialLocale={locale}>
-                        <NextIntlClientProvider messages={messages}>
-                            <AuthProvider>
-                                <AuthPersistProvider>
-                                    <ReactQueryProvider>
-                                        <ProductsProvider>
-                                            <FavoritesProvider>
-                                                <UserProvider>
-                                                    <div id="modal-root"></div>
-                                                    <div className="flex h-[100dvh] flex-col justify-between ">
-                                                        <Suspense fallback={<Loading />}>
-                                                            <NavBar />
-                                                            {children}
-                                                        </Suspense>
-                                                        <Footer />
-                                                    </div>
-                                                </UserProvider>
-                                            </FavoritesProvider>
-                                        </ProductsProvider>
-                                    </ReactQueryProvider>
-                                </AuthPersistProvider>
-                            </AuthProvider>
-                        </NextIntlClientProvider>
-                    </LocaleProvider>
-                </body>
-            </ReactLenis>
+            {/* <ReactLenis root> */}
+            <body className={`${roboto.variable} ${inter.variable}`}>
+                <LocaleProvider initialLocale={locale}>
+                    <NextIntlClientProvider messages={messages}>
+                        <AuthProvider>
+                            <AuthPersistProvider>
+                                <ReactQueryProvider>
+                                    <ProductsProvider>
+                                        <FavoritesProvider>
+                                            <UserProvider>
+                                                <div id="modal-root"></div>
+                                                <div className="flex h-[100dvh] flex-col justify-between ">
+                                                    <Suspense fallback={<Loading />}>
+                                                        <NavBar />
+                                                        {children}
+                                                    </Suspense>
+                                                    <Footer />
+                                                </div>
+                                            </UserProvider>
+                                        </FavoritesProvider>
+                                    </ProductsProvider>
+                                </ReactQueryProvider>
+                            </AuthPersistProvider>
+                        </AuthProvider>
+                    </NextIntlClientProvider>
+                </LocaleProvider>
+            </body>
+            {/* </ReactLenis> */}
         </html>
     );
 }

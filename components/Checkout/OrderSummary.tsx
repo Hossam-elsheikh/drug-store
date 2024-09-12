@@ -10,6 +10,8 @@ type DataType = {
 
 function OrderSummary({ couponFormik, applyCouponMutation, applyCouponEvent, totalPrice }: DataType) {
 
+    
+
     return (
         <>
             <section className=" rounded-md  overflow-hidden sticky top-28 self-star pt-5">

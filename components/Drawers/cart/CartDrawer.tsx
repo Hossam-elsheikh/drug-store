@@ -97,7 +97,7 @@ const CartDrawer = () => {
                 </div>
             ) : (
                 <>
-                    <ScrollArea className="h-[700px]">
+                    <ScrollArea className="h-[500px]">
                         <AnimatePresence>
                             {cartItems.data.map((cartItem) => (
                                 <SlideCardAnimation key={cartItem._id}>

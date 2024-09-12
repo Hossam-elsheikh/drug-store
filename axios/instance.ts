@@ -47,7 +47,8 @@ export const getUser = async (userId: string): Promise<any> => {
     }
 }
 
-export const updateUser = async (userId: string, data: any): Promise<any> => {
+export const updateUser = async ({ userId, data }): Promise<any> => {
+    console.log(data)
     try {
         const response = await instancePrivate.patch(
             `${ApiEndPoints.USER}/${userId}`,
@@ -57,7 +58,7 @@ export const updateUser = async (userId: string, data: any): Promise<any> => {
         return response.data
     } catch (error) {
         handleApiError(error, 'updateUser')
-        throw error 
+        throw error
     }
 }
 
@@ -77,7 +78,6 @@ export const updateUser = async (userId: string, data: any): Promise<any> => {
 //         return error
 //     }
 // }
-
 
 export const deleteUser = async (userId: string): Promise<any> => {
     try {

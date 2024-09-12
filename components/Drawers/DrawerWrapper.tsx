@@ -105,7 +105,7 @@ function DrawerWrapper({ showSec }: Props) {
                 ) : showSec === "cart" ? (
 
                     <>
-                        {cartItems?.data?.length > 0 ? (
+                        {/* {cartItems?.data?.length > 0 ? (
                             <AnimatePresence>
                                 <motion.div className="relative inline-block" whileHover="hover">
 
@@ -139,13 +139,19 @@ function DrawerWrapper({ showSec }: Props) {
                                     {t("cart")}
                                 </span>
                             </div>
-                        )}
+                        )} */}
+                        <div className="flex gap-2">
+                            <ShoppingCart className="w-5 h-5 text-gray-600 group-hover:text-primaryColor" />
+                            <span className="hidden sm:inline group-hover:text-primaryColor">
+                                {t("cart")}
+                            </span>
+                        </div>
 
                     </>
                 ) : showSec === "filter" ? (
                     <div className="flex gap-3">
                         {t("filter")}
-                                        <Filter className="cursor-pointer shadow-sm active:scale-[.99] scale-115 hover:bg-gray-50 rounded-md duration-300" />
+                        <Filter className="cursor-pointer shadow-sm active:scale-[.99] scale-115 hover:bg-gray-50 rounded-md duration-300" />
                     </div>
                 ) : null}
             </SheetTrigger>

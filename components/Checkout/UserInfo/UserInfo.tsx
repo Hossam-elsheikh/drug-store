@@ -7,24 +7,26 @@ import { useUser } from '@/context/UserProvider';
 import AddNewAndEditAddresses from '../newAddressForm/AddNewAndEditAddresses';
 
 type DataTypes = {
-    user: any,
+
     setShippingAddress: any,
     shippingAddress: any,
     formErrors: any,
     setFormErrors: any,
 }
 
-function UserInfo({ user, setShippingAddress, shippingAddress, formErrors, setFormErrors }: DataTypes) {
+function UserInfo({ setShippingAddress, shippingAddress, formErrors, setFormErrors }: DataTypes) {
+    console.log();
     const [selectedAddress, setSelectedAddress] = useState(null);
 
     const f = useTranslations("Form");
     const t = useTranslations("UserInfoPage");
-    const { userInfo, isLoading } = useUser();
-    const { name, email, mobile } = userInfo || {};
+
+    const { userInfo, isLoading, isError, error } = useUser()
+    const { name, email, mobile, createdAt, addresses } = userInfo || {};
 
     const handleAddressChange = (address) => {
         setSelectedAddress(address.id);
-        setShippingAddress(address);
+
         if (formErrors.shippingAddress) {
             setFormErrors((errors) => ({
                 ...errors,
@@ -92,14 +94,14 @@ function UserInfo({ user, setShippingAddress, shippingAddress, formErrors, setFo
                 <div className="space-y-4">
                     <h2 className="text-2xl font-bold text-gray-800 p-2 border-b-2">{t("addresses")}</h2>
                     <div className="h-72 overflow-y-auto p-2 rounded-md border border-gray-200 shadow-sm">
-                        {user.addresses.map((address) => (
-                            <div key={address.id} className="mb-4 last:mb-0">
+                        {addresses?.map((address) => (
+                            <div key={address._id} className="mb-4 last:mb-0">
                                 <label
-                                    htmlFor={address.id}
+                                    htmlFor={address._id}
                                     className={`
                                     flex justify-between items-center p-4 cursor-pointer
                                     rounded-md group transition-all duration-200 ease-in-out border
-                                    ${selectedAddress === address.id
+                                    ${selectedAddress === address?._id
                                             ? 'bg-gray-50 border-gray-300 text-gray-900 scale-[1.0090] shadow-sm'
                                             : 'text-gray-700 hover:bg-gray-100'}
                                     ${formErrors.shippingAddress ? 'border-red-500' : 'border-gray-200'}
@@ -108,22 +110,22 @@ function UserInfo({ user, setShippingAddress, shippingAddress, formErrors, setFo
                                     <div className="flex items-center space-x-4 transition-all duration-200">
                                         <input
                                             type="radio"
-                                            id={address.id}
+                                            id={address._id}
                                             name="address"
-                                            value={address.id}
-                                            checked={selectedAddress === address.id}
-                                            onChange={() => handleAddressChange(address)}
+                                            value={address._id}
+                                            checked={selectedAddress === address._id}
+                                            onChange={() => { setShippingAddress(address) }}
                                             className="w-5 h-5 text-gray-600 bg-gray-700 border-gray-300 focus:outline-none accent-[#282a3f]"
                                         />
                                         <div className="flex-grow">
-                                            <p className={`font-medium ${selectedAddress === address.id ? 'text-gray-900' : 'text-gray-700'}`}>
+                                            <p className={`font-medium ${selectedAddress === address._id ? 'text-gray-900' : 'text-gray-700'}`}>
                                                 <span>{address.state}</span>, <span>{address.city}</span>
                                             </p>
                                             <p className="text-sm text-gray-600 mt-1">{address.street}</p>
                                         </div>
                                     </div>
                                     <div className="flex-shrink-0">
-                                        <AddNewAndEditAddresses mode='edit' />
+                                        <AddNewAndEditAddresses mode='edit' initialValues={address} key={address._id} addressId={address._id} />
 
                                     </div>
                                 </label>

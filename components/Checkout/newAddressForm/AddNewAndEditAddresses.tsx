@@ -43,25 +43,25 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
 
     if (!userInfo) return
     const { auth }: any = useAuth()
-    const userId = auth.userId
+    const userId = auth?.userId
 
     const f = useTranslations("Form");
-
     const queryClient = useQueryClient();
 
     const addUserAddressMutation = useMutation({
 
         mutationFn: (values: AddressFormValues) => {
             if (mode === 'add') {
-                return updateUser(userId, { newAddress: values });
+                return updateUser({ userId, data: { newAddress: values } });
             } else {
-                return updateUser(userId, { addressId, addresses: values });
+                
+                return updateUser({ userId, data: { addressId, addresses: values } });
             }
         },
 
         onSuccess: () => {
             toast.success(mode === 'add' ? "Your Address Successfully Added" : 'Address SuccessFully Updated');
-            queryClient.invalidateQueries(['user', userId]);
+            queryClient.invalidateQueries();
             if (onSuccess) onSuccess()
 
         },
@@ -84,9 +84,8 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
                 <DialogTrigger asChild>
                     <Button
                         className={` bg-gray-50
-        ${
-                             'rounded-full items-center gap-2 px-3 py-3 text-sm font-medium text-gray-700  border border-gray-300 shadow-sm hover:bg-gray-100 focus:outline-none duration-200'
-                             
+        ${'rounded-full items-center gap-2 px-3 py-3 text-sm font-medium text-gray-700  border border-gray-300 shadow-sm hover:bg-gray-100 focus:outline-none duration-200'
+
                             }
       `}
                         variant="outline"
@@ -152,10 +151,10 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
                                         disabled={Object.keys(errors).length > 0 || isSubmitting}
                                     >
                                         {isSubmitting ? (
-                                            <>
+                                            <div className='flex gap-2'>
                                                 <p>Submitting</p>
                                                 <Loader className="animate-spin ml-2" />
-                                            </>
+                                            </div>
                                         ) : (
                                             <p>{mode === 'add' ? 'Add Address' : 'Update Address'}</p>
                                         )}
