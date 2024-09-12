@@ -75,8 +75,8 @@ function ProductsContent({ params = {}, SubId, brand }: Props) {
                     )}
                 </section>
 
-                {totalPages > 1 && (
-                    <Pagination>
+                {/* {totalPages < 1 && ( */}
+                    <Pagination className='pt-10'>
                         <PaginationContent>
                             <PaginationItem>
                                 <PaginationPrevious
@@ -86,7 +86,7 @@ function ProductsContent({ params = {}, SubId, brand }: Props) {
                             </PaginationItem>
                             {[...Array(totalPages)].map((_, index) => (
                                 <PaginationItem key={index}>
-                                    <PaginationLink
+                                    <PaginationLink className=' text-sm font-medium transition-all text-gray-700 bg-white border border-gray-300 rounded-full shadow-sm hover:border-gray-400 active:scale-95 hover:bg-gray-50 focus:outline-none duration-200'
                                         href="#"
                                         onClick={() => handlePageChange(index + 1)}
                                         isActive={currentPage === index + 1}
@@ -103,7 +103,7 @@ function ProductsContent({ params = {}, SubId, brand }: Props) {
                             </PaginationItem>
                         </PaginationContent>
                     </Pagination>
-                )}
+                {/* )} */}
             </div>
         </section>
     );
