@@ -7,11 +7,11 @@ export default function ProductPage({ params }: ProductDetailsProps) {
     console.log('params',params)
 
     return (
-        <section className="bg-gray-50 pb-5">
+        <main className="bg-gray-50 pb-5">
             <BreadCrumb />
             <ProductDetails
                 params={params}
             />
-        </section>
+        </main>
     );
 }

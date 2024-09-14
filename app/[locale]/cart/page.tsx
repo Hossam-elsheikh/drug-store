@@ -1,6 +1,7 @@
 "use client";
 
 import { calcCart, fetchCartItems } from "@/axios/instance";
+import BreadCrumb from "@/components/Breadcrumb/BreadCrumb";
 import AsideCart from "@/components/Cart/AsideCart";
 import EmptyCart from "@/components/Cart/EmptyCart";
 import CartItem from "@/components/ItemCard/CartItem";
@@ -48,6 +49,7 @@ const Cart = () => {
 
     return (
         <div className="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+            <BreadCrumb />
             <div className="max-w-7xl mx-auto">
                 <h1 className="text-3xl font-bold text-gray-900 mb-8">{c('shoppingCart')}</h1>
 

@@ -15,6 +15,7 @@ import { FavoritesProvider } from "@/context/favoriteProvider";
 import { Suspense } from "react";
 import Loading from "../loading";
 import { ReactLenis } from '@/lib/lenis'
+import Container from "@/components/Container";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -51,11 +52,14 @@ export default async function RootLayout({
                                     <ProductsProvider>
                                         <FavoritesProvider>
                                             <UserProvider>
-                                                <div id="modal-root"></div>
+
                                                 <div className="flex h-[100dvh] flex-col justify-between ">
                                                     <Suspense fallback={<Loading />}>
                                                         <NavBar />
+
+
                                                         {children}
+
                                                     </Suspense>
                                                     <Footer />
                                                 </div>

@@ -153,7 +153,7 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
                     ) : (
                         <button
                             onClick={() => router.push(`/${locale}/${slug}/${_id}`)}
-                            className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-[1.02]"
+                                className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-[#45486e] transition-all duration-200 transform hover:scale-[1.02]"
                         >
                             {t("showMore")}
                             <Eye className="w-5 h-5" />

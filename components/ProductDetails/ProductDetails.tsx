@@ -11,6 +11,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getOneProduct } from '@/axios/instance'
 import { useTranslations } from 'next-intl'
 import CustomerCommentDialog from '../CustomerReview/CustomerCommentDialog'
+import BreadCrumb from '../Breadcrumb/BreadCrumb'
 
 
 
@@ -43,6 +44,7 @@ export function ProductDetails({ params }: ProductDetailsProps) {
         <>
 
             <section className="p-4 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg shadow-lg">
+               
                 <section className="md:pt-5 w-full flex flex-col lg:flex-row gap-8">
                     <div dir={dir} className="w-full lg:w-2/3 space-y-10">
                         <div className="h-[300px] md:h-[400px] relative overflow-hidden rounded-lg">

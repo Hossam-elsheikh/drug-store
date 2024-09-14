@@ -86,7 +86,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details }) {
                                         alt={name?.en}
                                         layout="fill"
                                         objectFit="cover"
-                                        className="duration-[2s] transition-all hover:scale-105"
+                                        className="duration-300 transition-all hover:scale-[1.02]"
                                     />
                                 </div>
 
@@ -97,7 +97,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details }) {
                                         </h1>
                                         <Link
                                             href={`/${locale}/${slug}/${_id}`}
-                                            className="bg-primaryColor hover:text-secColor transition-colors duration-200"
+                                            className="text-primaryTextColor hover:text-[#45486e]  transition-colors duration-200"
                                         >
                                             {name[locale] || ''}
                                         </Link>
@@ -108,7 +108,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details }) {
                                         {description?.[locale]}
                                     </p>
 
-                                    <div className="p-4 bg-primaryColor hover:bg-[#45486e]  font-semibold flex text-2xl gap-5 justify-around">
+                                    <div className="p-4 text-primaryTextColor hover:text-[#45486e]  font-semibold flex text-2xl gap-5 justify-around">
                                         <div>
                                             <span className="font-medium text-sm">
                                                 KWT

@@ -34,7 +34,7 @@ export default function RootLayout({
 
 
     return (
-        <main className="relative">
+        <main >
             <Container
                 dir={dir}
                 className="max-w-[1500px] flex my-20 flex-col md:flex-row"

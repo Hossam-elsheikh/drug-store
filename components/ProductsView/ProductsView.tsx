@@ -49,6 +49,7 @@ function ProductsContent({ params = {}, SubId, brand }: Props) {
 
     return (
         <section className="bg-gray-50 pb-5">
+            <BreadCrumb />
             <div className="p-0 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg border">
                 <div className="p-5 flex justify-between">
                     <h1 className="text-md md:text-3xl font-semibold px-5 md:px-10">
@@ -76,33 +77,33 @@ function ProductsContent({ params = {}, SubId, brand }: Props) {
                 </section>
 
                 {/* {totalPages < 1 && ( */}
-                    <Pagination className='pt-10'>
-                        <PaginationContent>
-                            <PaginationItem>
-                                <PaginationPrevious
-                                    onClick={() => handlePageChange(currentPage - 1)}
-                                    disabled={currentPage === 1}
-                                />
+                <Pagination className='pt-10'>
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            />
+                        </PaginationItem>
+                        {[...Array(totalPages)].map((_, index) => (
+                            <PaginationItem key={index}>
+                                <PaginationLink className=' text-sm font-medium transition-all text-gray-700 bg-white border border-gray-300 rounded-full shadow-sm hover:border-gray-400 active:scale-95 hover:bg-gray-50 focus:outline-none duration-200'
+                                    href="#"
+                                    onClick={() => handlePageChange(index + 1)}
+                                    isActive={currentPage === index + 1}
+                                >
+                                    {index + 1}
+                                </PaginationLink>
                             </PaginationItem>
-                            {[...Array(totalPages)].map((_, index) => (
-                                <PaginationItem key={index}>
-                                    <PaginationLink className=' text-sm font-medium transition-all text-gray-700 bg-white border border-gray-300 rounded-full shadow-sm hover:border-gray-400 active:scale-95 hover:bg-gray-50 focus:outline-none duration-200'
-                                        href="#"
-                                        onClick={() => handlePageChange(index + 1)}
-                                        isActive={currentPage === index + 1}
-                                    >
-                                        {index + 1}
-                                    </PaginationLink>
-                                </PaginationItem>
-                            ))}
-                            <PaginationItem>
-                                <PaginationNext
-                                    onClick={() => handlePageChange(currentPage + 1)}
-                                    disabled={currentPage === totalPages}
-                                />
-                            </PaginationItem>
-                        </PaginationContent>
-                    </Pagination>
+                        ))}
+                        <PaginationItem>
+                            <PaginationNext
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                            />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
                 {/* )} */}
             </div>
         </section>
