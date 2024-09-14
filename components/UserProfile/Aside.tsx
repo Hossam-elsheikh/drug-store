@@ -25,7 +25,8 @@ export default function ASidebar({ path, mode }: { path?: string, mode?: string 
     const signOut = async () => {
         try {
             await signOutHook();
-            router.push(`/${locale}/sign-in`);
+            router.push(`/${locale}`);
+            window.location.reload()
         } catch (error) {
             console.error("Error during sign out:", error);
         }

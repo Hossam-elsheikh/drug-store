@@ -12,6 +12,7 @@ import { UserProvider } from "@/context/UserProvider";
 import { ProductsProvider } from "@/context/ProductsProvider";
 import { LocaleProvider } from "@/context/LocaleProvider";
 import { FavoritesProvider } from "@/context/favoriteProvider";
+import ReduxStoreProvider from "@/redux/provider";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -38,7 +39,7 @@ export default async function RootLayout({
     const messages = await getMessages();
     return (
         <html lang={locale}>
-            <body className={`${roboto.variable} ${inter.variable}`}>
+            <ReduxStoreProvider>
                 <LocaleProvider initialLocale={locale}>
                     <NextIntlClientProvider messages={messages}>
                         <AuthProvider>
@@ -47,16 +48,16 @@ export default async function RootLayout({
                                     <ProductsProvider>
                                         <FavoritesProvider>
                                             <UserProvider>
-                                                <div id="modal-root"></div>
-                                                <div className="flex h-[100dvh] flex-col justify-between ">
-                                                    <div>
-                                                        <NavBar />
-
-                                                        {children}
-
+                                                <body className={`${roboto.variable} ${inter.variable}`}>
+                                                    <div id="modal-root"></div>
+                                                    <div className="flex h-[100dvh] flex-col justify-between ">
+                                                        <div>
+                                                            <NavBar />
+                                                            {children}
+                                                        </div>
+                                                        <Footer />
                                                     </div>
-                                                    <Footer />
-                                                </div>
+                                                </body>
                                             </UserProvider>
                                         </FavoritesProvider>
                                     </ProductsProvider>
@@ -65,7 +66,7 @@ export default async function RootLayout({
                         </AuthProvider>
                     </NextIntlClientProvider>
                 </LocaleProvider>
-            </body>
+            </ReduxStoreProvider>
         </html>
     );
 }

@@ -218,6 +218,18 @@ export const AddToCart = async (product: any, auth: any) => {
 	}
 }
 
+export const transCartToAPI = async (userId: string, localStorageCart: any) => {
+	try {
+		const response = await instancePrivate.post(`http://localhost:4000/user/cart/add/many`,
+			{ userId, products: localStorageCart })
+		console.log(response);
+		return response
+	} catch (error) {
+		console.error('error while transferring to api', error);
+		return error
+	}
+}
+
 export const fetchCartItems = async (axiosPrivate: any, auth: any) => {
 	try {
 		const userId: any = auth.userId
@@ -295,7 +307,7 @@ export const applyCoupon = async (axiosPrivate, userId, couponCode, cartTotalPri
 
 //////////////////////////////////////////////////// Orders //////////////////////////////////////////////////////
 
-export const createOrder = async (axiosPrivate, auth, delivery, payment,shippingAddress) => {	
+export const createOrder = async (axiosPrivate, auth, delivery, payment, shippingAddress) => {
 	try {
 		const response = await axiosPrivate.post('/order', {
 			userId: auth.userId,

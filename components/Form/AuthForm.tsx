@@ -1,9 +1,9 @@
 'use client'
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import CustomInput from "./CustomInput";
 import { Expand, Loader2, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { instance } from "@/axios/instance";
+import { instance, transCartToAPI } from "@/axios/instance";
 import { Toaster, toast } from "sonner";
 import { Formik, Form } from "formik";
 import FormButton from "../formButton/FormButton";
@@ -13,11 +13,8 @@ import { useTranslations } from "next-intl";
 import { AuthFormSchema, initialAuthFormValues } from "@/lib/schema";
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
-import logo from '../../public/logo.svg'
-import * as Yup from "yup"
-import useRefreshToken from '@/hooks/useRefreshToken';
-import PersistLogin from '../../providers/AuthPersistProvider';
-import useSignOut from '@/hooks/useSignOut';
+import { useMutation } from "@tanstack/react-query";
+import { useTransLocalCartAPI } from "@/hooks/useTransLocalCartAPI";
 interface authFormProps {
 	Type: string;
 	variant: "full" | "drawer";
@@ -25,76 +22,82 @@ interface authFormProps {
 
 const AuthForm = ({ Type, variant }: authFormProps) => {
 	const f = useTranslations("Form");
-	const { setAuth }: any = useAuth();
+	const { auth, setAuth }: any = useAuth();
 	const { locale } = useLocale();
 	const router = useRouter();
 	const [type, setType] = useState(Type);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+	// handle the transfer of the local storage cart to the API.
+	// This mutation will be triggered after a successful user sign-in.
+	const localStorageCart = JSON.parse(localStorage.getItem('products') || '[]')
+	const transToAPI_Mutation = useMutation({
+		mutationFn: () => transCartToAPI(auth.userId, localStorageCart),
+		//on successful response the localStorage will be deleted
+		onSuccess: () => localStorage.removeItem('products'),
+		onError: (error) => console.log('error while mutation trans to cart api', error),
+		
+	})	
 	const validationSchema = useMemo(() => AuthFormSchema(type), [type]);
 
-	const onSubmit = async (values, { setSubmitting }) => {
+	const onSubmit = async (values: any, { setSubmitting }: any) => {
 		try {
 			//sign-up logic handling
 			if (type === "sign-up") {
-				const response = await instance.post(
-					"/user",
+				const response = await instance.post("/user",
 					JSON.stringify(values),
 					{
 						headers: { "Content-Type": "application/json" },
 						withCredentials: true,
 					}
 				);
-				// console.log(JSON.stringify(response));
-				console.log(JSON.stringify(response?.data));
-				console.log(response);
-				
-				// const token = response?.data?.token;
-				// console.log(token);
-				// setAuth({ values, token });
 				toast.success("You Signed Up Successfully");
 				if (response.status === 201) {
-					// setType('sign-in')
 					router.push(`/${locale}/sign-in`);
 				}
 			}
+
 			//sign-in logic handling
 			if (type === "sign-in") {
-				const response:any = await instance.post(
-					"/user/sign-in",
+				const response: any = await instance.post("/user/sign-in",
 					JSON.stringify(values),
 					{
 						headers: { "Content-Type": "application/json" },
 						withCredentials: true,
 					}
 				);
-				const { accessToken, id: userId } = response?.data;
-				setAuth({ accessToken, userId });
-				console.log(response);
-				// console.log(JSON.stringify(response?.data));
-				// console.log(accessToken);
+				const { id: userId } = response?.data;
+				setAuth({ userId });
 				toast.success("You Signed In Successfully");
 				if (response.status === 200) {
 					router.push(`/${locale}`);
 				}
 			}
 		} catch (error) {
-			toast.error("Error during form submission:", );
+			toast.error("Error during form submission:",);
 			console.error("Error during form submission:", error);
 		} finally {
-			// setIsLoading(false);
 			setSubmitting(false);
 		}
 	};
 
+	// Ensure that the cart transfer to the API only occurs once after the user successfully signs in.
+	useEffect(() => {
+		// Check if there are items in the local storage cart and if a valid userId exists.
+		// This ensures that the mutation is only triggered after the user has signed in.
+		if (localStorageCart?.length > 0 && auth?.userId) {
+			transToAPI_Mutation.mutate()
+		};
+	}, [auth.userId])
+
+
 	return (
 		<section
-			className={` ${
-				variant === "drawer"
-					? " mt-5 "
-					: "shadow-lg bg-[#F1F5F9] max-w-[500px] mx-auto p-5 my-10 rounded-lg"
-			}`}
+			className={` ${variant === "drawer"
+				? " mt-5 "
+				: "shadow-lg bg-[#F1F5F9] max-w-[500px] mx-auto p-5 my-10 rounded-lg"
+				}`}
 		>
 			<header className="flex flex-col gap-5 md:gap-8">
 				<div className=" text-center">

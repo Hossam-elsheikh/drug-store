@@ -45,9 +45,10 @@ function DrawerWrapper({ showSec }: Props) {
     useEffect(() => {
         if (totalFavorite > 0) {
             setAnimateBounce(true)
-            setTimeout(() => {
+             const timer = setTimeout(() => {
                 setAnimateBounce(false)
             }, 600)
+            return () => clearTimeout(timer); 
         }
     }, [totalFavorite])
 

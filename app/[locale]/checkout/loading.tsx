@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/public/logowithoutBG.png";
+// import "../Loading.css";
 
 export default function Loading() {
 	return (

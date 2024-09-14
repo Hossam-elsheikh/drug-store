@@ -3,18 +3,20 @@ import { Minus, Plus } from "lucide-react";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { cartItemQuantity } from "@/axios/instance";
 import useAuth from "@/hooks/useAuth";
+import { useDispatch } from "react-redux";
+import { localCartItemQuantity } from "@/redux/slices/addToCart";
 
 function Counter({ itemQuantity, cartItem, calculateCartMutation }: any) {
+console.log(cartItem);
 
-  const [quantity, setQuantity] = useState(itemQuantity);
+  const [quantity, setQuantity] = useState(itemQuantity||cartItem.quantity);
 
   const axiosPrivate = useAxiosPrivate();
   const { auth }: any = useAuth();
-
+  
   useEffect(() => {
-    setQuantity(itemQuantity)
-    // alert('new state quantity have been updated !');
-  }, [itemQuantity])
+    setQuantity(itemQuantity||cartItem.quantity)
+  }, [itemQuantity||cartItem.quantity])
 
   const updateQuantity = async (newQuantity: number) => {
     try {
@@ -47,12 +49,35 @@ function Counter({ itemQuantity, cartItem, calculateCartMutation }: any) {
     }
   };
 
+  //if the user unsigned item quantity will be dispatched within the redux
+  const dispatch = useDispatch()
+  //item quantity increment
+  const localCartItemQuantityPlus = () => {
+    try {
+      const newQuantity = cartItem.quantity+=1;
+      dispatch(localCartItemQuantity({ _id: cartItem.productId._id, quantity:newQuantity }))
+      setQuantity(newQuantity);
+    } catch (error) {
+      console.error('error while update local item', error);
+    }
+  }
+  //item quantity decrement
+  const localCartItemQuantityMinus = () => {
+    try {
+      const newQuantity = cartItem.quantity-=1;
+      dispatch(localCartItemQuantity({ _id: cartItem.productId._id, quantity: newQuantity }))
+      setQuantity(newQuantity);
+    } catch (error) {
+      console.error('error while update local item', error);
+    }
+  }
+
   return (
     <div className="flex items-center ">
       <button
         type="button"
-        // disabled={ quantity >= cartItem.productId.stock}
-        onClick={quantityPlus}
+        disabled={ quantity <= cartItem.productId.stock}
+        onClick={auth && auth.userId ? quantityPlus : localCartItemQuantityPlus}
         className="inline-flex px-[4px] py-0.5 shrink-0 items-center justify-center text-slate-100 rounded-full bg-secColor hover:opacity-75 focus:outline-none  active:scale-90 duration-200 disabled:bg-gray-300 "
       >
         <Plus className="w-5" />
@@ -69,7 +94,7 @@ function Counter({ itemQuantity, cartItem, calculateCartMutation }: any) {
       <button
         type="button"
         disabled={quantity <= 1}
-        onClick={quantityMinus}
+        onClick={auth && auth.userId ? quantityMinus : localCartItemQuantityMinus}
         className="inline-flex px-[4px] py-0.5 shrink-0 items-center justify-center rounded-full text-white   bg-gray-500 hover:opacity-75 focus:outline-none disabled:bg-gray-300  active:scale-90 duration-200 "
       >
         <Minus className="w-5" />
