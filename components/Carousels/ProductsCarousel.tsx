@@ -117,7 +117,7 @@ export default function ProductsCarousel({ mode, catId }: ProductsProp) {
                 ))
                 : productsQuery?.data?.products?.map((prod: Product) => (
                     <SwiperSlide key={prod._id}>
-                        <ProductCard details={prod} index={prod._id} />
+                        <ProductCard details={prod} index={prod._id} mode="default" />
                     </SwiperSlide>
                 ))}
         </Swiper>

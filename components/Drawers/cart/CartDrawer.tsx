@@ -1,17 +1,14 @@
-import React, { useState } from "react";
+'use client'
+import React from "react";
 import CartDrawerItem from "./CartDrawerItem";
-import { products } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { SheetClose } from "@/components/ui/sheet";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { AlertCircle, ArrowRight, ShoppingCart } from "lucide-react";
 import useCalcCartMutation from "@/hooks/calcCartMutation";
 import { useLocale } from "@/context/LocaleProvider";
-import CartSvg from '@/public/Add to Cart-amico.svg'
-import Image from "next/image";
 import Link from "next/link";
 import { calcCart, fetchCartItems } from "@/axios/instance";
 import removeItemMutation from "@/hooks/removeItemCartMutation";
@@ -99,7 +96,7 @@ const CartDrawer = () => {
                 <>
                     <ScrollArea className="h-[500px]">
                         <AnimatePresence>
-                            {cartItems.data.map((cartItem) => (
+                            {cartItems.data.map((cartItem: CartItem) => (
                                 <SlideCardAnimation key={cartItem._id}>
                                     <CartDrawerItem
                                         cartItem={cartItem}
@@ -126,7 +123,7 @@ const CartDrawer = () => {
                             <SheetClose asChild >
 
                                 <Link
-                                        className=" flex justify-center w-full bg-primaryColor gap-2  font-medium text-white py-2 rounded-full hover:bg-[#45486e] duration-300 transition-all group"
+                                    className=" flex justify-center w-full bg-primaryColor gap-2  font-medium text-white py-2 rounded-full hover:bg-[#45486e] duration-300 transition-all group"
                                     href={`/${locale}/cart`}
                                 >
                                     {t("expandCart")}
@@ -137,7 +134,7 @@ const CartDrawer = () => {
 
                                 <Link
                                     href={`/${locale}/checkout`}
-                                        className=" flex justify-center w-full bg-primaryColor font-medium gap-2 text-white py-2 rounded-full hover:bg-[#45486e] duration-300 transition-all group"
+                                    className=" flex justify-center w-full bg-primaryColor font-medium gap-2 text-white py-2 rounded-full hover:bg-[#45486e] duration-300 transition-all group"
                                 >
                                     {t("checkout")}
                                     <ArrowRight size={22} className=" group-hover:translate-x-1 transition-transform duration-200" />

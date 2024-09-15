@@ -6,17 +6,13 @@ import React from 'react'
 import categoryPlaceholder from '@/lib/placeholders/category-placeholder.png'
 import { useLocale } from '@/context/LocaleProvider'
 
-type PharmacyCategory = {
-    item: PharmacyItems
-}
 
-type PharmacyItems = {
-    name: { en: string; ar: string }
-    image: string
-    slug: string
-}
 
-function ItemSlider({ item }: PharmacyCategory) {
+type ItemSliderProps = {
+    item: Category;
+};
+
+function ItemSlider({ item }: ItemSliderProps) {
     const { locale } = useLocale()
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH || '';
 
@@ -33,7 +29,7 @@ function ItemSlider({ item }: PharmacyCategory) {
                     width={150}
                     height={150}
                     src={item.image ? `${imagePath}${item.image}` : categoryPlaceholder}
-                    alt={name[locale as keyof typeof name]} 
+                    alt={name[locale as keyof typeof name]}
                 />
             </div>
             <div className="text-center mt-2 md:mt-1">

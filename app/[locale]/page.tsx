@@ -29,7 +29,7 @@ function Home() {
 
                 <div className="flex flex-col items-center">
                     <Container className="max-w-[1600px] ">
-                        <HeroCarousel items={mediaQuery?.data?.filter((m) => m.position === 'Main Carousel')} />
+                        <HeroCarousel items={mediaQuery?.data?.filter((m: any) => m.position === 'Main Carousel')} />
                     </Container>
 
                     <Container className="max-w-[1600px] ">
@@ -38,7 +38,7 @@ function Home() {
                     <Container className="max-w-[1600px]  items-center">
                         <BannerGrid1 />
                     </Container>
-                    {categoryQuery?.data?.slice(0, 3).map((c) => {
+                    {categoryQuery?.data?.slice(0, 3).map((c: any) => {
                         return (
                             <>
                                 <Container

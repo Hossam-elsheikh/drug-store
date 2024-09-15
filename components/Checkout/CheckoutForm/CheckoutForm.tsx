@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
 
 import CustomInput from "@/components/Form/CustomInput";
 
@@ -13,7 +12,7 @@ function CheckoutForm() {
 
 
 
-    const onSubmit = async (values, { setSubmitting }) => {
+    const onSubmit = async (values: any, { setSubmitting }: any) => {
         console.log(values);
         setSubmitting(false);
     };
@@ -31,15 +30,11 @@ function CheckoutForm() {
                 {({ isSubmitting }) => (
                     <Form className="space-y-5">
                         <CustomInput
-                            name="firstName"
+                            name="name"
                             label="First Name"
                             placeholder="Enter your First Name"
                         />
-                        <CustomInput
-                            name="lastName"
-                            label="Last Name"
-                            placeholder="Enter your Last Name"
-                        />
+
                         <CustomInput
                             name="mobile"
                             label="Mobile"

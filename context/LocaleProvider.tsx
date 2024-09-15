@@ -1,32 +1,39 @@
-'use client'
-import React, { createContext, useContext, useState, useEffect } from 'react';
+'use client';
+
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface LocaleContextProps {
-    locale: string;
+    locale: 'en' | 'ar';
     dir: string;
-    switchLanguage: (locale: string) => void;
+    switchLanguage: (locale: 'en' | 'ar') => void;
 }
 
+// Set the context type with an initial value of undefined for its properties
 const LocaleContext = createContext<LocaleContextProps | undefined>(undefined);
 
-export const LocaleProvider: React.FC<{ initialLocale: string; children: React.ReactNode }> = ({ initialLocale, children }) => {
-    const [locale, setLocale] = useState(initialLocale);
-    const [dir, setDir] = useState('ltr');
+interface LocaleProviderProps {
+    initialLocale: 'en' | 'ar';
+    children: ReactNode;
+}
+
+export const LocaleProvider: React.FC<LocaleProviderProps> = ({ initialLocale, children }) => {
+    const [locale, setLocale] = useState<'en' | 'ar'>(initialLocale);
+    const [dir, setDir] = useState<'ltr' | 'rtl'>('ltr');
 
     const router = useRouter();
     const pathName = usePathname();
 
-    const switchLanguage = (newLocale: string) => {
+    const switchLanguage = (newLocale: 'en' | 'ar') => {
         const newPath = pathName.replace(`/${locale}`, `/${newLocale}`);
         router.replace(newPath);
         setDocumentDir(newLocale);
         setLocale(newLocale);
     };
 
-    const setDocumentDir = (locale: string) => {
+    const setDocumentDir = (locale: 'en' | 'ar') => {
         const RTL = 'ar';
-        const direction = RTL.includes(locale) ? 'rtl' : 'ltr';
+        const direction = locale === RTL ? 'rtl' : 'ltr';
         document.documentElement.setAttribute('dir', direction);
         setDir(direction);
     };

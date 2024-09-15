@@ -15,7 +15,6 @@ import { FavoritesProvider } from "@/context/favoriteProvider";
 import { Suspense } from "react";
 import Loading from "../loading";
 import { ReactLenis } from '@/lib/lenis'
-import Container from "@/components/Container";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -37,42 +36,43 @@ export default async function RootLayout({
     params: { locale },
 }: Readonly<{
     children: React.ReactNode;
-    params: { locale: string };
+    params: { locale: 'en' | 'ar' };
 }>) {
+
     const messages = await getMessages();
     return (
         <html lang={locale}>
-            {/* <ReactLenis root> */}
-            <body className={`${roboto.variable} ${inter.variable}`}>
-                <LocaleProvider initialLocale={locale}>
-                    <NextIntlClientProvider messages={messages}>
-                        <AuthProvider>
-                            <AuthPersistProvider>
-                                <ReactQueryProvider>
-                                    <ProductsProvider>
-                                        <FavoritesProvider>
-                                            <UserProvider>
+            <ReactLenis root>
+                <body className={`${roboto.variable} ${inter.variable}`}>
+                    <LocaleProvider initialLocale={locale}>
+                        <NextIntlClientProvider messages={messages}>
+                            <AuthProvider>
+                                <AuthPersistProvider>
+                                    <ReactQueryProvider>
+                                        <ProductsProvider>
+                                            <FavoritesProvider>
+                                                <UserProvider>
 
-                                                <div className="flex h-[100dvh] flex-col justify-between ">
-                                                    <Suspense fallback={<Loading />}>
-                                                        <NavBar />
+                                                    <div className="flex h-[100dvh] flex-col justify-between ">
+                                                        <Suspense fallback={<Loading />}>
+                                                            <NavBar />
 
 
-                                                        {children}
+                                                            {children}
 
-                                                    </Suspense>
-                                                    <Footer />
-                                                </div>
-                                            </UserProvider>
-                                        </FavoritesProvider>
-                                    </ProductsProvider>
-                                </ReactQueryProvider>
-                            </AuthPersistProvider>
-                        </AuthProvider>
-                    </NextIntlClientProvider>
-                </LocaleProvider>
-            </body>
-            {/* </ReactLenis> */}
+                                                        </Suspense>
+                                                        <Footer />
+                                                    </div>
+                                                </UserProvider>
+                                            </FavoritesProvider>
+                                        </ProductsProvider>
+                                    </ReactQueryProvider>
+                                </AuthPersistProvider>
+                            </AuthProvider>
+                        </NextIntlClientProvider>
+                    </LocaleProvider>
+                </body>
+            </ReactLenis>
         </html>
     );
 }

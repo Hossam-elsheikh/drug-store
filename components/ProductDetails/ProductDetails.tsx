@@ -3,7 +3,6 @@ import React from 'react'
 import ImageMagnifier from './ImageMagnify'
 import ProductsCarousel from '../Carousels/ProductsCarousel'
 import ReviewComment from '../ReviewComment/ReviewComment'
-import { products } from '@/lib/utils'
 import Details from './Details'
 import About from './About'
 import { useLocale } from '@/context/LocaleProvider'
@@ -11,7 +10,6 @@ import { useQuery } from '@tanstack/react-query'
 import { getOneProduct } from '@/axios/instance'
 import { useTranslations } from 'next-intl'
 import CustomerCommentDialog from '../CustomerReview/CustomerCommentDialog'
-import BreadCrumb from '../Breadcrumb/BreadCrumb'
 
 
 

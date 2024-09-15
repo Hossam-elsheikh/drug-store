@@ -5,7 +5,7 @@ import { DeleteAccount } from "./DeleteAccount";
 import NotFound from "@/app/not-found";
 import { User, Mail, Phone, Calendar, Trash2 } from 'lucide-react';
 
-function UserProfileInfo({ userInfo, isLoading, isError, error }) {
+function UserProfileInfo({ userInfo, isLoading, isError, error }: UserProfileInfoProps) {
     const f = useTranslations("Form");
     const { name, email, mobile, createdAt } = userInfo || {};
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import StarRating from './StarRating';
-import CustomerDialog from './CustomerCommentDialog';
 
 function CustomerReview() {
     const handleSetRating = (rating: number) => {
@@ -25,7 +24,6 @@ function CustomerReview() {
                                 onSetRating={handleSetRating}
                             />
                         </div>
-                        <CustomerDialog />
                     </div>
                 </section>
             </div>

@@ -115,6 +115,7 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
                     <div>
                         <h5 className="font-base text-xs md:text-sm">
                             {brand?.name?.[locale]}
+                            
                         </h5>
                         <h2 className="font-semibold text-md truncate text-primaryColor hover:text-[#45486e] transition-colors duration-200">
                             {name[locale as keyof typeof name]}

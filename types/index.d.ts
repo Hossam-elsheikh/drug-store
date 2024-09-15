@@ -12,14 +12,19 @@ interface CartItem {
     quantity: number
     _id: string
 }
-
-interface User {
+declare interface UserProfileInfoProps {
+    userInfo: UserInfo | null
+    isLoading: boolean
+    isError: boolean
+    error?: unknown
+}
+declare interface User {
     _id: string
     name: string
     email: string
     password: string
     addresses: Address[]
-    wishList: any[] 
+    wishList: any[]
     mobile: string
     failedLoginAttempts: number
     createdAt: string
@@ -28,10 +33,6 @@ interface User {
     refreshToken: string
     cart: CartItem[]
 }
-
-
-
-
 
 interface FormValues {
     input: string
@@ -116,11 +117,17 @@ declare interface Category {
     }
     _id: string
     slug: string
+    image: string
 }
 
 // Cart Item type
-type CartItem = {
-    data: [productId: Product, quantity: number, _id: string]
+declare interface CartItem {
+    title: string
+    image: string
+    src: string
+    price: number
+    productId: any
+    quantity: number
 }
 
 type ReviewData = {
