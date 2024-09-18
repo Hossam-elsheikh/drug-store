@@ -42,37 +42,36 @@ export default async function RootLayout({
     const messages = await getMessages();
     return (
         <html lang={locale}>
-            <ReactLenis root>
-                <body className={`${roboto.variable} ${inter.variable}`}>
-                    <LocaleProvider initialLocale={locale}>
-                        <NextIntlClientProvider messages={messages}>
-                            <AuthProvider>
-                                <AuthPersistProvider>
-                                    <ReactQueryProvider>
-                                        <ProductsProvider>
-                                            <FavoritesProvider>
-                                                <UserProvider>
-
+            {/* <ReduxStoreProvider> */}
+                <LocaleProvider initialLocale={locale}>
+                    <NextIntlClientProvider messages={messages}>
+                        <AuthProvider>
+                            <AuthPersistProvider>
+                                <ReactQueryProvider>
+                                    <ProductsProvider>
+                                        <FavoritesProvider>
+                                            <UserProvider>
+                                                <body className={`${roboto.variable} ${inter.variable}`}>
+                                                    <div id="modal-root"></div>
                                                     <div className="flex h-[100dvh] flex-col justify-between ">
+                                                        <div>
                                                         <Suspense fallback={<Loading />}>
                                                             <NavBar />
-
-
                                                             {children}
-
                                                         </Suspense>
+                                                        </div>
                                                         <Footer />
                                                     </div>
-                                                </UserProvider>
-                                            </FavoritesProvider>
-                                        </ProductsProvider>
-                                    </ReactQueryProvider>
-                                </AuthPersistProvider>
-                            </AuthProvider>
-                        </NextIntlClientProvider>
-                    </LocaleProvider>
-                </body>
-            </ReactLenis>
+                                                </body>
+                                            </UserProvider>
+                                        </FavoritesProvider>
+                                    </ProductsProvider>
+                                </ReactQueryProvider>
+                            </AuthPersistProvider>
+                        </AuthProvider>
+                    </NextIntlClientProvider>
+                </LocaleProvider>
+            {/* </ReduxStoreProvider> */}
         </html>
     );
 }

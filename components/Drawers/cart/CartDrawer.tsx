@@ -51,13 +51,14 @@ const CartDrawer = () => {
 
     if (isCartLoading || isTotalPriceLoading) {
         return (
-            <div className="p-4 space-y-4">
-                <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
-                <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
-                <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
-                <div className="h-10 w-1/2 bg-gray-200 animate-pulse rounded"></div>
-            </div>
-        );
+            // <div className="p-4 space-y-4">
+            //     <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
+            //     <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
+            //     <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
+            //     <div className="h-10 w-1/2 bg-gray-200 animate-pulse rounded"></div>
+            // </div>
+            <h1>loading</h1>
+        )
     }
     if (cartError || totalPriceError) {
         return (
@@ -73,11 +74,10 @@ const CartDrawer = () => {
             </div>
         );
     }
-    const isEmpty = cartItems.data.length === 0;
     return (
 
         <section className="flex flex-col h-full" dir={dir}>
-            {isEmpty ? (
+            {cartItems.data.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center p-4">
                     <ShoppingCart className="h-24 w-24 mb-4 text-gray-400" />
                     <h2 className="text-2xl font-semibold mb-2">{t("emptyCart")}</h2>
@@ -94,20 +94,20 @@ const CartDrawer = () => {
                 </div>
             ) : (
                 <>
-                    <ScrollArea className="h-[500px]">
-                        <AnimatePresence>
+                    {/* <ScrollArea className="h-[500px]"> */}
+                        {/* <AnimatePresence> */}
                             {cartItems.data.map((cartItem: CartItem) => (
-                                <SlideCardAnimation key={cartItem._id}>
+                                // <SlideCardAnimation key={cartItem._id}>
                                     <CartDrawerItem
                                         cartItem={cartItem}
                                         auth={auth}
                                         removeItemCartMutation={removeItemCartMutation}
                                         calculateCartMutation={calculateCartMutation}
                                     />
-                                </SlideCardAnimation>
+                                // </SlideCardAnimation>
                             ))}
-                        </AnimatePresence>
-                    </ScrollArea>
+                        {/* </AnimatePresence> */}
+                    {/* </ScrollArea> */}
                     <div className="p-4 border-t border-gray-200">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-lg font-medium">{t("totalPrice")}</h3>

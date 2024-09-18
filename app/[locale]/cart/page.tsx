@@ -26,6 +26,8 @@ const Cart = () => {
         queryFn: () => fetchCartItems(axiosPrivate, auth),
         queryKey: ["cartItems"],
     });
+    console.log(cartItems);
+    
 
     const {
         data: totalPrice,
@@ -36,8 +38,10 @@ const Cart = () => {
         queryKey: ["totalPrice"],
         enabled: !!cartItems,
     });
+    console.log(totalPrice);
+    
 
-    if (cartError || totalPriceError)
+    if (cartError)
         return (
             <div className="flex justify-center items-center h-screen">
                 <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
