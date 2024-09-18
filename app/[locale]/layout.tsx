@@ -13,6 +13,9 @@ import { ProductsProvider } from "@/context/ProductsProvider";
 import { LocaleProvider } from "@/context/LocaleProvider";
 import { FavoritesProvider } from "@/context/favoriteProvider";
 import ReduxStoreProvider from "@/redux/provider";
+import { Suspense } from "react";
+import Loading from "../loading";
+import { ReactLenis } from '@/lib/lenis'
 
 const inter = Inter({
     subsets: ["latin"],
@@ -34,8 +37,9 @@ export default async function RootLayout({
     params: { locale },
 }: Readonly<{
     children: React.ReactNode;
-    params: { locale: string };
+    params: { locale: 'en' | 'ar' };
 }>) {
+
     const messages = await getMessages();
     return (
         <html lang={locale}>
@@ -52,8 +56,10 @@ export default async function RootLayout({
                                                     <div id="modal-root"></div>
                                                     <div className="flex h-[100dvh] flex-col justify-between ">
                                                         <div>
+                                                        <Suspense fallback={<Loading />}>
                                                             <NavBar />
                                                             {children}
+                                                        </Suspense>
                                                         </div>
                                                         <Footer />
                                                     </div>

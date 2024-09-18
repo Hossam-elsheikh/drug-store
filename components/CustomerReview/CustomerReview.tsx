@@ -1,7 +1,5 @@
 import React from 'react';
 import StarRating from './StarRating';
-import Container from '../Container';
-import CustomerDialog from './CustomerDialog';
 
 function CustomerReview() {
     const handleSetRating = (rating: number) => {
@@ -9,25 +7,26 @@ function CustomerReview() {
     };
 
     return (
-        <section className='w-full bg-primaryColor min-h-48  p-10 shadow-lg mx-auto flex justify-center '>
-
-            <section className='max-w-[1200px] w-full text-white space-y-12 bg-gray-800 rounded-lg p-10 shadow-md'>
-                <div>
-                    <h1 className='text-2xl font-semibold'>Customer Reviews</h1>
-                    <p className='text-sm'>Read what our customers have to say about our products</p>
-                </div>
-                <div className='flex flex-row justify-between'>
-                    <StarRating
-                        mode='rating'
-                        defaultRating={0}
-                        size={30}
-                        onSetRating={handleSetRating}
-                    />
-                    <CustomerDialog />
-                </div>
-
-            </section>
-
+        <section className='w-full bg-gradient-to-r from-primaryColor to-secondaryColor min-h-screen py-20'>
+            <div className='max-w-[1200px] mx-auto px-4'>
+                <section className='bg-white text-gray-800 rounded-xl p-8 shadow-2xl space-y-8'>
+                    <div className='text-center'>
+                        <h1 className='text-3xl font-bold mb-2'>Customer Reviews</h1>
+                        <p className='text-gray-600'>Read what our customers have to say about our products</p>
+                    </div>
+                    <div className='flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0'>
+                        <div className='text-center md:text-left'>
+                            <p className='font-semibold mb-2'>Rate our product:</p>
+                            <StarRating
+                                mode='rating'
+                                defaultRating={0}
+                                size={40}
+                                onSetRating={handleSetRating}
+                            />
+                        </div>
+                    </div>
+                </section>
+            </div>
         </section>
     );
 }

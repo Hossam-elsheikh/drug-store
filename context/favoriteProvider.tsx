@@ -2,16 +2,12 @@
 
 import React, { createContext, useState, useEffect, ReactNode, useContext } from 'react';
 
-interface ProductItem {
-    _id: string | number;
-    quantity: number;
-    [key: string]: any;
-}
+
 
 interface FavoritesContextType {
-    favoriteProducts: ProductItem[];
-    toggleFavorite: (item: Omit<ProductItem, 'quantity'>) => void;
-    deleteFavorite: (item: Omit<ProductItem, 'quantity'>) => void;
+    favoriteProducts: Product[];
+    toggleFavorite: (item: Omit<Product, 'quantity'>) => void;
+    deleteFavorite: (item: Omit<Product, 'quantity'>) => void;
     getTotalFavorites: () => number;
     isProductFavorite: (itemId: string | number) => boolean;
 }
@@ -29,7 +25,7 @@ interface FavoritesProviderProps {
 }
 
 export const FavoritesProvider: React.FC<FavoritesProviderProps> = ({ children }) => {
-    const [favoriteProducts, setFavoriteProducts] = useState<ProductItem[]>(() => {
+    const [favoriteProducts, setFavoriteProducts] = useState<Product[]>(() => {
         if (typeof window !== 'undefined') {
             const savedItems = localStorage.getItem('FavoriteItems');
             return savedItems ? JSON.parse(savedItems) : [];
@@ -37,18 +33,18 @@ export const FavoritesProvider: React.FC<FavoritesProviderProps> = ({ children }
         return [];
     });
 
-    const toggleFavorite = (item: Omit<ProductItem, 'quantity'>) => {
+    const toggleFavorite = (item: Omit<Product, 'quantity'>) => {
         setFavoriteProducts(prevFavoriteProducts => {
             const isItemInFavorites = prevFavoriteProducts.find((favoriteProduct) => favoriteProduct._id === item._id);
             if (isItemInFavorites) {
                 return prevFavoriteProducts.filter((favoriteProduct) => favoriteProduct._id !== item._id);
             } else {
-                return [...prevFavoriteProducts, { ...item, quantity: 1 } as ProductItem];
+                return [...prevFavoriteProducts, { ...item, quantity: 1 } as Product];
             }
         });
     };
 
-    const deleteFavorite = (item: Omit<ProductItem, 'quantity'>) => {
+    const deleteFavorite = (item: Omit<Product, 'quantity'>) => {
         setFavoriteProducts(prevFavoriteProducts =>
             prevFavoriteProducts.filter((favoriteProduct) => favoriteProduct._id !== item._id)
         );

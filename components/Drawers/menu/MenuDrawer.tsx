@@ -1,6 +1,6 @@
 'use client'
 import { useTranslations } from 'next-intl'
-import React, {  useState, useTransition } from 'react'
+import React, { useState, useTransition } from 'react'
 import DropList from './DropList'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useQuery } from '@tanstack/react-query'
@@ -82,7 +82,7 @@ const MenuDrawer = () => {
         </div>
     )
 
- 
+
 
     return (
         <Tabs

@@ -18,36 +18,36 @@ console.log(cartItem);
     setQuantity(itemQuantity||cartItem.quantity)
   }, [itemQuantity||cartItem.quantity])
 
-  const updateQuantity = async (newQuantity: number) => {
-    try {
-      const userId = auth.userId;
-      const productId = cartItem.productId._id;
-      await cartItemQuantity(axiosPrivate, userId, productId, newQuantity);
-      setQuantity(newQuantity);
-      calculateCartMutation.mutate()
-    } catch (error) {
-      console.error('error while updating quantity', error);
+    const updateQuantity = async (newQuantity: number) => {
+        try {
+            const userId = auth.userId;
+            const productId = cartItem.productId._id;
+            await cartItemQuantity(axiosPrivate, userId, productId, newQuantity);
+            setQuantity(newQuantity);
+            calculateCartMutation.mutate()
+        } catch (error) {
+            console.error('error while updating quantity', error);
+        }
     }
-  }
 
-  const quantityPlus = async () => {
-    try {
-      const newQuantity = quantity + 1;
-      updateQuantity(newQuantity)
-    } catch (error) {
-      console.error("error happened while increment quantity of the product", error);
-    }
-  };
+    const quantityPlus = async () => {
+        try {
+            const newQuantity = quantity + 1;
+            updateQuantity(newQuantity)
+        } catch (error) {
+            console.error("error happened while increment quantity of the product", error);
+        }
+    };
 
-  const quantityMinus = async () => {
-    try {
-      const newQuantity = quantity - 1;
-      if (newQuantity <= 0) return
-      updateQuantity(newQuantity)
-    } catch (error) {
-      console.error("error happened while decreasing quantity of the product", error);
-    }
-  };
+    const quantityMinus = async () => {
+        try {
+            const newQuantity = quantity - 1;
+            if (newQuantity <= 0) return
+            updateQuantity(newQuantity)
+        } catch (error) {
+            console.error("error happened while decreasing quantity of the product", error);
+        }
+    };
 
   //if the user unsigned item quantity will be dispatched within the redux
   const dispatch = useDispatch()

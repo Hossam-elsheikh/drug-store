@@ -28,7 +28,7 @@ function Success() {
                             type: "spring",
                             stiffness: 260,
                             damping: 20,
-                            delay: 0.3
+                            delay: 0.4
                         }}
                     >
                         <Check className='text-white w-8 h-8' />
@@ -45,7 +45,7 @@ function Success() {
                     </p>
                     <motion.button
                         onClick={() => router.push('/')}
-                        className='w-full py-3 px-4 bg-green-600 hover:bg-green-700 transition-colors duration-300 rounded-lg flex items-center justify-center gap-2 text-white font-semibold'
+                        className='w-full py-3 px-4 bg-green-600 hover:bg-green-700 transition-colors duration-300 rounded-full flex items-center justify-center gap-2 text-white font-semibold'
                         whileHover="hover"
                     >
                         {t('backToHome')}

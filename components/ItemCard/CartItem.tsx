@@ -1,75 +1,98 @@
-"use client";
+'use client'
 
-import { Heart, Trash2, X } from "lucide-react";
-import Image from "next/image";
-import Counter from "./Counter";
-import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import { cancelItemCart, cancelOrder } from "@/axios/instance";
-import useAuth from "@/hooks/useAuth";
-import useRemoveItemCart from "@/hooks/removeItemCart";
+import { X } from 'lucide-react'
+import Image from 'next/image'
+import Counter from './Counter'
+import useAuth from '@/hooks/useAuth'
+import useRemoveItemCart from '@/hooks/removeItemCart'
+import Link from 'next/link'
+import { useLocale } from '@/context/LocaleProvider'
+import useCalcCartMutation from "@/hooks/calcCartMutation";
+import removeItemMutation from "@/hooks/removeItemCartMutation";
+import useAxiosPrivate from '@/hooks/useAxiosPrivate'
+import { useTranslations } from 'next-intl'
 
-type CartProps = {
-    price?: number;
-    image?: string;
-    title?: string;
-    description?: string;
-};
+function CartItem({
+    cartItem, }: any) {
+    const { auth }: any = useAuth()
+    const { locale, dir } = useLocale()
+    const axiosPrivate = useAxiosPrivate();
+    const c = useTranslations("CartPage");
 
-function CartItem({ cartItem, removeItemCartMutation, calculateCartMutation }: any) {
-    const { auth }: any = useAuth();
+    const removeItemCart = () =>
+        useRemoveItemCart({
+            auth,
+            cartItem,
+            removeItemCartMutation,
+            calculateCartMutation,
+        })
 
-    const removeItemCart = ()=> useRemoveItemCart({auth,cartItem,removeItemCartMutation,calculateCartMutation})
+    // Calculate total price
+    const {
+        productId: { image, name, quantity, price, _id, slug },
+    } = cartItem
+    const totalPrice = (cartItem.productId.price * cartItem.quantity).toFixed(2)
+    const calculateCartMutation = useCalcCartMutation({ axiosPrivate, auth });
+    const removeItemCartMutation = removeItemMutation(axiosPrivate);
 
     return (
-        <div className="relative flex items-center space-x-4 rounded-lg bg-white p-4 shadow-sm">
+        <section className="relative flex items-center space-x-4 rounded-lg bg-white p-5 shadow-sm border border-gray-200 hover:shadow-lg duration-300 transition-all">
             <div className="flex-shrink-0">
                 <Image
                     width={120}
                     height={120}
                     className="rounded-md object-cover"
-                    src={`http://localhost:4000/uploads/photos/${cartItem.productId.image}`}
-                    alt={cartItem.productId.name.en}
+                    src={`http://localhost:4000/uploads/photos/${image}`}
+                    alt={name.en}
                 />
             </div>
 
             <div className="flex flex-1 flex-col">
-
-                <div className="flex items-start justify-between">
-                    <h3 className="text-md font-semibold text-gray-900 line-clamp-2">
-                        {cartItem.productId.name.en}
-                    </h3>
-
-                    <button
-                        type="button"
-                        className="ml-4 text-gray-400 hover:text-gray-500 "
-                    >
-                        <X className="h-7 w-7"
-                            onClick={removeItemCart}
-                        />
-                    </button>
-                </div>
-
-                <p className="mt-1 text-sm text-gray-500 line-clamp-2">
-                    {/* {orderItem.description || "mqrq3ro/a, Apple M3 Retina 4.5K, 8GB, SSD 256GB, 10-core GPU"} */}
-                </p>
-
-                <div className="mt-2 flex items-center justify-between">
-                    <div className="flex space-x-3 ">
-                        <Counter
-                            cartItem={cartItem}
-                            itemQuantity={cartItem.quantity}
-                            calculateCartMutation={calculateCartMutation}
-                        />
+                <Link
+                    className="cursor-pointer"
+                    href={`/${locale}/${slug}/${_id}`}
+                >
+                    <div className="flex items-start justify-between">
+                        <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
+                            {name?.[locale]}
+                        </h3>
                     </div>
-                    <div className="space-y-5 mt-10">
-                        <p className="  text-center text-gray-900">
-                            <span className="font-semibold text-lg">{cartItem.productId.price}</span> <span className="font-medium text-xs">KWD</span>
-                        </p>
+                </Link>
+
+                <div className="mt-4 flex items-center justify-between">
+
+                    <Counter
+                        cartItem={cartItem}
+                        itemQuantity={cartItem.quantity}
+                        calculateCartMutation={calculateCartMutation}
+                    />
+                    <div className="flex flex-col items-start space-y-2">
+                        <div className="flex items-baseline gap-1">
+                            <span className="text-xl font-bold text-gray-900">{price}</span>
+                            <span className=" text-sm font-medium text-gray-500">KWD</span>
+                        </div>
+                        <div className="text-sm text-gray-600">
+                            {c('quantity')}: {cartItem.quantity}
+                        </div>
+                        <div className="text-sm font-medium text-gray-700">
+                            {c('total')}: {totalPrice} KWD
+                        </div>
                     </div>
+
+
                 </div>
             </div>
-        </div>
-    );
+            <button
+                type="button"
+                onClick={removeItemCart}
+                className="absolute -right-3 -top-4 bg-gray-200 transition-all duration-300
+                           hover:text-red-600 rounded-full p-1 hover:bg-red-100 text-red-800 shadow-sm hover:shadow-md group"
+                aria-label="Remove item"
+            >
+                <X size={22} className="group-hover:rotate-90 duration-300" />
+            </button>
+        </section>
+    )
 }
 
-export default CartItem;
+export default CartItem

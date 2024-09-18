@@ -10,21 +10,39 @@ import { useLocale } from '@/context/LocaleProvider'
 import { useFavorites } from '@/context/favoriteProvider'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { getColorClass } from '@/lib/utils'
+// import { getColorClass } from '@/lib/utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToLocalCart } from '@/redux/slices/addToCart'
 import { useLocalCart } from '@/hooks/useLocalCart'
 import { useMutation } from '@tanstack/react-query'
+import QuickAccess from './QuickAccess'
+import { useRouter } from 'next/navigation'
+export const getColorClass = (percentage: number) => {
+    if (percentage <= 5) return 'bg-indigo-100 text-indigo-800'
+    if (percentage <= 10) return 'bg-blue-100 text-blue-800'
+    if (percentage <= 15) return 'bg-amber-100 text-amber-800'
+    if (percentage <= 20) return 'bg-teal-100 text-teal-800'
+    if (percentage <= 25) return 'bg-green-100 text-green-800'
+    if (percentage <= 30) return 'bg-lime-100 text-lime-800'
+    if (percentage <= 35) return 'bg-yellow-100 text-yellow-800'
+    if (percentage <= 40) return 'bg-amber-100 text-amber-800'
+    if (percentage <= 45) return 'bg-orange-100 text-orange-800'
+    if (percentage <= 50) return 'bg-red-100 text-red-800'
+    if (percentage <= 55) return 'bg-rose-100 text-rose-800'
+    if (percentage <= 60) return 'bg-pink-100 text-pink-800'
+    return 'bg-purple-100 text-purple-800'
+}
 
 type DataType = {
     product: object
 }
 
-const ProductCard = ({ details, mode = 'default', index, }: any) => {
+const ProductCard = ({ details, mode = 'default', index, }: { details: Product, mode: string, index: number }) => {
     const { toggleFavorite, isProductFavorite } = useFavorites()
     const { locale, dir } = useLocale()
     const [quickAccess, setQuickAccess] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const router = useRouter()
     const { auth }: any = useAuth()
     const t = useTranslations("Buttons");
     const p = useTranslations("ProductCard");
@@ -73,11 +91,13 @@ const ProductCard = ({ details, mode = 'default', index, }: any) => {
             transition={{ delay: index * 0.1, ease: easeInOut, duration: 0.5 }}
             viewport={{ amount: 0 }}
             className="flex flex-col w-[200px] md:w-[220px] h-[340px] md:h-[350px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300"
+
         >
             <div
                 className="relative w-full h-60 overflow-hidden"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
+                dir={dir}
             >
                 {sale && <span className={`absolute inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(sale)} ${dir === 'ltr' ? 'rounded-br-xl' : 'rounded-bl-xl'}`}>
                     <span className='items-center'>{p('save')}</span> {sale}%
@@ -106,12 +126,13 @@ const ProductCard = ({ details, mode = 'default', index, }: any) => {
                     <div>
                         <h5 className="font-base text-xs md:text-sm">
                             {brand?.name?.[locale]}
+                            
                         </h5>
-                        <h2 className="font-semibold text-md truncate hover:text-secColor transition-colors duration-200">
-                            {name[locale] || ''}
+                        <h2 className="font-semibold text-md truncate text-primaryColor hover:text-[#45486e] transition-colors duration-200">
+                            {name[locale as keyof typeof name]}
                         </h2>
 
-                        <p className="mt-1 text-secColor font-semibold flex items-center gap-1 text-lg">
+                        <p className="mt-1 text-primaryColor font-semibold flex items-center gap-1 text-lg">
                             {price}
                             <span className="font-medium text-xs">KWD</span>
                         </p>
@@ -123,7 +144,7 @@ const ProductCard = ({ details, mode = 'default', index, }: any) => {
                         onClick={() => toggleFavorite(details)}
                     >
                         <Heart
-                            className={`w-6 h-6 transition-all duration-300 delay-400 ${isProductFavorite(_id)
+                            className={`w-6 h-6 transition-all duration-300 delay-400 active:scale-[.96] ${isProductFavorite(_id)
                                 ? 'text-red-500 fill-red-500'
                                 : 'text-gray-600 hover:text-red-500'
                                 }`}
@@ -135,13 +156,16 @@ const ProductCard = ({ details, mode = 'default', index, }: any) => {
                             onClick={() => auth && auth.userId ? addToCart(details) : addToLocalCartDispatch(details)}
                             className="flex bg-primaryColor px-5 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105"
                         >
-                            <ShoppingCart className="w-3 h-3 md:w-5 md:h-5" />
+                            <ShoppingCart size={20} />
                             <p className='text-sm md:block'>
                                 {t("addToCart")}
                             </p>
                         </button>
                     ) : (
-                        <button className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105">
+                        <button
+                            onClick={() => router.push(`/${locale}/${slug}/${_id}`)}
+                                className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-[#45486e] transition-all duration-200 transform hover:scale-[1.02]"
+                        >
                             {t("showMore")}
                             <Eye className="w-5 h-5" />
                         </button>
@@ -160,32 +184,6 @@ const ProductCard = ({ details, mode = 'default', index, }: any) => {
 }
 
 export default ProductCard
-
-const QuickAccess = ({ setIsModalOpen, t }: any) => (
-    <motion.div
-        initial={{ opacity: 0 }}
-        animate={{
-            opacity: 1,
-            transition: { duration: 0.3 },
-        }}
-        exit={{ opacity: 0 }}
-        className="absolute inset-0 z-20 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm"
-    >
-        <motion.div
-            initial={{ y: 10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 10, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-        >
-            <button
-                onClick={() => setIsModalOpen(true)}
-                className="bg-white px-4 py-2 rounded-full text-primaryColor hover:bg-secColor hover:text-white font-medium transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-secColor focus:ring-opacity-50"
-            >
-                {t("quickView")}
-            </button>
-        </motion.div>
-    </motion.div>
-)
 
 export const ProductCardSkeleton = () => (
     <div className="flex flex-col max-w-sm rounded-xl shadow-lg overflow-hidden bg-white animate-pulse">

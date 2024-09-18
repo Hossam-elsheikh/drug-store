@@ -1,69 +1,58 @@
 "use client";
+
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/public/logowithoutBG.png";
 // import "../Loading.css";
+import { useState, useEffect } from "react";
 
 export default function Loading() {
-	return (
-		<AnimatePresence>
-			<motion.div
-				key="loading"
-				initial={{ opacity: 0, y: 20 }}
-				animate={{
-					opacity: 1,
-					y: 0,
-					background: [
-						"linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2))",
-						"linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1))",
-					],
-				}}
-				exit={{ opacity: 0, y: -20 }}
-				transition={{
-					opacity: { ease: "easeInOut" },
-					y: { ease: "easeInOut" },
-					background: {
-						duration: 2,
-						repeat: Infinity,
-						repeatType: "reverse",
-					},
-				}}
-				className="loading-container"
-			>
-				<motion.div
-					className="shine-effect"
-					animate={{
-						rotate: [0, 360],
-					}}
-					transition={{
-						duration: 10,
-						repeat: Infinity,
-						ease: "linear",
-					}}
-				/>
-				<div className="loading-content">
-					<motion.div
-						animate={{
-							opacity: [0.75, 1, 0.75],
-						}}
-						transition={{
-							duration: 0.5,
-							ease: "easeInOut",
-							times: [0, 0.5, 1],
-							repeat: Infinity,
-						}}
-					>
-						<Image
-							src={logo}
-							alt="Logo"
-							width={400}
-							height={400}
-							unoptimized
-							priority
-						/>
-					</motion.div>
-				</div>
-			</motion.div>
-		</AnimatePresence>
-	);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setIsVisible(true), 100);
+        return () => clearTimeout(timer);
+    }, []);
+
+    return (
+        <AnimatePresence>
+            {isVisible && (
+                <motion.div
+                    key="loading"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{
+                        opacity: { duration: 0.5, ease: "easeInOut" },
+                        y: { duration: 0.3, ease: "easeInOut" },
+                    }}
+                    className="flex items-center justify-center min-h-screen bg-gray-100"
+                >
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-300 rounded-full opacity-20 blur-xl" />
+                        <motion.div
+                            animate={{
+                                opacity: [0.7, 1, 0.7],
+                            }}
+                            transition={{
+                                duration: 1.7,
+                                ease: "easeInOut",
+                                repeat: Infinity,
+                            }}
+                            className="relative z-10"
+                        >
+                            <Image
+                                src={logo}
+                                alt="Logo"
+                                width={400}
+                                height={400}
+                                unoptimized
+                                priority
+                            />
+                        </motion.div>
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+    );
 }

@@ -9,7 +9,7 @@ import { getUserOrders } from "@/axios/instance";
 import useAuth from "@/hooks/useAuth";
 
 export default function Orders() {
-    const { auth }:any = useAuth();
+    const { auth }: any = useAuth();
     const {
         data: OrdersInfoResponse,
         isLoading,
@@ -27,36 +27,41 @@ export default function Orders() {
     const t = useTranslations("OrderPage");
 
     return (
-        <div className="container mx-auto px-4">
+        <section className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-center">
                 <h1 className="text-2xl p-3 md:text-3xl font-base md:mb-0">
                     {t("orders")}
                 </h1>
             </div>
-            <div>
-                <div className="grid grid-cols-1 gap-4">
-                    {isLoading ? (
-                        <UserOrderSkeleton />
-                    ) : isError ? (
-                        <div role="alert" className="text-red-500">
-                            {t("error_loading_orders")} 
+            <div className="grid grid-cols-1 gap-4 mt-5">
+                {isLoading ? (
+                    <UserOrderSkeleton />
+                ) : isError ? (
+                    <>
+                        <div className="flex flex-col items-center justify-center h-full text-center p-4">
+
+                            <h2 className="text-2xl font-semibold mb-2"> {t("error_loading_orders")}</h2>
+
+
+
+
                         </div>
-                    ) : OrdersInfo.length === 0 ? (
-                                <div className='items-center flex flex-col h-fit w-full'>
-                                    <div className="w-full max-w-md">
-                                        <Image src={addImage} layout="responsive" width={100} height={100} alt="No items in the Favorites" />
-                                    </div>
-                                    <h1 className='text-lg'>No items in the Orders.</h1>
-                                </div>
-                    ) : (
-                        OrdersInfo.map((item: any) => (
-                            <div key={item.id}>
-                                <UserOrderInfo dir="ltr" orderInfo={item} />
-                            </div>
-                        ))
-                    )}
-                </div>
+                    </>
+                ) : OrdersInfo.length === 0 ? (
+                    <div className='items-center flex flex-col h-fit w-full'>
+                        <div className="w-full max-w-md">
+                            <Image src={addImage} layout="responsive" width={100} height={100} alt="No items in the Favorites" />
+                        </div>
+                        <h1 className='text-lg'>No items in the Orders.</h1>
+                    </div>
+                ) : (
+                    OrdersInfo.map((item: any) => (
+                        <div key={item.id}>
+                            <UserOrderInfo dir="ltr" orderInfo={item} />
+                        </div>
+                    ))
+                )}
             </div>
-        </div>
+        </section>
     );
 }

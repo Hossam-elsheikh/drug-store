@@ -1,7 +1,6 @@
 import React, { use } from 'react';
 import StarRating from '../CustomerReview/StarRating';
 import { Heart, ShoppingCart } from 'lucide-react';
-import Counter from "../ItemCard/Counter";
 import SideBar from './SideBar';
 import { useTranslations } from 'next-intl';
 import classNames from 'classnames';
@@ -36,10 +35,10 @@ function Details({ productDetails, className }: any) {
         )}>
             <div className="space-y-3">
                 <h3 className="text-sm text-gray-500 font-medium uppercase tracking-wider">
-                    {brand || "Johnson"}
+                    {brand.name?.[locale] }
                 </h3>
                 <h2 className="text-3xl font-bold text-gray-900">
-                    {name?.[locale] || "Premium Blazer"}
+                    {name[locale as keyof typeof name]}
                 </h2>
                 <div className="flex items-center justify-between">
 
@@ -49,7 +48,7 @@ function Details({ productDetails, className }: any) {
                         </span>
                         {price}
                     </h5>
-                    {stock ? (
+                    {stock && stock !== 0 ? (
                         <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800">In Stock</span>
                     ) : (
                         <span className="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-800">Out Of Stock</span>
@@ -59,7 +58,7 @@ function Details({ productDetails, className }: any) {
 
             <div className="flex items-center gap-3">
                 <StarRating
-                    mode="rating"
+                    mode="review"
                     maxRating={5}
                     defaultRating={4}
                     size={24}
@@ -76,31 +75,28 @@ function Details({ productDetails, className }: any) {
                         className="flex-grow bg-primaryColor hover:bg-primaryColor/90 text-white rounded-full transition-all duration-200 transform active:scale-95 flex items-center justify-center gap-2"
                         onClick={() => auth && auth.userId ?  addToCart(productDetails) : addToLocalCartDispatch(productDetails)}
                     >
-                        <ShoppingCart className="h-5 w-5" />
+                        <ShoppingCart size={24} />
                         {t("addToCart")}
                     </Button>
                 </div>
                 <Button
                     variant="outline"
-                    className={`w-full active:scale-95 rounded-full flex items-center justify-center gap-3 transition-all duration-300 ${isProductFavorite(_id)
+                    className={`group w-full active:scale-[.99] rounded-full flex items-center bg-white justify-center border border-gray-300 gap-3 transition-all shadow-sm duration-300 ${isProductFavorite(_id)
                         ? ' bg-red-100 text-red-700'
-                        : 'text-gray-600 hover:text-red-500'
+                        : 'text-gray-700 hover:text-red-500'
                         }`}
                     onClick={() => toggleFavorite(productDetails)}
                 >
-                    <Heart
-                        className={`h-5 w-5 transition-all duration-300 ${isProductFavorite(_id)
+                    <Heart size={24}
+                        className={`transition-all duration-300 ${isProductFavorite(_id)
                             ? 'text-red-500 fill-red-500'
-                            : 'text-gray-600 hover:text-red-500'
+                            : 'text-gray-600 hover:text-red-500 group-hover:text-red-500'
                             }`}
                     />
                     {t('addToFavorite')}
                 </Button>
 
             </div>
-
-
-
             <SideBar dir={dir} />
         </div>
     );

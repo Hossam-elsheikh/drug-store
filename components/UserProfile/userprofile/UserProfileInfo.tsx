@@ -3,9 +3,9 @@ import { useTranslations } from 'next-intl';
 import { Skeleton } from "@/components/ui/skeleton";
 import { DeleteAccount } from "./DeleteAccount";
 import NotFound from "@/app/not-found";
-import { User, Mail, Phone, Calendar, Trash2 } from 'lucide-react'; 
+import { User, Mail, Phone, Calendar, Trash2 } from 'lucide-react';
 
-function UserProfileInfo({ userInfo, isLoading, isError, error }) {
+function UserProfileInfo({ userInfo, isLoading, isError, error }: UserProfileInfoProps) {
     const f = useTranslations("Form");
     const { name, email, mobile, createdAt } = userInfo || {};
 
@@ -15,7 +15,7 @@ function UserProfileInfo({ userInfo, isLoading, isError, error }) {
 
     return (
         <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-          
+
             <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-6 text-white">
                 <div className="flex items-center gap-4">
                     <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center">
@@ -28,7 +28,7 @@ function UserProfileInfo({ userInfo, isLoading, isError, error }) {
                 </div>
             </div>
 
-       
+
             <Table className="w-full">
                 <TableBody>
                     {isLoading ? (
@@ -73,9 +73,9 @@ function UserProfileInfo({ userInfo, isLoading, isError, error }) {
                 </TableBody>
             </Table>
 
-         
+
             <div className="p-4 border-t">
-                <h3 className="text-lg font-semibold mb-2 flex items-center space-x-2 text-red-600">
+                <h3 className="text-lg font-semibold mb-2 flex items-center space-x-2 text-red-600 shadow-sm">
                     <Trash2 size={18} /> <span>{f("delete")}</span>
                 </h3>
                 <DeleteAccount />

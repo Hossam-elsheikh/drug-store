@@ -36,11 +36,11 @@ export function DatePickerDemo({ control, name }: DatePickerDemoProps) {
                         <Button
                             variant={"outline"}
                             className={cn(
-                                "w-[280px] justify-start text-left font-normal",
+                                "w-[280px] justify-start text-left font-normal gap-2",
                                 !field.value && "text-muted-foreground"
                             )}
                         >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            <CalendarIcon size={24} />
                             {field.value ? format(new Date(field.value), "PPP") : <span>Pick a date</span>}
                         </Button>
                     </PopoverTrigger>

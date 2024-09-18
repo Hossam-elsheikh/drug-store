@@ -9,8 +9,8 @@ const CategoriesBar = () => {
     const t = useTranslations("categories");
     const { locale } = useLocale()
     return (
-        <div className="md:flex items-center gap-4 px-5 shadow-md py-2 text-primaryColor bg-gray-100 hidden ">
-            <nav className="flex w-full justify-between gap-5 items-center">
+        <nav className="md:flex items-center gap-4 px-5 shadow-md py-2 text-primaryColor bg-gray-100 hidden ">
+            <section className="flex w-full justify-between gap-5 items-center">
                 <ul className="flex gap-4 items-center">
                     <CategoriesDrawer />
                     <h1 className="font-medium">{t("allCategories")}</h1>
@@ -30,8 +30,8 @@ const CategoriesBar = () => {
                         {t("Offers")}
                     </Link>
                 </ul>
-            </nav>
-        </div>
+            </section>
+        </nav>
     );
 };
 

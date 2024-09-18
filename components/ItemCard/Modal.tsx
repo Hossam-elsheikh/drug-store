@@ -86,46 +86,47 @@ function Modal({ setIsModalOpen, setQuickAccess, details }) {
                                         alt={name?.en}
                                         layout="fill"
                                         objectFit="cover"
-                                        className="duration-[2s] transition-all hover:scale-105"
+                                        className="duration-300 transition-all hover:scale-[1.02]"
                                     />
                                 </div>
 
                                 <div className="w-full md:w-1/2 p-8 justify-around flex flex-col">
-                                    <DialogTitle className="text-2xl font-bold text-gray-800">
+                                    <DialogTitle className="flex flex-col space-y-4 text-2xl font-bold text-gray-800">
                                         <h1 className="font-base text-sm">
                                             {brand?.name?.[locale]}
                                         </h1>
                                         <Link
                                             href={`/${locale}/${slug}/${_id}`}
-                                            className="hover:text-secColor transition-colors duration-200"
+                                            className="text-primaryTextColor hover:text-[#45486e]  transition-colors duration-200"
                                         >
                                             {name[locale] || ''}
                                         </Link>
                                     </DialogTitle>
 
+
                                     <p className="text-gray-600 leading-relaxed">
                                         {description?.[locale]}
                                     </p>
 
-                                    <div className="mt-1 text-secColor font-semibold flex text-2xl gap-5 justify-around">
+                                    <div className="p-4 text-primaryTextColor hover:text-[#45486e]  font-semibold flex text-2xl gap-5 justify-around">
                                         <div>
-                                        <span className="font-medium text-sm">
-                                            KWT
-                                        </span>
-                                        {price}
+                                            <span className="font-medium text-sm">
+                                                KWT
+                                            </span>
+                                            {price}
 
                                         </div>
-                                            {sale &&
-                                                <span className={` inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(sale)} rounded-full`}>
-                                                    <span className='items-center'>{p('save')}</span> {sale}%
-                                                </span>
-                                            }
+                                        {sale &&
+                                            <span className={` inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(sale)} rounded-full`}>
+                                                <span className='items-center'>{p('save')}</span> {sale}%
+                                            </span>
+                                        }
                                     </div>
 
                                     <div className="flex gap-4">
 
                                         <button
-                                            className="flex-1 px-6 py-3 bg-secColor text-white rounded-full hover:opacity-80 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2"
+                                            className="flex-1 px-6 py-3 bg-primaryColor text-white rounded-full hover:bg-[#45486e]active:scale-[.99] transition-all duration-200 flex items-center justify-center gap-2"
                                             onClick={() =>
                                                 router.push(
                                                     `/${locale}/${slug}/${_id}`
@@ -136,7 +137,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details }) {
                                             {t('showMore')}
                                         </button>
                                         <button
-                                            className={`group p-3 border border-gray-400 rounded-full hover:border-gray-500 hover:bg-gray-200 active:scale-95 transition-all duration-300  ${isProductFavorite(_id)
+                                            className={`group p-3 border border-gray-400 rounded-full hover:border-gray-500 hover:bg-gray-200 active:scale-[.96] transition-all duration-300  ${isProductFavorite(_id)
                                                 ? ' bg-red-100 text-red-700'
                                                 : 'text-gray-600 hover:text-red-500'}`}
                                             onMouseDown={() => toggleFavorite(details)}

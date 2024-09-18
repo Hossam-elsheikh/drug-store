@@ -17,7 +17,7 @@ function Page({ params, searchParams }: Props) {
     const { ref } = searchParams
     const decodedId = ref ? decodeId(ref) : null
 
-    return ( <ProductsView params={params} brand={decodedId} />
+    return (<ProductsView params={params} brand={decodedId} />
     );
 }
 

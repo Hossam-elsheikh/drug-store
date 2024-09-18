@@ -1,11 +1,11 @@
 "use client";
-import React, { useEffect } from 'react';
+import React from 'react';
 import BreadCrumb from '@/components/Breadcrumb/BreadCrumb';
 import DrawerWrapper from '@/components/Drawers/DrawerWrapper';
 import ProductCard, { ProductCardSkeleton } from '@/components/ItemCard/ProductCard';
 import { ProductsProvider, useAllProducts } from '@/context/ProductsProvider';
-import { useInView } from 'react-intersection-observer';
 import NotFound from '@/app/not-found';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 type Props = {
     params?: {
@@ -13,13 +13,12 @@ type Props = {
         id?: string;
         searchCategory?: string;
     };
-    SubId: string | null;
-    brand: string | null;
+    SubId?: string | null;
+    brand?: string | null;
 };
 
 function ProductsContent({ params = {}, SubId, brand }: Props) {
-    const { ref, inView } = useInView();
-    const { products, isLoading, isError, error, setSearchParams, fetchNextPage, hasNextPage, isFetchingNextPage } = useAllProducts();
+    const { products, isLoading, isError, error, setSearchParams, totalPages, currentPage } = useAllProducts();
     const { term, id, searchCategory } = params;
 
     let title = 'Products';
@@ -30,29 +29,30 @@ function ProductsContent({ params = {}, SubId, brand }: Props) {
     } else if (id && searchCategory) {
         title = `Category: ${searchCategory} - ID: ${id}`;
     }
-    // console.log(products)
 
-    useEffect(() => {
-        if (inView && hasNextPage) {
-            fetchNextPage();
-        }
-    }, [inView, fetchNextPage, hasNextPage]);
-
-    useEffect(() => {
-        const filters: any = { page: 1 };
+    React.useEffect(() => {
+        const filters: any = { page: currentPage };
         if (term) {
-            filters.name = term;
+            filters.search = term;
         } else if (SubId) {
             filters.subCategory = SubId;
         } else if (brand) {
             filters.brand = brand;
         }
         setSearchParams(filters);
-    }, [term, id, searchCategory, SubId, brand, setSearchParams]);
+    }, [term, id, searchCategory, SubId, brand, setSearchParams, currentPage]);
+
+    const handlePageChange = (newPage: number) => {
+        setSearchParams({ page: newPage });
+    };
+
+    if (isError) {
+        return <div>Error: {error?.message}</div>;
+    }
 
     return (
         <section className="bg-gray-50 pb-5">
-            {/* <BreadCrumb /> */}
+            <BreadCrumb />
             <div className="p-0 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg border">
                 <div className="p-5 flex justify-between">
                     <h1 className="text-md md:text-3xl font-semibold px-5 md:px-10">
@@ -70,17 +70,44 @@ function ProductsContent({ params = {}, SubId, brand }: Props) {
                         </>
                     ) : (
                         products && products.length > 0 ? (
-                            products.map((item, i) => (
-                                <div key={i} ref={i === products.length - 1 ? ref : null}>
-                                    <ProductCard details={item} index={i} />
-                                </div>
+                            products.map((product, i) => (
+                                <ProductCard key={product._id} details={product} index={i} mode='default' />
                             ))
                         ) : (
                             <NotFound />
                         )
                     )}
                 </section>
-                {isFetchingNextPage && <div>Loading more...</div>}
+
+                {totalPages > 1 && (
+                    <Pagination className='pt-10'>
+                        <PaginationContent>
+                            <PaginationItem>
+                                <PaginationPrevious
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                                />
+                            </PaginationItem>
+                            {[...Array(totalPages)].map((_, index) => (
+                                <PaginationItem key={index}>
+                                    <PaginationLink
+                                        className='text-sm font-medium transition-all text-gray-700 bg-white border border-gray-300 rounded-full shadow-sm hover:border-gray-400 active:scale-95 hover:bg-gray-50 focus:outline-none duration-200'
+                                        onClick={() => handlePageChange(index + 1)}
+                                        isActive={currentPage === index + 1}
+                                    >
+                                        {index + 1}
+                                    </PaginationLink>
+                                </PaginationItem>
+                            ))}
+                            <PaginationItem>
+                                <PaginationNext
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                                />
+                            </PaginationItem>
+                        </PaginationContent>
+                    </Pagination>
+                )}
             </div>
         </section>
     );

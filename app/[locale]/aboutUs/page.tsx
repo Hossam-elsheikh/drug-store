@@ -10,8 +10,8 @@ import { aboutUsContent } from '@/lib/utils';
 function AboutUs() {
     return (
         <Container className='max-w-[1400px]'>
-            <section 
-               id="about-us" className="py-[100px]">
+            <section
+                id="about-us" className="py-[100px]">
                 <h1 className="text-4xl font-bold text-center mb-8 border-b-2 p-5">About Us</h1>
                 {aboutUsContent.map((item, index) => (
                     <motion.article

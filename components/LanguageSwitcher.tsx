@@ -18,7 +18,7 @@ function LanguageSwitcher({ classes }: { classes: string }) {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    {locales.map((loc) => (
+                    {locales.map((loc: any) => (
                         <DropdownMenuItem className='cursor-pointer ' key={loc} onClick={() => switchLanguage(loc)}>
                             {loc.toUpperCase()}
                         </DropdownMenuItem>

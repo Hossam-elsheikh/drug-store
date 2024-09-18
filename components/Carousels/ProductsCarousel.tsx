@@ -19,85 +19,86 @@ type ProductsProp = {
     catId: string
 };
 
-export default function ProductsCarousel({ mode,catId }: ProductsProp) {
+export default function ProductsCarousel({ mode, catId }: ProductsProp) {
     const context = useContext(ProductsContext);
     const productsQuery = useQuery({
-        queryKey:[catId],
-        queryFn: ()=> getProducts({category:catId})
+        queryKey: [catId],
+        queryFn: () => getProducts({ category: catId })
 
     })
     if (!context) {
         return <h2 className={classes.error}>No products context available</h2>;
     }
 
-	const { products, isLoading, isError, error } = context;
+    const { products, isLoading, isError, error } = context;
+console.log(products);
 
-    const breakpoints =  mode === "full"
-            ? {
-                0: {
-                    slidesPerView: 2,
-                    spaceBetween: 2,
-                },
-                663: {
-                    slidesPerView: 3,
-                    spaceBetween: 2,
-                },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 1,
-                },
-                1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 2,
-                },
-                1280: {
-                    slidesPerView: 5,
-                    spaceBetween: 2,
-                },
-                1600: {
-                    slidesPerView: 6,
-                    spaceBetween: 2,
-                },
-                1800: {
-                    slidesPerView: 6,
-                    spaceBetween: 2,
-                },
-            }
-            : {
-                0: {
-                    slidesPerView: 2,
-                    spaceBetween: 2,
-                },
-                480: {
-                    slidesPerView: 2,
-                    spaceBetween: 1,
-                },
-                768: {
-                    slidesPerView: 2,
-                    spaceBetween: 1,
-                },
-                1024: {
-                    slidesPerView: 2,
-                    spaceBetween: 2,
-                },
-                1280: {
-                    slidesPerView: 3,
-                    spaceBetween: 2,
-                },
-                1600: {
-                    slidesPerView: 3,
-                    spaceBetween: 2,
-                },
-                1800: {
-                    slidesPerView: 4,
-                    spaceBetween: 2,
-                },
-            };
-   
+    const breakpoints = mode === "full"
+        ? {
+            0: {
+                slidesPerView: 2,
+                spaceBetween: 2,
+            },
+            663: {
+                slidesPerView: 3,
+                spaceBetween: 2,
+            },
+            768: {
+                slidesPerView: 3,
+                spaceBetween: 1,
+            },
+            1024: {
+                slidesPerView: 4,
+                spaceBetween: 2,
+            },
+            1280: {
+                slidesPerView: 5,
+                spaceBetween: 2,
+            },
+            1600: {
+                slidesPerView: 6,
+                spaceBetween: 2,
+            },
+            1800: {
+                slidesPerView: 6,
+                spaceBetween: 2,
+            },
+        }
+        : {
+            0: {
+                slidesPerView: 2,
+                spaceBetween: 2,
+            },
+            480: {
+                slidesPerView: 2,
+                spaceBetween: 1,
+            },
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 1,
+            },
+            1024: {
+                slidesPerView: 2,
+                spaceBetween: 2,
+            },
+            1280: {
+                slidesPerView: 3,
+                spaceBetween: 2,
+            },
+            1600: {
+                slidesPerView: 3,
+                spaceBetween: 2,
+            },
+            1800: {
+                slidesPerView: 4,
+                spaceBetween: 2,
+            },
+        };
 
-	if (isError) {
-		<NotFound />;
-	}
+
+    if (isError) {
+        <NotFound />;
+    }
 
     return (
         <Swiper
@@ -117,7 +118,7 @@ export default function ProductsCarousel({ mode,catId }: ProductsProp) {
                 ))
                 : productsQuery?.data?.products?.map((prod: Product) => (
                     <SwiperSlide key={prod._id}>
-                        <ProductCard  details={prod} index={prod._id} />
+                        <ProductCard details={prod} index={prod._id} mode="default" />
                     </SwiperSlide>
                 ))}
         </Swiper>

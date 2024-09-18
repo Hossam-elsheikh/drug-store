@@ -1,11 +1,10 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
+    return twMerge(clsx(inputs))
 }
-export const getColorClass = (percentage) => {
+export const getColorClass = (percentage: number) => {
     if (percentage <= 5) return 'bg-indigo-100 text-indigo-800'
     if (percentage <= 10) return 'bg-blue-100 text-blue-800'
     if (percentage <= 15) return 'bg-amber-100 text-amber-800'
@@ -20,6 +19,7 @@ export const getColorClass = (percentage) => {
     if (percentage <= 60) return 'bg-pink-100 text-pink-800'
     return 'bg-purple-100 text-purple-800'
 }
+
 export const aboutUsContent = [
     {
         title: 'Emergency Services',
@@ -59,22 +59,17 @@ export const aboutUsContent = [
     },
 ]
 
-
-
 export const pharmacyCat = [
     {
-        name: "Prescription Medications",
-        image: "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?q=80&w=2079&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        name: 'Prescription Medications',
+        image: 'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?q=80&w=2079&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
-        name: "Over-the-Counter (OTC) Medications",
-        image: "https://images.unsplash.com/photo-1547489432-cf93fa6c71ee?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        name: 'Over-the-Counter (OTC) Medications',
+        image: 'https://images.unsplash.com/photo-1547489432-cf93fa6c71ee?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
-        name: "Health & Wellness",
-        image: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        name: 'Health & Wellness',
+        image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
-];
-
-
-
+]

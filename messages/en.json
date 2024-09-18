@@ -44,7 +44,13 @@
         "expandCart": "Go to Cart",
         "checkout": "Proceed to Checkout",
         "dinar": "KWD",
-        "addMore": "Add Some Products in Your Cart"
+        "addMore": "Add Some Products in Your Cart",
+        "emptyCart": "Your Cart Is Empty",
+        "addProducts": "Add some products to your cart",
+        "startShopping": "Start Shopping",
+        "errorLoadingCart": "Failed to load cart items.",
+        "errorCalculatingTotal": "Failed to calculate total price.",
+        "tryAgainLater": "Please try again later."
     },
     "Form": {
         "firstName": "First Name",
@@ -53,7 +59,7 @@
         "postalCode": "Postal Code",
         "address": "Address",
         "YourAddress": " Add Your Address",
-        "addAddress": "add Address",
+        "addAddress": "Add Address",
         "dateOfBirth": "Date Of Birth",
         "email": "Email",
         "emailHolder": "Enter Your Email",
@@ -92,7 +98,8 @@
         "expand": "Expand Window",
         "forgetPass": "Forget Your Password ?",
         "enterDetails": "Please Enter Your Details",
-        "joinDate": "Join Date"
+        "joinDate": "Join Date",
+        "editAddress": "Edit Address"
     },
     "AddressPage": {
         "yourAddresses": "Your Addresses"
@@ -111,15 +118,17 @@
         "userInfo": "User Information",
         "editInfo": "Edit Your Information",
         "editPass": "Edit Your Passowrd",
-        "personalAcc": "Account"
+        "personalAcc": "Account",
+        "addresses": "Delivery addresses"
     },
     "Favorites": {
         "favorites": "Favorites",
         "addToFavorites": "Add To Your Favorites"
+      
     },
     "AsideMenu": {
         "profile": "Profile",
-        "Favorites": "Favorites",
+        "favorites": "Favorites",
         "addresses": "Addresses",
         "orders": "Orders",
         "payments": "Payments",
@@ -151,9 +160,22 @@
     "ProductDetailsPage": {
         "aboutItem": "About This Item",
         "customerReviews": "Customer Reviews",
-        "relatedProducts": "Related Products"
+        "relatedProducts": "Related Products",
+        "beTheFirstToLeaveAComment": "Be The First To Leave A Comment",
+        "addYourComment": "Add Your Comment"
     },
     "ProductCard": {
         "save": "Save"
+    },
+    "CartPage": {
+        "shoppingCart": "Your Shopping Cart",
+        "orderSummary": "Order Summary",
+        "total": "Total Amount",
+        "proceedToCheckout": "Proceed to Checkout",
+        "startShopping": "Start Shopping",
+        "emptyCartDescription": "There's nothing in your cart yet. Browse our products and add something you love!",
+        "emptyCartTitle": "No Items in Your Cart",
+        "quantity": "Quantity",
+        "items": "Items"
     }
 }

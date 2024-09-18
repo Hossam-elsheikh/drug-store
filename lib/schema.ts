@@ -63,8 +63,6 @@ export const initialAuthFormValues = {
     confirmPassword: '',
 }
 
-// Checkout Validation Schema
-
 export const CheckoutValidationSchema = Yup.object().shape({
     firstName: Yup.string().required('First Name is required').min(3).max(40),
     lastName: Yup.string().required('Last Name is required').min(3).max(40),
@@ -129,4 +127,12 @@ export const SearchSchema = Yup.object().shape({
     input: Yup.string()
         .min(3, 'Minimum 3 characters')
         .max(50, 'Maximum 50 characters'),
+})
+
+// Checkout Validation Schema
+
+export const addressValidationSchemaDialog = Yup.object({
+    state: Yup.string().required('State is required'),
+    city: Yup.string().required('City is required'),
+    street: Yup.string().required('Street is required'),
 })

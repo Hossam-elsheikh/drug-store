@@ -45,7 +45,13 @@
         "expandCart": "افتح عربة التسوق",
         "checkout": "اتمام عملية الشراء",
         "dinar": "دينار كويتي",
-        "addMore": "لا يوجد شيء في عربه التسوق أضف البعض"
+        "addMore": "لا يوجد شيء في عربه التسوق أضف البعض",
+        "emptyCart": "سلة التسوق فارغة",
+        "addProducts": "أضف بعض المنتجات إلى سلة التسوق",
+        "startShopping": "ابدأ التسوق",
+        "errorLoadingCart": "فشل في تحميل عناصر سلة التسوق.",
+        "errorCalculatingTotal": "فشل في حساب السعر الإجمالي.",
+        "tryAgainLater": "يرجى المحاولة مرة أخرى لاحقًا."
     },
     "Form": {
         "firstName": "الأسم الأول",
@@ -93,9 +99,9 @@
         "expand": "توسيع النافذة",
         "forgetPass": "هل نسيت كلمة المرور؟",
         "enterDetails": "يرجى إدخال بياناتك",
-        "joinDate": "تاريخ الأنضمام"
+        "joinDate": "تاريخ الأنضمام",
+        "editAddress": "تعديل العنوان"
     },
-
     "AddressPage": {
         "yourAddresses": "جميع العناوين"
     },
@@ -113,23 +119,22 @@
         "userInfo": "بيانات المستخدم",
         "editInfo": "تعديل بيانات المستخدم",
         "editPass": "تعديل الرمز السري",
-        "personalAcc": "الحساب الشخصي"
+        "personalAcc": "الحساب الشخصي",
+        "addresses": "العناوين التوصيل"
     },
     "Favorites": {
-        "Favorites": "قائمة الرغبات",
+        "favorites": "قائمة الرغبات",
         "addToFavorites": "أضف الي قائمة الرغبات"
     },
-
     "AsideMenu": {
         "profile": "الملف الشخصي",
-        "Favorites": "قائمة الرغبات",
+        "favorites": "قائمة الرغبات",
         "addresses": "العناوين",
         "orders": "الطلبات",
         "payments": "طرق الدفع",
         "returns": "المرتجعات",
         "settings": "الإعدادات",
         "password": "كلمة المرور",
-
         "logOut": "تسجيل الخروج"
     },
     "CheckOutPage": {
@@ -155,9 +160,22 @@
     "ProductDetailsPage": {
         "aboutItem": "نبذه عن المنتج",
         "customerReviews": "آراء العملاء",
-        "relatedProducts": "منتجات ذات صلة"
+        "relatedProducts": "منتجات ذات صلة",
+        "beTheFirstToLeaveAComment": "كن أول من يترك تعليقًا",
+        "addYourComment": "أضف تعليقك"
     },
     "ProductCard": {
         "save": "وفر"
+    },
+    "CartPage": {
+        "shoppingCart": "سلة التسوق الخاصة بك",
+        "orderSummary": "ملخص الطلب",
+        "total": "المجموع الكلى",
+        "proceedToCheckout": "الأستمرار الي مرحلة الدفع",
+        "startShopping": "ابدأ بالتسوق",
+        "emptyCartDescription": "ليس لديك أي منتجات في سلة التسوق حتى الآن. تصفح منتجاتنا وأضف ما تحب!",
+        "emptyCartTitle": "لا توجد منتجات في سلة التسوق",
+        "quantity": "الكمية",
+        "items": "عدد المنتجات"
     }
 }

@@ -6,7 +6,7 @@ type DataType = {
     placeholder: string,
     name: string,
     formik: any,
-    state:any
+    state: any
 
 }
 
@@ -17,25 +17,23 @@ function Input({
     name,
     formik,
     state,
-    
-}: any) 
 
-{
+}: any) {
     return (
         <div className=' mx-auto w-full '>
             <input
                 type="text"
-                className='w-full p-3 border-2 focus:border-[#5ac5e7]  rounded-lg focus:outline-none focus:shadow-md'
+                className='w-full p-3 border-2 focus:border-[#282a3f]  rounded-lg focus:outline-none focus:shadow-md'
                 value={formikValue}
                 onChange={handleChange}
                 placeholder={placeholder}
                 onBlur={formik.handleBlur}
                 name={name}
             />
-            
+
             {formik.errors[name] && formik.touched[name] ? (
                 <p className="text-red-500">{formik.errors[name]}</p>
-            ) :  null}
+            ) : null}
         </div>
     )
 }

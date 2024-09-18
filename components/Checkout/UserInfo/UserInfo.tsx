@@ -1,212 +1,133 @@
-import React, { useEffect, useState } from 'react'
-import InputName from './InputName';
-import { updateUser } from '@/axios/instance';
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import LabelName from '../newAddressForm/LabelName';
-import Input from '../newAddressForm/Input';
-import Link from 'next/link';
-import AboutUs from '@/app/[locale]/aboutUs/page';
-import { Loader, X } from 'lucide-react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import EditAddressInput from './EditAddressInput';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Calendar, Mail, Phone, User } from 'lucide-react';
+import { useUser } from '@/context/UserProvider';
+import AddNewAndEditAddresses from '../newAddressForm/AddNewAndEditAddresses';
 
 type DataTypes = {
-    user: any,
-    setShippingAddress: any,
+    setShippingAddress: (address: any) => void,
     shippingAddress: any,
     formErrors: any,
-    setFormErrors: any,
+    setFormErrors: (errors: any) => void,
 }
 
-function UserInfo({ user, setShippingAddress, shippingAddress,formErrors,setFormErrors }: DataTypes) {
+function UserInfo({ setShippingAddress, shippingAddress, formErrors, setFormErrors }: DataTypes) {
+    const [selectedAddress, setSelectedAddress] = useState(shippingAddress?._id || null);
 
-    const [addressId, setAddressId] = useState('')
+    const f = useTranslations("Form");
+    const t = useTranslations("UserInfoPage");
 
-    const validationSchema = Yup.object({
-        city: Yup.string().required('City is required'),
-        state: Yup.string().required('State is required'),
-        street: Yup.string().required('Street is required'),
-    });
+    const { userInfo, isLoading } = useUser();
+    const { name, email, mobile, addresses } = userInfo || {};
 
-    const formik = useFormik(
-        {
-            initialValues: {
-                city: '',
-                state: '',
-                street: ''
-            },
-            validationSchema: validationSchema,
-            onSubmit: (values) => {
-                handleEditAddressSubmit(values);
-            },
+    const handleAddressChange = (address: any) => {
+        setSelectedAddress(address._id);
+        setShippingAddress(address);
+
+        if (formErrors.shippingAddress) {
+            setFormErrors((errors: any) => ({
+                ...errors,
+                shippingAddress: ''
+            }));
         }
-    );
-    useEffect(() => {
-        if (addressId) {
-            const selectedAddress = user.addresses.find((address: any) => address._id === addressId);
-            formik.setValues({
-                city: selectedAddress?.city || '',
-                state: selectedAddress?.state || '',
-                street: selectedAddress?.street || ''
-            });
-        }
-    }, [addressId]);
-
-    const userId = user._id
-    const queryClient = useQueryClient()
-    const updateUserAddressMutation = useMutation({
-        mutationFn: () => updateUser({
-            userId,
-            data: {
-                addressId,
-                addresses: {
-                    city: formik.values.city,
-                    state: formik.values.state,
-                    street: formik.values.street
-                }
-            }
-        }),
-        onSuccess: () => queryClient.invalidateQueries(),
-        onSettled: () => {
-            setTimeout(() => {
-                updateUserAddressMutation.reset()
-            }, 8000)
-        },
-    })
-    function handleEditAddressSubmit(event: any) {
-        event.preventDefault()
-        updateUserAddressMutation.mutate()
-    }
+    };
 
     return (
+        <>
+            <div className="flex justify-between pb-3">
+                <p className="font-medium text-xl pt-5 pb-3">Shipping Address</p>
 
-        <div className='grid lg:grid-cols-2 sm:grid-cols-1 py-2'>
-
-            <div>
-                <p className='font-medium'>User Info</p>
-
-                <InputName inputName="Name " info={user.name} isLast={false} />
-                <InputName inputName="Mobile " info={user.mobile} isLast={false} />
+                <div className="self-end">
+                    <AddNewAndEditAddresses mode="add" />
+                </div>
             </div>
 
-            <div>
+            <div className='flex flex-col py-2'>
+                <div>
+                    <h2 className="text-2xl font-bold text-gray-800 p-2 border-b-2">{t("userInfo")}</h2>
+                    <Table className="w-full">
+                        <TableBody>
+                            {isLoading ? (
+                                Array.from({ length: 4 }, (_, i) => (
+                                    <TableRow key={i} className="hover:bg-gray-50">
+                                        <TableCell className="w-1/3">
+                                            <Skeleton className="w-full h-[24px] bg-gray-200" />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Skeleton className="w-full h-[24px] bg-gray-200" />
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <>
+                                    <TableRow className="hover:bg-gray-50">
+                                        <TableCell className="font-medium flex items-center space-x-2">
+                                            <User size={18} /> <span>{f("name")}</span>
+                                        </TableCell>
+                                        <TableCell>{name}</TableCell>
+                                    </TableRow>
+                                    <TableRow className="hover:bg-gray-50">
+                                        <TableCell className="font-medium flex items-center space-x-2">
+                                            <Mail size={18} /> <span>{f("email")}</span>
+                                        </TableCell>
+                                        <TableCell>{email}</TableCell>
+                                    </TableRow>
+                                    <TableRow className="hover:bg-gray-50">
+                                        <TableCell className="font-medium flex items-center space-x-2">
+                                            <Phone size={18} /> <span>{f("mobileNumber")}</span>
+                                        </TableCell>
+                                        <TableCell>{mobile}</TableCell>
+                                    </TableRow>
+                                </>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
 
-                <p className='font-medium'>Choose Your Address</p>
-
-                {user.addresses.map((address: any) => (
-
-                    <div key={address.id}>
-
-                        <label htmlFor={address.id} className='flex  space-x-3 cursor-pointer  '>
-
-                            <input
-                                type='radio'
-                                id={address.id}
-                                name='address'
-                                value={address.id}
-                                onChange={() => setShippingAddress(address)}
-                                onFocus={() => {
-                                    if (formErrors.shippingAddress) {
-                                        setFormErrors((errors:any)=>({
-                                            ...errors,
-                                            shippingAddress:''
-                                        }))
-                                    }
-                                }}
-                            />
-
-                            <p className='space-x-3'><span>{address.state}</span><span>{address.city}</span><span>{address.street}</span></p>
-
-                            <div>
-                                <Dialog >
-                                    <DialogTrigger>
-                                        <button className='font-medium text-[#5ac5e7] hover:text-[#198ab0]' onClick={() => setAddressId(address._id)}>Edit</button>
-                                    </DialogTrigger>
-                                    <DialogContent className="sm:max-w-[425px]">
-                                        <DialogHeader >
-                                            <div className="flex justify-between">
-                                                <DialogTitle>Edit Address</DialogTitle>
-                                                <DialogClose><X /></DialogClose>
-                                            </div>
-                                        </DialogHeader>
-                                        <form className="grid gap-4 " onSubmit={handleEditAddressSubmit}>
-                                            <div className="flex items-center w-full ">
-                                                <LabelName
-                                                    labelName='State'
-                                                />
-                                                <EditAddressInput
-                                                    onChange={formik.handleChange}
-                                                    name='state'
-                                                    value={formik.values.state}
-                                                    defaultValue={address.state}
-                                                    formikErrors={formik.errors.state}
-                                                    formikTouched={formik.touched.state}
-                                                    formik={formik}
-                                                />
-                                            </div>
-                                            <div className="flex items-center ">
-                                                <LabelName
-                                                    labelName='City'
-                                                />
-                                                <EditAddressInput
-                                                    onChange={formik.handleChange}
-                                                    name='city'
-                                                    value={formik.values.city}
-                                                    defaultValue={address.city}
-                                                    formikErrors={formik.errors.city}
-                                                    formikTouched={formik.touched.city}
-                                                    formik={formik}
-                                                />
-                                            </div>
-                                            <div className="flex items-center">
-                                                <LabelName
-                                                    labelName='Street'
-                                                />
-                                                <EditAddressInput
-                                                    onChange={formik.handleChange}
-                                                    name='street'
-                                                    value={formik.values.street}
-                                                    defaultValue={address.street}
-                                                    formikErrors={formik.errors.street}
-                                                    formikTouched={formik.touched.street}
-                                                    formik={formik}
-                                                />
-                                            </div>
-                                            <button
-                                                className={`flex justify-center gap-3 p-3 text-center text-white font-medium 
-                                                        ${updateUserAddressMutation.isPending !== false || Object.keys(formik.errors).length > 0 ? 'disabled:bg-gray-300' : 'bg-[#5ac5e7]'}
-                                                        rounded-md hover:bg-[#198ab0] transition-all `}
-                                                type="submit"
-                                                disabled={Object.keys(formik.errors).length > 0 || updateUserAddressMutation.isPending !== false}
-                                            >
-                                                {updateUserAddressMutation.isPending !== false ? <p>Submitting</p> : <p>Submit</p>}
-                                                {updateUserAddressMutation.isPending !== false ? <Loader className="animate-spin" /> : null}
-                                            </button>
-                                            {updateUserAddressMutation?.data?.addresses ? <p className="text-green-400 text-center">address updated successfully !</p> : updateUserAddressMutation?.data?.response.status === 404 ? <p className="text-red-400 text-center">request failed, please try again</p> : null}
-                                        </form>
-                                    </DialogContent>
-                                </Dialog>
+                <div className="space-y-4">
+                    <h2 className="text-2xl font-bold text-gray-800 p-2 border-b-2">{t("addresses")}</h2>
+                    <div className="h-72 overflow-y-auto p-2 rounded-md border border-gray-200 shadow-sm">
+                        {addresses?.map((address) => (
+                            <div key={address._id} className="mb-4 last:mb-0">
+                                <label
+                                    htmlFor={address._id}
+                                    className={`flex justify-between items-center p-4 cursor-pointer rounded-md group transition-all duration-200 ease-in-out border hover:bg-gray-100
+                                        ${selectedAddress === address._id ? 'bg-gray-50 border-gray-300 text-gray-900 scale-[1.0090] shadow-sm' : 'text-gray-700 '}
+                                        ${formErrors.shippingAddress ? 'border-red-500' : 'border-gray-200'}`}
+                                >
+                                    <div className="flex items-center space-x-4 transition-all duration-200">
+                                        <input
+                                            type="radio"
+                                            id={address._id}
+                                            name="address"
+                                            value={address._id}
+                                            checked={selectedAddress === address._id}
+                                            onChange={() => handleAddressChange(address)}
+                                            className="w-5 h-5 text-gray-600 bg-gray-700 border-gray-300 focus:outline-none accent-[#282a3f]"
+                                        />
+                                        <div className="flex-grow">
+                                            <p className={`font-medium ${selectedAddress === address._id ? 'text-gray-900' : 'text-gray-700'}`}>
+                                                <span>{address.state}</span>, <span>{address.city}</span>
+                                            </p>
+                                            <p className="text-sm text-gray-600 mt-1">{address.street}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex-shrink-0">
+                                        <AddNewAndEditAddresses mode='edit' initialValues={address} key={address._id} addressId={address._id} />
+                                    </div>
+                                </label>
                             </div>
-                        </label>
+                        ))}
                     </div>
-                ))}
-                    {formErrors.shippingAddress ? <p className="text-red-400 pt-2">{formErrors.shippingAddress}</p>:null}
-
+                    {formErrors.shippingAddress && (
+                        <p className="text-red-500 text-sm">{formErrors.shippingAddress}</p>
+                    )}
+                </div>
             </div>
-
-        </div >
-    )
+        </>
+    );
 }
 
-export default UserInfo
+export default UserInfo;

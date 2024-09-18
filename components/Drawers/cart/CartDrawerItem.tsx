@@ -27,6 +27,8 @@ type Props = {
 export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCartMutation, calculateCartMutation, auth }: Props) {
 
     const { locale } = useLocale()
+    console.log(cartItem);
+    
     // export default function CartDrawerItem({ details, mode = "cart" }: Props) {
     // const { addToFav, deleteFav } = useContext(FavContext)
 
@@ -46,7 +48,7 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
     }
 
     return (
-        <div className="flex justify-between gap-2 border-b py-4 h-30 shadow my-1 items-center rounded-lg p-2">
+        <div className="flex justify-between gap-2 border-b py-4 h-30 shadow my-1 items-center rounded-lg p-2 hover:shadow-md duration-300">
             <div className="w-1/3">
                 <Image
                     src={`${process.env.NEXT_PUBLIC_IMAGE_PATH}${cartItem?.productId?.image}`}

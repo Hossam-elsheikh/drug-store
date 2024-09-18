@@ -1,16 +1,14 @@
+'use client'
 import React, { useEffect, useState } from "react";
 import CartDrawerItem from "./CartDrawerItem";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { SheetClose } from "@/components/ui/sheet";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import { ShoppingCart } from "lucide-react";
+import { AlertCircle, ArrowRight, ShoppingCart } from "lucide-react";
 import useCalcCartMutation from "@/hooks/calcCartMutation";
 import { useLocale } from "@/context/LocaleProvider";
-import CartSvg from '@/public/Add to Cart-amico.svg'
-import Image from "next/image";
 import Link from "next/link";
 import { calcCart, fetchCartItems, transCartToAPI } from "@/axios/instance";
 import removeItemMutation from "@/hooks/removeItemCartMutation";
@@ -18,6 +16,9 @@ import EmptyCart from "./EmptyCart";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocalCart } from "@/hooks/useLocalCart";
 import { useTransLocalCartAPI } from "@/hooks/useTransLocalCartAPI";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { AnimatePresence } from "framer-motion";
+import SlideCardAnimation from "@/components/Animation/SlideCardAnimation";
 
 type Product = {
     productId: object,
@@ -31,7 +32,6 @@ const CartDrawer = () => {
     const axiosPrivate = useAxiosPrivate();
 
     const t = useTranslations("cart");
-    const router = useRouter();
     const { dir, locale } = useLocale();
 
     const {
@@ -60,89 +60,152 @@ const CartDrawer = () => {
 
     const [localStorageCart, setLocalStorageCart] = useState([]);
     const { localCartSelector } = useLocalCart()
+    console.log(localStorageCart);
+
 
     useEffect(() => {
         const fetchingLocalStorageCart = JSON.parse(localStorage.getItem("products") || '[]');
         setLocalStorageCart(fetchingLocalStorageCart);
     }, [localCartSelector]);
 
-    if (isCartLoading) return <p>cart items loading...</p>;
-    if (cartError) return <h1>error while fetching cart</h1>
-    if (isTotalPriceLoading) return <p>total price loading...</p>;
-    if (totalPriceError) return <h1>error while fetching total price</h1>
+    if (isCartLoading || isTotalPriceLoading) {
+        return (
+            <div className="p-4 space-y-4">
+                <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
+                <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
+                <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
+                <div className="h-10 w-1/2 bg-gray-200 animate-pulse rounded"></div>
+            </div>
+        )
+    }
+    if (cartError || totalPriceError) {
+        return (
+            <div className="p-4 bg-red-100 border-l-4 text-red-700">
+                <div className="flex items-center">
+                    <AlertCircle className="h-5 w-5 mr-2" />
+                    <p className="font-bold">Error</p>
+                </div>
+                <p className="mt-2">
+                    {cartError ? "Failed to load cart items." : "Failed to calculate total price."}
+                    Please try again later.
+                </p>
+            </div>
+        );
+    }
 
     return (
         <>
             {auth.userId && cartItems.data.length >= 1 || !auth.userId && localStorageCart.length >= 1 ?
-                <div className=" flex flex-col " dir={dir}>
-                    <div className="h-2/3 overflow-auto overflow-x-hidden border-b-2">
-                        {auth.userId && cartItems.data.length >= 1 ?
-                            <>
-                                {cartItems.data.map((cartItem: any, i: any) => (
-                                    <CartDrawerItem
-                                        cartItem={cartItem}
-                                        key={i}
-                                        auth={auth}
-                                        removeItemCartMutation={removeItemCartMutation}
-                                        calculateCartMutation={calculateCartMutation}
-                                    />
-                                ))}
-                            </>
-                            :
-                            <>
-                                {localStorageCart.map((cartItem: any, i: any) => (
-                                    <CartDrawerItem
-                                        cartItem={cartItem}
-                                        key={i}
-                                        auth={auth}
-                                        removeItemCartMutation={removeItemCartMutation}
-                                        calculateCartMutation={calculateCartMutation}
-                                    />
-                                ))}
-                            </>
-                        }
-                    </div>
-
-                    <div className="p-3  flex flex-col gap-4">
-                        <div className="flex text-lg font-medium justify-between items-center">
-                            <h3>{t("totalPrice")}</h3>
-                            <p>
-                                {/* {totalPrice.data.cartTotalPrice} <span className="text-sm font-light">{t("dinar")}</span> */}
+                <section className="flex flex-col h-full " dir={dir}>
+                    <>
+                        <ScrollArea className="h-[440px] ">
+                            <AnimatePresence>
+                                {auth.userId && cartItems.data.length >= 1 ?
+                                    <>
+                                        {cartItems.data.map((cartItem: CartItem) => (
+                                            <SlideCardAnimation key={cartItem._id}>
+                                                <CartDrawerItem
+                                                    cartItem={cartItem}
+                                                    auth={auth}
+                                                    removeItemCartMutation={removeItemCartMutation}
+                                                    calculateCartMutation={calculateCartMutation}
+                                                />
+                                            </SlideCardAnimation>
+                                        ))}
+                                    </>
+                                    :
+                                    <>
+                                        {localStorageCart.map((cartItem: CartItem) => (
+                                            <SlideCardAnimation key={cartItem._id}>
+                                                <CartDrawerItem
+                                                    cartItem={cartItem}
+                                                    auth={auth}
+                                                    removeItemCartMutation={removeItemCartMutation}
+                                                    calculateCartMutation={calculateCartMutation}
+                                                />
+                                            </SlideCardAnimation>
+                                        ))}
+                                    </>
+                                }
+                            </AnimatePresence>
+                        </ScrollArea>
+                        <div className="p-4 border-t">
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-lg font-medium">{t("totalPrice")}</h3>
+                                <p className="text-lg font-bold">
+                                    {/* {totalPrice.data.cartTotalPrice} <span className="text-sm font-normal">{t("dinar")}</span> */}
+                                </p>
+                            </div>
+                            <p className="text-[11px] bg-green-700 text-white p-2 rounded-md mb-4">
+                                {t("taxes")}
                             </p>
-                        </div>
-                        <p className="text-xs bg-green-700 p-1 rounded-md text-white">
-                            {t("taxes")}
-                        </p>
-                        <div className="flex flex-col items-center gap-3">
-                            <SheetClose asChild >
 
-                                <Link
-                                    className=" flex justify-center w-full bg-primaryColor font-medium text-white py-2 rounded-full hover:opacity-80"
-                                    href={`/${locale}/cart`}
-                                >
-                                    {t("expandCart")}
-                                </Link>
-                            </SheetClose>
-                            <SheetClose asChild >
+                            <div className="space-y-3">
+                                <SheetClose asChild >
 
-                                <Link
-                                    href={`/${locale}/checkout`}
-                                    className=" flex justify-center w-full bg-primaryColor font-medium text-white py-2 rounded-full hover:opacity-80"
-                                >
-                                    {t("checkout")}
-                                </Link>
-                            </SheetClose>
+                                    <Link
+                                        className=" flex justify-center w-full bg-primaryColor gap-2  font-medium text-white py-2 rounded-full hover:bg-[#45486e] duration-300 transition-all group"
+                                        href={`/${locale}/cart`}
+                                    >
+                                        {t("expandCart")}
+                                        {/* <ShoppingCart size={22} className=" group-hover:translate-x-1 transition-transform" /> */}
+                                    </Link>
+                                </SheetClose>
+                                <SheetClose asChild >
+
+                                    <Link
+                                        href={`/${locale}/checkout`}
+                                        className=" flex justify-center w-full bg-primaryColor font-medium gap-2 text-white py-2 rounded-full hover:bg-[#45486e] duration-300 transition-all group"
+                                    >
+                                        {t("checkout")}
+                                        <ArrowRight size={22} className=" group-hover:translate-x-1 transition-transform duration-200" />
+                                    </Link>
+                                </SheetClose>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </>
+                </section>
                 : null
             }
-            {auth.userId && cartItems.data.length <= 0 ?
-                <EmptyCart />
+
+            {auth.userId && cartItems.data.length === 0 ?
+
+                <div className="flex flex-col items-center justify-center h-full text-center p-4">
+                    <ShoppingCart className="h-24 w-24 mb-4 text-gray-400" />
+                    <h2 className="text-2xl font-semibold mb-2">{t("emptyCart")}</h2>
+                    <p className="text-gray-500 mb-4">{t("addProducts")}</p>
+                    <SheetClose asChild >
+
+                        <Link
+                            href={`/${locale}/`}
+                            className="bg-primaryColor text-white py-2 px-4 rounded-full hover:bg-[#3a3c57] transition-colors duration-300"
+                        >
+                            {t("startShopping")}
+                        </Link>
+                    </SheetClose>
+                </div>
+
                 :
+
                 !auth.userId && localStorageCart.length <= 0 &&
-                <EmptyCart />
+
+                <div className="flex flex-col items-center justify-center h-full text-center p-4">
+                    <ShoppingCart className="h-24 w-24 mb-4 text-gray-400" />
+                    <h2 className="text-2xl font-semibold mb-2">{t("emptyCart")}</h2>
+                    <p className="text-gray-500 mb-4">{t("addProducts")}</p>
+                    <SheetClose asChild >
+
+                        <Link
+                            href={`/${locale}/`}
+                            className="bg-primaryColor text-white py-2 px-4 rounded-full hover:bg-[#3a3c57] transition-colors duration-300"
+                        >
+                            {t("startShopping")}
+                        </Link>
+                    </SheetClose>
+                </div>
+
             }
+
         </>
     );
 }

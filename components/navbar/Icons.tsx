@@ -21,21 +21,21 @@ const Icons = () => {
     const t = useTranslations("DrawerWrapper");
 
     // handle the transfer of the local storage cart to the API.
-	// This mutation will be triggered after a successful user sign-in.
+    // This mutation will be triggered after a successful user sign-in.
     const localStorageCart = JSON.parse(localStorage.getItem('products') || '[]')
     const transToAPI_Mutation = useMutation({
-		mutationFn: () => transCartToAPI(auth.userId, localStorageCart),
-		//on successful response the localStorage will be deleted
-		onSuccess: () => localStorage.removeItem('products'),
-		onError: (error) => console.log('error while mutation trans to cart api', error),
-		
-	})
+        mutationFn: () => transCartToAPI(auth.userId, localStorageCart),
+        //on successful response the localStorage will be deleted
+        onSuccess: () => localStorage.removeItem('products'),
+        onError: (error) => console.log('error while mutation trans to cart api', error),
+
+    })
 
     useEffect(() => {
-            if (localStorageCart.length >= 1 && auth?.userId) {
-                transToAPI_Mutation.mutate()
-            }
-        }, [auth?.userId, localStorageCart?.length])
+        if (localStorageCart.length >= 1 && auth?.userId) {
+            transToAPI_Mutation.mutate()
+        }
+    }, [auth?.userId, localStorageCart?.length])
 
 
     useEffect(() => {
@@ -44,14 +44,6 @@ const Icons = () => {
 
     return (
         <>
-            <div className="flex items-center gap-5 font-semibold text-primaryColor">
-                {/* <Link
-                    className="hover:text-secColor transition hidden md:block text-nowrap"
-                    href={`/${locale}/aboutUs`}
-                >
-                    About us
-                </Link> */}
-            </div>
             <div className='flex items-center gap-5'>
 
                 {auth?.userId && !(pathName === `/${locale}/sign-in` || pathName === `/${locale}/sign-up`) && (
@@ -87,6 +79,7 @@ const Icons = () => {
                 <LanguageSwitcher classes='hidden md:block' />
             </div>
         </>
+
     );
 };
 

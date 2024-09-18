@@ -37,7 +37,7 @@ const BrandsDropList = ({ isLoading, brands }: { isLoading: boolean, brands: Bra
                                         className="transition-colors duration-200 hover:bg-gray-100 rounded"
                                     >
                                         <Link
-                                            className="font-medium text-base text-primaryColor hover:text-secColor flex items-center p-2"
+                                            className="font-medium text-base text-primaryColor hover:text-[#282a3f] flex items-center p-3"
                                             href={{
                                                 pathname: `/${locale}/brand/${slug}`,
                                                 query: { ref: encodeId(_id) },

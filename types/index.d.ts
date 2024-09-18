@@ -1,3 +1,39 @@
+// -------------------------------------------------USER
+
+interface Address {
+    state: string
+    city: string
+    street: string
+    _id: string
+}
+
+interface CartItem {
+    productId: string
+    quantity: number
+    _id: string
+}
+declare interface UserProfileInfoProps {
+    userInfo: UserInfo | null
+    isLoading: boolean
+    isError: boolean
+    error?: unknown
+}
+declare interface User {
+    _id: string
+    name: string
+    email: string
+    password: string
+    addresses: Address[]
+    wishList: any[]
+    mobile: string
+    failedLoginAttempts: number
+    createdAt: string
+    updatedAt: string
+    __v: number
+    refreshToken: string
+    cart: CartItem[]
+}
+
 interface FormValues {
     input: string
 }
@@ -39,12 +75,13 @@ type Product = {
         slug: string
     }
     price: number
+    stock: number
     netPrice: number
     sale: number
     sold: number
     image: string
-    customerReviews: any[] // If you know the structure of customerReviews, replace `any` with the appropriate type
-    createdAt: string // You could use Date type here if you plan to convert these strings into Date objects
+    customerReviews: any[]
+    createdAt: string
     updatedAt: string
     __v: number
 }
@@ -80,4 +117,45 @@ declare interface Category {
     }
     _id: string
     slug: string
+    image: string
+}
+
+// Cart Item type
+declare interface CartItem {
+    title: string
+    image: string
+    src: string
+    price: number
+    productId: any
+    quantity: number
+}
+
+type ReviewData = {
+    comment: string
+    rating: number
+    createdAt?: string
+}
+
+type TotalPrice = {
+    data: {
+        cartTotalPrice: number
+    }
+}
+
+// ----------------------------------------Pages----------------------------------------
+
+// ProductDetails
+
+type ProductDetailsProps = {
+    params: {
+        locale: string
+        'collection-slug': string
+        'product-slug': string
+    }
+}
+
+// --------------------------------------------------------
+interface QuickAccessProps {
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+    t: (key: string) => string
 }

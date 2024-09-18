@@ -1,16 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from '@/components/ui/accordion';
+
 import { useQuery } from '@tanstack/react-query';
 import { getSubCategories } from '@/axios/instance';
 import NotFound from '@/app/not-found';
 import { useLocale } from '@/context/LocaleProvider';
 import { encodeId } from '@/lib/idCipher';
+import { SheetClose } from '@/components/ui/sheet';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 
 
@@ -38,7 +35,7 @@ const DropList = ({ id, name }: { id: string; name: { en: string; ar: string }; 
                 className="w-full bg-white rounded-lg shadow-md overflow-hidden"
             >
                 <AccordionItem value={id} className="border-b">
-        <AccordionTrigger className="font-medium p-4 hover:bg-gray-100 transition-all duration-200 focus:bg-gray-100 focus:outline-none">
+                    <AccordionTrigger className="font-medium p-4 hover:bg-gray-100 transition-all duration-200 focus:bg-gray-100 focus:outline-none">
                         <span className="flex items-center"> {name[locale as keyof typeof name] || ''}</span>
                     </AccordionTrigger>
                     <AccordionContent className="p-6 bg-gray-50">
@@ -51,15 +48,17 @@ const DropList = ({ id, name }: { id: string; name: { en: string; ar: string }; 
                                         key={_id}
                                         className="transition-colors duration-200 hover:bg-gray-100 rounded"
                                     >
-                                        <Link
-                                            className="font-medium text-base text-primaryColor hover:text-secColor flex items-center p-2"
-                                            href={{
-                                                pathname: `/${locale}/category/${slug}`,
-                                                query: { ref: encodeId(_id) },
-                                            }}
-                                        >
-                                            {name[locale as keyof typeof name] || ''}
-                                        </Link>
+                                        <SheetClose asChild >
+                                            <Link
+                                                className="font-medium text-base text-primaryColor hover:text-[#282a3f] flex items-center p-3"
+                                                href={{
+                                                    pathname: `/${locale}/category/${slug}`,
+                                                    query: { ref: encodeId(_id) },
+                                                }}
+                                            >
+                                                {name[locale as keyof typeof name] || ''}
+                                            </Link>
+                                        </SheetClose>
                                     </li>
                                 ))}
                             </ul>

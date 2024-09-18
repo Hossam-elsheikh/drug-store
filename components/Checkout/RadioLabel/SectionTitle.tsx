@@ -1,15 +1,16 @@
+// SectionTitle.tsx
 import React from 'react'
 
 type DataTypes = {
     title: string;
-    children: any
+    children: any;
 }
 
 function SectionTitle({ title, children }: DataTypes) {
     return (
-        <div className='py-3'>
-            <p className="text-xl font-medium pb-3">{title}</p>
-            <div className="rounded-md border ">{children}</div>
+        <div className='py-4 border-b border-gray-200'>
+            <h2 className="text-2xl font-bold text-gray-800 p-2 ">{title}</h2>
+            <div className="rounded-md shadow-sm border p-3 space-y-2 border-gray-200">{children}</div>
         </div>
     )
 }

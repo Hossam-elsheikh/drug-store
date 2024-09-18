@@ -15,7 +15,7 @@ export default function Favorites() {
             {totalFavorite === 0 ? (
                 <div className='flex justify-center items-center h-full flex-col '>
                     <Image src={CartSvg} width={200} height={200} alt="cartSvg" />
-                    <h1 className='font-semibold md:text-xl text-lg pt-5'>{t('toggleFavorite')}</h1>
+                    <h1 className='font-semibold md:text-xl text-lg pt-5'>{t('addToFavorites')}</h1>
                 </div>
             ) : (
                 favoriteProducts.map((prod, i) => (
