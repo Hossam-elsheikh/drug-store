@@ -18,6 +18,7 @@ import OrderSummary from "@/components/Checkout/OrderSummary";
 import { useUser } from "@/context/UserProvider";
 import EmptyCart from "@/components/Cart/EmptyCart";
 import Loading from "@/app/loading";
+import { useLocale } from "@/context/LocaleProvider";
 
 const Checkout = () => {
 
@@ -29,10 +30,9 @@ const Checkout = () => {
     const [cartPrice, setCartPrice] = useState('')
     const [formErrors, setFormErrors] = useState('')
 
-
-
     const axiosPrivate = useAxiosPrivate();
     const { auth }: any = useAuth()
+    const { locale }: any = useLocale();
 
     const couponFormik = useFormik(
         {
@@ -55,7 +55,6 @@ const Checkout = () => {
     const { userInfo, isLoading: userInfoLoading, isError: userInfoError, error } = useUser()
     const { name, email, mobile, createdAt } = userInfo || {};
 
-
     const {
         data: cartItems,
         isLoading: isCartLoading,
@@ -64,10 +63,6 @@ const Checkout = () => {
         queryFn: () => fetchCartItems(axiosPrivate, auth),
         queryKey: ["cartItems", auth.userId],
         enabled: !!auth.userId,
-        retry: 3,
-        retryDelay: 1000,
-        staleTime: 1000 * 60 * 60
-
     });
 
     const {
@@ -83,13 +78,17 @@ const Checkout = () => {
 
     const executePayMutation = useMutation({
         mutationFn: (values: any) => executePayment(values),
-        onSuccess(data) {
-            setPaymentURL(data.Data.PaymentURL)
+        onSuccess: async (data) => {
+            setPaymentURL(data?.Data.PaymentURL)
+            await createOrder(axiosPrivate, auth, deliveryMethod, paymentMethod, shippingAddress);
         },
+        onError: (error) => {
+            console.error('Payment execution failed', error);
+        }
     })
     const applyCouponMutation = useMutation({
         mutationFn: () => applyCoupon(axiosPrivate, auth.userId, couponFormik.values.couponCode, totalPrice.data.cartTotalPrice),
-        // onSuccess: (data) => setCartPrice(data.data.finalPrice)
+        onSuccess: (data) => setCartPrice(data.data.finalPrice)
     })
     const applyCouponEvent = () => applyCouponMutation.mutate()
     // console.log(applyCouponMutation);
@@ -101,17 +100,15 @@ const Checkout = () => {
 
     useEffect(() => {
         if (isSuccessTotalPrice === true && applyCouponMutation.isSuccess === false) {
-            setCartPrice(totalPrice.data.cartTotalPrice)
+            setCartPrice(totalPrice?.data?.cartTotalPrice)
         }
-    }, [])
+    }, [totalPrice?.data?.cartTotalPrice])
 
     useEffect(() => {
-        if (applyCouponMutation?.data?.data.finalPrice) {
+        if (applyCouponMutation.isSuccess === true && applyCouponMutation?.data?.data.finalPrice) {
             setCartPrice(applyCouponMutation?.data?.data.finalPrice)
         }
-    }, [])
-    console.log(applyCouponMutation?.data?.data?.finalPrice);
-
+    }, [applyCouponMutation?.data?.data?.finalPrice])
 
     const order = async () => {
         if (userInfo && paymentMethod === "paying-with-visa") {
@@ -122,36 +119,21 @@ const Checkout = () => {
                 CustomerEmail: email,
                 MobileCountryCode: "+965",
                 CustomerMobile: mobile,
-                CallBackUrl: "http://localhost:3000/en",
-                ErrorUrl: "http://localhost:3000/en/error",
-                Language: "en",
+                CallBackUrl: `http://localhost:3000/${locale}`,
+                ErrorUrl: `http://localhost:3000/${locale}/error`,
+                Language: locale,
                 DisplayCurrencyIso: "KWD",
-                InvoiceItem: cartItems.data,
+                // InvoiceItem: cartItems?.data,
                 // CustomerAddress: user.addresses,
             }
-            try {
-                executePayMutation.mutate(payload, {
-                    onSuccess: async () => {
-                        setPaymentURL(executePayMutation.data.Data.PaymentURL)
-                        await createOrder(axiosPrivate, auth, deliveryMethod, paymentMethod, shippingAddress);
-                        if (executePayMutation?.data?.Data && executePayMutation?.data?.Data.PaymentURL) {
-                            window.location.href = executePayMutation.data.Data.PaymentURL;
-                        }
-                    },
-                    onError: (error) => {
-                        console.error('Payment execution failed', error);
-                    }
-                })
-            } catch (error) {
-                console.error('Payment failed, please try again.', error);
-            }
+            executePayMutation.mutate(payload)
         }
         if (paymentMethod === 'cash-on-delivery') {
             try {
                 await createOrder(axiosPrivate, auth, deliveryMethod, paymentMethod, shippingAddress)
                 setPayWithCash('cash-on-delivery')
             } catch (error) {
-                console.error('Payment failed, please try again.', error);
+                console.error('order failed, please try again.', error);
             }
         }
     }
@@ -256,23 +238,22 @@ const Checkout = () => {
                                         }
                                         type="submit"
                                         disabled={executePayMutation.isPending !== false || executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery'}
-                                    // disabled={Object.keys(validateFields()).length > 0 || executePayMutation.isPending !== false || executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery'}
                                     >
-                                        {/* {executePayMutation.isPending ? (
+                                        {executePayMutation.isPending ? (
                                             <p>Processing</p>
                                         ) : executePayMutation.isSuccess || payWithCash === 'cash-on-delivery' ? (
-                                            (window.location.href = payWithCash === 'cash-on-delivery' ? 'http://localhost:3000/en' : executePayMutation.isSuccess ? paymentURL : ''),
+                                            (window.location.href = payWithCash === 'cash-on-delivery' ? 'http://localhost:3000/en'
+                                                : executePayMutation.isSuccess ? paymentURL : ''),
                                             <p className="flex justify-center gap-2">Redirecting <Loader className="animate-spin" /></p>
-                                        ) : (
-                                            <p>Pay Now</p>
-                                        )} */}
+                                        ) :
+                                            <>
+                                                {paymentMethod === 'cash-on-delivery' ? <p>Order Now</p> : <p>Pay Now</p>}
+                                            </>
+                                        }
                                         {executePayMutation.isPending !== false ? <Loader className="animate-spin" /> : null}
                                     </button>
                                     <p className="py-2">{executePayMutation.isError ? <p className="text-red-400 text-center">Error, please try again.</p> : null}</p>
                                     {/* <div className="py-2">
-                                        {executePayMutation.isError && (
-                                            <p className="text-red-400 text-center">Error, please try again.</p>
-                                        )}
                                         {!executePayMutation.isError && formErrors && (
                                             <p className="text-red-400 text-center">
                                                 Please make sure you have chosen all the options above.

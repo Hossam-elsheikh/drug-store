@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CartDrawerItem from "./CartDrawerItem";
 import { useTranslations } from "next-intl";
 import { SheetClose } from "@/components/ui/sheet";
@@ -23,7 +23,6 @@ const CartDrawer = () => {
     const axiosPrivate = useAxiosPrivate();
 
     const t = useTranslations("cart");
-
     const { dir, locale } = useLocale();
 
     const {
@@ -33,6 +32,7 @@ const CartDrawer = () => {
     } = useQuery({
         queryFn: () => fetchCartItems(axiosPrivate, auth),
         queryKey: ["cartItems"],
+        enabled: !!auth.userId
     });
 
     const calculateCartMutation = useCalcCartMutation({ axiosPrivate, auth })
@@ -51,18 +51,17 @@ const CartDrawer = () => {
 
     if (isCartLoading || isTotalPriceLoading) {
         return (
-            // <div className="p-4 space-y-4">
-            //     <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
-            //     <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
-            //     <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
-            //     <div className="h-10 w-1/2 bg-gray-200 animate-pulse rounded"></div>
-            // </div>
-            <h1>loading</h1>
+            <div className="p-4 space-y-4">
+                <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
+                <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
+                <div className="h-20 w-full bg-gray-200 animate-pulse rounded"></div>
+                <div className="h-10 w-1/2 bg-gray-200 animate-pulse rounded"></div>
+            </div>
         )
     }
     if (cartError || totalPriceError) {
         return (
-            <div className="p-4 bg-red-100 border-l-4 border-red-500 text-red-700">
+            <div className="p-4 bg-red-100 border-l-4 text-red-700">
                 <div className="flex items-center">
                     <AlertCircle className="h-5 w-5 mr-2" />
                     <p className="font-bold">Error</p>
@@ -74,9 +73,10 @@ const CartDrawer = () => {
             </div>
         );
     }
+
     return (
 
-        <section className="flex flex-col h-full" dir={dir}>
+        <section className="flex flex-col h-full " dir={dir}>
             {cartItems.data.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center p-4">
                     <ShoppingCart className="h-24 w-24 mb-4 text-gray-400" />
@@ -94,28 +94,28 @@ const CartDrawer = () => {
                 </div>
             ) : (
                 <>
-                    {/* <ScrollArea className="h-[500px]"> */}
-                        {/* <AnimatePresence> */}
+                    <ScrollArea className="h-[440px] ">
+                        <AnimatePresence>
                             {cartItems.data.map((cartItem: CartItem) => (
-                                // <SlideCardAnimation key={cartItem._id}>
+                                <SlideCardAnimation key={cartItem._id}>
                                     <CartDrawerItem
                                         cartItem={cartItem}
                                         auth={auth}
                                         removeItemCartMutation={removeItemCartMutation}
                                         calculateCartMutation={calculateCartMutation}
                                     />
-                                // </SlideCardAnimation>
+                                </SlideCardAnimation>
                             ))}
-                        {/* </AnimatePresence> */}
-                    {/* </ScrollArea> */}
-                    <div className="p-4 border-t border-gray-200">
+                        </AnimatePresence>
+                    </ScrollArea>
+                    <div className="p-4 border-t">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-lg font-medium">{t("totalPrice")}</h3>
                             <p className="text-lg font-bold">
                                 {totalPrice.data.cartTotalPrice} <span className="text-sm font-normal">{t("dinar")}</span>
                             </p>
                         </div>
-                        <p className="text-xs bg-green-700 text-white p-2 rounded-md mb-4">
+                        <p className="text-[11px] bg-green-700 text-white p-2 rounded-md mb-4">
                             {t("taxes")}
                         </p>
 

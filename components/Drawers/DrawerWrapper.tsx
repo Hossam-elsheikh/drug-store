@@ -44,19 +44,7 @@ function DrawerWrapper({ showSec }: Props) {
             }, 600)
         }
 
-
     }, [totalFavorite])
-
-
-    const {
-        data: cartItems,
-        isLoading: isCartLoading,
-        error: cartError,
-    } = useQuery({
-
-        queryKey: ["cartItems"],
-    });
-
 
     return (
 
@@ -155,11 +143,9 @@ function DrawerWrapper({ showSec }: Props) {
                     </div>
                 ) : null}
             </SheetTrigger>
-            <SheetContent
-                className="w-[300px] flex flex-col h-dvh p-2"
 
-            >
-                <SheetHeader className="items-center p-5 mt-5 ">
+            <SheetContent className="w-[300px] flex flex-col h-full  p-2">
+                <SheetHeader className="items-center p-5 ">
                     <SheetHeader className="items-center ">
                         <Image
                             src={image}

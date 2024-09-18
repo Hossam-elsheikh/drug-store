@@ -54,7 +54,7 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
             if (mode === 'add') {
                 return updateUser({ userId, data: { newAddress: values } });
             } else {
-                
+
                 return updateUser({ userId, data: { addressId, addresses: values } });
             }
         },
@@ -63,7 +63,11 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
             toast.success(mode === 'add' ? "Your Address Successfully Added" : 'Address SuccessFully Updated');
             queryClient.invalidateQueries();
             if (onSuccess) onSuccess()
-
+        },
+        onSettled: () => {
+            setTimeout(() => {
+                addUserAddressMutation.reset()
+            }, 8000)
         },
         onError: (error) => {
             toast.error(mode === 'add' ? "Error Adding Address" : "Error Updating Address");
@@ -87,7 +91,7 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
         ${'rounded-full items-center gap-2 px-3 py-3 text-sm font-medium text-gray-700  border border-gray-300 shadow-sm hover:bg-gray-100 focus:outline-none duration-200'
 
                             }
-      `}
+`}
                         variant="outline"
                     >
                         {mode === 'add' ? f("addAddress") : f('editAddress')}
