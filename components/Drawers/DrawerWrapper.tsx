@@ -15,6 +15,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocale } from "@/context/LocaleProvider";
 import useAuth from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
+import { fetchCartItems } from "@/axios/instance";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import { useLocalCart } from "@/hooks/useLocalCart";
 
 
 function SignInForm() {
@@ -39,22 +42,37 @@ function DrawerWrapper({ showSec }: Props) {
     const { getTotalFavorites } = useFavorites();
     const t = useTranslations("DrawerWrapper");
     const totalFavorite = getTotalFavorites();
+    const axiosPrivate = useAxiosPrivate();
+
+    const {
+        data: cartItems,
+        isLoading: isCartLoading,
+        error: cartError,
+    } = useQuery({
+        queryFn: () => fetchCartItems(axiosPrivate, auth),
+        queryKey: ["cartItems"],
+        enabled: !!auth.userId
+    });
+    
+    const { localCartSelector } = useLocalCart()
 
     useEffect(() => {
         if (totalFavorite > 0) {
             setAnimateBounce(true)
-             const timer = setTimeout(() => {
+            const timer = setTimeout(() => {
                 setAnimateBounce(false)
             }, 600)
-            return () => clearTimeout(timer); 
+            return () => clearTimeout(timer);
         }
 
-    }, [totalFavorite])
+    }, [totalFavorite, cartItems?.data?.length, localCartSelector?.length])
+
+    if (isCartLoading) null
 
     return (
 
         <Sheet>
-            <SheetTrigger className={`${showSec === 'cart' || showSec === 'filter' ? 'px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-full shadow-sm hover:bg-gray-50 focus:outline-none transition-all duration-200 group ' : ''}`}>
+            <SheetTrigger className={`${showSec === 'filter' ? 'px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-full shadow-sm hover:bg-gray-50 focus:outline-none transition-all duration-200 group ' : ''}`}>
                 {showSec === "categories" ? (
                     <Menu />
                 ) : showSec === "signInForm" ? (
@@ -67,7 +85,7 @@ function DrawerWrapper({ showSec }: Props) {
                             <AnimatePresence>
                                 <motion.div
 
-                                    className="relative inline-block"
+                                    className="relative "
                                     whileHover="hover"
                                 >
                                     <motion.span
@@ -98,12 +116,11 @@ function DrawerWrapper({ showSec }: Props) {
                 ) : showSec === "cart" ? (
 
                     <>
-                        {/* {cartItems?.data?.length > 0 ? (
+                        {(cartItems?.data?.length > 0 ||localCartSelector.localCartProducts.length>0 ) ? (
                             <AnimatePresence>
-                                <motion.div className="relative inline-block" whileHover="hover">
-
+                                <motion.div className="relative" whileHover="hover">
                                     <motion.span
-                                        className="absolute -top-4 -right-3 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                                        className="absolute -top-1.5 -right-3 bg-[#3ea9f4] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
                                         initial={{ opacity: 0 }}
                                         animate={{
                                             opacity: 1,
@@ -115,30 +132,17 @@ function DrawerWrapper({ showSec }: Props) {
                                             ease: 'easeInOut',
                                         }}
                                     >
-                                        {cartItems?.data?.length}
+                                        {cartItems?.data?.length||localCartSelector.localCartProducts.length}
                                     </motion.span>
-                                    <div className="flex  items-center justify-center gap-2">
-                                        <ShoppingCart className="w-5 h-5 text-gray-600 group-hover:text-primaryColor" />
-                                        <span className="hidden sm:inline group-hover:text-primaryColor">
-                                            {t("cart")}
-                                        </span>
-                                    </div>
+                                    <ShoppingCart className="w-7 h-7  hover:text-[#3ea9f4] transition-colors duration-200" />
                                 </motion.div>
                             </AnimatePresence>
-                        ) : (
-                            <div className="flex gap-2">
-                                <ShoppingCart className="w-5 h-5 text-gray-600 group-hover:text-primaryColor" />
-                                <span className="hidden sm:inline group-hover:text-primaryColor">
-                                    {t("cart")}
-                                </span>
-                            </div>
-                        )} */}
-                        <div className="flex gap-2">
-                            <ShoppingCart className="w-5 h-5 text-gray-600 group-hover:text-primaryColor" />
-                            <span className="hidden sm:inline group-hover:text-primaryColor">
-                                {t("cart")}
-                            </span>
-                        </div>
+                            )
+                            :
+                            <>
+                                <ShoppingCart className="w-7 h-7  hover:text-[#3ea9f4] transition-colors duration-200" />
+                            </>
+                        }
 
                     </>
                 ) : showSec === "filter" ? (

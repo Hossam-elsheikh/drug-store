@@ -45,7 +45,6 @@ const CartDrawer = () => {
     });
 
     const calculateCartMutation = useCalcCartMutation({ axiosPrivate, auth })
-
     const removeItemCartMutation = removeItemMutation(axiosPrivate)
 
     const {
@@ -59,9 +58,8 @@ const CartDrawer = () => {
     })
 
     const [localStorageCart, setLocalStorageCart] = useState([]);
-    const { localCartSelector } = useLocalCart()
-    console.log(localStorageCart);
-
+    const { localCartSelector } = useLocalCart();
+    console.log(localCartSelector);
 
     useEffect(() => {
         const fetchingLocalStorageCart = JSON.parse(localStorage.getItem("products") || '[]');
@@ -93,47 +91,36 @@ const CartDrawer = () => {
         );
     }
 
+    const cartProducts = auth?.userId ? cartItems.data : localStorageCart;
+
     return (
         <>
             {auth.userId && cartItems.data.length >= 1 || !auth.userId && localStorageCart.length >= 1 ?
                 <section className="flex flex-col h-full " dir={dir}>
                     <>
-                        <ScrollArea className="h-[440px] ">
+                        <ScrollArea className="h-full max-h-[400px] overflow-hidden">
                             <AnimatePresence>
-                                {auth.userId && cartItems.data.length >= 1 ?
-                                    <>
-                                        {cartItems.data.map((cartItem: CartItem) => (
+                                {cartProducts.length >= 1 &&
+                                    cartProducts.map((cartItem: CartItem) => (
+                                        <div key={cartItem._id}>
                                             <SlideCardAnimation key={cartItem._id}>
                                                 <CartDrawerItem
                                                     cartItem={cartItem}
                                                     auth={auth}
                                                     removeItemCartMutation={removeItemCartMutation}
                                                     calculateCartMutation={calculateCartMutation}
+                                                    details={null}
                                                 />
                                             </SlideCardAnimation>
-                                        ))}
-                                    </>
-                                    :
-                                    <>
-                                        {localStorageCart.map((cartItem: CartItem) => (
-                                            <SlideCardAnimation key={cartItem._id}>
-                                                <CartDrawerItem
-                                                    cartItem={cartItem}
-                                                    auth={auth}
-                                                    removeItemCartMutation={removeItemCartMutation}
-                                                    calculateCartMutation={calculateCartMutation}
-                                                />
-                                            </SlideCardAnimation>
-                                        ))}
-                                    </>
-                                }
+                                        </div>
+                                    ))}
                             </AnimatePresence>
                         </ScrollArea>
                         <div className="p-4 border-t">
                             <div className="flex justify-between items-center mb-4">
                                 <h3 className="text-lg font-medium">{t("totalPrice")}</h3>
                                 <p className="text-lg font-bold">
-                                    {/* {totalPrice.data.cartTotalPrice} <span className="text-sm font-normal">{t("dinar")}</span> */}
+                                    {totalPrice?.data.cartTotalPrice||localCartSelector.localCartTotal} <span className="text-sm font-normal">{t("dinar")}</span>
                                 </p>
                             </div>
                             <p className="text-[11px] bg-green-700 text-white p-2 rounded-md mb-4">
@@ -168,7 +155,7 @@ const CartDrawer = () => {
                 : null
             }
 
-            {auth.userId && cartItems.data.length === 0 ?
+            {(auth.userId && cartItems.data.length === 0) || (!auth.userId && localStorageCart.length <= 0) ?
 
                 <div className="flex flex-col items-center justify-center h-full text-center p-4">
                     <ShoppingCart className="h-24 w-24 mb-4 text-gray-400" />
@@ -184,27 +171,7 @@ const CartDrawer = () => {
                         </Link>
                     </SheetClose>
                 </div>
-
-                :
-
-                !auth.userId && localStorageCart.length <= 0 &&
-
-                <div className="flex flex-col items-center justify-center h-full text-center p-4">
-                    <ShoppingCart className="h-24 w-24 mb-4 text-gray-400" />
-                    <h2 className="text-2xl font-semibold mb-2">{t("emptyCart")}</h2>
-                    <p className="text-gray-500 mb-4">{t("addProducts")}</p>
-                    <SheetClose asChild >
-
-                        <Link
-                            href={`/${locale}/`}
-                            className="bg-primaryColor text-white py-2 px-4 rounded-full hover:bg-[#3a3c57] transition-colors duration-300"
-                        >
-                            {t("startShopping")}
-                        </Link>
-                    </SheetClose>
-                </div>
-
-            }
+                : null}
 
         </>
     );

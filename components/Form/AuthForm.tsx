@@ -2,8 +2,8 @@
 import React, { useState, useMemo, useEffect } from "react";
 import CustomInput from "./CustomInput";
 import { Expand, Loader2, Eye, EyeOff } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { instance, transCartToAPI } from "@/axios/instance";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { instance, userSignUp, transCartToAPI, transLocalWishListToAPI, userSignIn } from "@/axios/instance";
 import { Toaster, toast } from "sonner";
 import { Formik, Form } from "formik";
 import FormButton from "../formButton/FormButton";
@@ -13,14 +13,15 @@ import { useTranslations } from "next-intl";
 import { AuthFormSchema, initialAuthFormValues } from "@/lib/schema";
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTransLocalCartAPI } from "@/hooks/useTransLocalCartAPI";
 import Image from "next/image";
 import image from "@/public/logo.svg";
+import { useFavorites } from "@/context/favoriteProvider";
 
 interface authFormProps {
     Type: string;
-    variant: "full" | "drawer";
+    variant: "full" | "drawer" | "checkout";
 }
 
 const AuthForm = ({ Type, variant }: authFormProps) => {
@@ -32,6 +33,9 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
     const [type, setType] = useState(Type);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const pathName: string = usePathname();
+    const signInPath = `/${locale}/sign-in`
+    const signUpPath = `/${locale}/sign-up`
 
     // handle the transfer of the local storage cart to the API.
     // This mutation will be triggered after a successful user sign-in.
@@ -41,42 +45,59 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
         //on successful response the localStorage will be deleted
         onSuccess: () => localStorage.removeItem('products'),
         onError: (error) => console.log('error while mutation trans to cart api', error),
-
     })
+
+    // handle the transfer of the local storage wishList to the API.
+    // This mutation will be triggered after a successful user sign-in.
+    const { favoriteProducts } = useFavorites()
+    const transLocalWishListToAPI_Mutation = useMutation({
+        mutationFn: () => transLocalWishListToAPI(favoriteProducts, auth.userId),
+        onSuccess: () => { localStorage.removeItem('FavoriteItems'); console.log('wishlist products now are removed and moved successfully from local storage to api'); },
+        onError: (error) => console.log('error while mutation trans wishlist to api', error),
+    })
+
     const validationSchema = useMemo(() => AuthFormSchema(type), [type]);
+
+    const signUpMutation = useMutation({
+        mutationFn: (values) => userSignUp(values),
+        onSuccess: () => {
+            toast.success("You Signed Up Successfully");
+            if (variant != 'checkout') {
+                router.push(`/${locale}/sign-in`);
+            } else {
+                setType("sign-in")
+            }
+        },
+        onError: (error) => {
+            console.log("Error signing up", error);
+            toast.error("Error signing up. Please try again.");
+        },
+    })
+
+    const signInMutation = useMutation({
+        mutationFn: (values) => userSignIn(values),
+        onSuccess: (data) => {
+            const { id: userId } = data;
+            setAuth({ userId });
+            toast.success("You Signed In Successfully");
+            window.location.href = pathName;
+        },
+        onError: (error) => {
+            console.log("Error signing in", error);
+            toast.error("Error signing in. Please try again.");
+        },
+    })
 
     const onSubmit = async (values: any, { setSubmitting }: any) => {
         try {
             //sign-up logic handling
             if (type === "sign-up") {
-                const response = await instance.post("/user",
-                    JSON.stringify(values),
-                    {
-                        headers: { "Content-Type": "application/json" },
-                        withCredentials: true,
-                    }
-                );
-                toast.success("You Signed Up Successfully");
-                if (response.status === 201) {
-                    router.push(`/${locale}/sign-in`);
-                }
+                signUpMutation.mutate(values)
             }
 
             //sign-in logic handling
             if (type === "sign-in") {
-                const response: any = await instance.post("/user/sign-in",
-                    JSON.stringify(values),
-                    {
-                        headers: { "Content-Type": "application/json" },
-                        withCredentials: true,
-                    }
-                );
-                const { id: userId } = response?.data;
-                setAuth({ userId });
-                toast.success("You Signed In Successfully");
-                if (response.status === 200) {
-                    router.push(`/${locale}`);
-                }
+                signInMutation.mutate(values);
             }
         } catch (error) {
             toast.error("Error during form submission:",);
@@ -93,22 +114,26 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
         if (localStorageCart?.length > 0 && auth?.userId) {
             transToAPI_Mutation.mutate()
         };
-    }, [auth.userId])
+        if (favoriteProducts?.length > 0 && auth?.userId) {
+            transLocalWishListToAPI_Mutation.mutate()
+        }
+        if (auth&&auth.userId && (pathName === signInPath || pathName === signUpPath)) {
+            router.push(`/${locale}`)
+        }
+    }, [auth.userId, router, pathName])
+    if (auth&&auth.userId && (pathName === signInPath || pathName === signUpPath)) return null;
 
     return (
         <>
-
-
             <section
-                className={` ${variant === "drawer"
-                    ? " mt-5 "
+                className={`${variant === "drawer" || variant === "checkout" ? ""
                     : "shadow-lg bg-[#F1F5F9] max-w-[500px] mx-auto p-5 my-10 rounded-lg"
                     }`}
             >
                 <header className="flex flex-col pt-5 gap-5 md:gap-8">
                     <div className=" text-center">
                         {(variant === 'full') && (
-                            <section className="flex justify-center">
+                            <section className="flex justify-center pb-5 ">
                                 <Image
                                     src={image}
                                     alt="logo"
@@ -118,9 +143,14 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                             </section>
                         )}
                         <h1
-                            className={`pt-5 {variant === 'drawer' ? 'text-[16px] font-semibold' : 'text-[20px] font-semibold '} `}
+                            className={`${variant === "drawer"
+                                ? "text-[16px] font-semibold"
+                                : variant === "checkout"
+                                    ? ""
+                                    : "text-[20px] font-semibold"
+                                }`}
                         >
-                            {type === "sign-in" ? f("signInAcc") : f("createAcc")}
+                            {variant != "checkout" && (type === "sign-in" ? f("signInAcc") : f("createAcc"))}
                         </h1>
                         <p
                             className={
@@ -129,7 +159,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                     : "text-[14px] font-normal text-gray-600 pb-5"
                             }
                         >
-                            {f("enterDetails")}
+                            {variant != "checkout" && f("enterDetails")}
                         </p>
                     </div>
                 </header>
@@ -143,19 +173,41 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                             <Form className="space-y-5">
                                 {type === "sign-up" && (
                                     <>
+                                        {variant === "checkout" &&
+                                            <span className="flex gap-2 w-full ">
+                                                <CustomInput
+                                                    name="name"
+                                                    label={f("name")}
+                                                    placeholder={f("placeholderName")}
+                                                />
+                                                <CustomInput
+                                                    name="last name"
+                                                    label={"last name"}
+                                                    placeholder={"enter your last name"}
+                                                />
+                                                <CustomInput
+                                                    name="mobile"
+                                                    label={f("mobileNumber")}
+                                                    placeholder={f("placeholderNumber")}
+                                                />
+                                            </span>
+                                        }
+                                        {variant != "checkout" &&
+                                            <span className="flex gap-2 w-full ">
+                                                <CustomInput
+                                                    name="name"
+                                                    label={f("name")}
+                                                    placeholder={f("placeholderName")}
+                                                />
+                                                <CustomInput
+                                                    name="mobile"
+                                                    label={f("mobileNumber")}
+                                                    placeholder={f("placeholderNumber")}
+                                                />
+                                            </span>
+                                        }
 
-                                        <CustomInput
-                                            name="name"
-                                            label={f("name")}
-                                            placeholder={f("placeholderName")}
-                                        />
-                                        <CustomInput
-                                            name="mobile"
-                                            label={f("mobileNumber")}
-                                            placeholder={f("placeholderNumber")}
-                                        />
-
-                                        <div className="flex gap-2">
+                                        <div className="flex gap-2 w-full">
                                             <CustomInput
                                                 name="addresses[0].state"
                                                 label={f("state")}
@@ -212,7 +264,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                     <Button
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className="font-semibold rounded-full bg-primaryColor hover:bg-[#45486e] active:scale-[.99] duration-200 transition-all"
+                                        className="font-semibold rounded-lg bg-primaryColor hover:bg-[#45486e] active:scale-[.99] duration-200 transition-all"
                                     >
                                         {isSubmitting ? (
                                             <Loader2 className=" animate-spin" />
@@ -247,7 +299,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                     {type === "sign-in" ? f("signUp") : f("signIn")}
                                 </Link>
                             )}
-                            {variant === "drawer" && (
+                            {(variant === "drawer" || variant === "checkout") && (
                                 <FormButton type={type} setType={setType} />
                             )}
                         </div>

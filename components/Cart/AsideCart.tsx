@@ -9,8 +9,8 @@ function AsideCart({ totalPrice, cartItems }: { totalPrice: any, cartItems: any 
 
     // Check if totalPrice and cartItems are defined and have data
     // const totalPrice = (cartItem.productId.price * cartItem.quantity).toFixed(2)
-    const price = (totalPrice?.data?.cartTotalPrice).toFixed(2) || 0;
-    const itemCount = cartItems?.data?.length || 0;
+    const price = (totalPrice?.data?.cartTotalPrice||totalPrice.localCartTotal)?.toFixed(2) || 0;
+    const itemCount = cartItems?.data?.length || cartItems?.length || 0;
 
     return (
         <div className="lg:col-span-1">

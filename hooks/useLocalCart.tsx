@@ -1,5 +1,6 @@
-import { addToLocalCart } from "@/redux/slices/addToCart";
+import { addToLocalCart, localCartTotalPrice } from "@/redux/slices/addToCart";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 type DataType = {
     product: Object;
@@ -8,12 +9,15 @@ type DataType = {
 export const useLocalCart = () => {
     const localCartSelector = useSelector((state: any) => state.localCart);
     const dispatch = useDispatch();
+    const LocalCartTotalPrice = dispatch(localCartTotalPrice())
     const addToLocalCartDispatch = async (product: DataType) => {
         try {
             dispatch(addToLocalCart(product))
-            console.log('product added successfully to localStorage',product);
+            toast.success("product added to cart Successfully!");
+            console.log('product added successfully to localStorage', product);
         } catch (error) {
             console.error('error while adding product to local cart', error)
+            toast.error("error while adding product to cart, try again later");
         }
     }
     return { localCartSelector, addToLocalCartDispatch }

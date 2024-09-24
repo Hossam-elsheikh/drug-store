@@ -7,9 +7,10 @@ import classNames from 'classnames';
 import { useLocale } from "@/context/LocaleProvider";
 import { useFavorites } from "@/context/favoriteProvider";
 import { Button } from '@/components/ui/button';
-import { AddToCart } from '@/axios/instance';
+import { AddToCart, addToWishList, removeProductFromWishList } from '@/axios/instance';
 import useAuth from '@/hooks/useAuth';
 import { useLocalCart } from '@/hooks/useLocalCart';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 function Details({ productDetails, className }: any) {
     const { _id, price, name, brand, image, description, category: { slug }, stock } = productDetails || {};
@@ -23,7 +24,22 @@ function Details({ productDetails, className }: any) {
     const { auth }: any = useAuth()
 
     //add to cart handler with API call
-    const addToCart = (product: any) => AddToCart(product, auth)
+    const queryClient = useQueryClient()
+    const AddToCartMutation = useMutation({
+        mutationFn:(product: object) => AddToCart(product, auth),
+        onSuccess:() => queryClient.invalidateQueries(),
+    })
+
+    const addProductToWishListMutation = useMutation({
+        mutationFn:(productId:any)=> addToWishList(productId,auth.userId),
+        onSuccess: () => queryClient.invalidateQueries(),
+    })
+
+    const removeProductFromWishListMutation = useMutation({
+        mutationFn: (productId) => removeProductFromWishList(auth.userId, productId),
+        onSuccess: () => queryClient.invalidateQueries(),
+    })
+    const RemoveProductFromWishList = (productId: any) => removeProductFromWishListMutation.mutate(productId)
 
     //add to cart handler with localStorage
     const {addToLocalCartDispatch} = useLocalCart()
@@ -73,7 +89,7 @@ function Details({ productDetails, className }: any) {
                 <div className="flex items-center gap-3">
                     <Button
                         className="flex-grow bg-primaryColor hover:bg-primaryColor/90 text-white rounded-full transition-all duration-200 transform active:scale-95 flex items-center justify-center gap-2"
-                        onClick={() => auth && auth.userId ?  addToCart(productDetails) : addToLocalCartDispatch(productDetails)}
+                        onClick={() => auth && auth.userId ?  AddToCartMutation.mutate(productDetails) : addToLocalCartDispatch(productDetails)}
                     >
                         <ShoppingCart size={24} />
                         {t("addToCart")}
@@ -85,7 +101,7 @@ function Details({ productDetails, className }: any) {
                         ? ' bg-red-100 text-red-700'
                         : 'text-gray-700 hover:text-red-500'
                         }`}
-                    onClick={() => toggleFavorite(productDetails)}
+                        onClick={() => auth&&auth.userId? isProductFavorite(_id)? RemoveProductFromWishList(_id) : addProductToWishListMutation.mutate(_id) : toggleFavorite(productDetails) }
                 >
                     <Heart size={24}
                         className={`transition-all duration-300 ${isProductFavorite(_id)

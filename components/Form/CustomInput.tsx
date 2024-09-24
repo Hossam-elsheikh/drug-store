@@ -40,9 +40,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
     );
 
     return (
-        <div className="flex flex-col gap-1 max-w-md">
+        <div className="flex flex-col gap-1 w-full">
             <label
-                className={classNames('text-sm font-medium pb-1', {
+                className={classNames(' text-sm font-medium pb-1', {
                     'text-gray-700': !meta.error || !meta.touched,
                     'text-red-500': meta.error && meta.touched,
                 })}
@@ -50,7 +50,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
             >
                 {label}
             </label>
-            <div className="relative flex w-full flex-col">
+            <div className="relative flex flex-col">
                 {icon && (
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
                         {icon}

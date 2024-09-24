@@ -7,11 +7,12 @@ import EmptyCart from "@/components/Cart/EmptyCart";
 import CartItem from "@/components/ItemCard/CartItem";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import { useLocalCart } from "@/hooks/useLocalCart";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, } from "lucide-react";
 import { useTranslations } from "next-intl";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Cart = () => {
     const axiosPrivate = useAxiosPrivate();
@@ -25,6 +26,7 @@ const Cart = () => {
     } = useQuery({
         queryFn: () => fetchCartItems(axiosPrivate, auth),
         queryKey: ["cartItems"],
+        enabled:!!auth.userId
     });    
 
     const {
@@ -35,8 +37,20 @@ const Cart = () => {
         queryFn: () => calcCart({ axiosPrivate, auth }),
         queryKey: ["totalPrice"],
         enabled: !!cartItems,
-    });    
+    });
 
+    const [localStorageCart, setLocalStorageCart] = useState([]);
+    const { localCartSelector } = useLocalCart()
+    console.log(localStorageCart);
+    
+    useEffect(() => {
+        const fetchingLocalStorageCart = JSON.parse(localStorage.getItem("products") || '[]');
+        setLocalStorageCart(fetchingLocalStorageCart);
+    }, [localCartSelector]);
+
+    const cartProducts = auth?.userId ? cartItems?.data : localStorageCart;
+    console.log(cartProducts);
+    
     if (cartError || totalPriceError)
         return (
             <div className="flex justify-center items-center h-screen">
@@ -57,11 +71,11 @@ const Cart = () => {
                     <div className="flex justify-center items-center h-64">
                         <Loader2 className="animate-spin h-12 w-12 text-gray-600" />
                     </div>
-                ) : cartItems?.data.length > 0 ? (
+                ) : cartProducts?.length > 0 ? (
                     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                         <div className="lg:col-span-3 space-y-6">
                             <AnimatePresence>
-                                {cartItems.data.map((cartItem: any) => (
+                                {cartProducts.map((cartItem: any) =>(
                                     <motion.div
                                         key={cartItem._id}
                                         layout
@@ -79,7 +93,7 @@ const Cart = () => {
                             </AnimatePresence>
                         </div>
 
-                        <AsideCart totalPrice={totalPrice} cartItems={cartItems} />
+                        <AsideCart totalPrice={totalPrice||localCartSelector} cartItems={cartProducts} />
                     </div>
                 ) : (
                     <EmptyCart />

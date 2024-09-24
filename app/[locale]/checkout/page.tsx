@@ -19,6 +19,8 @@ import { useUser } from "@/context/UserProvider";
 import EmptyCart from "@/components/Cart/EmptyCart";
 import Loading from "@/app/loading";
 import { useLocale } from "@/context/LocaleProvider";
+import { useLocalCart } from "@/hooks/useLocalCart";
+import AuthForm from "@/components/Form/AuthForm";
 
 const Checkout = () => {
 
@@ -60,6 +62,7 @@ const Checkout = () => {
     } = useQuery({
         queryFn: () => getUser(auth.userId),
         queryKey: ['userInfo'],
+        enabled: !!auth.userId
     })
 
     const {
@@ -71,8 +74,10 @@ const Checkout = () => {
         queryKey: ["cartItems", auth.userId],
         enabled: !!auth.userId,
     });
-    console.log(cartItems);
-    
+    //calling redux state to see if there a local cart items
+    const { localCartSelector } = useLocalCart()
+
+    const cartProducts = auth?.userId ? cartItems?.data : localCartSelector.localCartProducts;
 
     const {
         data: totalPrice,
@@ -165,7 +170,7 @@ const Checkout = () => {
 
     return (
         <>
-            {userInfo.cart.length === 0 ?
+            {(userInfo?.cart.length <= 0 || !auth?.userId && localCartSelector.localCartProducts.length <= 0) &&
                 <>
                     <div className="justify-center flex text-center py-52 ">
                         <div className="space-y-10">
@@ -175,49 +180,42 @@ const Checkout = () => {
                         </div>
                     </div>
                 </>
+            }
 
-                :
+
+            {(userInfo?.cart.length >= 1 || !auth?.userId && localCartSelector.localCartProducts.length >= 1) &&
 
                 <div className="bg-gray-50 w-full mx-auto flex flex-col min-h-dvh">
-                    {/* <BreadCrumb /> */}
                     <div className="grid  xl:grid-cols-2 md:grid-cols-1  bg-white ">
+                        <div className="bg-white px-10 ">
+                            {auth?.userId ?
+                                    <UserInfo
+                                        shippingAddress={shippingAddress}
+                                        setShippingAddress={setShippingAddress}
+                                        formErrors={formErrors}
+                                        setFormErrors={setFormErrors}
+                                    />
+                                :
+                                    <div className="w-full pt-6">
+                                        <p className="text-2xl font-bold text-gray-800 p-2 ">Please Sign first</p>
+                                        <AuthForm Type="sign-up" variant='checkout' />
+                                    </div>
+                            }
 
-                        <form onSubmit={handleCheckoutSubmit}>
-
-                            <div className="bg-white px-10 ">
-
-                                {auth.userId ?
-                                    (
-                                        <UserInfo
-                                            shippingAddress={shippingAddress}
-                                            setShippingAddress={setShippingAddress}
-                                            formErrors={formErrors}
-                                            setFormErrors={setFormErrors}
-                                        />
+                            <h2 className="text-2xl font-bold text-gray-800 p-2 pt-5">Your Order</h2>
+                            <div className="p-3 rounded-md border space-y-3 shadow-sm">
+                                {cartProducts.length > 0 ?
+                                    cartProducts.map((cartItem: any) =>
+                                        <Order cartItem={cartItem} id={cartItem._id} />
                                     )
                                     :
-                                    (
-                                        <>
-                                        </>
-                                    )}
+                                    <>
+                                        <EmptyCart />
+                                    </>
+                                }
+                            </div>
 
-
-                                <h2 className="text-2xl font-bold text-gray-800 p-2 ">Your Order</h2>
-                                <div className="p-3 rounded-md border space-y-3 shadow-sm">
-                                    {cartItems?.data.length > 0 ?
-                                        cartItems?.data.map((cartItem: any) =>
-
-                                            <Order cartItem={cartItem} id={cartItem._id} />
-
-                                        )
-                                        :
-                                        <>
-                                            <EmptyCart />
-                                        </>
-                                    }
-
-                                </div>
-
+                            <form onSubmit={handleCheckoutSubmit}>
                                 <RadioLabel
                                     setDeliveryMethod={setDeliveryMethod}
                                     setPaymentMethod={setPaymentMethod}
@@ -227,12 +225,12 @@ const Checkout = () => {
                                     setFormErrors={setFormErrors}
                                 />
 
-                                <div className="block xl:hidden sm:mt-10">
+                                <div className="block xl:hidden sm:mt-10 ">
                                     <OrderSummary
                                         couponFormik={couponFormik}
                                         applyCouponMutation={applyCouponMutation}
                                         applyCouponEvent={applyCouponEvent}
-                                        totalPrice={totalPrice}
+                                        totalPrice={totalPrice||localCartSelector.localCartTotal}
                                     />
                                 </div>
 
@@ -240,12 +238,12 @@ const Checkout = () => {
                                     <button
                                         className={`
                                     flex justify-center gap-2  w-full p-4 text-center text-white font-medium bg-primaryColor 
-                                    rounded-full hover:bg-[#45486e] transition-all 
-                                    ${Object.keys(validateFields()).length > 0 || executePayMutation.isPending !== false ? 'disabled:bg-gray-200' : null}
+                                    rounded-lg  hover:bg-[#45486e] transition-all 
+                                    ${Object.keys(validateFields()).length > 0 || executePayMutation.isPending !== false ? 'disabled:bg-gray-300' : null}
                                     ${executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery' ? 'disabled:bg-green-400' : null}`
                                         }
                                         type="submit"
-                                        disabled={executePayMutation.isPending !== false || executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery'}
+                                        disabled={executePayMutation.isPending !== false || executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery' || !auth?.userId}
                                     >
                                         {executePayMutation.isPending ? (
                                             <p>Processing</p>
@@ -261,32 +259,31 @@ const Checkout = () => {
                                         {executePayMutation.isPending !== false ? <Loader className="animate-spin" /> : null}
                                     </button>
                                     <p className="py-2">{executePayMutation.isError ? <p className="text-red-400 text-center">Error, please try again.</p> : null}</p>
-                                    {/* <div className="py-2">
-                                        {!executePayMutation.isError && formErrors && (
+                                    <div className="py-2">
+                                        {!executePayMutation.isError && Object.values(formErrors).some((i)=>i) && (
                                             <p className="text-red-400 text-center">
                                                 Please make sure you have chosen all the options above.
                                             </p>
-                                        )}
-                                    </div> */}
+                                        )
+                                    }
+                                    </div>
                                 </div>
 
-                            </div>
-                        </form>
+                            </form>
+                        </div>
 
 
                         <div className="hidden xl:block h-full bg-[#ffffff]">
-
                             <OrderSummary
                                 couponFormik={couponFormik}
                                 applyCouponMutation={applyCouponMutation}
                                 applyCouponEvent={applyCouponEvent}
-                                totalPrice={totalPrice}
+                                totalPrice={totalPrice||localCartSelector.localCartTotal}
                             />
-
                         </div>
 
                     </div>
-                </div>
+                </div >
             }
         </>
 
