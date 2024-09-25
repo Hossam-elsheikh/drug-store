@@ -128,6 +128,7 @@ declare interface CartItem {
     price: number
     productId: any
     quantity: number
+    _id:any
 }
 
 type ReviewData = {

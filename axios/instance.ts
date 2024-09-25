@@ -13,7 +13,7 @@ enum ApiEndPoints {
     REVIEW = '/review',
 }
 
-const API_URL = process.env.API_URL || 'http://localhost:4000'
+const API_URL = process.env.API_URL || "http://localhost:4000"
 
 export const instance = axios.create({
     baseURL: API_URL,
@@ -36,6 +36,40 @@ interface ProductSearchParams {
 }
 
 // ---------------------------------------------------User----------------------------------------------
+
+export const userSignUp = async (values:any)=> {
+    try{
+        const response = await instance.post("/user",
+            JSON.stringify(values),
+            {
+                headers: { "Content-Type": "application/json" },
+                withCredentials: true,
+            }
+        );
+        console.log(response.data);
+        return response.data;
+    }catch(error){
+        console.log('error while signing up',error);
+        return error;
+    }
+}
+
+export const userSignIn = async(values:any)=>{
+    try{
+        const response: any = await instance.post("/user/sign-in",
+            JSON.stringify(values),
+            {
+                headers: { "Content-Type": "application/json" },
+                withCredentials: true,
+            }
+        );
+        console.log(response.data);
+        return response.data;
+    }catch(error){
+        console.error('error while signing in',error);
+        return error;
+    }
+}
 
 export const getUser = async (userId: string): Promise<any> => {
     try {
@@ -252,15 +286,15 @@ export const AddToCart = async (product: any, auth: any) => {
 }
 
 export const transCartToAPI = async (userId: string, localStorageCart: any) => {
-	try {
-		const response = await instancePrivate.post(`http://localhost:4000/user/cart/add/many`,
-			{ userId, products: localStorageCart })
-		console.log(response);
-		return response
-	} catch (error) {
-		console.error('error while transferring to api', error);
-		return error
-	}
+    try {
+        const response = await instancePrivate.post(`http://localhost:4000/user/cart/add/many`,
+            { userId, products: localStorageCart })
+        console.log(response);
+        return response
+    } catch (error) {
+        console.error('error while transferring to api', error);
+        return error
+    }
 }
 
 export const fetchCartItems = async (axiosPrivate: any, auth: any) => {
@@ -356,22 +390,69 @@ export const applyCoupon = async (
     }
 }
 
+//------------------------------------------------- wishList ------------------------------------------------------
+
+export const addToWishList = async (productId: any, userId: any) => {
+    try {
+        const response = await instancePrivate.post('/wishlist', { productId, userId })
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+}
+
+export const transLocalWishListToAPI = async (products: any, userId: any) => {
+    try {
+        const response = await instancePrivate.post('/wishlist/wishlist/add/many', { products, userId });
+        console.log(response.data);
+        console.log('wishlist is now moved from localStorage to api successfully !!!!');
+        return response.data;
+    } catch (error) {
+        console.error('error while transing localstorgae wishlist to api', error);
+        return error;
+    }
+}
+
+export const getWishList = async (userId: any) => {
+    try {
+        const response = await instance.get(`/wishList/${userId}`)
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('error while fetching wishlist', error)
+        return error
+    }
+}
+
+export const removeProductFromWishList = async (userId: any, productId: any) => {
+    try {
+        const response = await instancePrivate.patch('/wishList', { userId, productId })
+        console.log(response.data, 'product removed successfully from wishlist');
+        return response.data;
+    } catch (error) {
+        console.error('error removing product from wishlist', error);
+        return error;
+    }
+}
+
 //////////////////////////////////////////////////// Orders //////////////////////////////////////////////////////
 
 export const createOrder = async (axiosPrivate, auth, delivery, payment, shippingAddress) => {
-	try {
-		const response = await axiosPrivate.post('/order', {
-			userId: auth.userId,
-			delivery,
-			payment,
-			shippingAddress
-		})
-		console.log(response);
-		return response
-	} catch (error) {
-		console.error('error while creating the order', error);
-		return error
-	}
+    try {
+        const response = await axiosPrivate.post('/order', {
+            userId: auth.userId,
+            delivery,
+            payment,
+            shippingAddress
+        })
+        console.log(response);
+        return response
+    } catch (error) {
+        console.error('error while creating the order', error);
+        return error
+    }
 }
 
 export const cancelOrder = async (
@@ -428,14 +509,14 @@ export const availablePayment = async (InvoiceAmount: any) => {
 }
 
 export const executePayment = async (payload: any) => {
-	try {
-		const response = await axios.post(`${API_URL}/payment/execute`, payload);
-		console.log(response);
-		return response.data
-	} catch (error) {
-		console.error('error while executing payment', error);
-		return error
-	}
+    try {
+        const response = await axios.post(`${API_URL}/payment/execute`, payload);
+        console.log(response);
+        return response.data
+    } catch (error) {
+        console.error('error while executing payment', error);
+        return error
+    }
     try {
         const response = await axios.post(`${API_URL}/payment/execute`, payload)
         // console.log(response.data)

@@ -60,7 +60,7 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
         },
 
         onSuccess: () => {
-            toast.success(mode === 'add' ? "Your Address Successfully Added" : 'Address SuccessFully Updated');
+            toast.success(mode === 'add' ? "Your new Address Added Successfully" : 'Your Address Updated Successfully');
             queryClient.invalidateQueries();
             if (onSuccess) onSuccess()
         },
@@ -80,7 +80,6 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
         city: '',
         street: ''
     }
-
 
     return (
         <>
@@ -104,71 +103,75 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
                             <DialogClose className='bg-gray-50 rounded-full p-1 shadow-sm hover:shadow-lg duration-300 group'><X className='group-hover:text-red-400 duration-300' /></DialogClose>
                         </div>
                     </DialogHeader>
-                    {isError ? (<>
-                        <div className="flex justify-center gap-2 items-center min-h-screen">
-                            <h3 className='font-medium text-lg' >Error</h3>
-                            <TriangleAlert />
-                        </div>)
-                    </>) : (isLoading ? (
-                        <div className="flex justify-center gap-2 items-center min-h-screen">
-                            <h3 className='font-medium text-lg' >Loading...</h3>
-                            <Loader className="animate-spin" />
-                        </div>)
+                    {isError ?
+                        (
+                            <div className="flex justify-center gap-2 items-center min-h-screen">
+                                <h3 className='font-medium text-lg' >Error</h3>
+                                <TriangleAlert />
+                            </div>
+                        )
                         :
-                        (<Formik
-                            initialValues={initialValues || defaultValues}
-                            validationSchema={addressValidationSchemaDialog}
-                            onSubmit={(values, { setSubmitting, resetForm }) => {
-                                addUserAddressMutation.mutate(values, {
-                                    onSettled: () => {
-                                        setSubmitting(false);
-                                        if (mode === 'add') resetForm();
-
-                                    },
-                                });
-                            }}
-                        >
-                            {({ isSubmitting, errors }) => (
-                                <Form className="space-y-5">
-                                    <CustomInput
-                                        name="state"
-                                        label="State"
-                                        placeholder="Enter state"
-                                    />
-                                    <CustomInput
-                                        name="city"
-                                        label="City"
-                                        placeholder="Enter city"
-                                    />
-                                    <CustomInput
-                                        name="street"
-                                        label="Street"
-                                        placeholder="Enter street"
-                                    />
-                                    <button
-                                        className={`flex justify-center rounded-full w-full p-3 text-center font-medium 
+                        (isLoading ?
+                            (
+                                <div className="flex justify-center gap-2 items-center min-h-screen">
+                                    <h3 className='font-medium text-lg' >Loading...</h3>
+                                    <Loader className="animate-spin" />
+                                </div>
+                            )
+                            :
+                            (
+                                <Formik
+                                    initialValues={initialValues || defaultValues}
+                                    validationSchema={addressValidationSchemaDialog}
+                                    onSubmit={(values, { setSubmitting, resetForm }) => {
+                                        addUserAddressMutation.mutate(values, {
+                                            onSettled: () => {
+                                                setSubmitting(false);
+                                                if (mode === 'add') resetForm();
+                                            },
+                                        });
+                                    }}
+                                >
+                                    {({ isSubmitting, errors }) => (
+                                        <Form className="space-y-5">
+                                            <CustomInput
+                                                name="state"
+                                                label="State"
+                                                placeholder="Enter state"
+                                            />
+                                            <CustomInput
+                                                name="city"
+                                                label="City"
+                                                placeholder="Enter city"
+                                            />
+                                            <CustomInput
+                                                name="street"
+                                                label="Street"
+                                                placeholder="Enter street"
+                                            />
+                                            <button
+                                                className={`flex justify-center rounded-full w-full p-3 text-center font-medium 
                                     ${Object.keys(errors).length > 0 || isSubmitting
-                                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                                : 'bg-green-100 text-green-600 hover:bg-green-600 hover:text-white hover:border-green-600'}
+                                                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                                        : 'bg-green-100 text-green-600 hover:bg-green-600 hover:text-white hover:border-green-600'}
                                     shadow-sm transition-all duration-300 ease-in-out focus:outline-none`}
-                                        type="submit"
-                                        disabled={Object.keys(errors).length > 0 || isSubmitting}
-                                    >
-                                        {isSubmitting ? (
-                                            <div className='flex gap-2'>
-                                                <p>Submitting</p>
-                                                <Loader className="animate-spin ml-2" />
-                                            </div>
-                                        ) : (
-                                            <p>{mode === 'add' ? 'Add Address' : 'Update Address'}</p>
-                                        )}
-                                    </button>
-                                    <Toaster richColors position="top-center" closeButton />
-                                </Form>
-                            )}
-                        </Formik>))}
-
-
+                                                type="submit"
+                                                disabled={Object.keys(errors).length > 0 || isSubmitting}
+                                            >
+                                                {isSubmitting ? (
+                                                    <div className='flex gap-2'>
+                                                        <p>Submitting</p>
+                                                        <Loader className="animate-spin ml-2" />
+                                                    </div>
+                                                ) : (
+                                                    <p>{mode === 'add' ? 'Add Address' : 'Update Address'}</p>
+                                                )}
+                                            </button>
+                                            <Toaster richColors position="top-center" closeButton />
+                                        </Form>
+                                    )}
+                                </Formik>
+                            ))}
                 </DialogContent>
             </Dialog>
         </>

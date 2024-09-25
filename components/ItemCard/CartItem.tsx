@@ -11,6 +11,8 @@ import useCalcCartMutation from "@/hooks/calcCartMutation";
 import removeItemMutation from "@/hooks/removeItemCartMutation";
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import { useTranslations } from 'next-intl'
+import { useDispatch } from 'react-redux'
+import { localCartDeleteItem } from '@/redux/slices/addToCart'
 
 function CartItem({
     cartItem, }: any) {
@@ -19,21 +21,28 @@ function CartItem({
     const axiosPrivate = useAxiosPrivate();
     const c = useTranslations("CartPage");
 
-    const removeItemCart = () =>
-        useRemoveItemCart({
-            auth,
-            cartItem,
-            removeItemCartMutation,
-            calculateCartMutation,
-        })
+    const removeItemCart = () => useRemoveItemCart({
+        auth,
+        cartItem,
+        removeItemCartMutation,
+        calculateCartMutation,
+    })
 
-    // Calculate total price
-    const {
-        productId: { image, name, quantity, price, _id, slug },
-    } = cartItem
+    const { productId: { image, name, price, _id, slug } } = cartItem;
+
     const totalPrice = (cartItem.productId.price * cartItem.quantity).toFixed(2)
     const calculateCartMutation = useCalcCartMutation({ axiosPrivate, auth });
     const removeItemCartMutation = removeItemMutation(axiosPrivate);
+
+    const dispatch = useDispatch()
+    const removeLocalCartItem = () => {
+        try {
+            dispatch(localCartDeleteItem(_id))
+            console.log('prd deleted successfully from localstorgae');
+        } catch (error) {
+            console.error('error while delete item from local cart', error);
+        }
+    }
 
     return (
         <section className="relative flex items-center space-x-4 rounded-lg bg-white p-5 shadow-sm border border-gray-200 hover:shadow-lg duration-300 transition-all">
@@ -84,9 +93,13 @@ function CartItem({
             </div>
             <button
                 type="button"
-                onClick={removeItemCart}
-                className="absolute -right-3 -top-4 bg-gray-200 transition-all duration-300
-                           hover:text-red-600 rounded-full p-1 hover:bg-red-100 text-red-800 shadow-sm hover:shadow-md group"
+                onClick={()=>{
+                    if(auth&&auth.userId)removeItemCart()
+                    else removeLocalCartItem()
+                }}
+                className="
+                absolute -right-3 -top-4 bg-gray-200 transition-all duration-300
+                hover:text-red-600 rounded-full p-1 hover:bg-red-100 text-red-800 shadow-sm hover:shadow-md group"
                 aria-label="Remove item"
             >
                 <X size={22} className="group-hover:rotate-90 duration-300" />

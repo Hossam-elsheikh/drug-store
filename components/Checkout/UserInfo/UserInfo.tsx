@@ -36,15 +36,7 @@ function UserInfo({ setShippingAddress, shippingAddress, formErrors, setFormErro
 
     return (
         <>
-            <div className="flex justify-between pb-3">
-                <p className="font-medium text-xl pt-5 pb-3">Shipping Address</p>
-
-                <div className="self-end">
-                    <AddNewAndEditAddresses mode="add" />
-                </div>
-            </div>
-
-            <div className='flex flex-col py-2'>
+            <div className='flex flex-col py-2 pt-7'>
                 <div>
                     <h2 className="text-2xl font-bold text-gray-800 p-2 border-b-2">{t("userInfo")}</h2>
                     <Table className="w-full">
@@ -84,6 +76,13 @@ function UserInfo({ setShippingAddress, shippingAddress, formErrors, setFormErro
                             )}
                         </TableBody>
                     </Table>
+                </div>
+
+                <div className="flex justify-between pb-3">
+                    <p className="font-medium text-xl pt-5 pb-3">Shipping Address</p>
+                    <div className="self-end">
+                        <AddNewAndEditAddresses mode="add" />
+                    </div>
                 </div>
 
                 <div className="space-y-4">

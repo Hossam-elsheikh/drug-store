@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Heart, ShoppingCart, Eye } from 'lucide-react'
 import Modal from './Modal'
 import { AnimatePresence, easeInOut, motion } from 'framer-motion'
-import { AddToCart, instancePrivate, transCartToAPI } from '@/axios/instance'
+import { AddToCart, addToWishList, instancePrivate, removeProductFromWishList, transCartToAPI } from '@/axios/instance'
 import useAuth from '@/hooks/useAuth'
 import Image from 'next/image'
 import { useLocale } from '@/context/LocaleProvider'
@@ -14,9 +14,10 @@ import { useTranslations } from 'next-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToLocalCart } from '@/redux/slices/addToCart'
 import { useLocalCart } from '@/hooks/useLocalCart'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import QuickAccess from './QuickAccess'
 import { useRouter } from 'next/navigation'
+import { Toaster, toast } from "sonner";
 export const getColorClass = (percentage: number) => {
     if (percentage <= 5) return 'bg-indigo-100 text-indigo-800'
     if (percentage <= 10) return 'bg-blue-100 text-blue-800'
@@ -58,6 +59,11 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
             setQuickAccess(false)
         }
     }
+    
+    const variants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0 },
+    }
 
     const {
         _id,
@@ -71,15 +77,35 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
     } = details
 
     //add to cart handler with API call
-    const addToCart = (product: object) => AddToCart(product, auth)
-
+    const queryClient = useQueryClient()
+    const AddToCartMutation = useMutation({
+        mutationFn:(product: object) => AddToCart(product, auth),
+        onSuccess:() => {
+            queryClient.invalidateQueries()
+            toast.success("product added to cart Successfully!");
+        },
+    })
+    
     //add to cart handler with localStorage
     const { addToLocalCartDispatch } = useLocalCart()
+    
+    //add to wishList handler with API call
+    const addProductToWishListMutation = useMutation({
+        mutationFn:(productId:any)=> addToWishList(productId,auth.userId),
+        onSuccess: () => {
+            queryClient.invalidateQueries()
+            toast.success("product added to wish list Successfully");
+        },
+    })
 
-    const variants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0 },
-    }
+    const removeProductFromWishListMutation = useMutation({
+        mutationFn: (productId) => removeProductFromWishList(auth.userId, productId),
+        onSuccess: () => {
+            queryClient.invalidateQueries()
+            toast.success("product removed from wish list Successfully");
+        },
+    })
+    const RemoveProductFromWishList = (productId: any) => removeProductFromWishListMutation.mutate(productId)
 
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
 
@@ -143,8 +169,7 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
                 <div className="flex items-center justify-around gap-4">
                     <button
                         className="p-2 rounded-full hover:bg-gray-100 transition-all duration-200"
-                        onClick={() => toggleFavorite(details)}
-                    >
+                        onClick={() => auth&&auth.userId? isProductFavorite(_id)? RemoveProductFromWishList(details._id) : addProductToWishListMutation.mutate(details._id) : toggleFavorite(details) }>
                         <Heart
                             className={`w-6 h-6 transition-all duration-300 delay-400 active:scale-[.96] ${isProductFavorite(_id)
                                 ? 'text-red-500 fill-red-500'
@@ -155,7 +180,7 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
                     {mode === 'default' ? (
 
                         <button
-                            onClick={() => auth && auth.userId ? addToCart(details) : addToLocalCartDispatch(details)}
+                            onClick={() => auth && auth.userId ? AddToCartMutation.mutate(details) : addToLocalCartDispatch(details)}
                             className="flex bg-primaryColor px-5 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105"
                         >
                             <ShoppingCart size={20} />

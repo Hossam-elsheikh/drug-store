@@ -10,11 +10,12 @@ type DataType = {
 
 function OrderSummary({ couponFormik, applyCouponMutation, applyCouponEvent, totalPrice }: DataType) {
 
+    console.log(totalPrice);
     
 
     return (
         <>
-            <section className=" rounded-md  overflow-hidden sticky top-28 self-star pt-5">
+            <section className=" rounded-md  overflow-hidden sticky top-28 self-star pt-5 px-7 ">
                 <h2 className="text-2xl font-bold text-gray-800 p-2">
                     Order Summary
                 </h2>
@@ -46,7 +47,7 @@ function OrderSummary({ couponFormik, applyCouponMutation, applyCouponEvent, tot
                             </form>
                             <OderSummaryInfo
                                 title='Subtotal'
-                                price={totalPrice?.data?.cartTotalPrice}
+                                price={totalPrice?.data?.cartTotalPrice||totalPrice}
                                 styling={null}
                             />
                             {applyCouponMutation.data?.data ?
@@ -60,11 +61,11 @@ function OrderSummary({ couponFormik, applyCouponMutation, applyCouponEvent, tot
                                 :
                                 null
                             }
-                            <OderSummaryInfo
+                            {/* <OderSummaryInfo
                                 title='Shipping Fee'
                                 price={totalPrice?.data?.cartTotalPrice}
                                 styling={null}
-                            />
+                            /> */}
                             <hr className="border border-[#dcdcdc]" />
                             <div className="font-semibold text-xl">
 
@@ -80,7 +81,7 @@ function OrderSummary({ couponFormik, applyCouponMutation, applyCouponEvent, tot
                                     <>
                                         <OderSummaryInfo
                                             title='Total'
-                                            price={totalPrice?.data?.cartTotalPrice}
+                                            price={totalPrice?.data?.cartTotalPrice||totalPrice}
                                             styling={null}
                                         />
                                     </>

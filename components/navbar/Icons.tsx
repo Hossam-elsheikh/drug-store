@@ -11,7 +11,8 @@ import { ShoppingCart } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useTransLocalCartAPI } from '@/hooks/useTransLocalCartAPI';
 import { useMutation } from '@tanstack/react-query';
-import { transCartToAPI } from '@/axios/instance';
+import { transCartToAPI, transLocalWishListToAPI } from '@/axios/instance';
+import { useFavorites } from '@/context/favoriteProvider';
 
 const Icons = () => {
 
@@ -28,14 +29,25 @@ const Icons = () => {
         //on successful response the localStorage will be deleted
         onSuccess: () => localStorage.removeItem('products'),
         onError: (error) => console.log('error while mutation trans to cart api', error),
+    })
 
+    // handle the transfer of the local storage wishList to the API.
+    // This mutation will be triggered after a successful user sign-in.
+    const { favoriteProducts } = useFavorites()
+    const transLocalWishListToAPI_Mutation = useMutation({
+        mutationFn: () => transLocalWishListToAPI(favoriteProducts, auth.userId),
+        onSuccess: () => { localStorage.removeItem('FavoriteItems'); console.log('wishlist products now are removed and moved successfully from local storage to api'); },
+        onError: (error) => console.log('error while mutation trans wishlist to api', error),
     })
 
     useEffect(() => {
         if (localStorageCart.length >= 1 && auth?.userId) {
             transToAPI_Mutation.mutate()
         }
-    }, [auth?.userId, localStorageCart?.length])
+        if (favoriteProducts?.length > 0 && auth?.userId) {
+            transLocalWishListToAPI_Mutation.mutate()
+        }
+    }, [auth?.userId, localStorageCart?.length, favoriteProducts?.length])
 
 
     useEffect(() => {
@@ -60,9 +72,9 @@ const Icons = () => {
                     :
                     <>
                         {pathName === `/${locale}/checkout` ?
-                            <Link href={`/${locale}/cart`} className="flex items-center bg-secColor p-2 px-4 hover:bg-primaryColor hover:scale-105 cursor-pointer transition-all duration-200 rounded-3xl text-white gap-2 ">
-                                <p className="font-semibold">{t("cart")}</p>
-                                <ShoppingCart />
+                            <Link href={`/${locale}/cart`} >
+                                    <ShoppingCart className="w-7 h-7  hover:text-[#3ea9f4] transition-colors duration-200" />
+                                    {/* <p className="font-medium my-auto">{t("cart")}</p> */}
                             </Link>
                             :
                             (
