@@ -54,10 +54,7 @@ function Home() {
                             </>
                         );
                     })}
-
-
                 </div>
-
             </Suspense>
         </>
     );

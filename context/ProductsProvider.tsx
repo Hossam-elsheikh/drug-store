@@ -4,8 +4,6 @@ import React, { createContext, ReactNode, useState, useCallback, useContext } fr
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/axios/instance";
 
-
-
 export interface SearchParams {
     page?: number;
     search?: string;

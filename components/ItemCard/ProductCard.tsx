@@ -90,6 +90,7 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
             animate="visible"
             transition={{ delay: index * 0.1, ease: easeInOut, duration: 0.5 }}
             viewport={{ amount: 0 }}
+            // className="flex flex-col w-[200px] md:w-[220px] h-[340px] md:h-[350px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl"
             className="flex flex-col w-[200px] md:w-[220px] h-[340px] md:h-[350px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300"
 
         >
@@ -108,6 +109,7 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
                     src={`${imagePath}${image}`}
                     alt={name?.en}
                     layout="fill"
+                    sizes='100'
                     objectFit="cover"
                     className="transition-transform duration-300 hover:scale-110"
                 />

@@ -15,12 +15,13 @@ import { Formik, Form, Field, FormikHelpers } from 'formik'
 
 import { Input } from '@/components/ui/input'
 import { useLocale } from '@/context/LocaleProvider'
-import { SearchProducts } from '@/axios/instance'
+import { fetchProducts } from '@/axios/instance'
 import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { SearchSchema } from '@/lib/schema'
 import SearchElement from './SearchElement'
+import { FormValues, Product } from '@/types'
 
 const staggerContainer = {
     hidden: { opacity: 1 },
@@ -53,13 +54,13 @@ export default function SearchMed(): JSX.Element {
         isFetching,
     } = useQuery({
         queryKey: ['searchProducts', value],
-        queryFn: () => SearchProducts(value),
+        queryFn: () => fetchProducts({name:value}),
         enabled: value.length >= 3,
         staleTime: 1000 * 60 * 5,
     })
 
     const handleSearch = (value: string): void => {
-        setInputValue(value.replace(/ /g, '-'))
+        setInputValue(value)
     }
 
     const onSubmit = async (values: FormValues, { resetForm }: FormikHelpers<FormValues>): Promise<void> => {

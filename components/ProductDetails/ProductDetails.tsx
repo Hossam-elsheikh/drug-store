@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getOneProduct } from '@/axios/instance'
 import { useTranslations } from 'next-intl'
 import CustomerCommentDialog from '../CustomerReview/CustomerCommentDialog'
+import { ProductDetailsProps } from '@/types'
 
 
 

@@ -38,7 +38,7 @@ interface FormValues {
     input: string
 }
 
-type Product = {
+export type Product = {
     name: {
         en: string
         ar: string
@@ -149,8 +149,8 @@ type TotalPrice = {
 type ProductDetailsProps = {
     params: {
         locale: string
-        'collection-slug': string
-        'product-slug': string
+        ['collection-slug']: string
+        ['product-slug']: string
     }
 }
 

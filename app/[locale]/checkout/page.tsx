@@ -178,7 +178,7 @@ const Checkout = () => {
 
                 :
 
-                <div className="bg-gray-50 w-full mx-auto flex flex-col min-h-dvh">
+                <div className="bg-gray-50 w-full mx-auto flex flex-col min-h-dvh mt-8">
                     {/* <BreadCrumb /> */}
                     <div className="grid  xl:grid-cols-2 md:grid-cols-1  bg-white ">
 

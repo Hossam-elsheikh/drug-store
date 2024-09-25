@@ -7,8 +7,8 @@ import {
     AccordionTrigger,
 } from '@/components/ui/accordion';
 import { useLocale } from '@/context/LocaleProvider';
-import { encodeId } from '@/lib/idCipher';
 import { SkeletonAccordion } from './DropList';
+import { Brand } from '@/types';
 
 
 
@@ -40,7 +40,7 @@ const BrandsDropList = ({ isLoading, brands }: { isLoading: boolean, brands: Bra
                                             className="font-medium text-base text-primaryColor hover:text-[#282a3f] flex items-center p-3"
                                             href={{
                                                 pathname: `/${locale}/brand/${slug}`,
-                                                query: { ref: encodeId(_id) },
+                                                query: { ref: _id,name:name[locale as keyof typeof name] || ''},
                                             }}
                                         >
                                             {name[locale as keyof typeof name] || ''}

@@ -1,3 +1,4 @@
+import { SearchParams } from '@/context/ProductsProvider'
 import axios from 'axios'
 
 enum ApiEndPoints {
@@ -105,8 +106,8 @@ export const getUserOrders = async (userId: string): Promise<any> => {
 //////////////////////////////////////////////////// Products //////////////////////////////////////////////////////
 
 export const getProducts = async (
-    filters: searchParams
-): Promise<ProductResponse> => {
+    filters: SearchParams
+)=> {
     try {
         const response = await instance.get(ApiEndPoints.PRODUCT, {
             params: filters,
@@ -129,13 +130,28 @@ export const getOneProduct = async (productId: string): Promise<any> => {
     }
 }
 // ---------------------------------------------------Search Products----------------------------------------------
-
-export const SearchProducts = async (SearchValue: string): Promise<any> => {
+type Filters = {
+    name? : string
+    category? : string
+    subCategory? : string
+    brand?:string
+    next?: string | null | unknown
+    limit?:number
+    sort?:string
+    order?:string
+}
+export const fetchProducts = async (filters: Filters): Promise<any> => {
     try {
         const response = await instance.get(
-            `${ApiEndPoints.PRODUCT}?name=${SearchValue}`
-        )
+            `${ApiEndPoints.PRODUCT}`,
+            {
+                params:filters
+            }
+        )        
+        console.log(response.data.products);
+        
         return response.data
+
     } catch (error) {
         handleApiError(error, 'Search Products')
     }
@@ -262,9 +278,9 @@ export const fetchCartItems = async (axiosPrivate: any, auth: any) => {
 
 export const cartItemQuantity = async (
     axiosPrivate: any,
-    userId,
-    productId,
-    quantity
+    userId:string,
+    productId:string,
+    quantity:number | string
 ) => {
     try {
         const response = await axiosPrivate.patch('/user/cart/quantity', {
