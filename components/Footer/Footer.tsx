@@ -1,11 +1,11 @@
 'use client'
 import { MapPin, Phone, Mail, Headset, LineChart, Shield, Handshake, Info } from 'lucide-react';
-import React from 'react';
+import React, { useContext } from 'react';
 import Image from 'next/image';
-import logo from "@/public/logo.svg";
 import Link from 'next/link';
 import FooterIcons from './FooterIcons';
 import { useLocale } from '@/context/LocaleProvider';
+import WebsiteProfileCtx from '@/context/WebsiteProfileContext';
 
 type SubObject = {
     icon: React.ReactNode;
@@ -55,6 +55,8 @@ export const footerData: Section[] = [
 
 const Footer = () => {
     const { locale } = useLocale();
+    const { logo } = useContext(WebsiteProfileCtx)
+
     return (
         <footer className="bg-gray-50 border flex dark:bg-gray-900">
             <div className="mx-auto flex flex-col w-full max-w-screen-xl p-4 py-4 lg:py-6">

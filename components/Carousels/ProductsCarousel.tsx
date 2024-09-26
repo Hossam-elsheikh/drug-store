@@ -1,104 +1,83 @@
 // ProductsCarousel.tsx
-"use client";
-import React, { useContext, useMemo } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation, A11y } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import ProductCard, { ProductCardSkeleton } from "../ItemCard/ProductCard";
-import classes from "./product-carousel.module.css";
-import { Product, ProductsContext } from "@/context/ProductsProvider";
-import NotFound from "@/app/not-found";
-import { useQuery } from "@tanstack/react-query";
-import { getProducts } from "@/axios/instance";
+'use client'
+import React, { useContext, useEffect, useMemo } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, Pagination, Navigation, A11y } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/scrollbar'
+import ProductCard, { ProductCardSkeleton } from '../ItemCard/ProductCard'
+import classes from './product-carousel.module.css'
+import { useQuery } from '@tanstack/react-query'
+import { getProducts, getRelatedProducts } from '@/axios/instance'
+import { Product } from '@/types'
 
 type ProductsProp = {
-    mode: string;
-    catId: string
-};
+    mode: string
+    catId?: string
+    productId?: string
+}
 
-export default function ProductsCarousel({ mode, catId }: ProductsProp) {
-    const context = useContext(ProductsContext);
+export default function ProductsCarousel({
+    mode,
+    catId,
+    productId,
+}: ProductsProp) {
     const productsQuery = useQuery({
-        queryKey: [catId],
-        queryFn: () => getProducts({ category: catId })
-
+        queryKey: catId ? [catId] : ['related', productId],
+        queryFn: () =>
+            mode === 'related'
+                ? getRelatedProducts(productId)
+                : getProducts({ category: catId })
     })
-    if (!context) {
-        return <h2 className={classes.error}>No products context available</h2>;
-    }
-
-    const { products, isLoading, isError, error } = context;
-console.log(products);
-
-    const breakpoints = mode === "full"
-        ? {
-            0: {
-                slidesPerView: 2,
-                spaceBetween: 2,
-            },
-            663: {
-                slidesPerView: 3,
-                spaceBetween: 2,
-            },
-            768: {
-                slidesPerView: 3,
-                spaceBetween: 1,
-            },
-            1024: {
-                slidesPerView: 4,
-                spaceBetween: 2,
-            },
-            1280: {
-                slidesPerView: 5,
-                spaceBetween: 2,
-            },
-            1600: {
-                slidesPerView: 6,
-                spaceBetween: 2,
-            },
-            1800: {
-                slidesPerView: 6,
-                spaceBetween: 2,
-            },
-        }
-        : {
-            0: {
-                slidesPerView: 2,
-                spaceBetween: 2,
-            },
-            480: {
-                slidesPerView: 2,
-                spaceBetween: 1,
-            },
-            768: {
-                slidesPerView: 2,
-                spaceBetween: 1,
-            },
-            1024: {
-                slidesPerView: 2,
-                spaceBetween: 2,
-            },
-            1280: {
-                slidesPerView: 3,
-                spaceBetween: 2,
-            },
-            1600: {
-                slidesPerView: 3,
-                spaceBetween: 2,
-            },
-            1800: {
-                slidesPerView: 4,
-                spaceBetween: 2,
-            },
-        };
 
 
-    if (isError) {
-        <NotFound />;
-    }
+
+    const breakpoints =
+        mode === 'full'
+            ? {
+                  0: {
+                      slidesPerView: 2,
+                      spaceBetween: 2,
+                  },
+                  663: {
+                      slidesPerView: 3,
+                      spaceBetween: 2,
+                  },
+                  768: {
+                      slidesPerView: 3,
+                      spaceBetween: 1,
+                  },
+                  1024: {
+                      slidesPerView: 4,
+                      spaceBetween: 2,
+                  },
+                  1280: {
+                      slidesPerView: 5,
+                      spaceBetween: 2,
+                  },
+                  1600: {
+                      slidesPerView: 6,
+                      spaceBetween: 2,
+                  },
+              }
+            : {
+                  0: {
+                      slidesPerView: 2,
+                      spaceBetween: 2,
+                  },
+
+                  730: {
+                      slidesPerView: 3,
+                      spaceBetween: 2,
+                  },
+
+                  1400: {
+                      slidesPerView: 4,
+                      spaceBetween: 2,
+                  },
+              }
 
     return (
         <Swiper
@@ -112,15 +91,19 @@ console.log(products);
         >
             {productsQuery?.isLoading
                 ? [1, 2, 3, 4, 5, 6, 7].map((i) => (
-                    <SwiperSlide key={i}>
-                        <ProductCardSkeleton />
-                    </SwiperSlide>
-                ))
+                      <SwiperSlide key={i}>
+                          <ProductCardSkeleton />
+                      </SwiperSlide>
+                  ))
                 : productsQuery?.data?.products?.map((prod: Product) => (
-                    <SwiperSlide key={prod._id}>
-                        <ProductCard details={prod} index={prod._id} mode="default" />
-                    </SwiperSlide>
-                ))}
+                      <SwiperSlide key={prod._id}>
+                          <ProductCard
+                              details={prod}
+                              index={prod._id}
+                              mode="default"
+                          />
+                      </SwiperSlide>
+                  ))}
         </Swiper>
-    );
+    )
 }

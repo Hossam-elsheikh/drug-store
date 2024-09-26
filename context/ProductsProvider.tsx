@@ -3,10 +3,12 @@
 import React, { createContext, ReactNode, useState, useCallback, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/axios/instance";
+import { Product } from "@/types";
 
 export interface SearchParams {
     page?: number;
     search?: string;
+    category: string | undefined
 }
 
 interface ProductsResponse {

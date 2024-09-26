@@ -28,6 +28,7 @@
     "Buttons": {
         "addToCart": "Add",
         "buyNow": "Buy now",
+        "unAvailable":"unavailabe",
         "viewDetails": "View details",
         "backToHome": "Back to home",
         "addAddress": "Add Ur Address",
@@ -124,7 +125,6 @@
     "Favorites": {
         "favorites": "Favorites",
         "addToFavorites": "Add To Your Favorites"
-      
     },
     "AsideMenu": {
         "profile": "Profile",
@@ -177,6 +177,21 @@
         "emptyCartTitle": "No Items in Your Cart",
         "quantity": "Quantity",
         "items": "Items"
+    },
+    "customerReview": {
+        "writeComment": "Write A Comment",
+        "shareExp": "Share Your Journey With Us",
+        "yourFeedback": "Your feedback helps us improve. Tell us about your experience!",
+        "rate": "Rate Our Service:",
+        "comment": "Submit Comment"
+    },
+    "shopWithUs":{
+        "whyShop" : "Why Shop With Us",
+        "shippingTitle":"Free Shipping",
+        "shippingDesc":"On orders over 200 KWD",
+        "deliveryTitle":"Fast Delivery",
+        "deliveryDesc":"Get it within 24 hours",
+        "supportTitle":"24/7 Support",
+        "supportDesc":"We're here to help"
     }
-    
 }

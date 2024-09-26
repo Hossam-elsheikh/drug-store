@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Filter, Heart, Menu, ShoppingCart, User2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from "../ui/sheet";
@@ -10,7 +10,6 @@ import CartDrawer from "./cart/CartDrawer";
 import { useFavorites } from "@/context/favoriteProvider";
 import Favorites from "./Favorites/Favorites";
 import Image from "next/image";
-import image from "@/public/logo.svg";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocale } from "@/context/LocaleProvider";
 import useAuth from "@/hooks/useAuth";
@@ -18,6 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchCartItems } from "@/axios/instance";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { useLocalCart } from "@/hooks/useLocalCart";
+import WebsiteProfileCtx from "@/context/WebsiteProfileContext";
 
 
 function SignInForm() {
@@ -37,6 +37,8 @@ type Props = {
 
 function DrawerWrapper({ showSec }: Props) {
     const [animateBounce, setAnimateBounce] = useState(false)
+    const { logo } = useContext(WebsiteProfileCtx)
+
     const { dir } = useLocale();
     const { auth }: any = useAuth();
     const { getTotalFavorites } = useFavorites();
@@ -157,7 +159,7 @@ function DrawerWrapper({ showSec }: Props) {
                 <SheetHeader className="items-center p-5 ">
                     <SheetHeader className="items-center ">
                         <Image
-                            src={image}
+                            src={logo}
                             alt="logo"
                             width={100}
                             height={100}

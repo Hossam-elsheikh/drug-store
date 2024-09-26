@@ -18,6 +18,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import QuickAccess from './QuickAccess'
 import { useRouter } from 'next/navigation'
 import { Toaster, toast } from "sonner";
+import { Product } from '@/types'
 export const getColorClass = (percentage: number) => {
     if (percentage <= 5) return 'bg-indigo-100 text-indigo-800'
     if (percentage <= 10) return 'bg-blue-100 text-blue-800'
@@ -38,7 +39,7 @@ type DataType = {
     product: object
 }
 
-const ProductCard = ({ details, mode = 'default', index, }: { details: Product, mode: string, index: number }) => {
+const ProductCard = ({ details, mode = 'default', index }: { details: Product, mode: string, index: string }) => {
     const { toggleFavorite, isProductFavorite } = useFavorites()
     const { locale, dir } = useLocale()
     const [quickAccess, setQuickAccess] = useState(false)
@@ -73,6 +74,7 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
         image,
         description,
         sale,
+        stock,
         category: { slug },
     } = details
 
@@ -181,11 +183,12 @@ const ProductCard = ({ details, mode = 'default', index, }: { details: Product, 
 
                         <button
                             onClick={() => auth && auth.userId ? AddToCartMutation.mutate(details) : addToLocalCartDispatch(details)}
-                            className="flex bg-primaryColor px-5 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105"
+                            disabled={stock <= 0}
+                            className="flex bg-primaryColor px-5 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105 disabled:scale-100 disabled:bg-gray-600 disabled:cursor-not-allowed"
                         >
                             <ShoppingCart size={20} />
                             <p className='text-sm md:block'>
-                                {t("addToCart")}
+                                {stock > 0 ?  t("addToCart") : t('unAvailable')}
                             </p>
                         </button>
                     ) : (

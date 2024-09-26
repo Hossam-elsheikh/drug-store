@@ -152,6 +152,7 @@ type ProductDetailsProps = {
         locale: string
         ['collection-slug']: string
         ['product-slug']: string
+        id:string
     }
 }
 

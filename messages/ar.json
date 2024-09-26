@@ -28,6 +28,7 @@
     "Buttons": {
         "addToCart": "أضف",
         "buyNow": "شراء الآن",
+        "unAvailable":"غير متوفر",
         "viewDetails": "عرض التفاصيل",
         "viewMore": "عرض المزيد",
         "viewLess": "عرض أقل",
@@ -177,5 +178,21 @@
         "emptyCartTitle": "لا توجد منتجات في سلة التسوق",
         "quantity": "الكمية",
         "items": "عدد المنتجات"
+    },
+    "customerReview":{
+        "writeComment": "اكتب تعليقاً",
+        "shareExp": "شارك تجربتك معنا",
+        "yourFeedback": "تقييمك للخدمة يساعدنا في تحسينها",
+        "rate": "قيم خدمتنا :",
+        "comment": "إضافة تعليق"
+    },
+    "shopWithUs":{
+        "whyShop" : "لماذا تتسوق معنا",
+        "shippingTitle":"شحن مجاني",
+        "shippingDesc":"للطلبات التي تتعدى 200 دينار ",
+        "deliveryTitle":"شحن سريع",
+        "deliveryDesc":"احصل على طلبك في أقل من 24 ساعة",
+        "supportTitle":"24/7 دعم",
+        "supportDesc":"نحن دائماً هنا لمساعدتك"
     }
 }

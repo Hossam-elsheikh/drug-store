@@ -1,5 +1,5 @@
 import { SearchParams } from '@/context/ProductsProvider'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 enum ApiEndPoints {
     PRODUCT = '/product',
@@ -11,9 +11,10 @@ enum ApiEndPoints {
     BRANDS = '/brand',
     MEDIA = '/media',
     REVIEW = '/review',
+    PROFILE = '/profile',
 }
 
-const API_URL = process.env.API_URL || "http://localhost:4000"
+const API_URL = process.env.API_URL || 'http://localhost:4000'
 
 export const instance = axios.create({
     baseURL: API_URL,
@@ -25,49 +26,56 @@ export const instancePrivate = axios.create({
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
 })
-
-const handleApiError = (error: unknown, context: string) => {
-    console.error(`Error in ${context}:`, error)
+interface ErrorResponse {
+    message: string
 }
 
+const handleApiError = (elem: AxiosError<ErrorResponse>) => {
+    throw new Error(elem.response?.data.message || 'An unknown error occurred')
+}
 interface ProductSearchParams {
     page?: number
     search?: string
 }
-
+const errorMessage = (err: unknown) => {
+    if (axios.isAxiosError(err)) {
+        handleApiError(err)
+    } else {
+        // Handle non-Axios errors
+        throw new Error('An unknown error occurred')
+    }
+}
 // ---------------------------------------------------User----------------------------------------------
 
-export const userSignUp = async (values:any)=> {
-    try{
-        const response = await instance.post("/user",
-            JSON.stringify(values),
-            {
-                headers: { "Content-Type": "application/json" },
-                withCredentials: true,
-            }
-        );
-        console.log(response.data);
-        return response.data;
-    }catch(error){
-        console.log('error while signing up',error);
-        return error;
+export const userSignUp = async (values: any) => {
+    try {
+        const response = await instance.post('/user', JSON.stringify(values), {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+        })
+        console.log(response.data)
+        return response.data
+    } catch (error) {
+        errorMessage(error)
+        return error
     }
 }
 
-export const userSignIn = async(values:any)=>{
-    try{
-        const response: any = await instance.post("/user/sign-in",
+export const userSignIn = async (values: any) => {
+    try {
+        const response: any = await instance.post(
+            '/user/sign-in',
             JSON.stringify(values),
             {
-                headers: { "Content-Type": "application/json" },
+                headers: { 'Content-Type': 'application/json' },
                 withCredentials: true,
             }
-        );
-        console.log(response.data);
-        return response.data;
-    }catch(error){
-        console.error('error while signing in',error);
-        return error;
+        )
+        console.log(response.data)
+        return response.data
+    } catch (error) {
+        errorMessage(error)
+        return error
     }
 }
 
@@ -78,7 +86,7 @@ export const getUser = async (userId: string): Promise<any> => {
         )
         return response.data
     } catch (error) {
-        handleApiError(error, 'getUser')
+        errorMessage(error)
     }
 }
 
@@ -92,7 +100,7 @@ export const updateUser = async ({ userId, data }): Promise<any> => {
         console.log(response)
         return response.data
     } catch (error) {
-        handleApiError(error, 'updateUser')
+        errorMessage(error)
         throw error
     }
 }
@@ -122,7 +130,7 @@ export const deleteUser = async (userId: string): Promise<any> => {
 
         return response.data
     } catch (error) {
-        handleApiError(error, 'deleteUser')
+        errorMessage(error)
     }
 }
 
@@ -133,15 +141,21 @@ export const getUserOrders = async (userId: string): Promise<any> => {
         )
         return response.data
     } catch (error) {
-        handleApiError(error, 'getUserOrders')
+        errorMessage(error)
     }
 }
 
 //////////////////////////////////////////////////// Products //////////////////////////////////////////////////////
 
-export const getProducts = async (
-    filters: SearchParams
-)=> {
+export const getWebsiteData = async () => {
+    try {
+        const response = await instance.get(ApiEndPoints.PROFILE)
+        return response.data
+    } catch (error) {
+        errorMessage(error)
+    }
+}
+export const getProducts = async (filters: SearchParams) => {
     try {
         const response = await instance.get(ApiEndPoints.PRODUCT, {
             params: filters,
@@ -149,7 +163,7 @@ export const getProducts = async (
 
         return response.data
     } catch (error) {
-        handleApiError(error, 'getProducts')
+        errorMessage(error)
     }
 }
 
@@ -160,37 +174,43 @@ export const getOneProduct = async (productId: string): Promise<any> => {
         )
         return response.data
     } catch (error) {
-        handleApiError(error, 'getOneProduct')
+        errorMessage(error)
     }
 }
 // ---------------------------------------------------Search Products----------------------------------------------
 type Filters = {
-    name? : string
-    category? : string
-    subCategory? : string
-    brand?:string
+    name?: string
+    category?: string
+    subCategory?: string
+    brand?: string
     next?: string | null | unknown
-    limit?:number
-    sort?:string
-    order?:string
+    limit?: number
+    sort?: string
+    order?: string
 }
 export const fetchProducts = async (filters: Filters): Promise<any> => {
     try {
-        const response = await instance.get(
-            `${ApiEndPoints.PRODUCT}`,
-            {
-                params:filters
-            }
-        )        
-        console.log(response.data.products);
-        
-        return response.data
+        const response = await instance.get(`${ApiEndPoints.PRODUCT}`, {
+            params: filters,
+        })
+        console.log(response.data.products)
 
+        return response.data
     } catch (error) {
-        handleApiError(error, 'Search Products')
+        errorMessage(error)
     }
 }
 
+export const getRelatedProducts  = async (productId:string | undefined) => {
+    try {
+        const response = await instance.get(`${ApiEndPoints.PRODUCT}/related/${productId}`)
+        console.log(response.data);
+        
+        return response.data
+    } catch (error) {
+        errorMessage(error)
+    }
+}
 // ---------------------------------------------------Categories----------------------------------------------
 
 export const getCategories = async (): Promise<any> => {
@@ -200,7 +220,7 @@ export const getCategories = async (): Promise<any> => {
 
         return response.data
     } catch (error) {
-        handleApiError(error, 'getCategories')
+        errorMessage(error)
     }
 }
 
@@ -209,7 +229,7 @@ export const getOneCategory = async (id: string): Promise<any> => {
         const response = await instance.get(`${ApiEndPoints.CATEGORIES}/${id}`)
         return response.data
     } catch (error) {
-        handleApiError(error, 'getOneCategory')
+        errorMessage(error)
     }
 }
 
@@ -221,7 +241,7 @@ export const getSubCategories = async (category: string): Promise<any> => {
         )
         return response.data
     } catch (error) {
-        handleApiError(error, 'getSubCategories')
+        errorMessage(error)
     }
 }
 
@@ -234,7 +254,7 @@ export const getOneSubCategory = async (
         )
         return response.data
     } catch (error) {
-        handleApiError(error, 'getOneSubCategory')
+        errorMessage(error)
     }
 }
 
@@ -245,7 +265,7 @@ export const getBrands = async (): Promise<any> => {
         const response = await instance.get(ApiEndPoints.BRANDS)
         return response.data
     } catch (error) {
-        handleApiError(error, 'getBrands')
+        errorMessage(error)
     }
 }
 
@@ -254,7 +274,7 @@ export const getOneBrand = async (brandId: string): Promise<any> => {
         const response = await instance.get(`${ApiEndPoints.BRANDS}/${brandId}`)
         return response.data
     } catch (error) {
-        handleApiError(error, 'getOneBrand')
+        errorMessage(error)
     }
 }
 export const getMedia = async (): Promise<any> => {
@@ -264,7 +284,7 @@ export const getMedia = async (): Promise<any> => {
 
         return response.data
     } catch (error) {
-        handleApiError(error, 'getMedia')
+        errorMessage(error)
     }
 }
 
@@ -281,18 +301,20 @@ export const AddToCart = async (product: any, auth: any) => {
         })
         console.log(response)
     } catch (err) {
-        console.error('error while adding to cart', err)
+        errorMessage(err)
     }
 }
 
 export const transCartToAPI = async (userId: string, localStorageCart: any) => {
     try {
-        const response = await instancePrivate.post(`http://localhost:4000/user/cart/add/many`,
-            { userId, products: localStorageCart })
-        console.log(response);
+        const response = await instancePrivate.post(
+            `http://localhost:4000/user/cart/add/many`,
+            { userId, products: localStorageCart }
+        )
+        console.log(response)
         return response
     } catch (error) {
-        console.error('error while transferring to api', error);
+        errorMessage(error)
         return error
     }
 }
@@ -306,15 +328,15 @@ export const fetchCartItems = async (axiosPrivate: any, auth: any) => {
         })
         return response
     } catch (error) {
-        console.error('error happened while fetching cart', error)
+        errorMessage(error)
     }
 }
 
 export const cartItemQuantity = async (
     axiosPrivate: any,
-    userId:string,
-    productId:string,
-    quantity:number | string
+    userId: string,
+    productId: string,
+    quantity: number | string
 ) => {
     try {
         const response = await axiosPrivate.patch('/user/cart/quantity', {
@@ -325,7 +347,7 @@ export const cartItemQuantity = async (
         console.log(response)
         return response
     } catch (error) {
-        console.error('error while increasing quantity of the item', error)
+        errorMessage(error)
     }
 }
 
@@ -341,7 +363,7 @@ export const cancelItemCart = async ({
         console.log(response)
         return response
     } catch (error) {
-        console.error('error while cancelling the order', error)
+        errorMessage(error)
     }
 }
 
@@ -354,7 +376,7 @@ export const calcCart = async ({ axiosPrivate, auth }: any) => {
         // console.log(response)
         return response
     } catch (error) {
-        console.error('error while calc cart total price', error)
+        errorMessage(error)
     }
 }
 
@@ -366,7 +388,7 @@ export const getCoupon = async (axiosPrivate, couponName) => {
         console.log(response)
         return response
     } catch (error) {
-        console.error('error while getting the coupon', error)
+        errorMessage(error)
     }
 }
 
@@ -385,8 +407,7 @@ export const applyCoupon = async (
         console.log(response)
         return response
     } catch (error) {
-        console.error('error while applying the coupon', error)
-        return error
+        errorMessage(error)
     }
 }
 
@@ -394,64 +415,79 @@ export const applyCoupon = async (
 
 export const addToWishList = async (productId: any, userId: any) => {
     try {
-        const response = await instancePrivate.post('/wishlist', { productId, userId })
-        console.log(response.data);
-        return response.data;
+        const response = await instancePrivate.post('/wishlist', {
+            productId,
+            userId,
+        })
+        console.log(response.data)
+        return response.data
     } catch (error) {
-        console.error(error);
-        return error;
+        errorMessage(error)
     }
 }
 
 export const transLocalWishListToAPI = async (products: any, userId: any) => {
     try {
-        const response = await instancePrivate.post('/wishlist/wishlist/add/many', { products, userId });
-        console.log(response.data);
-        console.log('wishlist is now moved from localStorage to api successfully !!!!');
-        return response.data;
+        const response = await instancePrivate.post(
+            '/wishlist/wishlist/add/many',
+            { products, userId }
+        )
+        console.log(response.data)
+        console.log(
+            'wishlist is now moved from localStorage to api successfully !!!!'
+        )
+        return response.data
     } catch (error) {
-        console.error('error while transing localstorgae wishlist to api', error);
-        return error;
+        errorMessage(error)
     }
 }
 
 export const getWishList = async (userId: any) => {
     try {
         const response = await instance.get(`/wishList/${userId}`)
-        console.log(response.data);
-        return response.data;
+        console.log(response.data)
+        return response.data
     } catch (error) {
-        console.error('error while fetching wishlist', error)
-        return error
+        errorMessage(error)
     }
 }
 
-export const removeProductFromWishList = async (userId: any, productId: any) => {
+export const removeProductFromWishList = async (
+    userId: any,
+    productId: any
+) => {
     try {
-        const response = await instancePrivate.patch('/wishList', { userId, productId })
-        console.log(response.data, 'product removed successfully from wishlist');
-        return response.data;
+        const response = await instancePrivate.patch('/wishList', {
+            userId,
+            productId,
+        })
+        console.log(response.data, 'product removed successfully from wishlist')
+        return response.data
     } catch (error) {
-        console.error('error removing product from wishlist', error);
-        return error;
+        errorMessage(error)
     }
 }
 
 //////////////////////////////////////////////////// Orders //////////////////////////////////////////////////////
 
-export const createOrder = async (axiosPrivate, auth, delivery, payment, shippingAddress) => {
+export const createOrder = async (
+    axiosPrivate,
+    auth,
+    delivery,
+    payment,
+    shippingAddress
+) => {
     try {
         const response = await axiosPrivate.post('/order', {
             userId: auth.userId,
             delivery,
             payment,
-            shippingAddress
+            shippingAddress,
         })
-        console.log(response);
+        console.log(response)
         return response
     } catch (error) {
-        console.error('error while creating the order', error);
-        return error
+        errorMessage(error)
     }
 }
 
@@ -467,7 +503,7 @@ export const cancelOrder = async (
         })
         console.log(response)
     } catch (error) {
-        console.error('error while canceling the order', error)
+        errorMessage(error)
     }
 }
 
@@ -504,43 +540,82 @@ export const availablePayment = async (InvoiceAmount: any) => {
         })
         return response
     } catch (error) {
-        console.error('error while fetching available Payments', error)
+        errorMessage(error)
     }
 }
 
 export const executePayment = async (payload: any) => {
     try {
-        const response = await axios.post(`${API_URL}/payment/execute`, payload);
-        console.log(response);
-        return response.data
-    } catch (error) {
-        console.error('error while executing payment', error);
-        return error
-    }
-    try {
         const response = await axios.post(`${API_URL}/payment/execute`, payload)
-        // console.log(response.data)
+        console.log(response)
         return response.data
     } catch (error) {
-        console.error('error while executing payment', error)
-        return error
+        errorMessage(error)
     }
 }
 
 // -----------------------------Customer Review-----------------------------------------
 
-export const addReview = async (
-    userId: string,
-    productId: string,
-    reviewData: ReviewData
-): Promise<any> => {
+type ReviewPost = {
+    userId: string
+    productId: string | undefined
+    rate?: number
+    comment?: string
+    reviewId?:string
+}
+export const addReview = async (data: ReviewPost) => {
     try {
-        const response = await instance.post(
-            `${ApiEndPoints.REVIEW}/${productId}`,
-            { ...reviewData, userId, productId }
-        )
-        return response
-    } catch (error) {
-        handleApiError(error, 'addReview')
+        const response = await instance.post(`${ApiEndPoints.REVIEW}`, data)
+        return response.data
+    } catch (err) {
+        errorMessage(err)
     }
 }
+//
+
+export const getReviews = async (productId: string) => {
+    try {
+        const response = await instance.get(
+            `${ApiEndPoints.REVIEW}/${productId}`
+        )
+        return response.data
+    } catch (err) {
+        errorMessage(err)
+    }
+}
+
+export const deleteReview = async (reviewId: string) => {
+    try {
+        const response = await instance.delete(
+            `${ApiEndPoints.REVIEW}/${reviewId}`
+        )
+        return response.data
+    } catch (err) {
+        errorMessage(err)
+    }
+}
+
+export const getReview = async (data: ReviewPost) => {
+    try {
+        const response = await instance.get(
+            `${ApiEndPoints.REVIEW}/oneReview`,{
+                params:data
+            }
+        )
+        return response.data
+    } catch (err) {
+        errorMessage(err)
+    }
+}
+export const updateReview = async (data: ReviewPost) => {
+    try {
+        const response = await instance.patch(
+            `${ApiEndPoints.REVIEW}/`,data
+        )
+        return response.data
+    } catch (err) {
+        errorMessage(err)
+    }
+}
+
+

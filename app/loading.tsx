@@ -1,17 +1,18 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import logo from "@/public/logowithoutBG.png";
-import { useState, useEffect } from "react";
+import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useContext } from 'react'
+import WebsiteProfileCtx from '@/context/WebsiteProfileContext'
 
 export default function Loading() {
-    const [isVisible, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(false)
+    const { logo } = useContext(WebsiteProfileCtx)
 
     useEffect(() => {
-        const timer = setTimeout(() => setIsVisible(true), 100);
-        return () => clearTimeout(timer);
-    }, []);
+        const timer = setTimeout(() => setIsVisible(true), 100)
+        return () => clearTimeout(timer)
+    }, [])
 
     return (
         <AnimatePresence>
@@ -22,8 +23,8 @@ export default function Loading() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{
-                        opacity: { duration: 0.5, ease: "easeInOut" },
-                        y: { duration: 0.3, ease: "easeInOut" },
+                        opacity: { duration: 0.5, ease: 'easeInOut' },
+                        y: { duration: 0.3, ease: 'easeInOut' },
                     }}
                     className="flex items-center justify-center min-h-screen bg-gray-100"
                 >
@@ -35,7 +36,7 @@ export default function Loading() {
                             }}
                             transition={{
                                 duration: 1.7,
-                                ease: "easeInOut",
+                                ease: 'easeInOut',
                                 repeat: Infinity,
                             }}
                             className="relative z-10"
@@ -53,5 +54,5 @@ export default function Loading() {
                 </motion.div>
             )}
         </AnimatePresence>
-    );
+    )
 }

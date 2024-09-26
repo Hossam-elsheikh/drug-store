@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "@/public/logowithoutBG.png";
 // import "../Loading.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import WebsiteProfileCtx from "@/context/WebsiteProfileContext";
 
 export default function Loading() {
     const [isVisible, setIsVisible] = useState(false);
+    const { logo } = useContext(WebsiteProfileCtx)
 
     useEffect(() => {
         const timer = setTimeout(() => setIsVisible(true), 100);
