@@ -124,7 +124,6 @@
     "Favorites": {
         "favorites": "Favorites",
         "addToFavorites": "Add To Your Favorites"
-      
     },
     "AsideMenu": {
         "profile": "Profile",
@@ -155,7 +154,16 @@
         "filter": "Filter products"
     },
     "SuccessPage": {
-        "thanksTitle": "Thank you for your purchase"
+        "title": "Thank You for Your Order!",
+        "orderConfirmed": "Your order has been successfully confirmed.",
+        "orderProcessing": "We're currently processing your order.",
+        "nextSteps": "You will receive an email with your order details shortly. In the meantime, feel free to track your order status in your account.",
+        "customerSupport": "Need help? Contact our customer support at Info@pharmasolutionskw.com or call us at #######."
+    },
+    "ErrorOrderPage":{
+        "title":"Order Failed",
+        "customerSupport": "Need help? Contact our customer support at Info@pharmasolutionskw.com or call us at #######.",
+        "attemptAgain":"Please visit your account and attempt to pay again once the issue has been resolved."
     },
     "ProductDetailsPage": {
         "aboutItem": "About This Item",

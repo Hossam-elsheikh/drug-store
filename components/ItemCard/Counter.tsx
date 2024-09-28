@@ -77,7 +77,7 @@ console.log(quantity);
     <div className="flex items-center ">
       <button
         type="button"
-        disabled={ quantity <= cartItem.productId.stock}
+        disabled={ quantity >= cartItem.productId.stock}
         onClick={auth && auth.userId ? quantityPlus : localCartItemQuantityPlus}
         className="inline-flex px-[4px] py-0.5 shrink-0 items-center justify-center text-slate-100 rounded-full bg-secColor hover:opacity-75 focus:outline-none  active:scale-90 duration-200 disabled:bg-gray-300 "
       >

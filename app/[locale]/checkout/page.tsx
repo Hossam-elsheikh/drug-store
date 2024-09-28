@@ -90,11 +90,37 @@ const Checkout = () => {
         enabled: !!cartItems,
     })
 
+    const createOrderMutation = useMutation({
+        mutationFn: () => createOrder(axiosPrivate, auth, deliveryMethod, paymentMethod, shippingAddress),
+        onSuccess(data) {
+            if (paymentMethod === "paying-with-visa") {
+                const payload = {
+                    InvoiceValue: cartPrice,
+                    PaymentMethodId: 2,
+                    CustomerName: userInfo.name,
+                    CustomerEmail: userInfo.email,
+                    MobileCountryCode: "+965",
+                    CustomerMobile: userInfo.mobile,
+                    CustomerReference: data.orderId,
+                    CallBackUrl: `http://localhost:3000/${locale}/successfullorder`,
+                    ErrorUrl: `http://localhost:3000/${locale}/error`,
+                    Language: locale,
+                    DisplayCurrencyIso: "KWD",
+                    // InvoiceItem: cartItems?.data,
+                    // CustomerAddress: user.addresses,
+                }
+                executePayMutation.mutate(payload)
+            }
+        },
+        onError(error) {
+            console.error('Order creation failed:', error);
+        }
+    })
+
     const executePayMutation = useMutation({
         mutationFn: (values: any) => executePayment(values),
         onSuccess: async (data) => {
             setPaymentURL(data?.Data.PaymentURL)
-            await createOrder(axiosPrivate, auth, deliveryMethod, paymentMethod, shippingAddress);
         },
         onError: (error) => {
             console.error('Payment execution failed', error);
@@ -105,8 +131,6 @@ const Checkout = () => {
         onSuccess: (data) => setCartPrice(data.data.finalPrice)
     })
     const applyCouponEvent = () => applyCouponMutation.mutate()
-    // console.log(applyCouponMutation);
-
 
     const handleCouponSubmit = (event: any) => {
         event.preventDefault()
@@ -125,29 +149,17 @@ const Checkout = () => {
     }, [applyCouponMutation?.data?.data?.finalPrice])
 
     const order = async () => {
-        if (userInfo && paymentMethod === "paying-with-visa") {
-            const payload = {
-                InvoiceValue: cartPrice,
-                PaymentMethodId: 2,
-                CustomerName: userInfo.name,
-                CustomerEmail: userInfo.email,
-                MobileCountryCode: "+965",
-                CustomerMobile: userInfo.mobile,
-                CallBackUrl: `http://localhost:3000/${locale}`,
-                ErrorUrl: `http://localhost:3000/${locale}/error`,
-                Language: locale,
-                DisplayCurrencyIso: "KWD",
-                // InvoiceItem: cartItems?.data,
-                // CustomerAddress: user.addresses,
+        if (userInfo) {
+            if (paymentMethod === "paying-with-visa") {
+                createOrderMutation.mutate()
             }
-            executePayMutation.mutate(payload)
-        }
-        if (paymentMethod === 'cash-on-delivery') {
-            try {
-                await createOrder(axiosPrivate, auth, deliveryMethod, paymentMethod, shippingAddress)
-                setPayWithCash('cash-on-delivery')
-            } catch (error) {
-                console.error('order failed, please try again.', error);
+            if (paymentMethod === 'cash-on-delivery') {
+                try {
+                    createOrderMutation.mutate()
+                    setPayWithCash('cash-on-delivery')
+                } catch (error) {
+                    console.error('order failed, please try again.', error);
+                }
             }
         }
     }
@@ -162,11 +174,34 @@ const Checkout = () => {
     };
 
     if (userInfoLoading || isCartLoading || isTotalPriceLoading) return <Loading />
-    if (userInfoError) return <h1>error while fetching user</h1>
 
-    if (cartError) return <h1>error while fetching cart</h1>
+    if (userInfoError) return (
+        <div className="flex justify-center items-center h-screen">
+            <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+                <p className="font-bold">Error</p>
+                <p>An error occurred while fetching user data. Please try again later.</p>
+            </div>
+        </div>
+    );
 
-    if (totalPriceError) return <h1>error while fetching total price</h1>
+    if (cartError) return (
+        <div className="flex justify-center items-center h-screen">
+            <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+                <p className="font-bold">Error</p>
+                <p>An error occurred while fetching cart data. Please try again later.</p>
+            </div>
+        </div>
+    );
+
+
+    if (totalPriceError) return (
+        <div className="flex justify-center items-center h-screen">
+            <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+                <p className="font-bold">Error</p>
+                <p>An error occurred while fetching total price. Please try again later.</p>
+            </div>
+        </div>
+    );
 
     return (
         <>
@@ -189,17 +224,17 @@ const Checkout = () => {
                     <div className="grid  xl:grid-cols-2 md:grid-cols-1  bg-white ">
                         <div className="bg-white px-10 ">
                             {auth?.userId ?
-                                    <UserInfo
-                                        shippingAddress={shippingAddress}
-                                        setShippingAddress={setShippingAddress}
-                                        formErrors={formErrors}
-                                        setFormErrors={setFormErrors}
-                                    />
+                                <UserInfo
+                                    shippingAddress={shippingAddress}
+                                    setShippingAddress={setShippingAddress}
+                                    formErrors={formErrors}
+                                    setFormErrors={setFormErrors}
+                                />
                                 :
-                                    <div className="w-full pt-6">
-                                        <p className="text-2xl font-bold text-gray-800 p-2 ">Please Sign first</p>
-                                        <AuthForm Type="sign-up" variant='checkout' />
-                                    </div>
+                                <div className="w-full pt-6">
+                                    <p className="text-2xl font-bold text-gray-800 p-2 ">Please Sign first</p>
+                                    <AuthForm Type="sign-up" variant='checkout' />
+                                </div>
                             }
 
                             <h2 className="text-2xl font-bold text-gray-800 p-2 pt-5">Your Order</h2>
@@ -230,7 +265,7 @@ const Checkout = () => {
                                         couponFormik={couponFormik}
                                         applyCouponMutation={applyCouponMutation}
                                         applyCouponEvent={applyCouponEvent}
-                                        totalPrice={totalPrice||localCartSelector.localCartTotal}
+                                        totalPrice={totalPrice || localCartSelector.localCartTotal}
                                     />
                                 </div>
 
@@ -247,10 +282,10 @@ const Checkout = () => {
                                     >
                                         {executePayMutation.isPending ? (
                                             <p>Processing</p>
-                                        ) : executePayMutation.isSuccess || payWithCash === 'cash-on-delivery' ? (
-                                            (window.location.href = payWithCash === 'cash-on-delivery' ? 'http://localhost:3000/en'
-                                                : executePayMutation.isSuccess ? paymentURL : ''),
-                                            <p className="flex justify-center gap-2">Redirecting <Loader className="animate-spin" /></p>
+                                            ) : executePayMutation.isSuccess || payWithCash === 'cash-on-delivery' ? (
+                                                (window.location.href = payWithCash === 'cash-on-delivery' ? `http://localhost:3000/${locale}/successfullorder`
+                                                    : executePayMutation.isSuccess ? paymentURL : ''),
+                                                <p className="flex justify-center gap-2">Redirecting <Loader className="animate-spin" /></p>
                                         ) :
                                             <>
                                                 {paymentMethod === 'cash-on-delivery' ? <p>Order Now</p> : <p>Pay Now</p>}
@@ -260,12 +295,12 @@ const Checkout = () => {
                                     </button>
                                     <p className="py-2">{executePayMutation.isError ? <p className="text-red-400 text-center">Error, please try again.</p> : null}</p>
                                     <div className="py-2">
-                                        {!executePayMutation.isError && Object.values(formErrors).some((i)=>i) && (
+                                        {!executePayMutation.isError && Object.values(formErrors).some((i) => i) && (
                                             <p className="text-red-400 text-center">
                                                 Please make sure you have chosen all the options above.
                                             </p>
                                         )
-                                    }
+                                        }
                                     </div>
                                 </div>
 
@@ -278,7 +313,7 @@ const Checkout = () => {
                                 couponFormik={couponFormik}
                                 applyCouponMutation={applyCouponMutation}
                                 applyCouponEvent={applyCouponEvent}
-                                totalPrice={totalPrice||localCartSelector.localCartTotal}
+                                totalPrice={totalPrice || localCartSelector.localCartTotal}
                             />
                         </div>
 

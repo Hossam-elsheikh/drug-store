@@ -58,7 +58,7 @@ export default function Favorites() {
     return (
         <div className="h-dvh overflow-auto overflow-x-hidden p-2 pb-20 space-y-2 border-b-2">
 
-            {(!auth.userId && totalFavorite === 0) || (auth?.userId && (wishList?.products.length === 0 || wishList?.length === 0)) ?
+            {(!auth.userId && totalFavorite === 0) || (auth?.userId && (wishList?.products?.length === 0 || wishList?.length === 0)) ?
                 <div className='flex justify-center items-center h-full flex-col '>
                     <Image src={CartSvg} width={200} height={200} alt="cartSvg" />
                     <h1 className='font-semibold md:text-xl text-lg pt-5'>{t('addToFavorites')}</h1>
