@@ -1,5 +1,9 @@
 // -------------------------------------------------USER
 
+interface UserAuth {
+    auth:object
+}
+
 interface Address {
     state: string
     city: string
@@ -160,4 +164,18 @@ type ProductDetailsProps = {
 interface QuickAccessProps {
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
     t: (key: string) => string
+}
+
+//-------------------------------------order------------------------------------
+
+export interface SetOrderPaymentStatus {
+    orderId:null|string|any,
+    userId:string,
+    auth:string;
+}
+
+//--------------------------------------payment-------------------------------
+export interface PaymentStatus {
+    key:number,
+    paymentId:number|string|null
 }

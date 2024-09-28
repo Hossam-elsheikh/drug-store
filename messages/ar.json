@@ -37,7 +37,8 @@
         "delete": "حذف",
         "showMore": "أظهر المزيد",
         "addToFavorite": "أضف إلى المفضلة",
-        "quickView": "نظرة سريعة"
+        "quickView": "نظرة سريعة",
+        "backToHome":"العودة الي الصفحة الرئيسية"
     },
     "cart": {
         "myCart": "عربة التسوق",
@@ -156,7 +157,16 @@
         "filter": "فلتر المنتجات"
     },
     "SuccessPage": {
-        "thanksTitle": "شكرا على شرائك"
+        "title": "شكراً لطلبك!",
+        "orderConfirmed": "تم وضع وتأكيد طلبك بنجاح!",
+        "orderProcessing": "نحن الان نقوم باعداد طلبك.",
+        "nextSteps": " سوف يصلك بريد الكتروني يحتوي علي تفاصيل طلبك, في هذه الاثناء, يمكنك تتبع طلبك من خلال حسابك.",
+        "customerSupport": "هل تحتاج إلى مساعدة؟ تواصل مع خدمة العملاء عبر البريد الإلكتروني Info@pharmasolutionskw.com او اتصل بنا علي #######."
+    },
+    "ErrorOrderPage":{
+        "title":"لقد فشل الطلب",
+        "customerSupport": "هل تحتاج إلى مساعدة؟ تواصل مع خدمة العملاء عبر البريد الإلكتروني Info@pharmasolutionskw.com او اتصل بنا علي #######.",
+        "attemptAgain":"بعد حل المشكلة يرجى زيارة حسابك والمحاولة للدفع مرة أخرى."
     },
     "ProductDetailsPage": {
         "aboutItem": "نبذه عن المنتج",

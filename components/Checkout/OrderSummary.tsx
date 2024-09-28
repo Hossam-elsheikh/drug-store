@@ -8,10 +8,8 @@ type DataType = {
     totalPrice: any,
 }
 
-function OrderSummary({ couponFormik, applyCouponMutation, applyCouponEvent, totalPrice }: DataType) {
-
-    console.log(totalPrice);
-    
+function OrderSummary({ couponFormik, applyCouponMutation, applyCouponEvent, totalPrice }: DataType) {    
+console.log(couponFormik.touched.couponCode , couponFormik);
 
     return (
         <>
