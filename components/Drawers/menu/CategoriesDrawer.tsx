@@ -20,8 +20,10 @@ function CategoriesDrawer({ classes }: Props) {
 
     return (
         <Sheet>
-            <SheetTrigger className={`flex items-center gap-2 font-semibold text-nowrap ${classes}`}>
+            <SheetTrigger className={`flex items-center gap-2 font-bold  text-nowrap hover:text-secColor ${classes}`}>
                 <Menu />
+                <h1 className="font-bold hidden md:block">{t("allCategories")}</h1>
+
             </SheetTrigger>
             <SheetContent className="w-[300px] p-0" side={dir === "ltr" ? 'left' : 'right'}>
                 <SheetHeader className="items-center p-5">

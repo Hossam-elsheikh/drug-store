@@ -36,14 +36,16 @@ function Home() {
                     <Container className="max-w-[1600px] ">
                         <CatCarousel items={categoryQuery?.data} />
                     </Container>
-                    <Container className="max-w-[1600px]  items-center">
+                    {/* <Container className="max-w-[1600px]  items-center">
                         <BannerGrid1 />
-                    </Container>
+                    </Container> */}
                     {categoryQuery?.data?.slice(0, 3).map((c: any) => {
                         return (
                             <>
                                 <Container
                                     key={c._id}
+                                    catId = {c._id}
+                                    slug= {c.slug}
                                     className="max-w-[1600px] border-b-2 rounded-none  items-center"
                                     title={c.name[locale]}
                                 >
