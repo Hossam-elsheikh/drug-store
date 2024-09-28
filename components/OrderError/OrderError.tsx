@@ -1,6 +1,6 @@
 'use client'
 
-import { paymentStatus, setOrderPaymentStatus, setPaymentFailure } from '@/axios/instance';
+import { paymentStatus, setOrderPaymentFailureStatus } from '@/axios/instance';
 import useAuth from '@/hooks/useAuth';
 import { useMutation } from '@tanstack/react-query';
 import { CircleX, MoveRight, OctagonAlert } from 'lucide-react';
@@ -41,7 +41,7 @@ function OrderError() {
         },
     });
     const setPaymentFailureMutation = useMutation({
-        mutationFn: ({ orderId,TransactionStatus,Error, ErrorCode }: any) => setPaymentFailure({ orderId,TransactionStatus,Error, ErrorCode }),
+        mutationFn: ({ orderId,TransactionStatus,Error, ErrorCode }: any) => setOrderPaymentFailureStatus({ orderId,TransactionStatus,Error, ErrorCode }),
         onSuccess(data) {
             console.log(data);
         },

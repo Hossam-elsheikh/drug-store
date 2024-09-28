@@ -1,5 +1,5 @@
 'use client'
-import { paymentStatus, setOrderPaymentStatus } from '@/axios/instance'
+import { paymentStatus, setOrderPaymentSuccessStatus } from '@/axios/instance'
 import useAuth from '@/hooks/useAuth'
 import { PaymentStatus, SetOrderPaymentStatus, UserAuth } from '@/types'
 import { useMutation } from '@tanstack/react-query'
@@ -35,7 +35,7 @@ function Success() {
     });
 
     const setOrderPaymentStatusMutation = useMutation({
-        mutationFn: ({ orderId, userId, InvoiceStatus }: any) => setOrderPaymentStatus({ orderId, userId, InvoiceStatus }),
+        mutationFn: ({ orderId, userId, InvoiceStatus }: any) => setOrderPaymentSuccessStatus({ orderId, userId, InvoiceStatus }),
         onSuccess(data) {
             console.log(data);
         },

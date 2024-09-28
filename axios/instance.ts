@@ -151,6 +151,8 @@ export const getUserOrders = async (userId: string): Promise<any> => {
 export const getWebsiteData = async () => {
     try {
         const response = await instance.get(ApiEndPoints.PROFILE)
+        console.log(response);
+        
         return response.data
     } catch (error) {
         errorMessage(error)
@@ -508,7 +510,7 @@ export const cancelOrder = async (
     }
 }
 
-export const setOrderPaymentStatus = async ({orderId,userId,InvoiceStatus}:any)=> {
+export const setOrderPaymentSuccessStatus = async ({orderId,userId,InvoiceStatus}:any)=> {
     console.log(orderId,userId,InvoiceStatus);
     try{
         const response = await instancePrivate.patch(`/order/success`,{orderId,userId,InvoiceStatus})
@@ -518,7 +520,7 @@ export const setOrderPaymentStatus = async ({orderId,userId,InvoiceStatus}:any)=
         console.error('error while setting Order Payment Status', error)
     }
 }
-export const setPaymentFailure = async ({orderId,TransactionStatus,Error,ErrorCode}:any)=> {
+export const setOrderPaymentFailureStatus = async ({orderId,TransactionStatus,Error,ErrorCode}:any)=> {
     console.log(orderId,TransactionStatus,Error,ErrorCode);
     try{
         const response = await instancePrivate.patch(`/order/failure`,{orderId,TransactionStatus,Error,ErrorCode})
@@ -552,13 +554,16 @@ export const executePayment = async (payload: any) => {
         console.error('error while executing payment', error);
         return error
     }
-    try {
-        const response = await axios.post(`${API_URL}/payment/execute`, payload)
-        // console.log(response.data)
-        return response.data
-    } catch (error) {
-        console.error('error while executing payment', error)
-        return error
+}
+
+export const paymentStatus = async(Key:PaymentStatus)=>{
+    try{
+        const response = await axios.post(`${API_URL}/payment/status`,{Key})
+        console.log(response.data);
+        return response.data;
+    }catch(error){
+        console.error('error while getting payment status',error);
+        return error;
     }
 }
 
