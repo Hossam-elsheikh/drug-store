@@ -9,7 +9,6 @@ type DataType = {
 }
 
 function OrderSummary({ couponFormik, applyCouponMutation, applyCouponEvent, totalPrice }: DataType) {    
-console.log(couponFormik.touched.couponCode , couponFormik);
 
     return (
         <>

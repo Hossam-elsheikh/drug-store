@@ -1,6 +1,6 @@
 'use client'
 
-import { paymentStatus, setOrderPaymentFailureStatus } from '@/axios/instance';
+import { paymentStatus, setOrderPaymentStatus, setOrderPaymentFailureStatus } from '@/axios/instance';
 import useAuth from '@/hooks/useAuth';
 import { useMutation } from '@tanstack/react-query';
 import { CircleX, MoveRight, OctagonAlert } from 'lucide-react';

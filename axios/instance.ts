@@ -151,8 +151,6 @@ export const getUserOrders = async (userId: string): Promise<any> => {
 export const getWebsiteData = async () => {
     try {
         const response = await instance.get(ApiEndPoints.PROFILE)
-        console.log(response);
-        
         return response.data
     } catch (error) {
         errorMessage(error)
@@ -448,7 +446,6 @@ export const transLocalWishListToAPI = async (products: any, userId: any) => {
 export const getWishList = async (userId: any) => {
     try {
         const response = await instance.get(`/wishList/${userId}`)
-        console.log(response.data);
         return response.data;
     } catch (error) {
         errorMessage(error)
@@ -488,7 +485,7 @@ export const createOrder = async (
             shippingAddress,
         })
         console.log(response);
-        return response
+        return response.data
     } catch (error) {
         errorMessage(error)
     }
@@ -557,6 +554,8 @@ export const executePayment = async (payload: any) => {
 }
 
 export const paymentStatus = async(Key:PaymentStatus)=>{
+    console.log(Key);
+    
     try{
         const response = await axios.post(`${API_URL}/payment/status`,{Key})
         console.log(response.data);
