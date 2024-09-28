@@ -241,7 +241,7 @@ const Checkout = () => {
                             <div className="p-3 rounded-md border space-y-3 shadow-sm">
                                 {cartProducts.length > 0 ?
                                     cartProducts.map((cartItem: any) =>
-                                        <Order cartItem={cartItem} id={cartItem._id} />
+                                        <Order key={cartItem._id} cartItem={cartItem} id={cartItem._id} />
                                     )
                                     :
                                     <>

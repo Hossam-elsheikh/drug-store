@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useContext } from "react";
 import CustomInput from "./CustomInput";
 import { Expand, Loader2, Eye, EyeOff } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -16,8 +16,8 @@ import { Button } from "@/components/ui/button"
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTransLocalCartAPI } from "@/hooks/useTransLocalCartAPI";
 import Image from "next/image";
-import image from "@/public/logo.svg";
 import { useFavorites } from "@/context/favoriteProvider";
+import WebsiteProfileCtx from "@/context/WebsiteProfileContext";
 
 interface authFormProps {
     Type: string;
@@ -25,6 +25,7 @@ interface authFormProps {
 }
 
 const AuthForm = ({ Type, variant }: authFormProps) => {
+    const { logo } = useContext(WebsiteProfileCtx)
 
     const f = useTranslations("Form");
     const { auth, setAuth }: any = useAuth();
@@ -135,7 +136,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                         {(variant === 'full') && (
                             <section className="flex justify-center pb-5 ">
                                 <Image
-                                    src={image}
+                                    src={logo}
                                     alt="logo"
                                     width={150}
                                     height={150}

@@ -68,9 +68,9 @@ function FilterDrawer() {
                                     label="Out Of Stock"
                                 />
 
-                                <h2 className="text-lg">Brands</h2>
+                                {/* <h2 className="text-lg">Brands</h2> */}
 
-                                {isBrandsLoading && <p>Loading brands...</p>}
+                                {/* {isBrandsLoading && <p>Loading brands...</p>}
                                 {isBrandsError && <p>Error loading brands.</p>}
                                 {!isBrandsLoading && !isBrandsError && (
                                     <ul className="space-y-2">
@@ -87,7 +87,7 @@ function FilterDrawer() {
                                             </li>
                                         ))}
                                     </ul>
-                                )}
+                                )} */}
 
                                 <PriceControl onChange={setPriceRange} />
                                 <button

@@ -8,6 +8,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import ItemSlider from "./ItemSlider";
+import { Category } from "@/types";
 
 
 type CategoryCarouselProps = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import ProductsView from '@/components/ProductsView/ProductsView';
-import { decodeId } from '@/lib/idCipher';
+
 
 type Props = {
     params: {
@@ -9,15 +9,16 @@ type Props = {
     };
     searchParams: {
         ref?: string
+        name?:string
     }
 };
 
 function Page({ params, searchParams }: Props) {
 
-    const { ref } = searchParams
-    const decodedId = ref ? decodeId(ref) : null
+    const { ref,name } = searchParams
+   
 
-    return (<ProductsView params={params} brand={decodedId} />
+    return (<ProductsView params={params} brand={ref} name={name}/>
     );
 }
 

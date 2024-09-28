@@ -1,31 +1,62 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import ImageMagnifier from './ImageMagnify'
 import ProductsCarousel from '../Carousels/ProductsCarousel'
 import ReviewComment from '../ReviewComment/ReviewComment'
 import Details from './Details'
 import About from './About'
 import { useLocale } from '@/context/LocaleProvider'
-import { useQuery } from '@tanstack/react-query'
-import { getOneProduct } from '@/axios/instance'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import {
+    deleteReview,
+    getOneProduct,
+    getRelatedProducts,
+    getReview,
+    getReviews,
+} from '@/axios/instance'
 import { useTranslations } from 'next-intl'
 import CustomerCommentDialog from '../CustomerReview/CustomerCommentDialog'
+import { ProductDetailsProps } from '@/types'
 
-
+import StarRating from '../CustomerReview/StarRating'
+import useAuth from '@/hooks/useAuth'
+import { Pencil, Trash2 } from 'lucide-react'
 
 export function ProductDetails({ params }: ProductDetailsProps) {
     const { locale, dir } = useLocale()
+    const {
+        auth: { userId },
+    }: any = useAuth()
+    const productId = params?.['product-slug']
     const t = useTranslations('ProductDetailsPage')
-
     const {
         data: productDetails,
         isLoading,
         isError,
     } = useQuery({
-        queryFn: () => getOneProduct(params?.['product-slug']),
+        queryFn: () => getOneProduct(productId),
         queryKey: ['productDetails'],
     })
+    const productReviewQuery = useQuery({
+        queryKey: ['reviews', productId],
+        queryFn: () => getReviews(productId),
+    })
+    const customerReview = useQuery({
+        queryKey: [userId, productId],
+        queryFn: () =>
+            getReview({
+                userId: userId || '',
+                productId: productId || '',
+            }),
+    })
 
+    const deleteReviewMutation = useMutation({
+        mutationFn: deleteReview,
+        onSuccess: () => {
+            customerReview.refetch()
+            productReviewQuery.refetch()
+        },
+    })
     if (isLoading) {
         return <ProductDetailsSkeleton />
     }
@@ -35,16 +66,14 @@ export function ProductDetails({ params }: ProductDetailsProps) {
     }
     console.log(productDetails)
 
-    const { image, customerReviews, _id } = productDetails
+    const { image, _id } = productDetails
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
 
     return (
         <>
-
             <section className="p-4 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg shadow-lg">
-               
                 <section className="md:pt-5 w-full flex flex-col lg:flex-row gap-8">
-                    <div dir={dir} className="w-full lg:w-2/3 space-y-10">
+                    <div dir={dir} className="w-full lg:w-[70%] space-y-10">
                         <div className="h-[300px] md:h-[400px] relative overflow-hidden rounded-lg">
                             <ImageMagnifier
                                 src={`${imagePath}${image}`}
@@ -59,61 +88,146 @@ export function ProductDetails({ params }: ProductDetailsProps) {
                             productDetails={productDetails}
                         />
                         <About productDetails={productDetails} />
-
-                        <div className="bg-gray-50 p-6 rounded-lg">
-                            <h3 className="text-xl font-semibold mb-4">
-                                {t('relatedProducts')}
-                            </h3>
-                            <ProductsCarousel
-                                mode="n"
-                                products={productDetails}
-                            />
-                        </div>
-
-                        <div className="space-y-6">
-                            <section className='flex justify-between'>
-                                <h3 className="text-xl font-semibold">
-                                    {t('customerReviews')}
+                        {productId && (
+                            <div className="bg-gray-50 p-6 rounded-lg">
+                                <h3 className="text-xl font-semibold mb-4">
+                                    {t('relatedProducts')}
                                 </h3>
-                                <CustomerCommentDialog productId={_id} />
 
-                            </section>
+                                <ProductsCarousel
+                                    mode="related"
+                                    productId={productId}
+                                />
+                            </div>
+                        )}
 
-                            {customerReviews && customerReviews.length != 0 ? (
-                                <>
-                                    <ReviewComment
-                                        userName={'abdul'}
-                                        rating={5}
-                                        comment={
-                                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-                                        }
-                                    />
-                                    <ReviewComment
-                                        userName={'abdul'}
-                                        rating={3}
-                                        comment={
-                                            'This product could use some improvements.'
-                                        }
-                                    />
-                                    <ReviewComment
-                                        userName={'abdul'}
-                                        rating={2}
-                                        comment={'Not satisfied with the quality.'}
-                                    />
-                                </>
-                            ) : (<>
-                                <div className="flex justify-center items-center min-h-[200px] bg-gray-50 rounded-lg p-6">
-                                    <div className="text-center">
-                                        <p className="text-xl font-semibold text-gray-700 mb-4">
-                                            {t('addYourComment')}
-                                        </p>
-                                        <p className="text-lg text-gray-500 mb-6">
-                                            {t('beTheFirstToLeaveAComment')}
-                                        </p>
+                        <div className="space-y-4 relative">
+                            <h3 className="text-xl font-semibold">
+                                {t('customerReviews')}
+                            </h3>
 
+                            {customerReview?.data ? (
+                                <div>
+                                    <div
+                                        dir={dir}
+                                        className="flex items-center justify-between mb-5"
+                                    >
+                                        <h1 className="text-lg text-gray-700 font-medium  ">
+                                            {locale === 'en'
+                                                ? 'Your Previous Review'
+                                                : 'تقييمك لهذا المنتج'}
+                                        </h1>
+                                        <div className="flex items-center text-gray-600 text-md gap-3">
+                                            <Trash2
+                                                onClick={() => {
+                                                    deleteReviewMutation.mutate(
+                                                        customerReview?.data
+                                                            ?._id
+                                                    )
+                                                }}
+                                                className="cursor-pointer hover:text-red-700 hover:scale-105"
+                                            />
+                                            <CustomerCommentDialog
+                                                isEdit={true}
+                                                postHandler={() => {
+                                                    customerReview.refetch()
+                                                }}
+                                                rateId={
+                                                    customerReview?.data?._id
+                                                }
+                                            />
+                                        </div>
                                     </div>
-                                </div></>)}
-
+                                    <ReviewComment
+                                        key={customerReview?.data?._id}
+                                        userName={
+                                            customerReview?.data?.userId.name
+                                        }
+                                        rating={customerReview?.data?.rate}
+                                        comment={customerReview?.data?.comment}
+                                    />
+                                </div>
+                            ) : (
+                                <div
+                                    dir={dir}
+                                    className={`absolute top-[-20px] ${
+                                        locale === 'en' ? 'right-5' : 'left-5'
+                                    }`}
+                                >
+                                    <CustomerCommentDialog
+                                        isEdit={false}
+                                        postHandler={() => {
+                                            customerReview.refetch()
+                                        }}
+                                        productId={_id}
+                                    />
+                                </div>
+                            )}
+                            {productReviewQuery?.data?.reviews &&
+                            productReviewQuery?.data?.reviews != 0 ? (
+                                <>
+                                    <div className="flex justify-between gap-3 items-center">
+                                        <p>
+                                            {
+                                                productReviewQuery?.data
+                                                    ?.reviewsCount
+                                            }{' '}
+                                            {locale === 'en'
+                                                ? 'reviewed this products'
+                                                : ' قام بتقييم هذا المنتج'}
+                                        </p>
+                                        <div className="flex items-center gap-5">
+                                            <p>
+                                                {
+                                                    productReviewQuery?.data
+                                                        ?.averageRate
+                                                }
+                                                /5
+                                            </p>
+                                            <StarRating
+                                                size={20}
+                                                mode="review"
+                                                defaultRating={
+                                                    productReviewQuery?.data
+                                                        ?.averageRate
+                                                }
+                                                className="ml-1"
+                                            />
+                                        </div>
+                                    </div>
+                                    {productReviewQuery?.data?.reviews?.map(
+                                        (rev) => {
+                                            if (
+                                                rev._id !==
+                                                customerReview?.data?._id
+                                            )
+                                                return (
+                                                    <ReviewComment
+                                                        key={rev._id}
+                                                        userName={
+                                                            rev.userId.name
+                                                        }
+                                                        rating={rev.rate}
+                                                        comment={rev.comment}
+                                                    />
+                                                )
+                                        }
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    <div className="flex justify-center items-center min-h-[200px] bg-gray-50 rounded-lg p-6">
+                                        <div className="text-center">
+                                            <p className="text-xl font-semibold text-gray-700 mb-4">
+                                                {t('addYourComment')}
+                                            </p>
+                                            <p className="text-lg text-gray-500 mb-6">
+                                                {t('beTheFirstToLeaveAComment')}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
                     <Details
@@ -122,7 +236,6 @@ export function ProductDetails({ params }: ProductDetailsProps) {
                     />
                 </section>
             </section>
-
         </>
     )
 }

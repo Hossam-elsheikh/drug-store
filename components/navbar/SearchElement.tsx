@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import React from 'react';
 import { useLocale } from '@/context/LocaleProvider'
+import { SearchElementProps } from '@/types';
 
 
 

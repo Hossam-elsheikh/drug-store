@@ -72,27 +72,18 @@ function Details({ productDetails, className }: any) {
                 </div>
             </div>
 
-            <div className="flex items-center gap-3">
-                <StarRating
-                    mode="review"
-                    maxRating={5}
-                    defaultRating={4}
-                    size={24}
-                    onSetRating={handleSetRating}
-                />
-                <p className="text-sm font-medium text-gray-600">
-                    4.0/5 (100 reviews)
-                </p>
-            </div>
+        
 
             <div className="space-y-4">
                 <div className="flex items-center gap-3">
                     <Button
-                        className="flex-grow bg-primaryColor hover:bg-primaryColor/90 text-white rounded-full transition-all duration-200 transform active:scale-95 flex items-center justify-center gap-2"
+                    disabled={stock <= 0}
+                        className="flex-grow bg-primaryColor hover:bg-primaryColor/90 text-white rounded-full transition-all duration-200 transform active:scale-95 flex items-center justify-center gap-2 disabled:scale-100 disabled:bg-gray-800 disabled:cursor-not-allowed"
                         onClick={() => auth && auth.userId ?  AddToCartMutation.mutate(productDetails) : addToLocalCartDispatch(productDetails)}
                     >
                         <ShoppingCart size={24} />
-                        {t("addToCart")}
+                        {stock > 0 ?  t("addToCart") : t('unAvailable')}
+
                     </Button>
                 </div>
                 <Button
@@ -113,7 +104,7 @@ function Details({ productDetails, className }: any) {
                 </Button>
 
             </div>
-            <SideBar dir={dir} />
+            <SideBar  />
         </div>
     );
 }

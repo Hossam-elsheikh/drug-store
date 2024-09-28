@@ -5,9 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 import { getSubCategories } from '@/axios/instance';
 import NotFound from '@/app/not-found';
 import { useLocale } from '@/context/LocaleProvider';
-import { encodeId } from '@/lib/idCipher';
 import { SheetClose } from '@/components/ui/sheet';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { SubCategory } from '@/types';
 
 
 
@@ -53,7 +53,7 @@ const DropList = ({ id, name }: { id: string; name: { en: string; ar: string }; 
                                                 className="font-medium text-base text-primaryColor hover:text-[#282a3f] flex items-center p-3"
                                                 href={{
                                                     pathname: `/${locale}/category/${slug}`,
-                                                    query: { ref: encodeId(_id) },
+                                                    query: { ref: _id, name : name[locale as keyof typeof name] || '' },
                                                 }}
                                             >
                                                 {name[locale as keyof typeof name] || ''}

@@ -1,14 +1,28 @@
 import React from 'react';
+import ProductsView from '@/components/ProductsView/ProductsView';
 
-type Params = {
-    "collection-slug": string;
+
+type Props = {
+    params: {
+        id: string;
+        locale: string;
+    };
+    searchParams: {
+        ref?: string
+        name?:string
+
+    }
 };
 
-const Home = ({ params }: { params: Params }) => {
-    const category = params["collection-slug"];
+function Page({ params, searchParams }: Props) {
+
+    const { ref,name } = searchParams
+   
+
     return (
-        <section>{category}</section>
+    // <p>hello</p>
+    <ProductsView params={params} catId={ref} name={name}/>
     );
-};
+}
 
-export default Home;
+export default Page;

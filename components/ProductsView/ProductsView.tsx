@@ -1,64 +1,137 @@
-"use client";
-import React from 'react';
-import BreadCrumb from '@/components/Breadcrumb/BreadCrumb';
-import DrawerWrapper from '@/components/Drawers/DrawerWrapper';
-import ProductCard, { ProductCardSkeleton } from '@/components/ItemCard/ProductCard';
-import { ProductsProvider, useAllProducts } from '@/context/ProductsProvider';
-import NotFound from '@/app/not-found';
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+'use client'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import DrawerWrapper from '@/components/Drawers/DrawerWrapper'
+import ProductCard, {
+    ProductCardSkeleton,
+} from '@/components/ItemCard/ProductCard'
+import { ProductsProvider } from '@/context/ProductsProvider'
 
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { fetchProducts } from '@/axios/instance'
+import { Product } from '@/types'
 type Props = {
     params?: {
-        term?: string;
-        id?: string;
-        searchCategory?: string;
-    };
-    SubId?: string | null;
-    brand?: string | null;
-};
+        locale?: string
+        id?: string
+        term?:string
+        ['collection-slug']?: string
+        // searchCategory?: string
+    }
+    term?: string
+    catId?: string
+    SubId?: string
+    brand?: string
+    name?:string
 
-function ProductsContent({ params = {}, SubId, brand }: Props) {
-    const { products, isLoading, isError, error, setSearchParams, totalPages, currentPage } = useAllProducts();
-    const { term, id, searchCategory } = params;
+}
 
-    let title = 'Products';
+type FetchProductsResponse = {
+    products: Product[]
+    next?: string | null
+    hasNext?: boolean
+}
+
+function ProductsContent({ params = {}, SubId, catId, brand,name }: Props) {
+    const { locale, id,term } = params
+    console.log(params);
+    
+    const [sort,setSort] = useState('createdAt')
+    let title = 'Products'
     if (id && SubId) {
-        title = `results for ${id}`;
+        title = ` ${name} `
     } else if (id && brand) {
-        title = `Brand results for ${id}`;
-    } else if (id && searchCategory) {
-        title = `Category: ${searchCategory} - ID: ${id}`;
+        title = `${name} `
+    } else if (catId) {
+        title = ` ${name}`
+    }
+    const scrollPositionRef = useRef<number>(0)
+
+    const {
+        data: fetchedProducts,
+        isLoading,
+        isError,
+        fetchNextPage,
+        hasNextPage,
+        refetch,
+        isFetchingNextPage,
+    } = useInfiniteQuery<FetchProductsResponse>({
+        queryKey: ['products', { term, catId, SubId, brand }],
+        queryFn: ({ pageParam = null }) =>
+            fetchProducts({
+                name: term?.replace('%20',' '),
+                category: catId,
+                subCategory: SubId,
+                brand,
+                sort:sort.split('-')[0] || 'createdAt',
+                order:sort.split('-')[1] || 'des',
+                next: pageParam,
+                limit: 16,
+            }),
+        getNextPageParam: (lastPage) =>
+            lastPage?.next ? lastPage.next : undefined,
+        initialPageParam: null,
+    })
+
+    const saveScrollPosition = () => {
+        scrollPositionRef.current =
+            window.pageYOffset || document.documentElement.scrollTop
     }
 
-    React.useEffect(() => {
-        const filters: any = { page: currentPage };
-        if (term) {
-            filters.search = term;
-        } else if (SubId) {
-            filters.subCategory = SubId;
-        } else if (brand) {
-            filters.brand = brand;
+    const restoreScrollPosition = () => {
+        window.scrollTo({
+            top: scrollPositionRef.current,
+            behavior: 'auto',
+        })
+    }
+    const loadMoreProducts = useCallback(() => {
+        if (hasNextPage) {
+            saveScrollPosition()
+            fetchNextPage()
         }
-        setSearchParams(filters);
-    }, [term, id, searchCategory, SubId, brand, setSearchParams, currentPage]);
+    }, [hasNextPage, fetchNextPage])
 
-    const handlePageChange = (newPage: number) => {
-        setSearchParams({ page: newPage });
-    };
-
-    if (isError) {
-        return <div>Error: {error?.message}</div>;
+    const sortHandler = (e: React.ChangeEvent<HTMLSelectElement>) =>{
+        const v = e.target.value
+        setSort(v)
     }
+    useEffect(()=>{
+        refetch()
+    },[sort])
+    useEffect(() => {
+        const handleScroll = () => {
+            if (
+                window.innerHeight + document.documentElement.scrollTop >=
+                document.documentElement.scrollHeight - 100
+            ) {
+                loadMoreProducts()
+            }
+        }
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [fetchedProducts, loadMoreProducts])
 
+    useEffect(() => {
+        restoreScrollPosition()
+    }, [fetchedProducts])
+    if (isError) {
+        return <div>Server Error, please try again later</div>
+    }
     return (
-        <section className="bg-gray-50 pb-5">
-            <BreadCrumb />
+        <section className="bg-gray-50 pb-5 mt-8">
             <div className="p-0 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg border">
                 <div className="p-5 flex justify-between">
-                    <h1 className="text-md md:text-3xl font-semibold px-5 md:px-10">
+                    {title && <h1 className="text-md md:text-2xl font-semibold px-5 md:px-10">
                         {title}
-                    </h1>
-                    <DrawerWrapper showSec="filter" />
+                    </h1>}
+                    <form action="" className='text-lg font-medium flex items-center gap-2 text-gray-600'>
+                        <label htmlFor='sort' className='text-lg font-bold hidden md:block'>{locale === 'en' ?  'filter By' : 'فلتر حسب'}</label>
+                        <select name="sort" id="sort" value={sort} onChange={sortHandler}>
+                            <option value="createdAt-des">{locale === 'en' ?  'New Products' : 'جديد'}</option>
+                            <option value="price-asc">{locale === 'en' ?  'Price from lowest' : ' السعر من الأقل'}</option>
+                            <option value="price-des">{locale === 'en' ?  'Price from higher' : 'السعر من الأعلى'}</option>
+                        </select>
+                    </form>
+                    {/* <DrawerWrapper showSec="filter" /> */}
                 </div>
 
                 <section className="flex md:gap-7 gap-3 justify-center flex-wrap mt-5 w-full">
@@ -68,64 +141,58 @@ function ProductsContent({ params = {}, SubId, brand }: Props) {
                                 <ProductCardSkeleton key={i} />
                             ))}
                         </>
+                    ) : fetchedProducts?.pages ? (
+                        <div className="flex w-full flex-col justify-center  p-0 md:p-2 gap-8">
+                            <div className="flex flex-wrap gap-7 w-full justify-center items-center mx-auto">
+                                {fetchedProducts?.pages?.flatMap((page, i) =>
+                                    page?.products?.map((product: Product) => (
+                                        <ProductCard
+                                            key={product._id}
+                                            details={product}
+                                            index={i}
+                                            mode="default"
+                                        />
+                                    ))
+                                )}
+                            </div>
+                            {hasNextPage ? (
+                                <button
+                                    className="bg-white border rounded-lg p-2 px-3 cursor-pointer hover:opacity-80 font-medium w-fit mx-auto"
+                                    onClick={loadMoreProducts}
+                                    disabled={isFetchingNextPage}
+                                >
+                                    {isFetchingNextPage
+                                        ? 'Loading more...'
+                                        : 'Show More'}
+                                </button>
+                            ) : (
+                                <p className="text-gray-600 mx-auto">
+                                    No more products
+                                </p>
+                            )}
+                        </div>
                     ) : (
-                        products && products.length > 0 ? (
-                            products.map((product, i) => (
-                                <ProductCard key={product._id} details={product} index={i} mode='default' />
-                            ))
-                        ) : (
-                            <NotFound />
-                        )
+                        <p>No products yet</p>
                     )}
                 </section>
-
-                {totalPages > 1 && (
-                    <Pagination className='pt-10'>
-                        <PaginationContent>
-                            <PaginationItem>
-                                <PaginationPrevious
-                                    onClick={() => handlePageChange(currentPage - 1)}
-                                    className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
-                                />
-                            </PaginationItem>
-                            {[...Array(totalPages)].map((_, index) => (
-                                <PaginationItem key={index}>
-                                    <PaginationLink
-                                        className='text-sm font-medium transition-all text-gray-700 bg-white border border-gray-300 rounded-full shadow-sm hover:border-gray-400 active:scale-95 hover:bg-gray-50 focus:outline-none duration-200'
-                                        onClick={() => handlePageChange(index + 1)}
-                                        isActive={currentPage === index + 1}
-                                    >
-                                        {index + 1}
-                                    </PaginationLink>
-                                </PaginationItem>
-                            ))}
-                            <PaginationItem>
-                                <PaginationNext
-                                    onClick={() => handlePageChange(currentPage + 1)}
-                                    className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
-                                />
-                            </PaginationItem>
-                        </PaginationContent>
-                    </Pagination>
-                )}
             </div>
         </section>
-    );
+    )
 }
 
 function ProductsView(props: Props) {
-    const initialFilters: any = { page: 1 };
+    const initialFilters: any = { page: 1 }
     if (props.SubId) {
-        initialFilters.subCategory = props.SubId;
+        initialFilters.subCategory = props.SubId
     } else if (props.brand) {
-        initialFilters.brand = props.brand;
+        initialFilters.brand = props.brand
     }
 
     return (
         <ProductsProvider initialFilters={initialFilters}>
             <ProductsContent {...props} />
         </ProductsProvider>
-    );
+    )
 }
 
-export default ProductsView;
+export default ProductsView
