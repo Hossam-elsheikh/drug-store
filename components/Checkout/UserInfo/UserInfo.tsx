@@ -87,7 +87,7 @@ function UserInfo({ setShippingAddress, shippingAddress, formErrors, setFormErro
 
                 <div className="space-y-4">
                     <h2 className="text-2xl font-bold text-gray-800 p-2 border-b-2">{t("addresses")}</h2>
-                    <div className="h-72 overflow-y-auto p-2 rounded-md border border-gray-200 shadow-sm">
+                    <div className="h-fit overflow-y-auto p-2 rounded-md border border-gray-200 shadow-sm">
                         {addresses?.map((address) => (
                             <div key={address._id} className="mb-4 last:mb-0">
                                 <label

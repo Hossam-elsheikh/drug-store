@@ -21,12 +21,7 @@ export default function Menu() {
         () => [
             { href: `/${locale}`, label: 'home' },
             { href: `/${locale}/category/allProducts`, label: 'allProducts' },
-            {
-                href: `/${locale}/category/ourCollections`,
-                label: 'ourCollections',
-            },
-            { href: `/${locale}/category/shopByBrand`, label: 'shopByBrand' },
-            { href: `/${locale}/category/Offers`, label: 'Offers' },
+           
             { href: `/${locale}/aboutUs`, label: 'aboutUs' },
             { href: `/${locale}/contactUs`, label: 'contactUs' },
         ],

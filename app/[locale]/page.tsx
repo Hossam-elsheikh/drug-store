@@ -9,18 +9,24 @@ import image from '@/public/image.png'
 import { Suspense } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useLocale } from '@/context/LocaleProvider'
-import { getCategories, getMedia } from '@/axios/instance'
+import { getCategories, getCarouselMedia, getBanners } from '@/axios/instance'
 import Loading from '../loading'
 
 function Home() {
     const { locale } = useLocale()
+    const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH || '';
+
     const categoryQuery = useQuery({
         queryKey: ['cats'],
         queryFn: getCategories,
     })
     const mediaQuery = useQuery({
-        queryKey: ['media'],
-        queryFn: getMedia,
+        queryKey: ['carousel'],
+        queryFn: getCarouselMedia,
+    })
+    const bannersQuery = useQuery({
+        queryKey: ['banner'],
+        queryFn: getBanners,
     })
     return (
         <>
@@ -28,9 +34,7 @@ function Home() {
                 <div className="flex flex-col items-center">
                     <Container className="max-w-[1600px] ">
                         <HeroCarousel
-                            items={mediaQuery?.data?.filter(
-                                (m: any) => m.position === 'Main Carousel'
-                            )}
+                            items={mediaQuery?.data}
                         />
                     </Container>
                     <Container className="max-w-[1600px] ">
@@ -39,7 +43,7 @@ function Home() {
                     {/* <Container className="max-w-[1600px]  items-center">
                         <BannerGrid1 />
                     </Container> */}
-                    {categoryQuery?.data?.slice(0, 3).map((c: any) => {
+                    {categoryQuery?.data?.slice(0, 5).map((c: any,i:number) => {
                         return (
                             <>
                                 <Container
@@ -55,7 +59,7 @@ function Home() {
                                     />
                                 </Container>
                                 <Container className="max-w-[1600px] border-b-2 rounded-none  items-center">
-                                    <VerticalBanner image={image} />
+                                    <VerticalBanner image={bannersQuery?.data && `${imagePath}${bannersQuery?.data[i]?.image}` || image} />
                                 </Container>
                             </>
                         )

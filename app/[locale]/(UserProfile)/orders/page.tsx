@@ -7,23 +7,21 @@ import UserOrderInfo, { UserOrderSkeleton } from "@/components/UserProfile/order
 import { useQuery } from "@tanstack/react-query";
 import { getUserOrders } from "@/axios/instance";
 import useAuth from "@/hooks/useAuth";
+import { useLocale } from "@/context/LocaleProvider";
 
 export default function Orders() {
     const { auth }: any = useAuth();
+    const {dir,locale} = useLocale()
     const {
-        data: OrdersInfoResponse,
+        data,
         isLoading,
         isError,
         error,
     } = useQuery({
-        queryFn: async () => {
-            const response = await getUserOrders(auth.userId);
-            return response?.data ?? [];
-        },
+        queryFn:  () =>getUserOrders(auth.userId),
         queryKey: ["UserOrders"],
     });
 
-    const OrdersInfo: any[] = OrdersInfoResponse ?? [];
     const t = useTranslations("OrderPage");
 
     return (
@@ -47,17 +45,19 @@ export default function Orders() {
 
                         </div>
                     </>
-                ) : OrdersInfo.length === 0 ? (
+                ) : data?.orders?.length === 0 ? (
                     <div className='items-center flex flex-col h-fit w-full'>
                         <div className="w-full max-w-md">
                             <Image src={addImage} layout="responsive" width={100} height={100} alt="No items in the Favorites" />
                         </div>
-                        <h1 className='text-lg'>No items in the Orders.</h1>
+                        <h1 className='text-lg'>
+                            {locale === 'en' ? "No items in the Orders." : "لا يوجد طلبات بعد!"}
+                        </h1>
                     </div>
                 ) : (
-                    OrdersInfo.map((item: any) => (
+                    data?.orders?.map((item: any) => (
                         <div key={item.id}>
-                            <UserOrderInfo dir="ltr" orderInfo={item} />
+                            <UserOrderInfo dir={dir} orderInfo={item} />
                         </div>
                     ))
                 )}

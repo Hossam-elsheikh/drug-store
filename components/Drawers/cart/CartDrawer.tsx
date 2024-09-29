@@ -98,7 +98,7 @@ const CartDrawer = () => {
             {auth.userId && cartItems.data.length >= 1 || !auth.userId && localStorageCart.length >= 1 ?
                 <section className="flex flex-col h-full " dir={dir}>
                     <>
-                        <ScrollArea className="h-full max-h-[400px] overflow-hidden">
+                        <ScrollArea className="h-full max-h-[600px] overflow-hidden">
                             <AnimatePresence>
                                 {cartProducts.length >= 1 &&
                                     cartProducts.map((cartItem: CartItem) => (

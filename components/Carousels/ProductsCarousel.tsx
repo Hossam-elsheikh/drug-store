@@ -29,10 +29,8 @@ export default function ProductsCarousel({
         queryFn: () =>
             mode === 'related'
                 ? getRelatedProducts(productId)
-                : getProducts({ category: catId })
+                : getProducts({ category: catId }),
     })
-
-
 
     const breakpoints =
         mode === 'full'
@@ -80,30 +78,47 @@ export default function ProductsCarousel({
               }
 
     return (
-        <Swiper
-            navigation
-            loop={true}
-            centerInsufficientSlides
-            className={classes.swiper}
-            pagination={{ clickable: true }}
-            modules={[Autoplay, Pagination, Navigation, A11y]}
-            breakpoints={breakpoints}
-        >
-            {productsQuery?.isLoading
-                ? [1, 2, 3, 4, 5, 6, 7].map((i) => (
-                      <SwiperSlide key={i}>
-                          <ProductCardSkeleton />
-                      </SwiperSlide>
-                  ))
-                : productsQuery?.data?.products?.map((prod: Product) => (
-                      <SwiperSlide key={prod._id}>
-                          <ProductCard
-                              details={prod}
-                              index={prod._id}
-                              mode="default"
-                          />
-                      </SwiperSlide>
-                  ))}
-        </Swiper>
+        <>
+            {productsQuery?.data?.products.length <= 3 ? (
+                <div className='flex gap-3 flex-wrap'>
+                    {productsQuery?.data?.products?.map((prod: Product) => (
+                        <ProductCard
+                            key={prod._id}
+                            details={prod}
+                            index={prod._id}
+                            mode="default"
+                        />
+                    ))}
+                </div>
+            ) : (
+                <Swiper
+                    navigation
+                    loop={true}
+                    centerInsufficientSlides
+                    className={classes.swiper}
+                    pagination={{ clickable: true }}
+                    modules={[Autoplay, Pagination, Navigation, A11y]}
+                    breakpoints={breakpoints}
+                >
+                    {productsQuery?.isLoading
+                        ? [1, 2, 3, 4, 5, 6, 7].map((i) => (
+                              <SwiperSlide key={i}>
+                                  <ProductCardSkeleton />
+                              </SwiperSlide>
+                          ))
+                        : productsQuery?.data?.products?.map(
+                              (prod: Product) => (
+                                  <SwiperSlide key={prod._id}>
+                                      <ProductCard
+                                          details={prod}
+                                          index={prod._id}
+                                          mode="default"
+                                      />
+                                  </SwiperSlide>
+                              )
+                          )}
+                </Swiper>
+            )}
+        </>
     )
 }

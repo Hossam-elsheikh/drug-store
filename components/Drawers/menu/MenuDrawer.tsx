@@ -67,7 +67,7 @@ const MenuDrawer = () => {
     const isLoading = isCategoriesLoading || isBrandsLoading
 
     const Categories = () => (
-        <div>
+        <div >
             {categories?.map(({ name, _id: id }: Categories) => (
                 <div key={id} dir={dir}>
                     <DropList id={id} name={name} />
@@ -87,7 +87,7 @@ const MenuDrawer = () => {
     return (
         <Tabs
             defaultValue="menu"
-            className="w-full"
+            className="w-full "
             value={activeTab}
             onValueChange={handleTabChange}
         >
@@ -122,19 +122,18 @@ const MenuDrawer = () => {
                     <Menu />
                 )}
             </TabsContent>
-            <TabsContent value="categories">
+            <TabsContent value="categories" className='' >
                 {isPending || (isLoading && activeTab === 'categories') ? (
-                    <div className="flex justify-center items-center h-full">
+                    <div className="flex justify-center items-center h-full ">
                         <Loader2 className="animate-spin h-6 w-6 text-primaryColor" />
                     </div>
                 ) : (
-                    <>
-                        <h1 className='text-center font-xl font-medium p-3'>Brands</h1>
-                        <Brands />
+                    <div className='overflow-auto'>
+                        {/* <h1 className='text-center font-xl font-medium p-3'>Brands</h1>
+                        <Brands /> */}
 
-                        <h1 className='text-center font-xl font-medium p-3'>Subcategories</h1>
                         <Categories />
-                    </>
+                    </div>
                 )}
             </TabsContent>
         </Tabs>

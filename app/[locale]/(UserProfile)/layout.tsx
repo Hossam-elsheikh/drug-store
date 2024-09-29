@@ -37,12 +37,12 @@ export default function RootLayout({
         <main >
             <Container
                 dir={dir}
-                className="max-w-[1500px] flex my-20 flex-col md:flex-row"
+                className="max-w-[1500px] flex my-20 gap-4 flex-col md:flex-row"
             >
-                <section className="md:w-64 md:flex-shrink-0">
+                <section className="md:w-64 md:flex-shrink-0 hidden md:block">
                     <ASidebar mode="userProfile" path={pathname} />
                 </section>
-                <section className=" flex-grow p-5 rounded-lg shadow-md border">
+                <section className=" flex-grow p-2 md:p-5 rounded-lg shadow-md md:border">
                     {children}
                 </section>
             </Container>

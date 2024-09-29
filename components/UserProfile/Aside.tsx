@@ -36,7 +36,7 @@ export default function ASidebar({ path, mode }: { path?: string, mode?: string 
     return (
         <div dir={dir}
             className={classNames(
-                mode === 'userProfile' && 'sticky top-28 border border-gray-200 rounded-lg shadow-md p-4',
+                mode === 'userProfile' && 'sticky top-5 border border-gray-200 rounded-lg shadow-md p-4',
                 mode === 'drawer' && 'rounded-lg ',
             )}
         >

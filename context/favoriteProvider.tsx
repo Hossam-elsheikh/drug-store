@@ -2,6 +2,7 @@
 
 import { getWishList } from '@/axios/instance';
 import useAuth from '@/hooks/useAuth';
+import { Product } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import React, { createContext, useState, useEffect, ReactNode, useContext } from 'react';
 import { toast } from 'sonner';

@@ -25,12 +25,12 @@ function CategoriesDrawer({ classes }: Props) {
                 <h1 className="font-bold hidden md:block">{t("allCategories")}</h1>
 
             </SheetTrigger>
-            <SheetContent className="w-[300px] p-0" side={dir === "ltr" ? 'left' : 'right'}>
+            <SheetContent className="w-[300px] p-0 overflow-auto" side={dir === "ltr" ? 'left' : 'right'}>
                 <SheetHeader className="items-center p-5">
                     <Image src={logo} alt="logo" width={100} height={100} />
                 </SheetHeader>
 
-                <h1 className="text-lg text-primaryColor font-medium w-full text-center border-b-2">{t("allCategories")}</h1>
+                {/* <h1 className="text-lg text-primaryColor font-medium w-full text-center border-b-2">{t("allCategories")}</h1> */}
                 <MenuDrawer />
             </SheetContent>
         </Sheet>
