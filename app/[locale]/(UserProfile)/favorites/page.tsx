@@ -28,7 +28,7 @@ export default function Favorites() {
                     <div className="flex flex-wrap gap-4 justify-center">
                         {favoriteProducts?.map((item, i) => (
                             <div key={i} className="flex">
-                                <ProductCard details={item} index={i} mode='wishlist' />
+                                <ProductCard details={item} index={item._id} mode='wishlist' />
                             </div>
                         ))}
                     </div>

@@ -164,7 +164,7 @@ function DrawerWrapper({ showSec }: Props) {
                             width={100}
                             height={100}
                         />
-                        <h2 className="text-lg text-primaryColor font-medium w-full text-center border-b-2">
+                        <h2 className="text-lg text-primaryColor font-medium w-full text-center border-b-2 mt-5">
                             {showSec === "categories" ? null : t(showSec)}
                         </h2>
                     </SheetHeader>

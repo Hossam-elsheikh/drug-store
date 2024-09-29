@@ -109,10 +109,12 @@
         "orders": "Orders",
         "orderState": "Order State",
         "orderStates": {
+            "pending": "Pending",
             "delivered": "Delivered",
-            "shipped": "Shipped",
-            "canceled": "Canceled",
-            "pinned": "Pinned"
+            "returned": "Returned",
+            "suspended" :"Suspended",
+            "processing": "Processing",
+            "cancelled": "Cancelled"
         }
     },
     "UserInfoPage": {

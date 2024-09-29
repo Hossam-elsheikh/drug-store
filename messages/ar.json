@@ -112,9 +112,11 @@
         "orderState": "حالة الطلب",
         "orderStates": {
             "delivered": "تم التوصيل",
-            "shipped": "تم الشحن",
-            "canceled": "ملغي",
-            "pinned": "مثبت"
+            "cancelled": "ملغي",
+            "pending": "تم استلامه",
+            "returned": "مرتجع",
+            "suspended" :"معلق",
+            "processing": "قيد التنفيذ"
         }
     },
     "UserInfoPage": {

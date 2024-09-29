@@ -1,38 +1,47 @@
 'use client'
-import React from "react";
-import Link from "next/link";
-import { useTranslations } from "next-intl";
-import CategoriesDrawer from "../Drawers/menu/CategoriesDrawer";
-import { useLocale } from "@/context/LocaleProvider";
+import React from 'react'
+import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import CategoriesDrawer from '../Drawers/menu/CategoriesDrawer'
+import { useLocale } from '@/context/LocaleProvider'
+import { useQuery } from '@tanstack/react-query'
+import { getCategories } from '@/axios/instance'
+import { Category } from '@/types'
 
 const CategoriesBar = () => {
-    const t = useTranslations("categories");
+    const t = useTranslations('categories')
     const { locale } = useLocale()
+    const categoryQuery = useQuery({
+        queryKey: ['cats'],
+        queryFn: getCategories,
+    })
     return (
         <nav className="md:flex items-center gap-4 px-5 shadow-md py-2 text-primaryColor bg-gray-100 hidden ">
             <section className="flex w-full justify-between gap-5 items-center">
                 <ul className="flex gap-4 items-center">
                     <CategoriesDrawer />
-                    <h1 className="font-medium">{t("allCategories")}</h1>
-                    <Link className="font-medium " href={`/${locale}`}>
-                        {t("home")}
-                    </Link>
-                    <Link className="font-medium " href={`/${locale}/category/allProducts`}>
-                        {t("allProducts")}
-                    </Link>
-                    <Link className="font-medium " href={`/${locale}/category/ourCollections`}>
-                        {t("ourCollections")}
-                    </Link>
-                    <Link className="font-medium " href={`/${locale}/category/shopByBrand`}>
-                        {t("shopByBrand")}
-                    </Link>
-                    <Link className="font-medium " href={`/${locale}/category/Offers`}>
-                        {t("Offers")}
-                    </Link>
+                    {categoryQuery?.data?.slice(0, 10).map((cat: Category) => {
+                        return (
+                            <Link
+                            key={cat._id}
+                                className="font-medium hover:text-secColor"
+                                href={{
+                                    pathname: `/${locale}/${cat.slug}`,
+                                    query: {
+                                        ref: cat._id,
+                                         name:cat.name[locale as keyof typeof cat.name] || ''
+                                    },
+                                }}
+                            >
+                                {cat.name[locale as keyof typeof cat.name] ||
+                                    ''}
+                            </Link>
+                        )
+                    })}
                 </ul>
             </section>
         </nav>
-    );
-};
+    )
+}
 
-export default CategoriesBar;
+export default CategoriesBar

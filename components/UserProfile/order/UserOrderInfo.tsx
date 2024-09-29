@@ -1,83 +1,137 @@
-import React from "react";
+import React from 'react'
 import {
     Table,
     TableBody,
     TableCaption,
     TableCell,
     TableRow,
-} from "@/components/ui/table";
-import Image from "next/image";
-import { useTranslations } from "next-intl";
+} from '@/components/ui/table'
+import Image from 'next/image'
+import { useTranslations } from 'next-intl'
+import { useLocale } from '@/context/LocaleProvider'
+import { Product } from '@/types'
+import Link from 'next/link'
+import { useMutation } from '@tanstack/react-query'
+import { cancelOrder } from '@/axios/instance'
+import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 
-function UserOrderInfo({ dir = "ltr", orderInfo }: { dir: string, orderInfo: any }) {
-    const t = useTranslations("OrderPage");
-    // const getStateColor = (state) => {
-    // 	switch (state.toLowerCase()) {
-    // 		case "delivered":
-    // 			return "bg-green-100 text-green-800";
-    // 		case "shipped":
-    // 			return "bg-blue-100 text-blue-800";
-    // 		case "canceled":
-    // 			return "bg-red-100 text-red-800";
-    // 		case "pinned":
-    // 			return "bg-yellow-100 text-yellow-800";
-    // 		default:
-    // 			return "bg-gray-500";
-    // 	}
-    // };
+function UserOrderInfo({ orderInfo }: { orderInfo: any }) {
+    const t = useTranslations('OrderPage')
+    const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH || ''
+    const { dir, locale } = useLocale()
+    const axiosPrivate = useAxiosPrivate()
+
+    const cancelOrderMutation = useMutation({
+        mutationFn: cancelOrder,
+    })
+
+    const handleCancelOrder = () => {
+        cancelOrderMutation.mutate({ axiosPrivate, orderId: orderInfo._id })
+    }
+
+    const getStateColor = (state: string) => {
+        switch (state.toLowerCase()) {
+            case 'delivered':
+                return 'bg-green-100 text-green-800'
+            case 'shipped':
+                return 'bg-blue-100 text-blue-800'
+            case 'cancelled':
+                return 'bg-red-100 text-red-800'
+            case 'pending':
+                return 'bg-yellow-100 text-yellow-800'
+            case 'processing':
+                return 'bg-yellow-100 text-orange-800'
+            case 'returned':
+                return 'bg-yellow-100 text-red-800'
+            case 'suspended':
+                return 'bg-yellow-100 text-red-800'
+            default:
+                return 'bg-gray-500'
+        }
+    }
 
     return (
         <section dir={dir} className="bg-white shadow-md p-5 rounded-lg w-full">
-            <div className="">
-                <h1 className="flex items-center gap-3 text-lg">
-                    {t("orderState")}
-                    {/* <span
-						className={`text-xs font-medium inline-flex items-center justify-center px-3 py-1 rounded-full ${getStateColor(
-							orderState
-						)}`}
-					>
-						{t(`orderStates.${orderState.toLowerCase()}`)}
-					</span> */}
-                </h1>
+            <div className="flex justify-between items-center">
+                <div>
+                    <p>
+                        <span className="font-bold">
+                            {locale === 'en' ? 'Order' : 'الطلب'}
+                        </span>{' '}
+                        : {orderInfo._id}
+                    </p>
+                    <h1 className="flex items-center gap-3 text-lg">
+                        {t('orderState')}
+                        <span
+                            className={`text-xs font-medium inline-flex items-center justify-center px-3 py-1 rounded-full ${getStateColor(
+                                orderInfo.status
+                            )}`}
+                        >
+                            {t(`orderStates.${orderInfo.status.toLowerCase()}`)}
+                        </span>
+                    </h1>
+                </div>
+                {orderInfo.status === 'pending' && (
+                    <button onClick={handleCancelOrder} className="text-white bg-red-700 rounded p-2 px-3">
+                        {locale === 'en' ? 'Cancel Order' : 'إلغاء الطلب'}
+                    </button>
+                )}
             </div>
 
-            <div>
-                <Table>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell className="font-medium w-[5%]">
-                                ID
-                            </TableCell>
-                            <TableCell className="w-[30%]">
-                                NEGG10048461351-1
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="font-medium md:w-[15%] w-[50%]">
-                                <Image
-                                    src={
-                                        "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?q=80&w=2079&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                    }
-                                    layout="responsive"
-                                    width={50}
-                                    height={50}
-                                    alt={t("noItemsInWishlist")}
-                                />
-                            </TableCell>
-                            <TableCell className="w-[20%]">
-                                {" "}
-                                CHOETECH Choetech PD5010 USB-C PD3.0 Wall
-                                Charger - 20W white
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
+            <div className="flex flex-col gap-3 w-full py-3">
+                {orderInfo.cart.map((item) => (
+                    <div
+                        key={item.producId?._id}
+                        className="flex gap-3 p-4 rounded border"
+                    >
+                        <Link
+                            href={`/${locale}/${item?.productId?.slug}/${item.productId?._id}`}
+                            className="relative flex justify-center items-center overflow-hidden w-[30%] md:w-[20%]"
+                        >
+                            <Image
+                                src={`${imagePath}${item?.productId?.image}`}
+                                alt="prod"
+                                width={100}
+                                height={100}
+                                // sizes='40'
+                                className="contain self-center"
+                            />
+                        </Link>
+                        <div className="flex text-xs w-[80%] md:w-full font-medium text-gray-700 flex-col md:flex-row gap-3 justify-between md:items-center">
+                            <Link
+                                className="cursor-pointer text-sm w-[50%] hover:text-secColor hover:underline"
+                                href={`/${locale}/${item?.productId?.slug}/${item.productId?._id}`}
+                            >
+                                {
+                                    item?.productId?.name[
+                                        locale as keyof typeof item.productId.name
+                                    ]
+                                }
+                            </Link>
+                            <p>
+                                {locale === 'en' ? 'quantity ' : ' الكمية'}:
+                                {item.quantity}
+                            </p>
+                            <p>
+                                {locale === 'en' ? 'price ' : ' السعر'}:
+                                {item.productId.price}{' '}
+                                {locale === 'en' ? 'KWD' : 'د.ك'}
+                            </p>
+                            <p>
+                                {locale === 'en'
+                                    ? 'stock '
+                                    : ' متوفر في المخزن'}
+                                :{item.productId.stock}{' '}
+                            </p>
+                        </div>
+                    </div>
+                ))}
             </div>
         </section>
-    );
+    )
 }
 
-export default UserOrderInfo;
+export default UserOrderInfo
 
 export function UserOrderSkeleton() {
     return (
@@ -113,5 +167,5 @@ export function UserOrderSkeleton() {
                 </div>
             </section>
         </>
-    );
+    )
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import Image, { StaticImageData } from "next/image";
-const VerticalBanner = ({ image }: { image: StaticImageData }) => {
+const VerticalBanner = ({ image }: { image: string | StaticImageData }) => {
     return (
         <div className="flex max-h-64">
             <Image

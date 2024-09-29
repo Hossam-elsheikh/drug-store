@@ -3,7 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { Heart, ShoppingCart, Eye } from 'lucide-react'
 import Modal from './Modal'
 import { AnimatePresence, easeInOut, motion } from 'framer-motion'
-import { AddToCart, addToWishList, instancePrivate, removeProductFromWishList, transCartToAPI } from '@/axios/instance'
+import {
+    AddToCart,
+    addToWishList,
+    instancePrivate,
+    removeProductFromWishList,
+    transCartToAPI,
+} from '@/axios/instance'
 import useAuth from '@/hooks/useAuth'
 import Image from 'next/image'
 import { useLocale } from '@/context/LocaleProvider'
@@ -17,7 +23,7 @@ import { useLocalCart } from '@/hooks/useLocalCart'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import QuickAccess from './QuickAccess'
 import { useRouter } from 'next/navigation'
-import { Toaster, toast } from "sonner";
+import { Toaster, toast } from 'sonner'
 import { Product } from '@/types'
 export const getColorClass = (percentage: number) => {
     if (percentage <= 5) return 'bg-indigo-100 text-indigo-800'
@@ -39,15 +45,23 @@ type DataType = {
     product: object
 }
 
-const ProductCard = ({ details, mode = 'default', index }: { details: Product, mode: string, index: string }) => {
+const ProductCard = ({
+    details,
+    mode = 'default',
+    index,
+}: {
+    details: Product
+    mode: string
+    index: string
+}) => {
     const { toggleFavorite, isProductFavorite } = useFavorites()
     const { locale, dir } = useLocale()
     const [quickAccess, setQuickAccess] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const router = useRouter()
     const { auth }: any = useAuth()
-    const t = useTranslations("Buttons");
-    const p = useTranslations("ProductCard");
+    const t = useTranslations('Buttons')
+    const p = useTranslations('ProductCard')
 
     const handleMouseEnter = () => {
         if (!isModalOpen) {
@@ -60,7 +74,7 @@ const ProductCard = ({ details, mode = 'default', index }: { details: Product, m
             setQuickAccess(false)
         }
     }
-    
+
     const variants = {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0 },
@@ -81,33 +95,35 @@ const ProductCard = ({ details, mode = 'default', index }: { details: Product, m
     //add to cart handler with API call
     const queryClient = useQueryClient()
     const AddToCartMutation = useMutation({
-        mutationFn:(product: object) => AddToCart(product, auth),
-        onSuccess:() => {
-            queryClient.invalidateQueries()
-            toast.success("product added to cart Successfully!");
-        },
-    })
-    
-    //add to cart handler with localStorage
-    const { addToLocalCartDispatch } = useLocalCart()
-    
-    //add to wishList handler with API call
-    const addProductToWishListMutation = useMutation({
-        mutationFn:(productId:any)=> addToWishList(productId,auth.userId),
+        mutationFn: (product: object) => AddToCart(product, auth),
         onSuccess: () => {
             queryClient.invalidateQueries()
-            toast.success("product added to wish list Successfully");
+            toast.success('product added to cart Successfully!')
+        },
+    })
+
+    //add to cart handler with localStorage
+    const { addToLocalCartDispatch } = useLocalCart()
+
+    //add to wishList handler with API call
+    const addProductToWishListMutation = useMutation({
+        mutationFn: (productId: any) => addToWishList(productId, auth.userId),
+        onSuccess: () => {
+            queryClient.invalidateQueries()
+            toast.success('product added to wish list Successfully')
         },
     })
 
     const removeProductFromWishListMutation = useMutation({
-        mutationFn: (productId) => removeProductFromWishList(auth.userId, productId),
+        mutationFn: (productId) =>
+            removeProductFromWishList(auth.userId, productId),
         onSuccess: () => {
             queryClient.invalidateQueries()
-            toast.success("product removed from wish list Successfully");
+            toast.success('product removed from wish list Successfully')
         },
     })
-    const RemoveProductFromWishList = (productId: any) => removeProductFromWishListMutation.mutate(productId)
+    const RemoveProductFromWishList = (productId: any) =>
+        removeProductFromWishListMutation.mutate(productId)
 
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
 
@@ -120,7 +136,6 @@ const ProductCard = ({ details, mode = 'default', index }: { details: Product, m
             viewport={{ amount: 0 }}
             // className="flex flex-col w-[200px] md:w-[220px] h-[340px] md:h-[350px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl"
             className="flex flex-col w-[200px] md:w-[220px] h-[340px] md:h-[350px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300"
-
         >
             <div
                 className="relative w-full h-60 overflow-hidden"
@@ -128,16 +143,24 @@ const ProductCard = ({ details, mode = 'default', index }: { details: Product, m
                 onMouseLeave={handleMouseLeave}
                 dir={dir}
             >
-                {sale && <span className={`absolute inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(sale)} ${dir === 'ltr' ? 'rounded-br-xl' : 'rounded-bl-xl'}`}>
-                    <span className='items-center'>{p('save')}</span> {sale}%
-                </span>}
-
+                {sale && (
+                    <span
+                        className={`absolute inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(
+                            sale
+                        )} ${
+                            dir === 'ltr' ? 'rounded-br-xl' : 'rounded-bl-xl'
+                        }`}
+                    >
+                        <span className="items-center">{p('save')}</span> {sale}
+                        %
+                    </span>
+                )}
 
                 <Image
                     src={`${imagePath}${image}`}
                     alt={name?.en}
                     layout="fill"
-                    sizes='100'
+                    sizes="100"
                     objectFit="cover"
                     className="transition-transform duration-300 hover:scale-110"
                 />
@@ -156,7 +179,6 @@ const ProductCard = ({ details, mode = 'default', index }: { details: Product, m
                     <div>
                         <h5 className="font-base text-xs md:text-sm">
                             {brand?.name?.[locale]}
-                            
                         </h5>
                         <h2 className="font-semibold text-md truncate text-primaryColor hover:text-[#45486e] transition-colors duration-200">
                             {name[locale as keyof typeof name]}
@@ -171,32 +193,51 @@ const ProductCard = ({ details, mode = 'default', index }: { details: Product, m
                 <div className="flex items-center justify-around gap-4">
                     <button
                         className="p-2 rounded-full hover:bg-gray-100 transition-all duration-200"
-                        onClick={() => auth&&auth.userId? isProductFavorite(_id)? RemoveProductFromWishList(details._id) : addProductToWishListMutation.mutate(details._id) : toggleFavorite(details) }>
+                        onClick={() =>
+                            auth && auth.userId
+                                ? isProductFavorite(_id)
+                                    ? RemoveProductFromWishList(details._id)
+                                    : addProductToWishListMutation.mutate(
+                                          details._id
+                                      )
+                                : toggleFavorite(details)
+                        }
+                    >
                         <Heart
-                            className={`w-6 h-6 transition-all duration-300 delay-400 active:scale-[.96] ${isProductFavorite(_id)
-                                ? 'text-red-500 fill-red-500'
-                                : 'text-gray-600 hover:text-red-500'
-                                }`}
+                            className={`w-6 h-6 transition-all duration-300 delay-400 active:scale-[.96] ${
+                                isProductFavorite(_id)
+                                    ? 'text-red-500 fill-red-500'
+                                    : 'text-gray-600 hover:text-red-500'
+                            }`}
                         />
                     </button>
                     {mode === 'default' ? (
-
                         <button
-                            onClick={() => auth && auth.userId ? AddToCartMutation.mutate(details) : addToLocalCartDispatch(details)}
+                            onClick={() =>
+                                auth && auth.userId
+                                    ? AddToCartMutation.mutate(details)
+                                    : addToLocalCartDispatch(details)
+                            }
                             disabled={stock <= 0}
                             className="flex bg-primaryColor px-5 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-secColor transition-all duration-200 transform hover:scale-105 disabled:scale-100 disabled:bg-gray-600 disabled:cursor-not-allowed"
                         >
-                            <ShoppingCart size={20} />
-                            <p className='text-sm md:block'>
-                                {stock > 0 ?  t("addToCart") : t('unAvailable')}
+                            {stock > 0 ? (
+                                <ShoppingCart size={20} />
+                            ) : (
+                               ''
+                            )}
+                            <p className="text-sm md:block">
+                                {stock > 0 ? t('addToCart') : t('unAvailable')}
                             </p>
                         </button>
                     ) : (
                         <button
-                            onClick={() => router.push(`/${locale}/${slug}/${_id}`)}
-                                className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-[#45486e] transition-all duration-200 transform hover:scale-[1.02]"
+                            onClick={() =>
+                                router.push(`/${locale}/${slug}/${_id}`)
+                            }
+                            className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-[#45486e] transition-all duration-200 transform hover:scale-[1.02]"
                         >
-                            {t("showMore")}
+                            {t('showMore')}
                             <Eye className="w-5 h-5" />
                         </button>
                     )}
