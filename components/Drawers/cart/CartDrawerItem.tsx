@@ -12,6 +12,7 @@ import { useContext, useEffect } from "react";
 import { AddToCart, instancePrivate, removeProductFromWishList } from "@/axios/instance";
 import { useLocalCart } from "@/hooks/useLocalCart";
 import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 type Props = {
     cartItem: null | {
@@ -21,6 +22,7 @@ type Props = {
         price: number;
         productId: any;
         quantity: number;
+        stock: number;
     };
     removeItemCartMutation: any | null;
     calculateCartMutation: any | null;
@@ -39,7 +41,6 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
     const addToCart = (product: any) => AddToCart(product, auth);
     //add to cart handler with localStorage
     const { addToLocalCartDispatch } = useLocalCart()
-
 
     const removeItemCart = () => useRemoveItemCart({ auth, cartItem, removeItemCartMutation, calculateCartMutation })
 
@@ -89,7 +90,7 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
                         </>
                         :
                         <div className="flex ml-14  ">
-                            <button className="p-2 rounded-full bg-[#d9dcff] hover:bg-[#9aa0e6] transition-all active:scale-[.90] duration-300"
+                            <button className="p-2 rounded-full bg-[#d9dcff] hover:bg-[#9aa0e6] transition-all active:scale-[.90] duration-300 disabled:bg-gray-300"
                                 onClick={() => {
                                     if (auth && auth.userId) {
                                         addToCart(details);
@@ -98,7 +99,12 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
                                         addToLocalCartDispatch(details);
                                         deleteFavorite(details);
                                     }
-                                }}>
+                                    if (details.stock === 0) {
+                                        toast.error("This product is out of stock");
+                                    }
+                                }}
+                                disabled={details.stock === 0}
+                            >
                                 <ShoppingCart className="text-[#282a3f] w-5 h-5" />
                             </button>
                             <button className="p-2 rounded-full bg-red-100 hover:bg-red-200 transition-all active:scale-[.95] duration-300 ml-2"

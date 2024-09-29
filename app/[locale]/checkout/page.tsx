@@ -1,5 +1,5 @@
 'use client'
-import { applyCoupon, calcCart, createOrder, executePayment, fetchCartItems, getCoupon, getUser, updateUser } from "@/axios/instance";
+import { applyCoupon, calcCart, createOrder, executePayment, fetchCartItems, getCoupon, getUser, setThePaymentURL, updateUser } from "@/axios/instance";
 import BreadCrumb from "@/components/Breadcrumb/BreadCrumb";
 import CheckoutForm from "@/components/Checkout/CheckoutForm/CheckoutForm";
 import Order from "@/components/Checkout/Order";
@@ -13,7 +13,6 @@ import React, { use, useEffect, useRef, useState } from "react";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Loader, X } from "lucide-react";
-
 import OrderSummary from "@/components/Checkout/OrderSummary";
 import { useUser } from "@/context/UserProvider";
 import EmptyCart from "@/components/Cart/EmptyCart";
@@ -27,11 +26,12 @@ const Checkout = () => {
     const [deliveryMethod, setDeliveryMethod] = useState('')
     const [paymentMethod, setPaymentMethod] = useState('')
     const [payWithCash, setPayWithCash] = useState('')
-    const [paymentURL, setPaymentURL] = useState('')
     const [shippingAddress, setShippingAddress] = useState('')
     const [cartPrice, setCartPrice] = useState('')
     const [formErrors, setFormErrors] = useState('')
-
+    const [paymentURL, setPaymentURL] = useState('')
+    const [orderId, setOrderId] = useState('')
+    
     const axiosPrivate = useAxiosPrivate();
     const { auth }: any = useAuth()
     const { locale }: any = useLocale();
@@ -93,6 +93,7 @@ const Checkout = () => {
     const createOrderMutation = useMutation({
         mutationFn: () => createOrder(axiosPrivate, auth, deliveryMethod, paymentMethod, shippingAddress),
         onSuccess(data) {
+            setOrderId(data.orderId)
             if (paymentMethod === "paying-with-visa") {
                 const payload = {
                     InvoiceValue: cartPrice,
@@ -117,10 +118,21 @@ const Checkout = () => {
         }
     })
 
+    const setPaymentURLMutation = useMutation({
+        mutationFn:(paymentURL)=>setThePaymentURL({axiosPrivate,orderId,paymentURL}),
+        onSuccess(data){
+            console.log(data);
+        },
+        onError(error) {
+            console.error(error);
+        },
+    })
+
     const executePayMutation = useMutation({
         mutationFn: (values: any) => executePayment(values),
-        onSuccess: async (data) => {
+        onSuccess(data) {
             setPaymentURL(data?.Data.PaymentURL)
+            setPaymentURLMutation.mutate(data?.Data.PaymentURL)
         },
         onError: (error) => {
             console.error('Payment execution failed', error);
@@ -282,15 +294,31 @@ const Checkout = () => {
                                     >
                                         {executePayMutation.isPending ? (
                                             <p>Processing</p>
-                                            ) : executePayMutation.isSuccess || payWithCash === 'cash-on-delivery' ? (
-                                                (window.location.href = payWithCash === 'cash-on-delivery' ? `http://localhost:3000/${locale}/successfullorder`
+                                        ) : executePayMutation.isSuccess || payWithCash === 'cash-on-delivery' ? (
+                                            (window.location.href = payWithCash === 'cash-on-delivery' && createOrderMutation.isSuccess ? `http://localhost:3000/${locale}/successfullorder`
+                                                : window.location.href = payWithCash === 'cash-on-delivery' && createOrderMutation.isError ? `http://localhost:3000/${locale}/error`
                                                     : executePayMutation.isSuccess ? paymentURL : ''),
-                                                <p className="flex justify-center gap-2">Redirecting <Loader className="animate-spin" /></p>
+                                            <p className="flex justify-center gap-2">Redirecting <Loader className="animate-spin" /></p>
                                         ) :
                                             <>
                                                 {paymentMethod === 'cash-on-delivery' ? <p>Order Now</p> : <p>Pay Now</p>}
                                             </>
                                         }
+                                        {/* {executePayMutation.isPending ? (
+                                            <p>Processing</p>
+                                        ) : (
+                                            (payWithCash === 'cash-on-delivery' && createOrderMutation.isSuccess)
+                                                ? (window.location.href = `http://localhost:3000/${locale}/successfullorder`)
+                                                : (payWithCash === 'cash-on-delivery' && createOrderMutation.isError)
+                                                    ? (window.location.href = `http://localhost:3000/${locale}/error`)
+                                                    : executePayMutation.isSuccess
+                                                        ? (window.location.href = paymentURL)
+                                                        : (
+                                                            <>
+                                                                {paymentMethod === 'cash-on-delivery' ? <p>Order Now</p> : <p>Pay Now</p>}
+                                                            </>
+                                                        )
+                                        )} */}
                                         {executePayMutation.isPending !== false ? <Loader className="animate-spin" /> : null}
                                     </button>
                                     <p className="py-2">{executePayMutation.isError ? <p className="text-red-400 text-center">Error, please try again.</p> : null}</p>

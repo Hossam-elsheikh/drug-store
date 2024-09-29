@@ -7,6 +7,7 @@ import UserOrderInfo, { UserOrderSkeleton } from "@/components/UserProfile/order
 import { useQuery } from "@tanstack/react-query";
 import { getUserOrders } from "@/axios/instance";
 import useAuth from "@/hooks/useAuth";
+import PaymentURL from "@/components/PaymentURL/PaymentURL";
 
 export default function Orders() {
     const { auth }: any = useAuth();
@@ -62,6 +63,8 @@ export default function Orders() {
                     ))
                 )}
             </div>
+            <PaymentURL />
+
         </section>
     );
 }
