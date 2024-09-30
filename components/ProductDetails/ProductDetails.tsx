@@ -196,7 +196,7 @@ export function ProductDetails({ params }: ProductDetailsProps) {
                                         </div>
                                     </div>
                                     {productReviewQuery?.data?.reviews?.map(
-                                        (rev) => {
+                                        (rev:any) => {
                                             if (
                                                 rev._id !==
                                                 customerReview?.data?._id

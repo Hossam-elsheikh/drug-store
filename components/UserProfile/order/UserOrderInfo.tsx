@@ -15,7 +15,19 @@ import { useMutation } from '@tanstack/react-query'
 import { cancelOrder } from '@/axios/instance'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 
-function UserOrderInfo({ orderInfo }: { orderInfo: any }) {
+interface UserOrderInfoProps {
+    dir: string;  
+    orderInfo: any;
+    _id:any;
+    orderStatus:any;
+    paymentURL:string;
+    cart:any;
+    orderPrice:any;
+    paymentStatus:string;
+    paymentMethod:string;
+}
+
+function UserOrderInfo({ orderInfo }: { orderInfo: UserOrderInfoProps }) {
     const t = useTranslations('OrderPage')
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH || ''
     const { dir, locale } = useLocale()
@@ -27,7 +39,7 @@ function UserOrderInfo({ orderInfo }: { orderInfo: any }) {
         cancelOrderMutation.mutate({ axiosPrivate, orderId: orderInfo._id })
     }
     const getStateColor = (state: string) => {
-        switch (state.toLowerCase()) {
+        switch (state?.toLowerCase()) {
             case 'delivered':
                 return 'bg-green-100 text-green-800'
             case 'shipped':

@@ -91,7 +91,7 @@ export const getUser = async (userId: string): Promise<any> => {
     }
 }
 
-export const updateUser = async ({ userId, data }): Promise<any> => {
+export const updateUser = async ({ userId, data }:any): Promise<any> => {
     console.log(data)
     try {
         const response = await instancePrivate.patch(
@@ -153,6 +153,8 @@ export const getUserOrders = async (userId: string): Promise<any> => {
 export const getWebsiteData = async () => {
     try {
         const response = await instance.get(ApiEndPoints.PROFILE)
+        console.log(response)
+
         return response.data
     } catch (error) {
         errorMessage(error)
@@ -206,8 +208,10 @@ export const fetchProducts = async (filters: Filters): Promise<any> => {
 
 export const getRelatedProducts = async (productId: string | undefined) => {
     try {
-        const response = await instance.get(`${ApiEndPoints.PRODUCT}/related/${productId}`)
-        console.log(response.data);
+        const response = await instance.get(
+            `${ApiEndPoints.PRODUCT}/related/${productId}`
+        )
+        console.log(response.data)
 
         return response.data
     } catch (error) {
@@ -393,7 +397,7 @@ export const calcCart = async ({ axiosPrivate, auth }: any) => {
     }
 }
 
-export const getCoupon = async (axiosPrivate, couponName) => {
+export const getCoupon = async (axiosPrivate:any, couponName:any) => {
     try {
         const response = await axiosPrivate.get('/coupon/coupon', {
             couponName,
@@ -406,10 +410,10 @@ export const getCoupon = async (axiosPrivate, couponName) => {
 }
 
 export const applyCoupon = async (
-    axiosPrivate,
-    userId,
-    couponCode,
-    cartTotalPrice
+    axiosPrivate:any,
+    userId:any,
+    couponCode:any,
+    cartTotalPrice:any
 ) => {
     try {
         const response = await axiosPrivate.patch('/coupon/applyCoupon', {
@@ -506,11 +510,11 @@ export const getUserAllOrders = async ({ axiosPrivate, userId }: any) => {
 }
 
 export const createOrder = async (
-    axiosPrivate,
-    auth,
-    deliveryMethod,
-    paymentMethod,
-    shippingAddress
+    axiosPrivate:any,
+    auth:any,
+    deliveryMethod:any,
+    paymentMethod:any,
+    shippingAddress:any
 ) => {
     try {
         const response = await axiosPrivate.post('/order', {
@@ -563,41 +567,22 @@ export const setThePaymentURL = async ({ axiosPrivate, orderId, paymentURL }: an
 //     }
 // };
 
-export const setOrderPaymentSuccessStatus = async ({
-    orderId,
-    userId,
-    InvoiceStatus,
-}: any) => {
-    console.log(orderId, userId, InvoiceStatus)
+export const setOrderPaymentSuccessStatus = async ({ orderId, userId, InvoiceStatus }: any) => {
+    console.log(orderId, userId, InvoiceStatus);
     try {
-        const response = await instancePrivate.patch(`/order/success`, {
-            orderId,
-            userId,
-            InvoiceStatus,
-        })
-        console.log(response.data)
-        return response.data
+        const response = await instancePrivate.patch(`/order/success`, { orderId, userId, InvoiceStatus })
+        console.log(response.data);
+        return response.data;
     } catch (error) {
         console.error('error while setting Order Payment Status', error)
     }
 }
-
-export const setOrderPaymentFailureStatus = async ({
-    orderId,
-    TransactionStatus,
-    Error,
-    ErrorCode,
-}: any) => {
-    console.log(orderId, TransactionStatus, Error, ErrorCode)
+export const setOrderPaymentFailureStatus = async ({ orderId, TransactionStatus, Error, ErrorCode }: any) => {
+    console.log(orderId, TransactionStatus, Error, ErrorCode);
     try {
-        const response = await instancePrivate.patch(`/order/failure`, {
-            orderId,
-            TransactionStatus,
-            Error,
-            ErrorCode,
-        })
-        console.log(response.data)
-        return response.data
+        const response = await instancePrivate.patch(`/order/failure`, { orderId, TransactionStatus, Error, ErrorCode })
+        console.log(response.data);
+        return response.data;
     } catch (error) {
         console.error('error while setting Order Payment Status', error)
     }
@@ -629,13 +614,15 @@ export const executePayment = async (payload: any) => {
 }
 
 export const paymentStatus = async (Key: PaymentStatus) => {
+    console.log(Key);
+
     try {
         const response = await axios.post(`${API_URL}/payment/status`, { Key })
-        console.log(response.data)
-        return response.data
+        console.log(response.data);
+        return response.data;
     } catch (error) {
-        console.error('error while getting payment status', error)
-        return error
+        console.error('error while getting payment status', error);
+        return error;
     }
 }
 
@@ -683,10 +670,9 @@ export const deleteReview = async (reviewId: string) => {
 export const getReview = async (data: ReviewPost) => {
     try {
         const response = await instance.get(
-            `${ApiEndPoints.REVIEW}/oneReview`,
-            {
-                params: data,
-            }
+            `${ApiEndPoints.REVIEW}/oneReview`, {
+            params: data
+        }
         )
         return response.data
     } catch (err) {

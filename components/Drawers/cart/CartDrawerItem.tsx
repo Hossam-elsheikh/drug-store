@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Heart, ShoppingCart, Trash2 } from "lucide-react";
 import { FavoritesContext, useFavorites } from "@/context/favoriteProvider";
 import useAuth from "@/hooks/useAuth";
-import useRemoveItemCart from "@/hooks/removeItemCart";
+import HookRemoveItemCart from "@/hooks/removeItemCart";
 import { useLocale } from "@/context/LocaleProvider";
 import { useDispatch } from "react-redux";
 import { localCartDeleteItem } from "@/redux/slices/addToCart";
@@ -32,9 +32,10 @@ type Props = {
 };
 export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCartMutation, calculateCartMutation, details }: Props) {
 
-    const { locale } = useLocale()
     const { auth }: any = useAuth()
-
+    const removeItemCart = () => HookRemoveItemCart({ auth, cartItem, removeItemCartMutation, calculateCartMutation })
+    
+    const { locale } = useLocale()
     const { deleteFavorite } = useContext(FavoritesContext)
 
     //add to cart handler with API call
@@ -42,7 +43,6 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
     //add to cart handler with localStorage
     const { addToLocalCartDispatch } = useLocalCart()
 
-    const removeItemCart = () => useRemoveItemCart({ auth, cartItem, removeItemCartMutation, calculateCartMutation })
 
     const dispatch = useDispatch()
     const removeLocalCartItem = () => {

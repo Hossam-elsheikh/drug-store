@@ -9,7 +9,6 @@ import UserOrderInfo, {
 import { useQuery } from '@tanstack/react-query'
 import { getUserOrders } from '@/axios/instance'
 import useAuth from '@/hooks/useAuth'
-import PaymentURL from '@/components/PaymentURL/PaymentURL'
 import { useLocale } from '@/context/LocaleProvider'
 
 export default function Orders() {

@@ -1,5 +1,5 @@
 
-const useRemoveItemCart = ({auth,cartItem,removeItemCartMutation,calculateCartMutation}:any) => {
+const HookRemoveItemCart = ({auth,cartItem,removeItemCartMutation,calculateCartMutation}:any) => {
     try {
         const userId = auth.userId;
         const productId = cartItem.productId._id;
@@ -16,4 +16,4 @@ const useRemoveItemCart = ({auth,cartItem,removeItemCartMutation,calculateCartMu
     }
 };
 
-export default useRemoveItemCart;
+export default HookRemoveItemCart;

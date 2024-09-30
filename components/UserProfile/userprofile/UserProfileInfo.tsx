@@ -2,8 +2,9 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useTranslations } from 'next-intl';
 import { Skeleton } from "@/components/ui/skeleton";
 import { DeleteAccount } from "./DeleteAccount";
-import NotFound from "@/app/not-found";
+import NotFound from "@/app/notFound";
 import { User, Mail, Phone, Calendar, Trash2 } from 'lucide-react';
+import { UserProfileInfoProps } from "@/types";
 
 function UserProfileInfo({ userInfo, isLoading, isError, error }: UserProfileInfoProps) {
     const f = useTranslations("Form");
