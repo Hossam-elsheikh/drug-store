@@ -19,8 +19,12 @@ interface UserOrderInfoProps {
     dir: string;  
     orderInfo: any;
     _id:any;
-    status:any;
+    orderStatus:any;
+    paymentURL:string;
     cart:any;
+    orderPrice:any;
+    paymentStatus:string;
+    paymentMethod:string;
 }
 
 function UserOrderInfo({ orderInfo }: { orderInfo: UserOrderInfoProps }) {
@@ -28,15 +32,12 @@ function UserOrderInfo({ orderInfo }: { orderInfo: UserOrderInfoProps }) {
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH || ''
     const { dir, locale } = useLocale()
     const axiosPrivate = useAxiosPrivate()
-
     const cancelOrderMutation = useMutation({
         mutationFn: cancelOrder,
     })
-
     const handleCancelOrder = () => {
         cancelOrderMutation.mutate({ axiosPrivate, orderId: orderInfo._id })
     }
-
     const getStateColor = (state: string) => {
         switch (state?.toLowerCase()) {
             case 'delivered':
@@ -68,19 +69,44 @@ function UserOrderInfo({ orderInfo }: { orderInfo: UserOrderInfoProps }) {
                         </span>{' '}
                         : {orderInfo._id}
                     </p>
+
                     <h1 className="flex items-center gap-3 text-lg">
                         {t('orderState')}
                         <span
                             className={`text-xs font-medium inline-flex items-center justify-center px-3 py-1 rounded-full ${getStateColor(
-                                orderInfo.status
+                                orderInfo.orderStatus
                             )}`}
                         >
-                            {t(`orderStates.${orderInfo.status?.toLowerCase()}`)}
+                            {t(
+                                `orderStates.${orderInfo.orderStatus.toLowerCase()}`
+                            )}
                         </span>
                     </h1>
+                    <p>
+                            {locale === 'en'
+                                ? 'Order total Price'
+                                : 'إجمالي الطلب'}
+                            : {orderInfo.orderPrice}
+                            {locale === 'en' ? ' KWD' : ' دينار كويتي'  }
+                        </p>
                 </div>
-                {orderInfo.status === 'pending' && (
-                    <button onClick={handleCancelOrder} className="text-white bg-red-700 rounded p-2 px-3">
+                {orderInfo.paymentStatus === 'Pending' &&
+                orderInfo.paymentMethod === 'paying-with-visa' ? (
+                    <div key={orderInfo._id}>
+                        <a href={orderInfo.paymentURL}>
+                            <button className="bg-green-700 text-white p-2 px-3 rounded">
+                                {locale === 'en'
+                                    ? 'Complete Your Order'
+                                    : 'المتابعة في طلبك'}
+                            </button>
+                        </a>
+                    </div>
+                ) :
+                orderInfo.orderStatus === 'pending' && (
+                    <button
+                        onClick={handleCancelOrder}
+                        className="text-white bg-red-700 rounded p-2 px-3"
+                    >
                         {locale === 'en' ? 'Cancel Order' : 'إلغاء الطلب'}
                     </button>
                 )}
