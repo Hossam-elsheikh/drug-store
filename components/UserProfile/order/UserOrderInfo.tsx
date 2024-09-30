@@ -20,15 +20,12 @@ function UserOrderInfo({ orderInfo }: { orderInfo: any }) {
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH || ''
     const { dir, locale } = useLocale()
     const axiosPrivate = useAxiosPrivate()
-
     const cancelOrderMutation = useMutation({
         mutationFn: cancelOrder,
     })
-
     const handleCancelOrder = () => {
         cancelOrderMutation.mutate({ axiosPrivate, orderId: orderInfo._id })
     }
-
     const getStateColor = (state: string) => {
         switch (state.toLowerCase()) {
             case 'delivered':
@@ -60,26 +57,51 @@ function UserOrderInfo({ orderInfo }: { orderInfo: any }) {
                         </span>{' '}
                         : {orderInfo._id}
                     </p>
+
                     <h1 className="flex items-center gap-3 text-lg">
                         {t('orderState')}
                         <span
                             className={`text-xs font-medium inline-flex items-center justify-center px-3 py-1 rounded-full ${getStateColor(
-                                orderInfo.status
+                                orderInfo.orderStatus
                             )}`}
                         >
-                            {t(`orderStates.${orderInfo.status.toLowerCase()}`)}
+                            {t(
+                                `orderStates.${orderInfo.orderStatus.toLowerCase()}`
+                            )}
                         </span>
                     </h1>
+                    <p>
+                            {locale === 'en'
+                                ? 'Order total Price'
+                                : 'إجمالي الطلب'}
+                            : {orderInfo.orderPrice}
+                            {locale === 'en' ? ' KWD' : ' دينار كويتي'  }
+                        </p>
                 </div>
-                {orderInfo.status === 'pending' && (
-                    <button onClick={handleCancelOrder} className="text-white bg-red-700 rounded p-2 px-3">
+                {orderInfo.paymentStatus === 'Pending' &&
+                orderInfo.paymentMethod === 'paying-with-visa' ? (
+                    <div key={orderInfo._id}>
+                        <a href={orderInfo.paymentURL}>
+                            <button className="bg-green-700 text-white p-2 px-3 rounded">
+                                {locale === 'en'
+                                    ? 'Complete Your Order'
+                                    : 'المتابعة في طلبك'}
+                            </button>
+                        </a>
+                    </div>
+                ) :
+                orderInfo.orderStatus === 'pending' && (
+                    <button
+                        onClick={handleCancelOrder}
+                        className="text-white bg-red-700 rounded p-2 px-3"
+                    >
                         {locale === 'en' ? 'Cancel Order' : 'إلغاء الطلب'}
                     </button>
                 )}
             </div>
 
             <div className="flex flex-col gap-3 w-full py-3">
-                {orderInfo.cart.map((item) => (
+                {orderInfo.cart.map((item:any) => (
                     <div
                         key={item.producId?._id}
                         className="flex gap-3 p-4 rounded border"
