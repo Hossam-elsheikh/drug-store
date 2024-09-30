@@ -34,7 +34,7 @@ interface UserProfileModalProps {
     userInfo: UserInfo;
 }
 
-export default function UserProfileModal({ userInfo }: UserProfileModalProps) {
+export default function UserProfileModal({ userInfo }: any) {
     const router = useRouter();
     const f = useTranslations("Form");
     const t = useTranslations("UserInfoPage");
@@ -58,7 +58,7 @@ export default function UserProfileModal({ userInfo }: UserProfileModalProps) {
 
             console.log("Updating with values:", updatedValues);
 
-            const response = await updateUser(auth.userId, updatedValues);
+            const response = await updateUser({userId:auth.userId, updatedValues});
             console.log("User profile updated:", response);
             setStatus("Profile updated successfully");
             toast.success("Profile updated successfully");

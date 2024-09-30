@@ -33,7 +33,9 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 const DialogContent = React.forwardRef<
     React.ElementRef<typeof DialogPrimitive.Content>,
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
-    >(({ className, children, handleClose, ...props }, ref) => {
+    >(({ className, children, 
+        // handleClose,
+         ...props }, ref) => {
 
 
 
@@ -43,10 +45,10 @@ const DialogContent = React.forwardRef<
                 <DialogOverlay
                     className="backdrop-blur-sm"
                     onClick={(event) => {
-                        if (handleClose) {
-                            event.stopPropagation()
-                            handleClose()
-                        }
+                        // if (handleClose) {
+                        //     event.stopPropagation()
+                        //     handleClose()
+                        // }
                     }}
                 >
                     <DialogPrimitive.Content

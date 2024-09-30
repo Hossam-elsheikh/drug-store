@@ -19,6 +19,7 @@ import { useTransLocalCartAPI } from "@/hooks/useTransLocalCartAPI";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AnimatePresence } from "framer-motion";
 import SlideCardAnimation from "@/components/Animation/SlideCardAnimation";
+import { CartItem } from "@/types";
 
 type Product = {
     productId: object,
@@ -101,7 +102,7 @@ const CartDrawer = () => {
                         <ScrollArea className="h-full max-h-[600px] overflow-hidden">
                             <AnimatePresence>
                                 {cartProducts.length >= 1 &&
-                                    cartProducts.map((cartItem: CartItem) => (
+                                    cartProducts.map((cartItem: any) => (
                                         <div key={cartItem._id}>
                                             <SlideCardAnimation key={cartItem._id}>
                                                 <CartDrawerItem

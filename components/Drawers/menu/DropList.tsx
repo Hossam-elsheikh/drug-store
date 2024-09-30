@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { useQuery } from '@tanstack/react-query';
 import { getSubCategories } from '@/axios/instance';
-import NotFound from '@/app/not-found';
+import NotFound from '@/app/notFound';
 import { useLocale } from '@/context/LocaleProvider';
 import { SheetClose } from '@/components/ui/sheet';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';

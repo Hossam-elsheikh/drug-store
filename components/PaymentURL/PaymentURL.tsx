@@ -21,12 +21,13 @@ function PaymentURL() {
         queryKey: ['orders'],
         enabled: !!auth.userId
     });
+console.log(orders);
 
     if (ordersLoading) return <p>loading...</p>;
 
     return (
         <>
-            {orders?.map((order: any) => (
+            {/* {orders?.map((order: any) => (
                 order.paymentStatus === "Pending" && order.paymentMethod === "paying-with-visa" && (
                     <div key={order._id}>
                         <p>Order ID: {order._id}</p>
@@ -36,7 +37,7 @@ function PaymentURL() {
                         </a>
                     </div>
                 )
-            ))}
+            ))} */}
         </>
     );
 }

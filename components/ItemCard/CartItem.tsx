@@ -4,7 +4,7 @@ import { X } from 'lucide-react'
 import Image from 'next/image'
 import Counter from './Counter'
 import useAuth from '@/hooks/useAuth'
-import useRemoveItemCart from '@/hooks/removeItemCart'
+import HookRemoveItemCart from '@/hooks/removeItemCart'
 import Link from 'next/link'
 import { useLocale } from '@/context/LocaleProvider'
 import useCalcCartMutation from "@/hooks/calcCartMutation";
@@ -21,7 +21,7 @@ function CartItem({
     const axiosPrivate = useAxiosPrivate();
     const c = useTranslations("CartPage");
 
-    const removeItemCart = () => useRemoveItemCart({
+    const removeItemCart = () => HookRemoveItemCart({
         auth,
         cartItem,
         removeItemCartMutation,

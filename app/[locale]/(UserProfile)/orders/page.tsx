@@ -7,13 +7,11 @@ import UserOrderInfo, { UserOrderSkeleton } from "@/components/UserProfile/order
 import { useQuery } from "@tanstack/react-query";
 import { getUserOrders } from "@/axios/instance";
 import useAuth from "@/hooks/useAuth";
-<<<<<<< HEAD
 import PaymentURL from "@/components/PaymentURL/PaymentURL";
-=======
 import { useLocale } from "@/context/LocaleProvider";
->>>>>>> 2d33c3364548665658db4ef333f0fcf69c89c9bd
 
 export default function Orders() {
+
     const { auth }: any = useAuth();
     const {dir,locale} = useLocale()
     const {
@@ -61,7 +59,7 @@ export default function Orders() {
                 ) : (
                     data?.orders?.map((item: any) => (
                         <div key={item.id}>
-                            <UserOrderInfo dir={dir} orderInfo={item} />
+                            <UserOrderInfo orderInfo={item} />
                         </div>
                     ))
                 )}

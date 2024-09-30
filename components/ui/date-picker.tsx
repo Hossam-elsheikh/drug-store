@@ -48,7 +48,7 @@ export function DatePickerDemo({ control, name }: DatePickerDemoProps) {
                         <Calendar
                             mode="single"
                             selected={field.value}
-                            onSelect={(date) => field.onChange(format(date, "yyyy-MM-dd"))}
+                            onSelect={(date:any) => field.onChange(format(date, "yyyy-MM-dd"))}
                             initialFocus
                             captionLayout='dropdown-buttons'
                             fromYear={1990}

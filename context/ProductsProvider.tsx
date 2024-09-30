@@ -22,10 +22,11 @@ export interface ProductsContextType {
     isLoading: boolean;
     isError: boolean;
     error: Error | null;
-    searchParams: SearchParams;
+    searchParams: any;
     setSearchParams: (params: SearchParams) => void;
     totalPages: number;
     currentPage: number;
+    
 }
 
 const defaultContextValue: ProductsContextType = {
@@ -41,7 +42,7 @@ const defaultContextValue: ProductsContextType = {
 
 export const ProductsContext = createContext<ProductsContextType>(defaultContextValue);
 
-export const ProductsProvider = ({ children, initialFilters }: { children: ReactNode, initialFilters?: SearchParams }) => {
+export const ProductsProvider = ({ children, initialFilters }: { children: ReactNode, initialFilters?: any }) => {
     const [searchParams, setSearchParams] = useState<SearchParams>({ page: 1, ...initialFilters });
 
     const fetchProducts = useCallback(

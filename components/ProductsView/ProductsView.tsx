@@ -149,7 +149,7 @@ function ProductsContent({ params = {}, SubId, catId, brand,name }: Props) {
                                         <ProductCard
                                             key={product._id}
                                             details={product}
-                                            index={i}
+                                            index={String(i)}
                                             mode="default"
                                         />
                                     ))

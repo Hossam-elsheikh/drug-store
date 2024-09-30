@@ -10,7 +10,7 @@ export const useLocalCart = () => {
     const localCartSelector = useSelector((state: any) => state.localCart);
     const dispatch = useDispatch();
     const LocalCartTotalPrice = dispatch(localCartTotalPrice())
-    const addToLocalCartDispatch = async (product: DataType) => {
+    const addToLocalCartDispatch = async (product: any) => {
         try {
             dispatch(addToLocalCart(product))
             toast.success("product added to cart Successfully!");

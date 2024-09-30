@@ -15,7 +15,15 @@ import { useMutation } from '@tanstack/react-query'
 import { cancelOrder } from '@/axios/instance'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 
-function UserOrderInfo({ orderInfo }: { orderInfo: any }) {
+interface UserOrderInfoProps {
+    dir: string;  
+    orderInfo: any;
+    _id:any;
+    status:any;
+    cart:any;
+}
+
+function UserOrderInfo({ orderInfo }: { orderInfo: UserOrderInfoProps }) {
     const t = useTranslations('OrderPage')
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH || ''
     const { dir, locale } = useLocale()
@@ -30,7 +38,7 @@ function UserOrderInfo({ orderInfo }: { orderInfo: any }) {
     }
 
     const getStateColor = (state: string) => {
-        switch (state.toLowerCase()) {
+        switch (state?.toLowerCase()) {
             case 'delivered':
                 return 'bg-green-100 text-green-800'
             case 'shipped':
@@ -67,7 +75,7 @@ function UserOrderInfo({ orderInfo }: { orderInfo: any }) {
                                 orderInfo.status
                             )}`}
                         >
-                            {t(`orderStates.${orderInfo.status.toLowerCase()}`)}
+                            {t(`orderStates.${orderInfo.status?.toLowerCase()}`)}
                         </span>
                     </h1>
                 </div>
@@ -79,7 +87,7 @@ function UserOrderInfo({ orderInfo }: { orderInfo: any }) {
             </div>
 
             <div className="flex flex-col gap-3 w-full py-3">
-                {orderInfo.cart.map((item) => (
+                {orderInfo.cart.map((item:any) => (
                     <div
                         key={item.producId?._id}
                         className="flex gap-3 p-4 rounded border"

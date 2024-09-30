@@ -11,7 +11,7 @@ import { useTranslations } from 'next-intl'
 import { useLocale } from '@/context/LocaleProvider'
 import { getColorClass } from '@/lib/utils'
 
-function Modal({ setIsModalOpen, setQuickAccess, details }) {
+function Modal({ setIsModalOpen, setQuickAccess, details }:any) {
     const { locale, dir } = useLocale()
     let [isOpen, setIsOpen] = useState(true)
     const { toggleFavorite, isProductFavorite } = useFavorites()

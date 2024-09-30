@@ -41,7 +41,7 @@ interface AddNewAndEditAddressesProps {
 function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: AddNewAndEditAddressesProps) {
     const { userInfo, isLoading, isError, error } = useUser()
 
-    if (!userInfo) return
+    // if (!userInfo) return
     const { auth }: any = useAuth()
     const userId = auth?.userId
 
