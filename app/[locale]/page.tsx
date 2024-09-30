@@ -61,7 +61,7 @@ function Home() {
                                     <Container className="max-w-[1600px] border-b-2 rounded-none  items-center">
                                         <VerticalBanner
                                             image={
-                                                bannersQuery?.data[i]?.image
+                                                bannersQuery?.data?.length > 0
                                                     ? `${imagePath}${bannersQuery?.data[i]?.image}`
                                                     : image
                                             }
