@@ -3,6 +3,8 @@ import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import Image from 'next/image'
 import { NextButton, PrevButton, usePrevNextButtons } from './ArrowButtons'
+import { useLocalCart } from '@/hooks/useLocalCart'
+import { useLocale } from '@/context/LocaleProvider'
 
 Autoplay.globalOptions = {
     delay: 7000,
@@ -22,6 +24,7 @@ type ProductCarouselProps = {
 
 export default function HeroCarousel({ items }: ProductCarouselProps) {
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()])
+    const {dir} = useLocale()
 
     const {
         prevBtnDisabled,
@@ -34,6 +37,7 @@ export default function HeroCarousel({ items }: ProductCarouselProps) {
     return (
         <>
             <div
+            dir={dir}
                 className="overflow-hidden relative  rounded-2xl mt-4 m-auto cursor-pointer"
                 ref={emblaRef}
             >

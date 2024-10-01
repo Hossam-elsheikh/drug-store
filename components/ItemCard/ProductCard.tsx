@@ -186,7 +186,7 @@ const ProductCard = ({
 
                         <p className="mt-1 text-primaryColor font-semibold flex items-center gap-1 text-lg">
                             {price}
-                            <span className="font-medium text-xs">KWD</span>
+                            <span className="font-medium text-xs">{locale ==='en' ? 'KWD' : 'د.ك'}</span>
                         </p>
                     </div>
                 </Link>
