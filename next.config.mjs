@@ -10,7 +10,10 @@ const nextConfig = {
             {
                 protocol: "https",
                 hostname: "images.unsplash.com",
-            },
+            },{
+protocol:"http",
+hostname:"77.37.54.99:4000"
+},
             {
                 protocol: "https",
                 hostname: "t3.ftcdn.net",
