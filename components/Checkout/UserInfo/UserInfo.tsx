@@ -5,6 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Calendar, Mail, Phone, User } from 'lucide-react';
 import { useUser } from '@/context/UserProvider';
 import AddNewAndEditAddresses from '../newAddressForm/AddNewAndEditAddresses';
+import { useLocale } from '@/context/LocaleProvider';
 
 type DataTypes = {
     setShippingAddress: (address: any) => void,
@@ -18,6 +19,7 @@ function UserInfo({ setShippingAddress, shippingAddress, formErrors, setFormErro
 
     const f = useTranslations("Form");
     const t = useTranslations("UserInfoPage");
+    const { locale,dir }: any = useLocale();
 
     const { userInfo, isLoading } = useUser();
     const { name, email, mobile, addresses } = userInfo || {};
@@ -79,7 +81,7 @@ function UserInfo({ setShippingAddress, shippingAddress, formErrors, setFormErro
                 </div>
 
                 <div className="flex justify-between pb-3">
-                    <p className="font-medium text-xl pt-5 pb-3">Shipping Address</p>
+                    <p className="font-medium text-xl pt-5 pb-3">{t("ShippingAddress")}</p>
                     <div className="self-end">
                         <AddNewAndEditAddresses mode="add" />
                     </div>
@@ -104,7 +106,7 @@ function UserInfo({ setShippingAddress, shippingAddress, formErrors, setFormErro
                                             value={address._id}
                                             checked={selectedAddress === address._id}
                                             onChange={() => handleAddressChange(address)}
-                                            className="w-5 h-5 text-gray-600 bg-gray-700 border-gray-300 focus:outline-none accent-[#282a3f]"
+                                            className={`w-5 h-5 text-gray-600 bg-gray-700 border-gray-300 focus:outline-none accent-[#282a3f] ${locale === "ar" ? 'ml-5' : ''}`}
                                         />
                                         <div className="flex-grow">
                                             <p className={`font-medium ${selectedAddress === address._id ? 'text-gray-900' : 'text-gray-700'}`}>

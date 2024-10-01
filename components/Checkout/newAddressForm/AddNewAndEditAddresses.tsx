@@ -21,6 +21,7 @@ import { updateUser } from '@/axios/instance';
 import { useUser } from '@/context/UserProvider';
 import useAuth from '@/hooks/useAuth';
 import { toast, Toaster } from 'sonner';
+import { useLocale } from '@/context/LocaleProvider';
 
 interface AddressFormValues {
     state: string;
@@ -44,6 +45,7 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
     // if (!userInfo) return
     const { auth }: any = useAuth()
     const userId = auth?.userId
+    const { locale,dir }: any = useLocale();
 
     const f = useTranslations("Form");
     const queryClient = useQueryClient();
@@ -87,7 +89,7 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
                 <DialogTrigger asChild>
                     <Button
                         className={` bg-gray-50
-        ${'rounded-full items-center gap-2 px-3 py-3 text-sm font-medium text-gray-700  border border-gray-300 shadow-sm hover:bg-gray-100 focus:outline-none duration-200'
+        ${`rounded-full items-center gap-2 px-3 py-3 text-sm font-medium text-gray-700  border border-gray-300 shadow-sm hover:bg-gray-100 focus:outline-none duration-200  `
 
                             }
 `}

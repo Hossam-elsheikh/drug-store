@@ -22,7 +22,7 @@ export default function Favorites() {
                         <div className="w-full max-w-md">
                             <Image src={addImage} layout="responsive" width={100} height={100} alt="No items in the Favorites" />
                         </div>
-                        <h1 className='text-lg'>No items in the Favorites.</h1>
+                        <h1 className='text-lg'>{t('noItems')}</h1>
                     </div>
                 ) : (
                     <div className="flex flex-wrap gap-4 justify-center">

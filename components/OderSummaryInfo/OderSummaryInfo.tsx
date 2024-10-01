@@ -1,3 +1,5 @@
+import { useLocale } from '@/context/LocaleProvider';
+import { useTranslations } from 'next-intl';
 import React from 'react'
 
 type DataTypes = {
@@ -7,11 +9,13 @@ type DataTypes = {
 }
 
 function OderSummaryInfo({ title, price, styling }: DataTypes) {
+const t = useTranslations("cart")
+const {dir}=useLocale()
     return (
-        <div>
+        <div >
             <div className="flex justify-between">
                 <p className={`${styling}`}>{title}</p>
-                <p className={`${styling}`}>{styling !== null ? "- " : null}{(price)?.toFixed(2)} <span className="text-xs">KWD</span></p>
+                <p className={`${styling}`}>{styling !== null ? "- " : null}{(price)?.toFixed(2)} <span className="text-xs">{t("dinar")}</span></p>
             </div>
         </div>
     )

@@ -51,7 +51,7 @@ function CartItem({
                     width={120}
                     height={120}
                     className="rounded-md object-cover"
-                    src={`http://localhost:4000/uploads/photos/${image}`}
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_PATH}${image}`}
                     alt={name.en}
                 />
             </div>

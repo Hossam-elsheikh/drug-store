@@ -15,15 +15,13 @@ enum ApiEndPoints {
     PROFILE = '/profile',
 }
 
-const API_URL = process.env.API_URL || 'http://localhost:4000'
-
 export const instance = axios.create({
-    baseURL: API_URL,
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
     withCredentials: true,
 })
 
 export const instancePrivate = axios.create({
-    baseURL: API_URL,
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
 })
@@ -153,8 +151,6 @@ export const getUserOrders = async (userId: string): Promise<any> => {
 export const getWebsiteData = async () => {
     try {
         const response = await instance.get(ApiEndPoints.PROFILE)
-        console.log(response)
-
         return response.data
     } catch (error) {
         errorMessage(error)
@@ -325,7 +321,7 @@ export const AddToCart = async (product: any, auth: any) => {
 export const transCartToAPI = async (userId: string, localStorageCart: any) => {
     try {
         const response = await instancePrivate.post(
-            `http://localhost:4000/user/cart/add/many`,
+            `${process.env.NEXT_PUBLIC_API_URL}/user/cart/add/many`,
             { userId, products: localStorageCart }
         )
         console.log(response)
@@ -415,16 +411,24 @@ export const applyCoupon = async (
     couponCode:any,
     cartTotalPrice:any
 ) => {
+    console.log(
+        // axiosPrivate,
+    userId,
+    couponCode,
+    cartTotalPrice
+    );
+    
     try {
         const response = await axiosPrivate.patch('/coupon/applyCoupon', {
             couponCode,
             userId,
             cartTotalPrice,
         })
-        console.log(response)
-        return response
+        console.log(response.data)
+        return response.data;
     } catch (error) {
-        errorMessage(error)
+        console.error(error);
+        return error;
     }
 }
 
@@ -462,7 +466,6 @@ export const transLocalWishListToAPI = async (products: any, userId: any) => {
 export const getWishList = async (userId: any) => {
     try {
         const response = await instance.get(`/wishList/${userId}`)
-        console.log(response.data)
         return response.data
     } catch (error) {
         errorMessage(error)
@@ -592,7 +595,7 @@ export const setOrderPaymentFailureStatus = async ({ orderId, TransactionStatus,
 
 export const availablePayment = async (InvoiceAmount: any) => {
     try {
-        const response = await axios.post(`${API_URL}/payment/initiate`, {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/payment/initiate`, {
             InvoiceAmount,
             CurrencyIso: 'KWD',
         })
@@ -604,7 +607,7 @@ export const availablePayment = async (InvoiceAmount: any) => {
 
 export const executePayment = async (payload: any) => {
     try {
-        const response = await axios.post(`${API_URL}/payment/execute`, payload)
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/payment/execute`, payload)
         console.log(response)
         return response.data
     } catch (error) {
@@ -617,7 +620,7 @@ export const paymentStatus = async (Key: PaymentStatus) => {
     console.log(Key);
 
     try {
-        const response = await axios.post(`${API_URL}/payment/status`, { Key })
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/payment/status`, { Key })
         console.log(response.data);
         return response.data;
     } catch (error) {

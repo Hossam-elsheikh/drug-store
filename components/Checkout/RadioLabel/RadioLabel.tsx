@@ -3,6 +3,7 @@ import React from 'react'
 import Label from "@/components/Checkout/RadioLabel/Label";
 import { CreditCard, HandCoins, Store, Truck } from 'lucide-react';
 import SectionTitle from './SectionTitle';
+import { useLocale } from '@/context/LocaleProvider';
 
 type DataTypes = {
     setDeliveryMethod: any,
@@ -14,13 +15,16 @@ type DataTypes = {
 }
 
 function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, paymentMethod, formErrors, setFormErrors }: DataTypes) {
+    const { locale }: any = useLocale();
     return (
         <>
-            <SectionTitle title="Delivery">
+            <SectionTitle 
+            title={locale === "en" ? "Delivery" : "التوصيل"}
+            >
                 <Label
                     method="delivery"
                     methodValue="ship"
-                    methodName="Ship to Address"
+                    methodName={locale === "en" ? "Ship to Address" : "الشحن علي عنوان التوصيل"}
                     icon={<Truck className="h-6 w-6 text-gray-800" />}
                     isFirst={true}
                     isLast={false}
@@ -38,7 +42,7 @@ function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, payme
                 <Label
                     method="delivery"
                     methodValue="pickup-in-store"
-                    methodName="Pickup in Store"
+                    methodName={locale === "en" ? "Pickup in Store" : "الاستلام في المتجر"}
                     icon={<Store className="h-6 w-6 text-gray-800" />}
                     isFirst={false}
                     isLast={true}
@@ -55,12 +59,15 @@ function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, payme
                     }}
                 />
             </SectionTitle>
-            {formErrors?.deliveryMethod && <p className="text-red-800 mt-2">{formErrors.deliveryMethod}</p>}
-            <SectionTitle title="Payment">
+            {formErrors?.deliveryMethod && <p className="text-[#ef4444] mt-2">{formErrors.deliveryMethod}</p>}
+            <SectionTitle 
+            title={locale === "en" ? "Payment" : "طريقة الدفع"}
+            
+            >
                 <Label
                     method="payment"
                     methodValue="cash-on-delivery"
-                    methodName="Cash on Delivery"
+                    methodName={locale === "en" ? "Cash on Delivery" : "الدفع عند الاستلام"}
                     icon={<HandCoins className="h-6 w-6 text-gray-800" />}
                     isFirst={true}
                     isLast={false}
@@ -80,7 +87,7 @@ function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, payme
                 <Label
                     method="payment"
                     methodValue="paying-with-visa"
-                    methodName="Pay with Visa"
+                    methodName={locale === "en" ? "Pay with Visa" : "الدفع باستخدام فيزا"}
                     icon={<CreditCard className="h-6 w-6 text-gray-800" />}
                     isFirst={false}
                     isLast={true}
@@ -97,7 +104,7 @@ function RadioLabel({ setDeliveryMethod, setPaymentMethod, deliveryMethod, payme
                     }}
                 />
             </SectionTitle>
-            {formErrors?.paymentMethod && <p className="text-red-800 mt-2">{formErrors.paymentMethod}</p>}
+            {formErrors?.paymentMethod && <p className="text-[#ef4444] mt-2">{formErrors.paymentMethod}</p>}
         </>
     )
 }

@@ -28,7 +28,7 @@
     "Buttons": {
         "addToCart": "أضف",
         "buyNow": "شراء الآن",
-        "unAvailable":"غير متوفر",
+        "unAvailable": "غير متوفر",
         "viewDetails": "عرض التفاصيل",
         "viewMore": "عرض المزيد",
         "viewLess": "عرض أقل",
@@ -38,7 +38,7 @@
         "showMore": "أظهر المزيد",
         "addToFavorite": "أضف إلى المفضلة",
         "quickView": "نظرة سريعة",
-        "backToHome":"العودة الي الصفحة الرئيسية"
+        "backToHome": "العودة الي الصفحة الرئيسية"
     },
     "cart": {
         "myCart": "عربة التسوق",
@@ -115,7 +115,7 @@
             "cancelled": "ملغي",
             "pending": "تم استلامه",
             "returned": "مرتجع",
-            "suspended" :"معلق",
+            "suspended": "معلق",
             "processing": "قيد التنفيذ"
         }
     },
@@ -124,11 +124,13 @@
         "editInfo": "تعديل بيانات المستخدم",
         "editPass": "تعديل الرمز السري",
         "personalAcc": "الحساب الشخصي",
-        "addresses": "العناوين التوصيل"
+        "addresses": "عنوان التوصيل",
+        "ShippingAddress": "عنوان الشحن"
     },
     "Favorites": {
         "favorites": "قائمة الرغبات",
-        "addToFavorites": "أضف الي قائمة الرغبات"
+        "addToFavorites": "أضف الي قائمة الرغبات",
+        "noItems": "لا توجد منتجات مفضلة."
     },
     "AsideMenu": {
         "profile": "الملف الشخصي",
@@ -145,7 +147,23 @@
         "subtotal": "المجموع الفرعي",
         "taxes": "الضرائب",
         "shipping": "الشحن",
-        "promoCode": "كوبون الخصم"
+        "promoCode": "كوبون الخصم",
+        "userInfoError": "حدث خطأ أثناء جلب بيانات المستخدم. يرجى المحاولة مرة أخرى لاحقاً.",
+        "cartError": "حدث خطأ أثناء جلب بيانات سلة المشتريات. يرجى المحاولة مرة أخرى لاحقاً.",
+        "totalError": "حدث خطأ أثناء جلب إجمالي السعر. يرجى المحاولة مرة أخرى لاحقاً.",
+        "emptyCartDescription": "لا يوجد أي شيء في سلة التسوق الخاصة بك بعد. تصفح منتجاتنا وأضف أي منتج تريده!",
+        "sign": "يرجى تسجيل الدخول أولاً",
+        "YourOrder": "طلبك",
+        "OrderNow": "اطلب الآن",
+        "PayNow": "ادفع الآن",
+        "ErrorHappened": "حدث خطأ، يرجى المحاولة مرة أخرى.",
+        "everyOption": "يرجى التأكد من اختيار جميع الخيارات أعلاه.",
+        "Redirecting": "جاري اعاده التوجيه الي صفحه الدفع",
+        "error": "حدث خطأ",
+        "processing": "جاري المعالجة",
+        "deliveryMethodRequired": "طريقة التوصيل مطلوبة",
+        "paymentMethodRequired": "طريقة الدفع مطلوبة",
+        "shippingAddressRequired": "عنوان الشحن مطلوب"
     },
     "NotFound": {
         "backToHome": "العودة الي الصفحة الرئيسية",
@@ -165,10 +183,10 @@
         "nextSteps": " سوف يصلك بريد الكتروني يحتوي علي تفاصيل طلبك, في هذه الاثناء, يمكنك تتبع طلبك من خلال حسابك.",
         "customerSupport": "هل تحتاج إلى مساعدة؟ تواصل مع خدمة العملاء عبر البريد الإلكتروني Info@pharmasolutionskw.com او اتصل بنا علي #######."
     },
-    "ErrorOrderPage":{
-        "title":"لقد فشل الطلب",
+    "ErrorOrderPage": {
+        "title": "لقد فشل الطلب",
         "customerSupport": "هل تحتاج إلى مساعدة؟ تواصل مع خدمة العملاء عبر البريد الإلكتروني Info@pharmasolutionskw.com او اتصل بنا علي #######.",
-        "attemptAgain":"بعد حل المشكلة يرجى زيارة حسابك والمحاولة للدفع مرة أخرى."
+        "attemptAgain": "بعد حل المشكلة يرجى زيارة حسابك والمحاولة للدفع مرة أخرى."
     },
     "ProductDetailsPage": {
         "aboutItem": "نبذه عن المنتج",
@@ -191,20 +209,20 @@
         "quantity": "الكمية",
         "items": "عدد المنتجات"
     },
-    "customerReview":{
+    "customerReview": {
         "writeComment": "اكتب تعليقاً",
         "shareExp": "شارك تجربتك معنا",
         "yourFeedback": "تقييمك للخدمة يساعدنا في تحسينها",
         "rate": "قيم خدمتنا :",
         "comment": "إضافة تعليق"
     },
-    "shopWithUs":{
-        "whyShop" : "لماذا تتسوق معنا",
-        "shippingTitle":"شحن مجاني",
-        "shippingDesc":"للطلبات التي تتعدى 200 دينار ",
-        "deliveryTitle":"شحن سريع",
-        "deliveryDesc":"احصل على طلبك في أقل من 24 ساعة",
-        "supportTitle":"24/7 دعم",
-        "supportDesc":"نحن دائماً هنا لمساعدتك"
+    "shopWithUs": {
+        "whyShop": "لماذا تتسوق معنا",
+        "shippingTitle": "شحن مجاني",
+        "shippingDesc": "للطلبات التي تتعدى 200 دينار ",
+        "deliveryTitle": "شحن سريع",
+        "deliveryDesc": "احصل على طلبك في أقل من 24 ساعة",
+        "supportTitle": "24/7 دعم",
+        "supportDesc": "نحن دائماً هنا لمساعدتك"
     }
 }
