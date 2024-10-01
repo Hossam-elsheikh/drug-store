@@ -219,7 +219,6 @@ export const getRelatedProducts = async (productId: string | undefined) => {
 export const getCategories = async (): Promise<any> => {
     try {
         const response = await instance.get(ApiEndPoints.CATEGORIES)
-        console.log(response.data)
 
         return response.data
     } catch (error) {
@@ -411,12 +410,6 @@ export const applyCoupon = async (
     couponCode:any,
     cartTotalPrice:any
 ) => {
-    console.log(
-        // axiosPrivate,
-    userId,
-    couponCode,
-    cartTotalPrice
-    );
     
     try {
         const response = await axiosPrivate.patch('/coupon/applyCoupon', {

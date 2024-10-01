@@ -91,6 +91,9 @@ const Checkout = () => {
         queryKey: ['totalPrice'],
         enabled: !!cartItems,
     })
+    console.log(cartPrice);
+    
+    
 
     const createOrderMutation = useMutation({
         mutationFn: () => createOrder(axiosPrivate, auth, deliveryMethod, paymentMethod, shippingAddress),
@@ -145,12 +148,15 @@ const Checkout = () => {
     const applyCouponMutation = useMutation({
         mutationFn: () => applyCoupon(axiosPrivate, auth.userId, couponFormik.values.couponCode, totalPrice.data.cartTotalPrice),
         onSuccess(data) {
-            console.log(data.response.data.message);
-
-            setCartPrice(data.data.finalPrice)
+            // console.log(data.response.data.message);
+            // console.log(data);
+            
+            // setCartPrice(data.data.finalPrice)
         },
         onError(error) {
             console.error(error);
+            console.error(error.message);
+
         },
     })
 
