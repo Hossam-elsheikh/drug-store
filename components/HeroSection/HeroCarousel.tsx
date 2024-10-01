@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { NextButton, PrevButton, usePrevNextButtons } from './ArrowButtons'
 import { useLocalCart } from '@/hooks/useLocalCart'
 import { useLocale } from '@/context/LocaleProvider'
+import { useEffect } from 'react'
 
 Autoplay.globalOptions = {
     delay: 7000,
@@ -33,11 +34,14 @@ export default function HeroCarousel({ items }: ProductCarouselProps) {
         onNextButtonClick,
     } = usePrevNextButtons(emblaApi)
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
-
+    useEffect(() => {
+        if (emblaApi) {
+            emblaApi.reInit()
+        }
+    }, [dir])
     return (
         <>
             <div
-            dir={dir}
                 className="overflow-hidden relative  rounded-2xl mt-4 m-auto cursor-pointer"
                 ref={emblaRef}
             >

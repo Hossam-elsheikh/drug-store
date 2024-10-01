@@ -43,7 +43,7 @@ export default async function RootLayout({
 }>) {
     const messages = await getMessages()
     return (
-        <html lang={locale}>
+        <div lang={locale}>
             <ReactQueryProvider>
                 <WebProfileProvider>
                     <ReduxStoreProvider>
@@ -54,7 +54,7 @@ export default async function RootLayout({
                                         <ProductsProvider>
                                             <FavoritesProvider>
                                                 <UserProvider>
-                                                    <body
+                                                    <div
                                                         className={`${roboto.variable} ${inter.variable}`}
                                                     >
                                                         {/* <div id="modal-root"></div> */}
@@ -76,7 +76,7 @@ export default async function RootLayout({
                                                             </div>
                                                             <Footer />
                                                         </div>
-                                                    </body>
+                                                    </div>
                                                 </UserProvider>
                                             </FavoritesProvider>
                                         </ProductsProvider>
@@ -87,6 +87,6 @@ export default async function RootLayout({
                     </ReduxStoreProvider>
                 </WebProfileProvider>
             </ReactQueryProvider>
-        </html>
+        </div>
     )
 }
