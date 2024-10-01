@@ -7,9 +7,7 @@ const useRefreshToken = () => {
 
     const refresh = async () => {
 
-        const response = await instance.post('/user/refresh-token', {
-            withCredentials: true
-        });
+        const response = await instance.post('/user/refresh-token');
 
         setAuth((prevState: any) => {
 

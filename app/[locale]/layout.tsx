@@ -44,19 +44,25 @@ export default async function RootLayout({
     const messages = await getMessages()
     return (
         <html lang={locale}>
-            <ReactQueryProvider>
-                <WebProfileProvider>
-                    <ReduxStoreProvider>
-                        <LocaleProvider initialLocale={locale}>
-                            <NextIntlClientProvider messages={messages}>
-                                <AuthProvider>
-                                    <AuthPersistProvider>
-                                        <ProductsProvider>
-                                            <FavoritesProvider>
-                                                <UserProvider>
-                                                    <body
-                                                        className={`${roboto.variable} ${inter.variable}`}
-                                                    >
+            <head>
+                <meta charSet="UTF-8" />
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"
+                />
+                {/* Additional metadata or links here */}
+            </head>
+            <body className={`${roboto.variable} ${inter.variable}`}>
+                <ReactQueryProvider>
+                    <WebProfileProvider>
+                        <ReduxStoreProvider>
+                            <LocaleProvider initialLocale={locale}>
+                                <NextIntlClientProvider messages={messages}>
+                                    <AuthProvider>
+                                        <AuthPersistProvider>
+                                            <ProductsProvider>
+                                                <FavoritesProvider>
+                                                    <UserProvider>
                                                         <div id="modal-root"></div>
                                                         <div className="flex h-[100dvh] flex-col justify-between ">
                                                             <div>
@@ -76,17 +82,17 @@ export default async function RootLayout({
                                                             </div>
                                                             <Footer />
                                                         </div>
-                                                    </body>
-                                                </UserProvider>
-                                            </FavoritesProvider>
-                                        </ProductsProvider>
-                                    </AuthPersistProvider>
-                                </AuthProvider>
-                            </NextIntlClientProvider>
-                        </LocaleProvider>
-                    </ReduxStoreProvider>
-                </WebProfileProvider>
-            </ReactQueryProvider>
+                                                    </UserProvider>
+                                                </FavoritesProvider>
+                                            </ProductsProvider>
+                                        </AuthPersistProvider>
+                                    </AuthProvider>
+                                </NextIntlClientProvider>
+                            </LocaleProvider>
+                        </ReduxStoreProvider>
+                    </WebProfileProvider>
+                </ReactQueryProvider>
+            </body>
         </html>
     )
 }
