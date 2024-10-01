@@ -81,8 +81,8 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
             const { id: userId } = data;
             setAuth({ userId });
             toast.success("You Signed In Successfully");
-            // window.location.href = pathName;
-            router.push('/')
+            // window.location.href = patName;
+            router.push(pathName)
         },
         onError: (error) => {
             console.log("Error signing in", error);
