@@ -15,7 +15,7 @@ enum ApiEndPoints {
     PROFILE = '/profile',
 }
 
-const API_URL = process.env.API_URL || 'http://localhost:4000'
+const API_URL = process.env.API_URL || "http://localhost:4000"
 
 export const instance = axios.create({
     baseURL: API_URL,
@@ -223,7 +223,7 @@ export const getRelatedProducts = async (productId: string | undefined) => {
 export const getCategories = async (): Promise<any> => {
     try {
         const response = await instance.get(ApiEndPoints.CATEGORIES)
-        // console.log(response.data)
+        console.log(response.data)
 
         return response.data
     } catch (error) {
