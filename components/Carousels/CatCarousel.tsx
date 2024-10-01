@@ -19,7 +19,7 @@ function CatCarousel({ items }: CategoryCarouselProps) {
     return (
         <Swiper
             spaceBetween={25}
-            slidesPerView={8}
+            slidesPerView={10}
             navigation
             loop={true}
             autoplay={{
@@ -31,23 +31,23 @@ function CatCarousel({ items }: CategoryCarouselProps) {
             modules={[Autoplay, Pagination, Navigation, A11y]}
             breakpoints={{
                 320: {
-                    slidesPerView: 2,
+                    slidesPerView: 3,
                     spaceBetween: 8,
                 },
                 480: {
-                    slidesPerView: 2,
+                    slidesPerView: 3,
                     spaceBetween: 5,
                 },
                 768: {
-                    slidesPerView: 5,
+                    slidesPerView: 7,
                     spaceBetween: 5,
                 },
                 1024: {
-                    slidesPerView: 6,
+                    slidesPerView: 8,
                     spaceBetween: 4,
                 },
                 1280: {
-                    slidesPerView: 8,
+                    slidesPerView: 10,
                     spaceBetween: 7,
                 },
             }}

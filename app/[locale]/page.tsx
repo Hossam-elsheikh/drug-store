@@ -14,7 +14,7 @@ import Loading from '../loading'
 
 function Home() {
     const { locale } = useLocale()
-    const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH || '';
+    const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH || ''
 
     const categoryQuery = useQuery({
         queryKey: ['cats'],
@@ -33,9 +33,7 @@ function Home() {
             <Suspense fallback={<Loading />}>
                 <div className="flex flex-col items-center">
                     <Container className="max-w-[1600px] ">
-                        <HeroCarousel
-                            items={mediaQuery?.data}
-                        />
+                        <HeroCarousel items={mediaQuery?.data} />
                     </Container>
                     <Container className="max-w-[1600px] ">
                         <CatCarousel items={categoryQuery?.data} />
@@ -43,27 +41,35 @@ function Home() {
                     {/* <Container className="max-w-[1600px]  items-center">
                         <BannerGrid1 />
                     </Container> */}
-                    {categoryQuery?.data?.slice(0, 5).map((c: any,i:number) => {
-                        return (
-                            <>
-                                <Container
-                                    key={c._id}
-                                    catId = {c._id}
-                                    slug= {c.slug}
-                                    className="max-w-[1600px] border-b-2 rounded-none  items-center"
-                                    title={c.name[locale]}
-                                >
-                                    <ProductsCarousel
-                                        mode="full"
+                    {categoryQuery?.data
+                        ?.slice(0, 5)
+                        .map((c: any, i: number) => {
+                            return (
+                                <>
+                                    <Container
+                                        key={c._id}
                                         catId={c._id}
-                                    />
-                                </Container>
-                                <Container className="max-w-[1600px] border-b-2 rounded-none  items-center">
-                                    <VerticalBanner image={bannersQuery?.data && `${imagePath}${bannersQuery?.data[i]?.image}` || image} />
-                                </Container>
-                            </>
-                        )
-                    })}
+                                        slug={c.slug}
+                                        className="max-w-[1600px] border-b-2 rounded-none  items-center"
+                                        title={c.name[locale]}
+                                    >
+                                        <ProductsCarousel
+                                            mode="full"
+                                            catId={c._id}
+                                        />
+                                    </Container>
+                                    <Container className="max-w-[1600px] border-b-2 rounded-none  items-center">
+                                        <VerticalBanner
+                                            image={
+                                                bannersQuery?.data?.length > 0
+                                                    ? `${imagePath}${bannersQuery?.data[i]?.image}`
+                                                    : image
+                                            }
+                                        />
+                                    </Container>
+                                </>
+                            )
+                        })}
                 </div>
             </Suspense>
         </>
