@@ -44,7 +44,7 @@ hostname:"77.37.54.99:4000"
                 hostname: "demo.myfatoorah.com",
             },
         ],
-        domains: ['localhost', '127.0.0.1'], // This is an alternative way to add local domains
+        domains: ['localhost', '127.0.0.1',"77.37.54.99:4000","77.37.54.99"], // This is an alternative way to add local domains
     }
 };
 
