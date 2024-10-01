@@ -1,3 +1,4 @@
+import { useLocale } from '@/context/LocaleProvider';
 import React from 'react'
 
 type DataTypes = {
@@ -15,6 +16,8 @@ type DataTypes = {
 }
 
 function Label({ method, methodValue, methodName, icon, isFirst, isLast, setDeliveryMethod, setPaymentMethod, methodState, formErrorPayment }: DataTypes) {
+    const { locale,dir }: any = useLocale();
+    
     return (
         <label
             className={`
@@ -35,8 +38,8 @@ function Label({ method, methodValue, methodName, icon, isFirst, isLast, setDeli
                             : setPaymentMethod(methodValue)
                     }
                     onFocus={formErrorPayment}
-                    className="w-5 h-5 text-gray-600 bg-gray-700 border-gray-300 focus:outline-none accent-[#282a3f] "
-                />
+                    className={`w-5 h-5 text-gray-600 bg-gray-700 border-gray-300 focus:outline-none accent-[#282a3f] ${locale === "ar" ? 'ml-5' : ''}`}
+                    />
                 <p className={`text-base font-medium ${methodState === methodValue ? 'text-gray-900' : 'text-gray-700'}`}>{methodName}</p>
             </div>
             <div className="flex items-center space-x-2 transition-colors duration-200 ease-in-out">

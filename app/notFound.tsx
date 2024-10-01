@@ -27,7 +27,7 @@ export default function NotFound({ mode }: { mode?: string }) {
                 className={`mt-4 ${isDrawerMode ? "text-xl" : "text-3xl"
                     } font-bold text-gray-800`}
             >
-                {/* {t("somethingWentWrong")} */} Some thing Went Wrong
+                {t("somethingWentWrong")}
             </h1>
             {!isDrawerMode && (
                 <button

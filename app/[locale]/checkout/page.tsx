@@ -20,6 +20,7 @@ import Loading from "@/app/loading";
 import { useLocale } from "@/context/LocaleProvider";
 import { useLocalCart } from "@/hooks/useLocalCart";
 import AuthForm from "@/components/Form/AuthForm";
+import { useTranslations } from "next-intl";
 
 const Checkout = () => {
 
@@ -31,10 +32,11 @@ const Checkout = () => {
     const [formErrors, setFormErrors] = useState('')
     const [paymentURL, setPaymentURL] = useState('')
     const [orderId, setOrderId] = useState('')
-    
+
     const axiosPrivate = useAxiosPrivate();
     const { auth }: any = useAuth()
-    const { locale }: any = useLocale();
+    const { locale,dir }: any = useLocale();
+    const t = useTranslations("CheckOutPage")
 
     const couponFormik = useFormik(
         {
@@ -49,9 +51,9 @@ const Checkout = () => {
 
     const validateFields = () => {
         const errors: any = {};
-        if (!deliveryMethod) errors.deliveryMethod = 'Delivery method is required';
-        if (!paymentMethod) errors.paymentMethod = 'Payment method is required';
-        if (!shippingAddress) errors.shippingAddress = 'Shipping Address is required';
+        if (!deliveryMethod) errors.deliveryMethod = t("deliveryMethodRequired");
+        if (!paymentMethod) errors.paymentMethod = t("paymentMethodRequired");
+        if (!shippingAddress) errors.shippingAddress = t("shippingAddressRequired");
         return errors;
     };
 
@@ -93,7 +95,9 @@ const Checkout = () => {
     const createOrderMutation = useMutation({
         mutationFn: () => createOrder(axiosPrivate, auth, deliveryMethod, paymentMethod, shippingAddress),
         onSuccess(data) {
-            setOrderId(data.orderId)
+            setOrderId(data.data?.orderId)
+            console.log(data.data.orderId);
+
             if (paymentMethod === "paying-with-visa") {
                 const payload = {
                     InvoiceValue: cartPrice,
@@ -102,9 +106,9 @@ const Checkout = () => {
                     CustomerEmail: userInfo.email,
                     MobileCountryCode: "+965",
                     CustomerMobile: userInfo.mobile,
-                    CustomerReference: data.orderId,
-                    CallBackUrl: `http://localhost:3000/${locale}/successfullorder`,
-                    ErrorUrl: `http://localhost:3000/${locale}/error`,
+                    CustomerReference: data.data?.orderId,
+                    CallBackUrl: `${process.env.NEXT_PUBLIC_CLIENT_SIDE}/${locale}/successfullorder`,
+                    ErrorUrl: `${process.env.NEXT_PUBLIC_CLIENT_SIDE}/${locale}/error`,
                     Language: locale,
                     DisplayCurrencyIso: "KWD",
                     // InvoiceItem: cartItems?.data,
@@ -119,8 +123,8 @@ const Checkout = () => {
     })
 
     const setPaymentURLMutation = useMutation({
-        mutationFn:(paymentURL)=>setThePaymentURL({axiosPrivate,orderId,paymentURL}),
-        onSuccess(data){
+        mutationFn: (paymentURL) => setThePaymentURL({ axiosPrivate, orderId, paymentURL }),
+        onSuccess(data) {
             console.log(data);
         },
         onError(error) {
@@ -140,8 +144,16 @@ const Checkout = () => {
     })
     const applyCouponMutation = useMutation({
         mutationFn: () => applyCoupon(axiosPrivate, auth.userId, couponFormik.values.couponCode, totalPrice.data.cartTotalPrice),
-        onSuccess: (data) => setCartPrice(data.data.finalPrice)
+        onSuccess(data) {
+            console.log(data.response.data.message);
+
+            setCartPrice(data.data.finalPrice)
+        },
+        onError(error) {
+            console.error(error);
+        },
     })
+
     const applyCouponEvent = () => applyCouponMutation.mutate()
 
     const handleCouponSubmit = (event: any) => {
@@ -190,8 +202,8 @@ const Checkout = () => {
     if (userInfoError) return (
         <div className="flex justify-center items-center h-screen">
             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
-                <p className="font-bold">Error</p>
-                <p>An error occurred while fetching user data. Please try again later.</p>
+                <p className="font-bold">{t("error")}</p>
+                <p>{t("userInfoError")}</p>
             </div>
         </div>
     );
@@ -199,8 +211,8 @@ const Checkout = () => {
     if (cartError) return (
         <div className="flex justify-center items-center h-screen">
             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
-                <p className="font-bold">Error</p>
-                <p>An error occurred while fetching cart data. Please try again later.</p>
+                <p className="font-bold">{t("error")}</p>
+                <p>{t("cartError")}</p>
             </div>
         </div>
     );
@@ -209,8 +221,8 @@ const Checkout = () => {
     if (totalPriceError) return (
         <div className="flex justify-center items-center h-screen">
             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
-                <p className="font-bold">Error</p>
-                <p>An error occurred while fetching total price. Please try again later.</p>
+                <p className="font-bold">{t("error")}</p>
+                <p>{t("totalError")}</p>
             </div>
         </div>
     );
@@ -221,7 +233,7 @@ const Checkout = () => {
                 <>
                     <div className="justify-center flex text-center py-52 ">
                         <div className="space-y-10">
-                            <p className="  font-semibold text-xl px-3">Your Cart is Empty, Add some Products First</p>
+                            <p className="  font-semibold text-xl px-3">{t("emptyCartDescription")}</p>
                             <p className="px-3"></p>
                             <Link href={'/'} className="mx-auto border p-4  rounded-md text-white font-medium bg-primaryColor hover:bg-[#45486e]transition-all">Return to Home</Link>
                         </div>
@@ -244,12 +256,12 @@ const Checkout = () => {
                                 />
                                 :
                                 <div className="w-full pt-6">
-                                    <p className="text-2xl font-bold text-gray-800 p-2 ">Please Sign first</p>
+                                    <p className="text-2xl font-bold text-gray-800 p-2 ">{t("sign")}</p>
                                     <AuthForm Type="sign-up" variant='checkout' />
                                 </div>
                             }
 
-                            <h2 className="text-2xl font-bold text-gray-800 p-2 pt-5">Your Order</h2>
+                            <h2 className="text-2xl font-bold text-gray-800 p-2 pt-5">{t("YourOrder")}</h2>
                             <div className="p-3 rounded-md border space-y-3 shadow-sm">
                                 {cartProducts.length > 0 ?
                                     cartProducts.map((cartItem: any) =>
@@ -293,15 +305,17 @@ const Checkout = () => {
                                         disabled={executePayMutation.isPending !== false || executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery' || !auth?.userId}
                                     >
                                         {executePayMutation.isPending ? (
-                                            <p>Processing</p>
+                                            <p>{t("processing")}</p>
                                         ) : executePayMutation.isSuccess || payWithCash === 'cash-on-delivery' ? (
-                                            (window.location.href = payWithCash === 'cash-on-delivery' && createOrderMutation.isSuccess ? `http://localhost:3000/${locale}/successfullorder`
-                                                : window.location.href = payWithCash === 'cash-on-delivery' && createOrderMutation.isError ? `http://localhost:3000/${locale}/error`
+                                            (window.location.href = payWithCash === 'cash-on-delivery' && createOrderMutation.isSuccess ?
+                                                `${process.env.NEXT_PUBLIC_CLIENT_SIDE}/${locale}/successfullorder`
+                                                : window.location.href = payWithCash === 'cash-on-delivery' && createOrderMutation.isError ?
+                                                    `${process.env.NEXT_PUBLIC_CLIENT_SIDE}/${locale}/error`
                                                     : executePayMutation.isSuccess ? paymentURL : ''),
-                                            <p className="flex justify-center gap-2">Redirecting <Loader className="animate-spin" /></p>
+                                            <p className="flex justify-center gap-2">{t("Redirecting")} <Loader className="animate-spin" /></p>
                                         ) :
                                             <>
-                                                {paymentMethod === 'cash-on-delivery' ? <p>Order Now</p> : <p>Pay Now</p>}
+                                                {paymentMethod === 'cash-on-delivery' ? <p>{t("OrderNow")}</p> : <p>{t("PayNow")}</p>}
                                             </>
                                         }
                                         {/* {executePayMutation.isPending ? (
@@ -321,11 +335,11 @@ const Checkout = () => {
                                         )} */}
                                         {executePayMutation.isPending !== false ? <Loader className="animate-spin" /> : null}
                                     </button>
-                                    <p className="py-2">{executePayMutation.isError ? <p className="text-red-400 text-center">Error, please try again.</p> : null}</p>
+                                    <p className="py-2">{executePayMutation.isError ? <p className="text-[#ef4444] text-center">{t("ErrorHappened")}</p> : null}</p>
                                     <div className="py-2">
                                         {!executePayMutation.isError && Object.values(formErrors).some((i) => i) && (
-                                            <p className="text-red-400 text-center">
-                                                Please make sure you have chosen all the options above.
+                                            <p className="text-[#ef4444] text-center">
+                                                {t("everyOption")}
                                             </p>
                                         )
                                         }
