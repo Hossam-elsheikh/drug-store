@@ -18,6 +18,7 @@ import { fetchCartItems } from "@/axios/instance";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { useLocalCart } from "@/hooks/useLocalCart";
 import WebsiteProfileCtx from "@/context/WebsiteProfileContext";
+import EmptyCart from "./cart/EmptyCart";
 
 
 function SignInForm() {
@@ -143,6 +144,7 @@ function DrawerWrapper({ showSec }: Props) {
                             :
                             <>
                                 <ShoppingCart className="w-7 h-7  hover:text-[#3ea9f4] transition-colors duration-200" />
+
                             </>
                         }
 

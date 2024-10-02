@@ -159,9 +159,9 @@ const CartDrawer = () => {
             {(auth.userId && cartItems.data.length === 0) || (!auth.userId && localStorageCart.length <= 0) ?
 
                 <div className="flex flex-col items-center justify-center h-full text-center p-4">
-                    <ShoppingCart className="h-24 w-24 mb-4 text-gray-400" />
-                    <h2 className="text-2xl font-semibold mb-2">{t("emptyCart")}</h2>
-                    <p className="text-gray-500 mb-4">{t("addProducts")}</p>
+                    <EmptyCart />
+
+                    
                     <SheetClose asChild >
 
                         <Link

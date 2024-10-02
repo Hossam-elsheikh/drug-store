@@ -1,14 +1,22 @@
 import { ShoppingCart } from 'lucide-react'
 import React from 'react'
+import CartSvg from '@/public/Add to Cart-amico.svg'
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
+import { useLocale } from '@/context/LocaleProvider';
+
 
 function EmptyCart() {
+    const t = useTranslations("cart");
+
     return (
         <div className=" h-full  flex text-center">
-            <div className="my-auto space-y-5 ">
-                <ShoppingCart className="mx-auto h-[130px] w-[130px]" />
-                <p className="  font-semibold text-3xl px-3">Your Cart Is Empty</p>
-                <p className="px-3">Add some Products to Your Cart</p>
-            </div>
+             <div className='flex justify-center items-center h-full flex-col '>
+                    <Image src={CartSvg} width={200} height={200} alt="cartSvg" />
+                    <h2 className="text-2xl font-semibold mb-2">{t("emptyCart")}</h2>
+                    <p className="text-gray-500 mb-4">{t("addProducts")}</p>
+                </div>
+          
         </div>
     )
 }

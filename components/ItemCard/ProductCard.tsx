@@ -135,7 +135,7 @@ const ProductCard = ({
             transition={{ delay: Number(index) * 0.1, ease: easeInOut, duration: 0.5 }}
             viewport={{ amount: 0 }}
             // className="flex flex-col w-[200px] md:w-[220px] h-[340px] md:h-[350px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl"
-            className="flex flex-col w-[200px] md:w-[220px] h-[340px] md:h-[350px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300"
+            className="flex flex-col  w-[170px] md:w-[200px] h-[310px] md:h-[330px] rounded-xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300"
         >
             <div
                 className="relative w-full h-60 overflow-hidden"
@@ -190,7 +190,7 @@ const ProductCard = ({
                         </p>
                     </div>
                 </Link>
-                <div className="flex items-center justify-around gap-4">
+                <div className="flex items-center p-1 justify-around gap-1">
                     <button
                         className="p-2 rounded-full hover:bg-gray-100 transition-all duration-200"
                         onClick={() =>

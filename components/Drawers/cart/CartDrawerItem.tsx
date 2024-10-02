@@ -13,6 +13,7 @@ import { AddToCart, instancePrivate, removeProductFromWishList } from "@/axios/i
 import { useLocalCart } from "@/hooks/useLocalCart";
 import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import EmptyCart from "./EmptyCart";
 
 type Props = {
     cartItem: null | {

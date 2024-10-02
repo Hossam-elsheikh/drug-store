@@ -116,7 +116,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details }:any) {
                                             {price}
 
                                         </div>
-                                        {sale &&
+                                        {sale > 0 &&
                                             <span className={` inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(sale)} rounded-full`}>
                                                 <span className='items-center'>{p('save')}</span> {sale}%
                                             </span>
