@@ -92,8 +92,16 @@ body {
 @media only screen and (max-width:766px) {
     .swiper-button-next,
     .swiper-button-prev{
+        display: none ;
+        opacity: 0 ;
+    }
+    .custom-carousel .swiper-pagination{
         display: none !important;
-        opacity: 0 !important;
+    } 
+    .custom-carousel .swiper-button-next,
+    .custom-carousel .swiper-button-prev{
+        display: block !important;
+        opacity: 1 !important;
     }
 }
 .swiper-button-next:hover,
