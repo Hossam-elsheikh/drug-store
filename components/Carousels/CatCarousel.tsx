@@ -27,7 +27,7 @@ function CatCarousel({ items }: CategoryCarouselProps) {
                 disableOnInteraction: true,
                 pauseOnMouseEnter: true,
             }}
-            // pagination={{ clickable: true }}    
+            pagination={{ clickable: true }}    
             modules={[Autoplay, Pagination, Navigation, A11y]}
             breakpoints={{
                 320: {

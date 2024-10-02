@@ -99,11 +99,13 @@ export default function ProductsCarousel({
                     className={classes.swiper}
                     pagination={{ clickable: true }}
                     modules={[Autoplay, Pagination, Navigation, A11y]}
+
+                    
                     breakpoints={breakpoints}
                 >
                     {productsQuery?.isLoading
                         ? [1, 2, 3, 4, 5, 6, 7].map((i) => (
-                              <SwiperSlide key={i}>
+                              <SwiperSlide key={i} >
                                   <ProductCardSkeleton />
                               </SwiperSlide>
                           ))

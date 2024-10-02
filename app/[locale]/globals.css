@@ -89,6 +89,13 @@ body {
     padding: 10px;
     transition: all 0.4s;
 }
+@media only screen and (max-width:766px) {
+    .swiper-button-next,
+    .swiper-button-prev{
+        display: none !important;
+        opacity: 0 !important;
+    }
+}
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
     color: #cbcbcb !important ;

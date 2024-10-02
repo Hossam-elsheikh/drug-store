@@ -13,7 +13,7 @@ type Props = {
     params?: {
         locale?: string
         id?: string
-        term?:string
+        term?: string
         ['collection-slug']?: string
         // searchCategory?: string
     }
@@ -21,8 +21,7 @@ type Props = {
     catId?: string
     SubId?: string
     brand?: string
-    name?:string
-
+    name?: string
 }
 
 type FetchProductsResponse = {
@@ -31,11 +30,11 @@ type FetchProductsResponse = {
     hasNext?: boolean
 }
 
-function ProductsContent({ params = {}, SubId, catId, brand,name }: Props) {
-    const { locale, id,term } = params
-    console.log(params);
-    
-    const [sort,setSort] = useState('createdAt')
+function ProductsContent({ params = {}, SubId, catId, brand, name }: Props) {
+    const { locale, id, term } = params
+    console.log(params)
+
+    const [sort, setSort] = useState('createdAt')
     let title = 'Products'
     if (id && SubId) {
         title = ` ${name} `
@@ -58,12 +57,12 @@ function ProductsContent({ params = {}, SubId, catId, brand,name }: Props) {
         queryKey: ['products', { term, catId, SubId, brand }],
         queryFn: ({ pageParam = null }) =>
             fetchProducts({
-                name: term?.replace('%20',' '),
+                name: term?.replace('%20', ' '),
                 category: catId,
                 subCategory: SubId,
                 brand,
-                sort:sort.split('-')[0] || 'createdAt',
-                order:sort.split('-')[1] || 'des',
+                sort: sort.split('-')[0] || 'createdAt',
+                order: sort.split('-')[1] || 'des',
                 next: pageParam,
                 limit: 16,
             }),
@@ -90,13 +89,14 @@ function ProductsContent({ params = {}, SubId, catId, brand,name }: Props) {
         }
     }, [hasNextPage, fetchNextPage])
 
-    const sortHandler = (e: React.ChangeEvent<HTMLSelectElement>) =>{
+    const sortHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const v = e.target.value
         setSort(v)
+        scrollPositionRef.current = 0
     }
-    useEffect(()=>{
+    useEffect(() => {
         refetch()
-    },[sort])
+    }, [sort])
     useEffect(() => {
         const handleScroll = () => {
             if (
@@ -120,15 +120,41 @@ function ProductsContent({ params = {}, SubId, catId, brand,name }: Props) {
         <section className="bg-gray-50 pb-5 mt-8">
             <div className="p-0 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg border">
                 <div className="p-5 flex justify-between">
-                    {title && <h1 className="text-md md:text-2xl font-semibold px-5 md:px-10">
-                        {title}
-                    </h1>}
-                    <form action="" className='text-lg font-medium flex items-center gap-2 text-gray-600'>
-                        <label htmlFor='sort' className='text-lg font-bold hidden md:block'>{locale === 'en' ?  'filter By' : 'فلتر حسب'}</label>
-                        <select name="sort" id="sort" value={sort} onChange={sortHandler}>
-                            <option value="createdAt-des">{locale === 'en' ?  'New Products' : 'جديد'}</option>
-                            <option value="price-asc">{locale === 'en' ?  'Price from lowest' : ' السعر من الأقل'}</option>
-                            <option value="price-des">{locale === 'en' ?  'Price from higher' : 'السعر من الأعلى'}</option>
+                    {title && (
+                        <h1 className="text-md md:text-2xl font-semibold px-5 md:px-10">
+                            {title}
+                        </h1>
+                    )}
+                    <form
+                        action=""
+                        className="text-lg font-medium flex items-center gap-2 text-gray-600"
+                    >
+                        <label
+                            htmlFor="sort"
+                            className="text-lg font-bold hidden md:block"
+                        >
+                            {locale === 'en' ? 'filter By' : 'فلتر حسب'}
+                        </label>
+                        <select
+                            className="block w-fit mt-1 p-2  bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            name="sort"
+                            id="sort"
+                            value={sort}
+                            onChange={sortHandler}
+                        >
+                            <option value="createdAt-des">
+                                {locale === 'en' ? 'New Products' : 'جديد'}
+                            </option>
+                            <option value="price-asc">
+                                {locale === 'en'
+                                    ? 'Price from lowest'
+                                    : ' السعر من الأقل'}
+                            </option>
+                            <option value="price-des">
+                                {locale === 'en'
+                                    ? 'Price from higher'
+                                    : 'السعر من الأعلى'}
+                            </option>
                         </select>
                     </form>
                     {/* <DrawerWrapper showSec="filter" /> */}
