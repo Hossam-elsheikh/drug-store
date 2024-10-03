@@ -5,10 +5,11 @@ import useAuth from '@/hooks/useAuth';
 import { useMutation } from '@tanstack/react-query';
 import { CircleX, MoveRight, OctagonAlert } from 'lucide-react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl';
+import { useLocale } from '@/context/LocaleProvider';
 
 function OrderError() {
 
@@ -16,10 +17,11 @@ function OrderError() {
 
     const t = useTranslations("Buttons");
     const localization = useTranslations("ErrorOrderPage");
-
+    const {locale}:any=useLocale()
     const searchParams = useSearchParams()
     const paymentId = searchParams.get('paymentId')
     const { auth }: any = useAuth()
+    const router = useRouter()
 
     const paymentStatusMutation = useMutation({
         mutationFn: (Key: any) => paymentStatus(Key),
@@ -49,11 +51,16 @@ function OrderError() {
             console.error(error);
         },
     })
+
     useEffect(() => {
+        if (!auth?.userId ) {
+            router.push(`/${locale}`)
+        }
         if (paymentId) {
             paymentStatusMutation.mutate(paymentId);
         }
-    }, [])
+    }, [auth?.userId])
+    if (!auth?.userId ) return null;
 
     return (
         <div>
@@ -98,11 +105,11 @@ function OrderError() {
                         </p>
                         
                         <motion.button
-                            onClick={() => window.location.href = '/'}
+                            onClick={() => window.location.href = `/${locale}/orders`}
                             className='w-full py-3 px-4 bg-red-600 hover:bg-red-700 transition-colors duration-300 rounded-full flex items-center justify-center gap-2 text-white font-semibold'
                             whileHover="hover"
                         >
-                            {t('backToHome')}
+                            {t('backToOrders')}
                             <motion.span
                                 variants={{
                                     hover: { x: 10 }

@@ -43,10 +43,10 @@ export const FavoritesProvider: React.FC<FavoritesProviderProps> = ({ children }
     } = useQuery({
         queryFn: () => getWishList(auth.userId),
         queryKey: ['wishList'],
-        enabled: !!auth.userId
+        enabled: !!auth?.userId
     })    
 
-    const FavoriteProducts = auth.userId ? wishList?.products : favoriteProducts;
+    const FavoriteProducts = auth?.userId ? wishList?.products : favoriteProducts;
 
     // const toggleFavorite = (item: Omit<Product, 'quantity'>) => {
     //     setFavoriteProducts(prevFavoriteProducts => {
@@ -91,7 +91,7 @@ export const FavoritesProvider: React.FC<FavoritesProviderProps> = ({ children }
     };
 
     useEffect(() => {
-        if(!auth.userId) localStorage.setItem('FavoriteItems', JSON.stringify(favoriteProducts));
+        if(!auth?.userId) localStorage.setItem('FavoriteItems', JSON.stringify(favoriteProducts));
     }, [FavoriteProducts]);
 
     if (wishListIsLoading) null

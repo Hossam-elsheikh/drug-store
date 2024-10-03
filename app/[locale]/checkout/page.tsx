@@ -29,13 +29,15 @@ const Checkout = () => {
     const [payWithCash, setPayWithCash] = useState('')
     const [shippingAddress, setShippingAddress] = useState('')
     const [cartPrice, setCartPrice] = useState('')
+    console.log(cartPrice);
+
     const [formErrors, setFormErrors] = useState('')
     const [paymentURL, setPaymentURL] = useState('')
     const [orderId, setOrderId] = useState('')
 
     const axiosPrivate = useAxiosPrivate();
     const { auth }: any = useAuth()
-    const { locale,dir }: any = useLocale();
+    const { locale, dir }: any = useLocale();
     const t = useTranslations("CheckOutPage")
 
     const couponFormik = useFormik(
@@ -62,9 +64,9 @@ const Checkout = () => {
         isLoading: userInfoLoading,
         error: userInfoError,
     } = useQuery({
-        queryFn: () => getUser(auth.userId),
+        queryFn: () => getUser(auth?.userId),
         queryKey: ['userInfo'],
-        enabled: !!auth.userId
+        enabled: !!auth?.userId
     })
 
     const {
@@ -73,9 +75,11 @@ const Checkout = () => {
         error: cartError,
     } = useQuery({
         queryFn: () => fetchCartItems(axiosPrivate, auth),
-        queryKey: ["cartItems", auth.userId],
-        enabled: !!auth.userId,
+        queryKey: ["cartItems", auth?.userId],
+        enabled: !!auth?.userId,
     });
+    console.log(cartItems);
+    
     //calling redux state to see if there a local cart items
     const { localCartSelector } = useLocalCart()
 
@@ -91,9 +95,6 @@ const Checkout = () => {
         queryKey: ['totalPrice'],
         enabled: !!cartItems,
     })
-    console.log(cartPrice);
-    
-    
 
     const createOrderMutation = useMutation({
         mutationFn: () => createOrder(axiosPrivate, auth, deliveryMethod, paymentMethod, shippingAddress),
@@ -123,7 +124,7 @@ const Checkout = () => {
         onError(error) {
             console.error('Order creation failed:', error);
         }
-    })
+    })    
 
     const setPaymentURLMutation = useMutation({
         mutationFn: (paymentURL) => setThePaymentURL({ axiosPrivate, orderId, paymentURL }),
@@ -148,15 +149,14 @@ const Checkout = () => {
     const applyCouponMutation = useMutation({
         mutationFn: () => applyCoupon(axiosPrivate, auth.userId, couponFormik.values.couponCode, totalPrice.data.cartTotalPrice),
         onSuccess(data) {
-            // console.log(data.response.data.message);
-            // console.log(data);
-            
-            // setCartPrice(data.data.finalPrice)
+            if (data.finalPrice) {
+                setCartPrice(data.finalPrice)
+            }
+
         },
         onError(error) {
             console.error(error);
             console.error(error.message);
-
         },
     })
 
@@ -167,16 +167,10 @@ const Checkout = () => {
     }
 
     useEffect(() => {
-        if (isSuccessTotalPrice === true && applyCouponMutation.isSuccess === false) {
+        if (isSuccessTotalPrice === true && !applyCouponMutation?.data?.finalPrice) {
             setCartPrice(totalPrice?.data?.cartTotalPrice)
         }
     }, [totalPrice?.data?.cartTotalPrice])
-
-    useEffect(() => {
-        if (applyCouponMutation.isSuccess === true && applyCouponMutation?.data?.data.finalPrice) {
-            setCartPrice(applyCouponMutation?.data?.data.finalPrice)
-        }
-    }, [applyCouponMutation?.data?.data?.finalPrice])
 
     const order = async () => {
         if (userInfo) {
@@ -295,7 +289,7 @@ const Checkout = () => {
                                         couponFormik={couponFormik}
                                         applyCouponMutation={applyCouponMutation}
                                         applyCouponEvent={applyCouponEvent}
-                                        totalPrice={totalPrice || localCartSelector.localCartTotal}
+                                        totalPrice={cartPrice || localCartSelector.localCartTotal}
                                     />
                                 </div>
 
@@ -308,13 +302,13 @@ const Checkout = () => {
                                     ${executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery' ? 'disabled:bg-green-400' : null}`
                                         }
                                         type="submit"
-                                        disabled={executePayMutation.isPending !== false || executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery' || !auth?.userId}
+                                        disabled={executePayMutation.isPending !== false || executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery' || !auth?.userId ||  cartProducts.some((item:any) => item.productId.stock === 0)}
                                     >
                                         {executePayMutation.isPending ? (
                                             <p>{t("processing")}</p>
                                         ) : executePayMutation.isSuccess || payWithCash === 'cash-on-delivery' ? (
                                             (window.location.href = payWithCash === 'cash-on-delivery' && createOrderMutation.isSuccess ?
-                                                `${process.env.NEXT_PUBLIC_CLIENT_SIDE}/${locale}/successfullorder`
+                                                `${process.env.NEXT_PUBLIC_CLIENT_SIDE}/${locale}/successfullorder?orderId=${orderId}`
                                                 : window.location.href = payWithCash === 'cash-on-delivery' && createOrderMutation.isError ?
                                                     `${process.env.NEXT_PUBLIC_CLIENT_SIDE}/${locale}/error`
                                                     : executePayMutation.isSuccess ? paymentURL : ''),

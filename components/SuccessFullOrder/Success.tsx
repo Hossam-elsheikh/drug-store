@@ -1,12 +1,14 @@
 'use client'
-import { getUserOrders, paymentStatus, setOrderPaymentSuccessStatus } from '@/axios/instance'
+import { getOrder, getUserOrders, paymentStatus, setOrderPaymentSuccessStatus } from '@/axios/instance'
+import { useLocale } from '@/context/LocaleProvider'
 import useAuth from '@/hooks/useAuth'
+import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import { PaymentStatus, SetOrderPaymentStatus, UserAuth } from '@/types'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { Check, MoveRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 function Success() {
@@ -16,11 +18,15 @@ function Success() {
 
     const searchParams = useSearchParams()
     const paymentId = searchParams.get('paymentId')
+    const orderId = searchParams.get('orderId')
     const { auth }: any = useAuth()
+    const router = useRouter()
+    const {locale}:any=useLocale()
 
     const paymentStatusMutation = useMutation({
         mutationFn: (Key: any) => paymentStatus(Key),
         onSuccess(data) {
+            console.log(data);
             if (auth && auth.userId) {
                 setOrderPaymentStatusMutation.mutate({
                     orderId: data.Data.CustomerReference,
@@ -46,10 +52,21 @@ function Success() {
     })
 
     useEffect(() => {
+        if (!auth?.userId ) {
+            router.push(`/${locale}`)
+        }
         if (paymentId) {
             paymentStatusMutation.mutate(paymentId);
         }
+        if(orderId){
+            setOrderPaymentStatusMutation.mutate({
+                orderId: orderId,
+                userId: auth.userId,
+                InvoiceStatus:"Pending"
+            })
+        }
     }, [])
+    if (!auth?.userId ) return null;
 
     return (
         <section className=' w-full h-screen bg-gradient-to-b from-green-50 to-green-100 flex flex-col justify-center items-center p-4'>

@@ -42,7 +42,7 @@ const CartDrawer = () => {
     } = useQuery({
         queryFn: () => fetchCartItems(axiosPrivate, auth),
         queryKey: ["cartItems"],
-        enabled: !!auth.userId
+        enabled: !!auth?.userId
     });
 
     const calculateCartMutation = useCalcCartMutation({ axiosPrivate, auth })
@@ -96,7 +96,7 @@ const CartDrawer = () => {
 
     return (
         <>
-            {auth.userId && cartItems.data.length >= 1 || !auth.userId && localStorageCart.length >= 1 ?
+            {auth?.userId && cartItems.data.length >= 1 || !auth?.userId && localStorageCart.length >= 1 ?
                 <section className="flex flex-col h-full " dir={dir}>
                     <>
                         <ScrollArea className="h-full max-h-[600px] overflow-hidden">
@@ -124,9 +124,9 @@ const CartDrawer = () => {
                                     {totalPrice?.data.cartTotalPrice||localCartSelector.localCartTotal} <span className="text-sm font-normal">{t("dinar")}</span>
                                 </p>
                             </div>
-                            <p className="text-[11px] bg-green-700 text-white p-2 rounded-md mb-4">
+                            {/* <p className="text-[11px] bg-green-700 text-white p-2 rounded-md mb-4">
                                 {t("taxes")}
-                            </p>
+                            </p> */}
 
                             <div className="space-y-3">
                                 <SheetClose asChild >
@@ -156,7 +156,7 @@ const CartDrawer = () => {
                 : null
             }
 
-            {(auth.userId && cartItems.data.length === 0) || (!auth.userId && localStorageCart.length <= 0) ?
+            {(auth?.userId && cartItems.data.length === 0) || (!auth?.userId && localStorageCart.length <= 0) ?
 
                 <div className="flex flex-col items-center justify-center h-full text-center p-4">
                     <EmptyCart />

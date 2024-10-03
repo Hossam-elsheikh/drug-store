@@ -42,7 +42,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
     // This mutation will be triggered after a successful user sign-in.
     const localStorageCart = JSON.parse(localStorage.getItem('products') || '[]')
     const transToAPI_Mutation = useMutation({
-        mutationFn: () => transCartToAPI(auth.userId, localStorageCart),
+        mutationFn: () => transCartToAPI(auth?.userId, localStorageCart),
         //on successful response the localStorage will be deleted
         onSuccess: () => localStorage.removeItem('products'),
         onError: (error) => console.log('error while mutation trans to cart api', error),
@@ -52,7 +52,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
     // This mutation will be triggered after a successful user sign-in.
     const { favoriteProducts } = useFavorites()
     const transLocalWishListToAPI_Mutation = useMutation({
-        mutationFn: () => transLocalWishListToAPI(favoriteProducts, auth.userId),
+        mutationFn: () => transLocalWishListToAPI(favoriteProducts, auth?.userId),
         onSuccess: () => { localStorage.removeItem('FavoriteItems'); console.log('wishlist products now are removed and moved successfully from local storage to api'); },
         onError: (error) => console.log('error while mutation trans wishlist to api', error),
     })
@@ -81,8 +81,8 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
             const { id: userId } = data;
             setAuth({ userId });
             toast.success("You Signed In Successfully");
-            // window.location.href = pathName;
             router.push(pathName)
+            router.refresh()
         },
         onError: (error) => {
             console.log("Error signing in", error);
@@ -119,11 +119,11 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
         if (favoriteProducts?.length > 0 && auth?.userId) {
             transLocalWishListToAPI_Mutation.mutate()
         }
-        if (auth&&auth.userId && (pathName === signInPath || pathName === signUpPath)) {
+        if (auth&&auth?.userId && (pathName === signInPath || pathName === signUpPath)) {
             router.push(`/${locale}`)
         }
-    }, [auth.userId, router, pathName])
-    if (auth&&auth.userId && (pathName === signInPath || pathName === signUpPath)) return null;
+    }, [auth?.userId, router, pathName])
+    if (auth&&auth?.userId && (pathName === signInPath || pathName === signUpPath)) return null;
 
     return (
         <>

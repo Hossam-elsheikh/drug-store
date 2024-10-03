@@ -26,7 +26,7 @@ const Cart = () => {
     } = useQuery({
         queryFn: () => fetchCartItems(axiosPrivate, auth),
         queryKey: ["cartItems"],
-        enabled:!!auth.userId
+        enabled:!!auth?.userId
     });    
 
     const {

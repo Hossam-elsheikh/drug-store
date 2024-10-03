@@ -30,7 +30,7 @@ export default function UserPopUp() {
         try {
             await signOutHook();
             router.push(`/${locale}`);
-            window.location.reload();
+            router.refresh();
         } catch (error) {
             console.error("Error during sign out:", error);
         }

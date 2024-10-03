@@ -1,3 +1,4 @@
+import { useLocale } from '@/context/LocaleProvider'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import React from 'react'
@@ -7,9 +8,9 @@ function Order({ cartItem }: any) {
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
     const t = useTranslations("cart")
     const c = useTranslations("CartPage")
+    const { locale }: any = useLocale()
     return (
         <div className=" flex space-x-4 rounded-lg border shadow-sm p-2 hover:shadow-md duration-300  py-4">
-
             <div className="flex-shrink-0">
                 <Image
                     width={90}
@@ -24,7 +25,7 @@ function Order({ cartItem }: any) {
 
                 <div className="flex items-start justify-between ">
                     <h3 className="text-sm font-medium text-gray-900 line-clamp-2">
-                        {name?.en}
+                        {name[locale]}
                     </h3>
                 </div>
 
@@ -36,7 +37,11 @@ function Order({ cartItem }: any) {
                         <span className="font-semibold text-lg ">{(price.toFixed(2))}</span> <span className="font-medium text-xs">{t("dinar")}</span>
                     </p>
                 </div>
-
+                {cartItem.productId.stock === 0 && (
+                    <p className=" text-red-500 font-medium">
+                        {c("outStock")}
+                    </p>
+                )}
             </div>
 
         </div>

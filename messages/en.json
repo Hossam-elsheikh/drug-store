@@ -31,6 +31,7 @@
         "unAvailable":"unavailabe",
         "viewDetails": "View details",
         "backToHome": "Back to home",
+        "backToOrders": "Go to your orders",
         "addAddress": "Add Ur Address",
         "edit": "Edit",
         "delete": "Delete",
@@ -156,7 +157,7 @@
         "PayNow":"Pay Now",
         "ErrorHappened":"Error Happened, please try again.",
         "everyOption":"Please make sure you have chosen all the options above.",
-        "Redirecting":"Redirecting to payment Page",
+        "Redirecting":"Redirecting",
         "error":"Error",
         "processing":"Processing",
         "deliveryMethodRequired": "Delivery method is required",
@@ -205,7 +206,8 @@
         "emptyCartDescription": "There's nothing in your cart yet. Browse our products and add any product you want!",
         "emptyCartTitle": "No Items in Your Cart",
         "quantity": "Quantity",
-        "items": "Items"
+        "items": "Items",
+        "outStock":"This product is out of stock"
     },
     "customerReview": {
         "writeComment": "Write A Comment",
