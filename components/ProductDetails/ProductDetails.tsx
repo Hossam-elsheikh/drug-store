@@ -138,14 +138,14 @@ export function ProductDetails({ params }: ProductDetailsProps) {
                                             />
                                         </div>
                                     </div>
-                                    <ReviewComment
+                                    {/* <ReviewComment
                                         key={customerReview?.data?._id}
                                         userName={
                                             customerReview?.data?.userId?.name||''
                                         }
                                         rating={customerReview?.data?.rate}
                                         comment={customerReview?.data?.comment}
-                                    />
+                                    /> */}
                                 </div>
                             ) : (
                                 <div
@@ -195,7 +195,7 @@ export function ProductDetails({ params }: ProductDetailsProps) {
                                             />
                                         </div>
                                     </div>
-                                    {productReviewQuery?.data?.reviews?.map(
+                                    {/* {productReviewQuery?.data?.reviews?.map(
                                         (rev:any) => {
                                             if (
                                                 rev._id !==
@@ -212,7 +212,7 @@ export function ProductDetails({ params }: ProductDetailsProps) {
                                                     />
                                                 )
                                         }
-                                    )}
+                                    )} */}
                                 </>
                             ) : (
                                 <>
