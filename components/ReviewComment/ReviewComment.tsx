@@ -16,7 +16,7 @@ function ReviewComment({ userName, rating, comment }: ReviewCommentProps) {
             <div className=" p-2 ">
                 <div className="flex-auto">
                     <div className="text-base text-slate-900 font-semibold">
-                        {userName}
+                        {/* {userName} */}
                     </div>
                     <div className="text-sm text-slate-500 flex items-center">
                         <span>
