@@ -102,9 +102,9 @@ const CartDrawer = () => {
                         <ScrollArea className="h-full max-h-[600px] overflow-hidden">
                             <AnimatePresence>
                                 {cartProducts.length >= 1 &&
-                                    cartProducts.map((cartItem: any) => (
-                                        <div key={cartItem._id}>
-                                            <SlideCardAnimation key={cartItem._id}>
+                                    cartProducts.map((cartItem: any, i:number) => (
+                                        <div key={cartItem._id||i }>
+                                            <SlideCardAnimation key={cartItem._id||i}>
                                                 <CartDrawerItem
                                                     cartItem={cartItem}
                                                     auth={auth}

@@ -90,7 +90,7 @@ export function ProductDetails({ params }: ProductDetailsProps) {
                         <About productDetails={productDetails} />
                         {productId && (
                             <div className="bg-gray-50 custom-carousel p-0 md:p-6 rounded-lg">
-                                <h3 className="text-xl font-semibold mb-4">
+                                <h3 className="text-xl p-2 font-semibold mb-4">
                                     {t('relatedProducts')}
                                 </h3>
 

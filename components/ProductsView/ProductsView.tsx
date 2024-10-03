@@ -9,6 +9,7 @@ import { ProductsProvider } from '@/context/ProductsProvider'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { fetchProducts } from '@/axios/instance'
 import { Product } from '@/types'
+import { Loader } from 'lucide-react'
 type Props = {
     params?: {
         locale?: string
@@ -117,7 +118,7 @@ function ProductsContent({ params = {}, SubId, catId, brand, name }: Props) {
         return <div>Server Error, please try again later</div>
     }
     return (
-        <section className="bg-gray-50 pb-5 mt-8">
+        <section className="h-screen bg-gray-50  pb-5 mt-8">
             <div className="p-0 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg border">
                 <div className="p-5 flex justify-between">
                     {title && (
@@ -136,7 +137,7 @@ function ProductsContent({ params = {}, SubId, catId, brand, name }: Props) {
                             {locale === 'en' ? 'filter By' : 'فلتر حسب'}
                         </label>
                         <select
-                            className="block w-fit mt-1 p-2  bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className="block w-fit mt-1 p-2 px-1 rounded-full   bg-white border border-gray-300  shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             name="sort"
                             id="sort"
                             value={sort}
@@ -188,11 +189,15 @@ function ProductsContent({ params = {}, SubId, catId, brand, name }: Props) {
                                     disabled={isFetchingNextPage}
                                 >
                                     {isFetchingNextPage
-                                        ? 'Loading more...'
+
+                                        ?<>
+                                        'Loading more...'
+                                        <Loader className="animate-spin" />
+                                        </>
                                         : 'Show More'}
                                 </button>
                             ) : (
-                                <p className="text-gray-600 mx-auto">
+                                <p className="text-gray-600 mx-auto bg-gray-50 p-2 px-5 shadow-sm rounded-full">
                                     No more products
                                 </p>
                             )}

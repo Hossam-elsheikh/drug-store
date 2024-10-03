@@ -21,6 +21,7 @@ function Page({ params, searchParams }: Props) {
 
     return (
     // <p>hello</p>
+    
     <ProductsView params={params} catId={ref} name={name}/>
     );
 }

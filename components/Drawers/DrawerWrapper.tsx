@@ -38,6 +38,7 @@ type Props = {
 
 function DrawerWrapper({ showSec }: Props) {
     const [animateBounce, setAnimateBounce] = useState(false)
+    const [animateBounceCart, setAnimateBounceCart] = useState(false)
     const { logo } = useContext(WebsiteProfileCtx)
 
     const { dir } = useLocale();
@@ -59,6 +60,7 @@ function DrawerWrapper({ showSec }: Props) {
     
     const { localCartSelector } = useLocalCart()
 
+    
     useEffect(() => {
         if (totalFavorite > 0) {
             setAnimateBounce(true)
@@ -67,9 +69,17 @@ function DrawerWrapper({ showSec }: Props) {
             }, 600)
             return () => clearTimeout(timer);
         }
-
+   
     }, [totalFavorite, cartItems?.data?.length, localCartSelector?.length])
 
+    useEffect(() => {
+        if (cartItems?.data?.length > 0 ||localCartSelector.localCartProducts.length>0 ) {
+            setAnimateBounceCart(true)
+            const timer = setTimeout(() => {
+                setAnimateBounceCart(false)
+            }, 600)
+            return () => clearTimeout(timer);
+        }},[cartItems?.data?.length,localCartSelector.localCartProducts.length])
     if (isCartLoading) null
 
     return (
@@ -127,7 +137,7 @@ function DrawerWrapper({ showSec }: Props) {
                                         initial={{ opacity: 0 }}
                                         animate={{
                                             opacity: 1,
-                                            scale: animateBounce ? [1, 1.01, 0.9, 1] : 1,
+                                            scale: animateBounceCart ? [1, 1.01, 0.9, 1] : 1,
                                         }}
                                         exit={{ opacity: 0 }}
                                         transition={{

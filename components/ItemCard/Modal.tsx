@@ -74,9 +74,9 @@ function Modal({ setIsModalOpen, setQuickAccess, details }: any) {
             opacity: 1,
             scale: 1,
             y: 0,
-            transition: { duration: 0.3 }
+            transition: { duration: 0.3 },
         },
-    };
+    }
     return (
         <>
             {isOpen && (
@@ -87,8 +87,8 @@ function Modal({ setIsModalOpen, setQuickAccess, details }: any) {
                     className="relative z-50"
                 >
                     <motion.div
-                        initial={{ opacity: 0, }}
-                        animate={{ opacity: 1, }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                         exit={{ opacity: 0, transition: { duration: 0.3 } }}
                         className="fixed inset-0 bg-black/50 backdrop-blur-sm"
                     />
@@ -96,9 +96,9 @@ function Modal({ setIsModalOpen, setQuickAccess, details }: any) {
                         <DialogPanel
                             as={motion.div}
                             variants={variants}
-                            initial='hidden'
-                            animate='visible'
-                            exit='hidden'
+                            initial="hidden"
+                            animate="visible"
+                            exit="hidden"
                             className="w-full max-w-3xl bg-white rounded-2xl overflow-hidden shadow-2xl relative"
                         >
                             <button
@@ -131,30 +131,34 @@ function Modal({ setIsModalOpen, setQuickAccess, details }: any) {
                                         </Link>
                                     </DialogTitle>
 
-
-                                    <p className="text-gray-600 leading-relaxed">
+                                    <p className="text-gray-600 truncate leading-relaxed">
                                         {description?.[locale]}
                                     </p>
 
-                                    <div className="p-4 text-primaryTextColor hover:text-[#45486e]  font-semibold flex text-2xl gap-5 justify-around">
+                                    <div dir={dir} className="p-4 text-primaryTextColor hover:text-[#45486e]  font-semibold flex text-2xl items-baseline gap-5 ">
                                         <div>
                                             <span className="font-medium text-sm">
                                                 {tt("dinar")}
                                             </span>
-                                            {price}
-
+                                            <h1>{price}</h1>
                                         </div>
-                                        {sale > 0 &&
-                                            <span className={` inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(sale)} rounded-full`}>
-                                                <span className='items-center'>{p('save')}</span> {sale}%
+                                        {sale > 0 && (
+                                            <span
+                                                className={` h-fit items-center px-3 py-1  z-30 text-xs font-medium gap-1 ${getColorClass(
+                                                    sale
+                                                )} rounded-full`}
+                                            >
+                                                <span className="items-center">
+                                                    {p('save')}
+                                                </span>{' '}
+                                                {sale}%
                                             </span>
-                                        }
+                                        )}
                                     </div>
 
                                     <div className="flex gap-4">
-
                                         <button
-                                            className="flex-1 px-6 py-3 bg-primaryColor text-white rounded-full hover:bg-[#45486e]active:scale-[.99] transition-all duration-200 flex items-center justify-center gap-2"
+                                            className="flex-1 px-6 py-3 bg-primaryColor text-white rounded-full hover:bg-[#45486e] active:scale-[.99] transition-all duration-200 flex items-center justify-center gap-2"
                                             onClick={() =>
                                                 router.push(
                                                     `/${locale}/${slug}/${_id}`
@@ -180,10 +184,11 @@ function Modal({ setIsModalOpen, setQuickAccess, details }: any) {
                                         >
                                             <Heart
                                                 size={20}
-                                                className={` transition-all duration-300 delay-400 ${isProductFavorite(_id)
-                                                    ? 'text-red-500 fill-red-500'
-                                                    : 'text-gray-600 group-hover:text-red-500'
-                                                    }`}
+                                                className={` transition-all duration-300 delay-400 ${
+                                                    isProductFavorite(_id)
+                                                        ? 'text-red-500 fill-red-500'
+                                                        : 'text-gray-600 group-hover:text-red-500'
+                                                }`}
                                             />
                                         </button>
                                     </div>
