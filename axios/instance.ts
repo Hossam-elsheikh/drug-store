@@ -51,16 +51,18 @@ export const userSignUp = async (values: any) => {
         const response = await instance.post('/user', JSON.stringify(values), {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
-        })
-        console.log(response.data)
-        return response.data
-    } catch (error) {
-        // errorMessage(error)
+        });
+        console.log(response.data);
+        return response.data;
+    } catch (error: any) {
         console.error(error);
-
-        return error
+        if (error.response) {
+            throw new Error(error.response.data.message || "An error occurred during signup");
+        } else {
+            throw new Error("An unknown error occurred during signup");
+        }
     }
-}
+};
 
 export const userSignIn = async (values: any) => {
     try {
@@ -74,11 +76,15 @@ export const userSignIn = async (values: any) => {
         )
         console.log(response.data)
         return response.data
-    } catch (error) {
+    } catch (error:any) {
         // errorMessage(error)
         console.error(error);
         
-        return error
+        if(error.response){
+            throw new Error (error.response.data.message)
+        }else {
+            throw new Error("An unknown error occurred during signup");
+        }
     }
 }
 
