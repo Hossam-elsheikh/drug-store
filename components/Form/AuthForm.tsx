@@ -244,7 +244,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                     {type === "sign-in" && (
                                         <Link
                                             href={"/"}
-                                            className="font-medium text-[12px] text-primaryColor hover:text-[#363955] "
+                                            className="font-medium text-[12px] text-primaryColor hover:text-[#363955] underline"
                                         >
                                             {f("forgetPass")}
                                         </Link>
@@ -266,7 +266,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                     <Button
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className="font-semibold rounded-lg bg-primaryColor hover:bg-[#45486e] active:scale-[.99] duration-200 transition-all"
+                                        className="font-semibold rounded-full bg-primaryColor hover:bg-[#45486e] active:scale-[.99] duration-200 transition-all"
                                     >
                                         {isSubmitting ? (
                                             <Loader2 className=" animate-spin" />
@@ -308,7 +308,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                         {variant === "drawer" && (
                             <Link
                                 href={`/${locale}/${type}`}
-                                className="mt-10 flex gap-1 justify-center font-medium"
+                                className="mt-10 flex gap-1 justify-center font-medium underline"
                             >
                                 {f("expand")}{" "}
                                 <Expand className="size-[18px] my-auto" />

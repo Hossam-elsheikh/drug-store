@@ -13,7 +13,6 @@ import { AddToCart, instancePrivate, removeProductFromWishList } from "@/axios/i
 import { useLocalCart } from "@/hooks/useLocalCart";
 import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import EmptyCart from "./EmptyCart";
 
 type Props = {
     cartItem: null | {
@@ -65,7 +64,7 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
 
     return (
         <div className="flex justify-between gap-2 border-b py-4 h-30 shadow my-1 items-center rounded-lg p-2 hover:shadow-md duration-300">
-            <div className="w-full">
+            <div className=" flex w-32 h-32">
                 <Image
                     src={`${process.env.NEXT_PUBLIC_IMAGE_PATH}${cartItem?.productId?.image || details.image}`}
                     width={100}

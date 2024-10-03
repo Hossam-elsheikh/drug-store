@@ -303,7 +303,7 @@ const Checkout = () => {
                                     <button
                                         className={`
                                     flex justify-center gap-2  w-full p-4 text-center text-white font-medium bg-primaryColor 
-                                    rounded-lg  hover:bg-[#45486e] transition-all 
+                                    rounded-full  hover:bg-[#45486e] transition-all 
                                     ${Object.keys(validateFields()).length > 0 || executePayMutation.isPending !== false ? 'disabled:bg-gray-300' : null}
                                     ${executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery' ? 'disabled:bg-green-400' : null}`
                                         }
