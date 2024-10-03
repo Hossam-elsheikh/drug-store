@@ -124,9 +124,9 @@ const CartDrawer = () => {
                                     {totalPrice?.data.cartTotalPrice||localCartSelector.localCartTotal} <span className="text-sm font-normal">{t("dinar")}</span>
                                 </p>
                             </div>
-                            <p className="text-[11px] bg-green-700 text-white p-2 rounded-md mb-4">
+                            {/* <p className="text-[11px] bg-green-700 text-white p-2 rounded-md mb-4">
                                 {t("taxes")}
-                            </p>
+                            </p> */}
 
                             <div className="space-y-3">
                                 <SheetClose asChild >
