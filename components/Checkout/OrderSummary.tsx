@@ -11,8 +11,7 @@ type DataType = {
 }
 
 function OrderSummary({ couponFormik, applyCouponMutation, applyCouponEvent, totalPrice }: DataType) {
-    console.log(applyCouponMutation);
-    const { locale,dir }: any = useLocale();
+    const { locale,dir }: any = useLocale();    
     const t = useTranslations("CartPage")
     return (
         <>
@@ -32,17 +31,17 @@ function OrderSummary({ couponFormik, applyCouponMutation, applyCouponEvent, tot
                                     onChange={couponFormik.handleChange}
                                     onBlur={couponFormik.handleBlur}
                                     name="couponCode"
-                                    disabled={applyCouponMutation?.data?.data}
+                                    disabled={applyCouponMutation?.data?.finalPrice}
                                     style={{ direction: dir }}
                                 />
                                 <button
-                                    type="submit"
-                                    disabled={applyCouponMutation?.data?.data}
-                                    onClick={applyCouponEvent}
+                                    type="button"
+                                    disabled={applyCouponMutation?.data?.finalPrice}
+                                    onClick={(e)=>{applyCouponEvent(e); couponFormik.handleSubmit(e)}}
                                     className={`absolute top-0 m-0 p-[13.9px] flex items-center text-center text-white font-medium bg-primaryColor disabled:bg-gray-300 hover:bg-[#45486e] transition-all 
                                         ${dir === "rtl" ? 'left-0 rounded-l-md' : 'right-0 rounded-r-md'}`}>
                                     {
-                                        applyCouponMutation?.data?.data
+                                        applyCouponMutation?.data?.finalPrice
                                             ? (locale === "en" ? "APPLIED" : "تم التطبيق")
                                             : (locale === "ar" ? "تطبيق" : "APPLY")
                                     }                                </button>
@@ -52,45 +51,25 @@ function OrderSummary({ couponFormik, applyCouponMutation, applyCouponEvent, tot
                             </form>
                             <OderSummaryInfo
                                 title={locale === "en" ? "subtotal" : "المبلغ الفرعي"}
-                                price={totalPrice?.data?.cartTotalPrice || totalPrice}
+                                price={ totalPrice.data?.cartTotalPrice || totalPrice}
                                 styling={null}
                             />
-                            {applyCouponMutation.data?.data ?
+                            {applyCouponMutation?.data?.finalPrice &&
                                 <>
                                     <OderSummaryInfo
-                                        title={locale === "en" ? "Coupon" : "الكوبون"}
-                                        price={applyCouponMutation?.data?.data.discount}
+                                        title={locale === "en" ? "Coupon" :"كود الخصم"}
+                                        price={applyCouponMutation?.data?.discount}
                                         styling={'font-semibold text-[#38ae04]'}
                                     />
                                 </>
-                                :
-                                null
                             }
-                            {/* <OderSummaryInfo
-                                title='Shipping Fee'
-                                price={totalPrice?.data?.cartTotalPrice}
-                                styling={null}
-                            /> */}
                             <hr className="border border-[#dcdcdc]" />
                             <div className="font-semibold text-xl">
-
-                                {applyCouponMutation.data?.data ?
-                                    <>
                                         <OderSummaryInfo
-                                            title={locale === "en" ? "Total Price" : "مجموع المبلغ الكلي"}
-                                            price={applyCouponMutation?.data?.data?.finalPrice}
+                                            title={locale === "en" ? "Total Price" : "المبلغ الكلي"}
+                                            price={ applyCouponMutation?.data?.finalPrice ? applyCouponMutation?.data?.finalPrice : totalPrice?.data?.cartTotalPrice || totalPrice}
                                             styling={null}
                                         />
-                                    </>
-                                    :
-                                    <>
-                                        <OderSummaryInfo
-                                            title={locale === "en" ? "Total" : "المبلغ الكلي"}
-                                            price={totalPrice?.data?.cartTotalPrice || totalPrice}
-                                            styling={null}
-                                        />
-                                    </>
-                                }
                             </div>
                         </div>
                     </div>

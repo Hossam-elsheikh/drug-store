@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { useMutation } from '@tanstack/react-query'
 import { cancelOrder } from '@/axios/instance'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
+import useAuth from '@/hooks/useAuth'
 
 interface UserOrderInfoProps {
     dir: string;  
@@ -32,11 +33,12 @@ function UserOrderInfo({ orderInfo }: { orderInfo: UserOrderInfoProps }) {
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH || ''
     const { dir, locale } = useLocale()
     const axiosPrivate = useAxiosPrivate()
+    const {auth}:any = useAuth()
     const cancelOrderMutation = useMutation({
         mutationFn: cancelOrder,
     })
     const handleCancelOrder = () => {
-        cancelOrderMutation.mutate({ axiosPrivate, orderId: orderInfo._id })
+        cancelOrderMutation.mutate({ axiosPrivate, orderId: orderInfo._id, userId:auth?.userId })
     }
     const getStateColor = (state: string) => {
         switch (state?.toLowerCase()) {

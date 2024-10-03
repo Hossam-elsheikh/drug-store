@@ -38,7 +38,8 @@
         "showMore": "أظهر المزيد",
         "addToFavorite": "أضف إلى المفضلة",
         "quickView": "نظرة سريعة",
-        "backToHome": "العودة الي الصفحة الرئيسية"
+        "backToHome": "العودة الي الصفحة الرئيسية",
+        "backToOrders": "الذهاب الي صفحه الطلبات"
     },
     "cart": {
         "myCart": "عربة التسوق",
@@ -158,7 +159,7 @@
         "PayNow": "ادفع الآن",
         "ErrorHappened": "حدث خطأ، يرجى المحاولة مرة أخرى.",
         "everyOption": "يرجى التأكد من اختيار جميع الخيارات أعلاه.",
-        "Redirecting": "جاري اعاده التوجيه الي صفحه الدفع",
+        "Redirecting": "جاري اعاده التوجيه",
         "error": "حدث خطأ",
         "processing": "جاري المعالجة",
         "deliveryMethodRequired": "طريقة التوصيل مطلوبة",
@@ -207,7 +208,8 @@
         "emptyCartDescription": "ليس لديك أي منتجات في سلة التسوق حتى الآن. تصفح منتجاتنا وأضف ما تحب!",
         "emptyCartTitle": "لا توجد منتجات في سلة التسوق",
         "quantity": "الكمية",
-        "items": "عدد المنتجات"
+        "items": "عدد المنتجات",
+        "outStock":"This product is out of stock"
     },
     "customerReview": {
         "writeComment": "اكتب تعليقاً",

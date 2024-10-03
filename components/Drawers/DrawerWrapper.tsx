@@ -54,7 +54,7 @@ function DrawerWrapper({ showSec }: Props) {
     } = useQuery({
         queryFn: () => fetchCartItems(axiosPrivate, auth),
         queryKey: ["cartItems"],
-        enabled: !!auth.userId
+        enabled: !!auth?.userId
     });
     
     const { localCartSelector } = useLocalCart()

@@ -5,9 +5,7 @@ const useSignOut = () => {
     const { setAuth }: any = useAuth()
     const signOut = async () => {
         try {
-            const response = await instance.post('/user/sign-out',{}, {
-                withCredentials: true,
-            })
+            const response = await instance.post('/user/sign-out',{})
             setAuth(null)
             console.log(response);
         } catch (error) {

@@ -89,7 +89,7 @@ const ProductCard = ({
         description,
         sale,
         stock,
-        category: { slug },
+        slug,
     } = details
 
     //add to cart handler with API call
@@ -147,9 +147,8 @@ const ProductCard = ({
                     <span
                         className={`absolute inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(
                             sale
-                        )} ${
-                            dir === 'ltr' ? 'rounded-br-xl' : 'rounded-bl-xl'
-                        }`}
+                        )} ${dir === 'ltr' ? 'rounded-br-xl' : 'rounded-bl-xl'
+                            }`}
                     >
                         <span className="items-center">{p('save')}</span> {sale}
                         %
@@ -186,7 +185,7 @@ const ProductCard = ({
 
                         <p className="mt-1 text-primaryColor font-semibold flex items-center gap-1 text-lg">
                             {price}
-                            <span className="font-medium text-xs">{locale ==='en' ? 'KWD' : 'د.ك'}</span>
+                            <span className="font-medium text-xs">{locale === 'en' ? 'KWD' : 'د.ك'}</span>
                         </p>
                     </div>
                 </Link>
@@ -194,27 +193,26 @@ const ProductCard = ({
                     <button
                         className="p-2 rounded-full hover:bg-gray-100 transition-all duration-200"
                         onClick={() =>
-                            auth && auth.userId
+                            auth && auth?.userId
                                 ? isProductFavorite(_id)
                                     ? RemoveProductFromWishList(details._id)
                                     : addProductToWishListMutation.mutate(
-                                          details._id
-                                      )
+                                        details._id
+                                    )
                                 : toggleFavorite(details)
                         }
                     >
                         <Heart
-                            className={`w-6 h-6 transition-all duration-300 delay-400 active:scale-[.96] ${
-                                isProductFavorite(_id)
+                            className={`w-6 h-6 transition-all duration-300 delay-400 active:scale-[.96] ${isProductFavorite(_id)
                                     ? 'text-red-500 fill-red-500'
                                     : 'text-gray-600 hover:text-red-500'
-                            }`}
+                                }`}
                         />
                     </button>
                     {mode === 'default' ? (
                         <button
                             onClick={() =>
-                                auth && auth.userId
+                                auth && auth?.userId
                                     ? AddToCartMutation.mutate(details)
                                     : addToLocalCartDispatch(details)
                             }
@@ -224,7 +222,7 @@ const ProductCard = ({
                             {stock > 0 ? (
                                 <ShoppingCart size={20} />
                             ) : (
-                               ''
+                                ''
                             )}
                             <p className="text-sm md:block">
                                 {stock > 0 ? t('addToCart') : t('unAvailable')}

@@ -21,6 +21,7 @@ import useAuth from "@/hooks/useAuth";
 import { updateUser } from "@/axios/instance";
 import { UserProfileDataValidationSchema } from "@/lib/schema";
 import { toast, Toaster } from "sonner";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface UserInfo {
     name: string;
@@ -46,27 +47,36 @@ export default function UserProfileModal({ userInfo }: any) {
     };
 
     const { auth }: any = useAuth();
+    const queryClient = useQueryClient()
+
+    const updateUserMutation = useMutation({
+        mutationFn: (updatedValues: any) => updateUser({ userId: auth.userId, data:updatedValues }),
+        onSuccess(data) {
+            toast.success("Profile updated successfully");
+            queryClient.invalidateQueries()
+        },
+        onError(error) {
+            console.error("Error updating user profile:", error);
+            toast.error("Failed to update profile. Please try again.");
+        }
+    });
 
     const onSubmit = async (values: any, { setSubmitting, setStatus }: { setSubmitting: any, setStatus: any }) => {
+        const updatedValues = {
+            ...userInfo,
+            name: values.name,
+            email: values.email,
+            mobile: values.mobile,
+        };
+
+        console.log("Updating with values:", updatedValues);
+
         try {
-            const updatedValues = {
-                ...userInfo,
-                name: values.name,
-                email: values.email,
-                mobile: values.mobile,
-            };
-
-            console.log("Updating with values:", updatedValues);
-
-            const response = await updateUser({userId:auth.userId, updatedValues});
-            console.log("User profile updated:", response);
+            setSubmitting(true);
+            updateUserMutation.mutate(updatedValues);
             setStatus("Profile updated successfully");
-            toast.success("Profile updated successfully");
-            router.refresh();
         } catch (error) {
-            console.error("Error updating user profile:", error);
             setStatus("Failed to update profile. Please try again.");
-            toast.error("Failed to update profile. Please try again.",);
         } finally {
             setSubmitting(false);
         }

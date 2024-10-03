@@ -10,13 +10,20 @@ import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useLocale } from '@/context/LocaleProvider'
 import { getColorClass } from '@/lib/utils'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { addToWishList, removeProductFromWishList } from '@/axios/instance'
+import { Toaster, toast } from 'sonner'
+import useAuth from '@/hooks/useAuth'
 
-function Modal({ setIsModalOpen, setQuickAccess, details }:any) {
+function Modal({ setIsModalOpen, setQuickAccess, details }: any) {
     const { locale, dir } = useLocale()
+    const {auth}:any = useAuth()
     let [isOpen, setIsOpen] = useState(true)
     const { toggleFavorite, isProductFavorite } = useFavorites()
     const t = useTranslations("Buttons");
     const p = useTranslations("ProductCard");
+    const tt = useTranslations("cart")
+
     const router = useRouter()
     useEffect(() => {
         setIsModalOpen(isOpen)
@@ -37,6 +44,27 @@ function Modal({ setIsModalOpen, setQuickAccess, details }:any) {
         sale,
         category: { slug },
     } = details
+
+    //add to wishList handler with API call
+    const queryClient = useQueryClient()
+    const addProductToWishListMutation = useMutation({
+        mutationFn: (productId: any) => addToWishList(productId, auth?.userId),
+        onSuccess: () => {
+            queryClient.invalidateQueries()
+            toast.success('product added to wish list Successfully')
+        },
+    })
+
+    const removeProductFromWishListMutation = useMutation({
+        mutationFn: (productId) =>
+            removeProductFromWishList(auth?.userId, productId),
+        onSuccess: () => {
+            queryClient.invalidateQueries()
+            toast.success('product removed from wish list Successfully')
+        },
+    })
+    const RemoveProductFromWishList = (productId: any) =>
+        removeProductFromWishListMutation.mutate(productId)
 
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
 
@@ -111,7 +139,7 @@ function Modal({ setIsModalOpen, setQuickAccess, details }:any) {
                                     <div className="p-4 text-primaryTextColor hover:text-[#45486e]  font-semibold flex text-2xl gap-5 justify-around">
                                         <div>
                                             <span className="font-medium text-sm">
-                                                KWT
+                                                {tt("dinar")}
                                             </span>
                                             {price}
 
@@ -140,7 +168,15 @@ function Modal({ setIsModalOpen, setQuickAccess, details }:any) {
                                             className={`group p-3 border border-gray-400 rounded-full hover:border-gray-500 hover:bg-gray-200 active:scale-[.96] transition-all duration-300  ${isProductFavorite(_id)
                                                 ? ' bg-red-100 text-red-700'
                                                 : 'text-gray-600 hover:text-red-500'}`}
-                                            onMouseDown={() => toggleFavorite(details)}
+                                            onClick={() =>
+                                                auth && auth?.userId
+                                                    ? isProductFavorite(_id)
+                                                        ? RemoveProductFromWishList(details._id)
+                                                        : addProductToWishListMutation.mutate(
+                                                            details._id
+                                                        )
+                                                    : toggleFavorite(details)
+                                            }
                                         >
                                             <Heart
                                                 size={20}

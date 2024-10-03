@@ -412,7 +412,7 @@ export const applyCoupon = async (
 ) => {
     
     try {
-        const response = await axiosPrivate.patch('/coupon/applyCoupon', {
+        const response = await axiosPrivate.patch('/coupon/apply/coupon', {
             couponCode,
             userId,
             cartTotalPrice,
@@ -529,13 +529,15 @@ export const createOrder = async (
 export const cancelOrder = async ({
     axiosPrivate,
     orderId,
+    userId
 }: {
     axiosPrivate: any
     orderId: string
+    userId:any
 }) => {
     try {
         const response = await axiosPrivate.patch('/order/cancel', {
-            orderId: orderId,
+            orderId: orderId,userId
         })
         console.log(response)
     } catch (error) {
