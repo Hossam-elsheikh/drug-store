@@ -141,7 +141,7 @@ export function ProductDetails({ params }: ProductDetailsProps) {
                                     <ReviewComment
                                         key={customerReview?.data?._id}
                                         userName={
-                                            customerReview?.data?.userId?.name
+                                            customerReview?.data?.userId?.name||''
                                         }
                                         rating={customerReview?.data?.rate}
                                         comment={customerReview?.data?.comment}
