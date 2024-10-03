@@ -77,7 +77,7 @@ const Checkout = () => {
         enabled: !!auth?.userId,
     });
     console.log(cartItems);
-    
+
     //calling redux state to see if there a local cart items
     const { localCartSelector } = useLocalCart()
 
@@ -122,7 +122,7 @@ const Checkout = () => {
         onError(error) {
             console.error('Order creation failed:', error);
         }
-    })    
+    })
 
     const setPaymentURLMutation = useMutation({
         mutationFn: (paymentURL) => setThePaymentURL({ axiosPrivate, orderId, paymentURL }),
@@ -300,22 +300,30 @@ const Checkout = () => {
                                     ${executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery' ? 'disabled:bg-green-400' : null}`
                                         }
                                         type="submit"
-                                        disabled={executePayMutation.isPending !== false || executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery' || !auth?.userId ||  cartProducts.some((item:any) => item.productId.stock === 0)}
+                                        disabled={executePayMutation.isPending !== false || executePayMutation.isSuccess === true || payWithCash === 'cash-on-delivery' || !auth?.userId || cartProducts.some((item: any) => item.productId.stock === 0)}
                                     >
                                         {executePayMutation.isPending ? (
                                             <p>{t("processing")}</p>
-                                        ) : executePayMutation.isSuccess || payWithCash === 'cash-on-delivery' ? (
-                                            (window.location.href = payWithCash === 'cash-on-delivery' && createOrderMutation.isSuccess ?
-                                                `${process.env.NEXT_PUBLIC_CLIENT_SIDE}/${locale}/successfullorder?orderId=${orderId}`
-                                                : window.location.href = payWithCash === 'cash-on-delivery' && createOrderMutation.isError ?
-                                                    `${process.env.NEXT_PUBLIC_CLIENT_SIDE}/${locale}/error`
-                                                    : executePayMutation.isSuccess ? paymentURL : ''),
-                                            <p className="flex justify-center gap-2">{t("Redirecting")} <Loader className="animate-spin" /></p>
-                                        ) :
+                                        ) : (executePayMutation.isSuccess || payWithCash === 'cash-on-delivery') ? (
+                                            (() => {
+                                                if (payWithCash === 'cash-on-delivery') {
+                                                    if (createOrderMutation.isSuccess) {
+                                                        window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_SIDE}/${locale}/successfullorder?orderId=${orderId}`;
+                                                    } else if (createOrderMutation.isError) {
+                                                        window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_SIDE}/${locale}/error`;
+                                                    }
+                                                } else if (executePayMutation.isSuccess) {
+                                                    window.location.href = paymentURL;
+                                                }
+                                                return (
+                                                    <p className="flex justify-center gap-2">{t("Redirecting")} <Loader className="animate-spin" /></p>
+                                                );
+                                            })()
+                                        ) : (
                                             <>
                                                 {paymentMethod === 'cash-on-delivery' ? <p>{t("OrderNow")}</p> : <p>{t("PayNow")}</p>}
                                             </>
-                                        }
+                                        )}
                                         {/* {executePayMutation.isPending ? (
                                             <p>Processing</p>
                                         ) : (
