@@ -324,21 +324,6 @@ const Checkout = () => {
                                                 {paymentMethod === 'cash-on-delivery' ? <p>{t("OrderNow")}</p> : <p>{t("PayNow")}</p>}
                                             </>
                                         )}
-                                        {/* {executePayMutation.isPending ? (
-                                            <p>Processing</p>
-                                        ) : (
-                                            (payWithCash === 'cash-on-delivery' && createOrderMutation.isSuccess)
-                                                ? (window.location.href = `http://localhost:3000/${locale}/successfullorder`)
-                                                : (payWithCash === 'cash-on-delivery' && createOrderMutation.isError)
-                                                    ? (window.location.href = `http://localhost:3000/${locale}/error`)
-                                                    : executePayMutation.isSuccess
-                                                        ? (window.location.href = paymentURL)
-                                                        : (
-                                                            <>
-                                                                {paymentMethod === 'cash-on-delivery' ? <p>Order Now</p> : <p>Pay Now</p>}
-                                                            </>
-                                                        )
-                                        )} */}
                                         {executePayMutation.isPending !== false ? <Loader className="animate-spin" /> : null}
                                     </button>
                                     <p className="py-2">{executePayMutation.isError ? <p className="text-[#ef4444] text-center">{t("ErrorHappened")}</p> : null}</p>
