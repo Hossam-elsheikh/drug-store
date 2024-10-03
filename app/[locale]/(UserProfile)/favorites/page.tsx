@@ -36,7 +36,7 @@ export default function Favorites() {
         )
     }
 
-    const wishListProducts = auth?.userId ? wishList?.products : favoriteProducts;
+    const wishListProducts = auth?.userId ? wishList?.products || wishList : favoriteProducts;
 
     if (wishListError) {
         return (
@@ -58,7 +58,7 @@ export default function Favorites() {
             <h1 className="text-2xl p-3 md:text-3xl font-base mb-4 md:mb-0">{t('favorites')}</h1>
 
             <section className='mt-5'>
-                {wishListProducts.length === 0 ? (
+                {wishListProducts?.length === 0 ? (
                     <div className='items-center flex flex-col h-fit w-full'>
                         <div className="w-full max-w-md">
                             <Image src={addImage} layout="responsive" width={100} height={100} alt="No items in the Favorites" />

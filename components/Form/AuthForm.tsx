@@ -10,7 +10,7 @@ import FormButton from "../formButton/FormButton";
 import useAuth from "../../hooks/useAuth";
 import { useLocale } from "@/context/LocaleProvider";
 import { useTranslations } from "next-intl";
-import { AuthFormSchema, initialAuthFormValues } from "@/lib/schema";
+import { AuthFormSchema, governorates, initialAuthFormValues } from "@/lib/schema";
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -18,6 +18,7 @@ import { useTransLocalCartAPI } from "@/hooks/useTransLocalCartAPI";
 import Image from "next/image";
 import { useFavorites } from "@/context/favoriteProvider";
 import WebsiteProfileCtx from "@/context/WebsiteProfileContext";
+import CustomSelect from "./CustomSelect";
 
 interface authFormProps {
     Type: string;
@@ -34,9 +35,22 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
     const [type, setType] = useState(Type);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [selectedGovernorate, setSelectedGovernorate] = useState('');
+    const governorateOptions = Object.keys(governorates).map((gov) => ({
+        value: gov,
+        label: gov,
+    }));
+    const cityOptions = selectedGovernorate
+        ? governorates[selectedGovernorate].map((city: any) => ({
+            value: city,
+            label: city,
+        }))
+        : [];
+
     const pathName: string = usePathname();
     const signInPath = `/${locale}/sign-in`
     const signUpPath = `/${locale}/sign-up`
+
 
     // handle the transfer of the local storage cart to the API.
     // This mutation will be triggered after a successful user sign-in.
@@ -92,6 +106,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
 
     const onSubmit = async (values: any, { setSubmitting }: any) => {
         try {
+
             //sign-up logic handling
             if (type === "sign-up") {
                 signUpMutation.mutate(values)
@@ -119,11 +134,11 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
         if (favoriteProducts?.length > 0 && auth?.userId) {
             transLocalWishListToAPI_Mutation.mutate()
         }
-        if (auth&&auth?.userId && (pathName === signInPath || pathName === signUpPath)) {
+        if (auth && auth?.userId && (pathName === signInPath || pathName === signUpPath)) {
             router.push(`/${locale}`)
         }
     }, [auth?.userId, router, pathName])
-    if (auth&&auth?.userId && (pathName === signInPath || pathName === signUpPath)) return null;
+    if (auth && auth?.userId && (pathName === signInPath || pathName === signUpPath)) return null;
 
     return (
         <>
@@ -132,7 +147,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                     : "shadow-lg bg-[#F1F5F9] max-w-[500px] mx-auto p-5 my-10 rounded-lg"
                     }`}
             >
-                <header className="flex flex-col pt-5 gap-5 md:gap-8">
+                <header className="flex flex-col gap-5 md:gap-8">
                     <div className=" text-center">
                         {(variant === 'full') && (
                             <section className="flex justify-center pb-5 ">
@@ -144,7 +159,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                 />
                             </section>
                         )}
-                        <h1
+                        {/* <h1
                             className={`${variant === "drawer"
                                 ? "text-[16px] font-semibold"
                                 : variant === "checkout"
@@ -153,8 +168,8 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                 }`}
                         >
                             {variant != "checkout" && (type === "sign-in" ? f("signInAcc") : f("createAcc"))}
-                        </h1>
-                        <p
+                        </h1> */}
+                        {/* <p
                             className={
                                 variant === "drawer"
                                     ? "text-[12.5px] font-normal text-gray-600 pb-5"
@@ -162,7 +177,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                             }
                         >
                             {variant != "checkout" && f("enterDetails")}
-                        </p>
+                        </p> */}
                     </div>
                 </header>
                 <>
@@ -172,45 +187,24 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                         onSubmit={onSubmit}
                     >
                         {({ isSubmitting }) => (
-                            <Form className="space-y-5">
+                            <Form className="space-y-2 mx-3 ">
                                 {type === "sign-up" && (
                                     <>
-                                        {variant === "checkout" &&
-                                            <span className="flex gap-2 w-full ">
-                                                <CustomInput
-                                                    name="name"
-                                                    label={f("name")}
-                                                    placeholder={f("placeholderName")}
-                                                />
-                                                <CustomInput
-                                                    name="last name"
-                                                    label={"last name"}
-                                                    placeholder={"enter your last name"}
-                                                />
-                                                <CustomInput
-                                                    name="mobile"
-                                                    label={f("mobileNumber")}
-                                                    placeholder={f("placeholderNumber")}
-                                                />
-                                            </span>
-                                        }
-                                        {variant != "checkout" &&
-                                            <span className="flex gap-2 w-full ">
-                                                <CustomInput
-                                                    name="name"
-                                                    label={f("name")}
-                                                    placeholder={f("placeholderName")}
-                                                />
-                                                <CustomInput
-                                                    name="mobile"
-                                                    label={f("mobileNumber")}
-                                                    placeholder={f("placeholderNumber")}
-                                                />
-                                            </span>
-                                        }
-
-                                        <div className="flex gap-2 w-full">
+                                        <span className="flex gap-2 w-full ">
                                             <CustomInput
+                                                name="name"
+                                                label={f("name")}
+                                                placeholder={f("placeholderName")}
+                                            />
+                                            <CustomInput
+                                                name="mobile"
+                                                label={f("mobileNumber")}
+                                                placeholder={f("placeholderNumber")}
+                                            />
+                                        </span>
+
+                                        <div >
+                                            {/* <CustomInput
                                                 name="addresses[0].state"
                                                 label={f("state")}
                                                 placeholder={f("placeholderState")}
@@ -219,12 +213,29 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                                 name="addresses[0].city"
                                                 label={f("city")}
                                                 placeholder={f("cityHolder")}
-                                            />
-                                            <CustomInput
-                                                name="addresses[0].street"
-                                                label={f("street")}
-                                                placeholder={f("streetHolder")}
-                                            />
+                                            /> */}
+                                            <div className="flex gap-2 ">
+                                                <CustomSelect
+                                                    name="addresses[0].governorate"
+                                                    label={f("governorate")}
+                                                    options={governorateOptions}
+                                                    onChange={(e: any) => {
+                                                        setSelectedGovernorate(e.target.value);
+                                                    }}
+                                                />
+                                                <CustomSelect
+                                                    name="addresses[0].city"
+                                                    label={f("city")}
+                                                    options={cityOptions}
+                                                />
+                                            </div>
+                                            <div className="pt-4">
+                                                <CustomInput
+                                                    name="addresses[0].block"
+                                                    label={f("block")}
+                                                    placeholder={f("blockHolder")}
+                                                />
+                                            </div>
                                         </div>
                                     </>
                                 )}
@@ -280,7 +291,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                             </Form>
                         )}
                     </Formik>
-                    <Toaster richColors position="top-center" closeButton />
+                    {/* <Toaster richColors position="top-center" closeButton /> */}
 
                     <footer>
                         <div className="flex justify-center gap-2">

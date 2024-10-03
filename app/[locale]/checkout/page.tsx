@@ -29,8 +29,6 @@ const Checkout = () => {
     const [payWithCash, setPayWithCash] = useState('')
     const [shippingAddress, setShippingAddress] = useState('')
     const [cartPrice, setCartPrice] = useState('')
-    console.log(cartPrice);
-
     const [formErrors, setFormErrors] = useState('')
     const [paymentURL, setPaymentURL] = useState('')
     const [orderId, setOrderId] = useState('')

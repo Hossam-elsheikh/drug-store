@@ -100,6 +100,9 @@ const ProductCard = ({
             queryClient.invalidateQueries()
             toast.success('product added to cart Successfully!')
         },
+        onError(error, variables, context) {
+            toast.error("this product is out of stock")
+        },
     })
 
     //add to cart handler with localStorage

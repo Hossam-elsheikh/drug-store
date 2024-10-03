@@ -11,6 +11,7 @@ import { AddToCart, addToWishList, removeProductFromWishList } from '@/axios/ins
 import useAuth from '@/hooks/useAuth';
 import { useLocalCart } from '@/hooks/useLocalCart';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Toaster, toast } from 'sonner'
 
 function Details({ productDetails, className }: any) {
     const { _id, price, name, brand, image, description, category: { slug }, stock } = productDetails || {};
@@ -28,6 +29,9 @@ function Details({ productDetails, className }: any) {
     const AddToCartMutation = useMutation({
         mutationFn:(product: object) => AddToCart(product, auth),
         onSuccess:() => queryClient.invalidateQueries(),
+        onError(error, variables, context) {
+            toast.error("this product is out of stock")
+        },
     })
 
     const addProductToWishListMutation = useMutation({

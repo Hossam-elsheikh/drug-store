@@ -55,7 +55,9 @@ export const userSignUp = async (values: any) => {
         console.log(response.data)
         return response.data
     } catch (error) {
-        errorMessage(error)
+        // errorMessage(error)
+        console.error(error);
+
         return error
     }
 }
@@ -73,7 +75,9 @@ export const userSignIn = async (values: any) => {
         console.log(response.data)
         return response.data
     } catch (error) {
-        errorMessage(error)
+        // errorMessage(error)
+        console.error(error);
+        
         return error
     }
 }

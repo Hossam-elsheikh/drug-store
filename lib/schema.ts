@@ -9,22 +9,22 @@ export const AuthFormSchema = (type: string) =>
         mobile:
             type === 'sign-up'
                 ? Yup.string()
-                      .required('Mobile is required')
-                      .matches(/^[0-9]+$/, 'Mobile number is not valid')
+                    .required('Mobile is required')
+                    .matches(/^[0-9]+$/, 'Mobile number is not valid')
                 : Yup.string(),
         addresses:
             type === 'sign-up'
                 ? Yup.array()
-                      .of(
-                          Yup.object().shape({
-                              state: Yup.string().required('State is required'),
-                              city: Yup.string().required('City is required'),
-                              street: Yup.string().required(
-                                  'Street is required'
-                              ),
-                          })
-                      )
-                      .required('Addresses is required')
+                    .of(
+                        Yup.object().shape({
+                            governorate: Yup.string().required('governorate is required'),
+                            city: Yup.string().required('City is required'),
+                            block: Yup.string().required(
+                                'block is required'
+                            ),
+                        })
+                    )
+                    .required('Addresses is required')
                 : Yup.array(),
         email: Yup.string()
             .required('Email is required')
@@ -48,8 +48,8 @@ export const AuthFormSchema = (type: string) =>
         confirmPassword:
             type === 'sign-up'
                 ? Yup.string()
-                      .oneOf([Yup.ref('password')], 'Passwords do not match')
-                      .required('Re-entering password is required')
+                    .oneOf([Yup.ref('password')], 'Passwords do not match')
+                    .required('Re-entering password is required')
                 : Yup.string(),
     })
 
@@ -57,7 +57,7 @@ export const initialAuthFormValues = {
     name: '',
     age: '',
     mobile: '',
-    addresses: [{ state: '', city: '', street: '', block: '' }],
+    addresses: [{ governorate: '', city: '', block: '' }],
     email: '',
     password: '',
     confirmPassword: '',
@@ -74,7 +74,7 @@ export const CheckoutValidationSchema = Yup.object().shape({
         Yup.object().shape({
             country: Yup.string().required('Country is required'),
             city: Yup.string().required('City is required'),
-            street: Yup.string().required('Street is required'),
+            block: Yup.string().required('block is required'),
         })
     ),
     postalCode: Yup.string().required('Postal Code is required'),
@@ -85,7 +85,7 @@ export const CheckoutInitialValues = {
     lastName: '',
     email: '',
     phone: '',
-    deliveryAddress: [{ country: '', city: '', street: '' }],
+    deliveryAddress: [{ governorate: '', city: '', block: '' }],
     postalCode: '',
 }
 
@@ -132,7 +132,16 @@ export const SearchSchema = Yup.object().shape({
 // Checkout Validation Schema
 
 export const addressValidationSchemaDialog = Yup.object({
-    state: Yup.string().required('State is required'),
+    governorate: Yup.string().required('governorate is required'),
     city: Yup.string().required('City is required'),
-    street: Yup.string().required('Street is required'),
+    block: Yup.string().required('block is required'),
 })
+
+export const governorates: any = {
+    "Al Asimah": ["Kuwait City", "Dasma", "Mirqab", "Qibla", "Salhiya", "Sharq", "Bneid Al-Gar", "Mansouriya"],
+    "Hawalli": ["Hawalli", "Salmiya", "Bayan", "Rumaithiya", "Jabriya", "Shaab", "Maidan Hawalli"],
+    "Farwaniya": ["Farwaniya", "Khaitan", "Jleeb Al-Shuyoukh", "Al-Rai", "Ardhiya", "Riggai", "Omariya"],
+    "Mubarak Al-Kabeer": ["Abu Al-Hasaniya", "Abu Fatira", "Al-Messila", "Al-Qurain", "Mubarak Al-Kabeer", "Sabah Al-Salem", "Fnaitees"],
+    "Al Jahra": ["Jahra", "Saad Al Abdullah", "Abdali", "Subiya", "Al-Naeem", "Al-Oyoun"],
+    "Al Ahmadi": ["Ahmadi", "Fahaheel", "Mangaf", "Egaila", "Mahboula", "Abu Halifa", "Sabahiya"]
+};

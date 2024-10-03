@@ -24,9 +24,9 @@ import { toast, Toaster } from 'sonner';
 import { useLocale } from '@/context/LocaleProvider';
 
 interface AddressFormValues {
-    state: string;
+    governorate: string;
     city: string;
-    street: string;
+    block: string;
 
 }
 
@@ -78,9 +78,9 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
     });
 
     const defaultValues: AddressFormValues = {
-        state: '',
+        governorate: '',
         city: '',
-        street: ''
+        block: ''
     }
 
     return (
@@ -137,9 +137,9 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
                                     {({ isSubmitting, errors }) => (
                                         <Form className="space-y-5">
                                             <CustomInput
-                                                name="state"
-                                                label="State"
-                                                placeholder="Enter state"
+                                                name="governorate"
+                                                label="governorate"
+                                                placeholder="Enter governorate"
                                             />
                                             <CustomInput
                                                 name="city"
@@ -147,9 +147,9 @@ function AddNewAndEditAddresses({ mode, initialValues, addressId, onSuccess }: A
                                                 placeholder="Enter city"
                                             />
                                             <CustomInput
-                                                name="street"
-                                                label="Street"
-                                                placeholder="Enter street"
+                                                name="block"
+                                                label="block"
+                                                placeholder="Enter block"
                                             />
                                             <button
                                                 className={`flex justify-center rounded-full w-full p-3 text-center font-medium 

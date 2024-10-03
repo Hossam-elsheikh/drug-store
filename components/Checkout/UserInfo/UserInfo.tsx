@@ -110,9 +110,9 @@ function UserInfo({ setShippingAddress, shippingAddress, formErrors, setFormErro
                                         />
                                         <div className="flex-grow">
                                             <p className={`font-medium ${selectedAddress === address._id ? 'text-gray-900' : 'text-gray-700'}`}>
-                                                <span>{address.state}</span>, <span>{address.city}</span>
+                                                <span>{address.governorate}</span>, <span>{address.city}</span>
                                             </p>
-                                            <p className="text-sm text-gray-600 mt-1">{address.street}</p>
+                                            <p className="text-sm text-gray-600 mt-1">{address.block}</p>
                                         </div>
                                     </div>
                                     <div className="flex-shrink-0">

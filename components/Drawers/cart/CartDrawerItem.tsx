@@ -40,7 +40,16 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
     const { deleteFavorite } = useContext(FavoritesContext)
 
     //add to cart handler with API call
-    const addToCart = (product: any) => AddToCart(product, auth);
+    const addToCartMutation = useMutation({
+        mutationFn:(product: any) => AddToCart(product, auth),
+        onSuccess(data, error, variables) {
+            queryClient.invalidateQueries()
+            toast.success('product added to cart Successfully!')
+        },
+        onError(error, variables, context) {
+            toast.error("this product is out of stock")
+        },
+    })
     //add to cart handler with localStorage
     const { addToLocalCartDispatch } = useLocalCart()
 
@@ -62,6 +71,7 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
         onSuccess: () => queryClient.invalidateQueries(),
     })
     const RemoveProductFromWishList = (productId: any) => removeProductFromWishListMutation.mutate(productId)
+console.log(details);
 
     return (
         <div className="flex justify-between gap-2 border-b py-4 h-30 shadow my-1 items-center rounded-lg p-2 hover:shadow-md duration-300">
@@ -93,15 +103,16 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
                         <div className="flex ml-14  ">
                             <button className="p-2 rounded-full bg-[#d9dcff] hover:bg-[#9aa0e6] transition-all active:scale-[.90] duration-300 disabled:bg-gray-300"
                                 onClick={() => {
+                                    if (details.stock === 0) {
+                                        toast.error("This product is out of stock");
+                                        return;
+                                    }
                                     if (auth && auth.userId) {
-                                        addToCart(details);
+                                        addToCartMutation.mutate(details);
                                         removeProductFromWishListMutation.mutate(details._id)
                                     } else {
                                         addToLocalCartDispatch(details);
                                         deleteFavorite(details);
-                                    }
-                                    if (details.stock === 0) {
-                                        toast.error("This product is out of stock");
                                     }
                                 }}
                                 disabled={details.stock === 0}
