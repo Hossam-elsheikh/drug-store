@@ -205,10 +205,10 @@ export function ProductDetails({ params }: ProductDetailsProps) {
                                                     <ReviewComment
                                                         key={rev._id}
                                                         userName={
-                                                            rev.userId?.name
+                                                            rev?.userId?.name||""
                                                         }
-                                                        rating={rev.rate}
-                                                        comment={rev.comment}
+                                                        rating={rev?.rate}
+                                                        comment={rev?.comment}
                                                     />
                                                 )
                                         }
