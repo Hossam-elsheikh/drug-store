@@ -118,7 +118,7 @@ function ProductsContent({ params = {}, SubId, catId, brand, name }: Props) {
         return <div>Server Error, please try again later</div>
     }
     return (
-        <section className="h-screen bg-gray-50  pb-5 mt-8">
+        <section className=" bg-gray-50  pb-5 mt-8">
             <div className="p-0 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg border">
                 <div className="p-5 flex justify-between">
                     {title && (

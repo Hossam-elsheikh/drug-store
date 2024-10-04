@@ -155,6 +155,8 @@ export const getUserOrders = async (userId: string): Promise<any> => {
 export const getWebsiteData = async () => {
     try {
         const response = await instance.get(ApiEndPoints.PROFILE)
+        console.log(response.data);
+        
         return response.data
     } catch (error) {
         errorMessage(error)

@@ -1,37 +1,54 @@
 'use client'
-import { getWebsiteData } from "@/axios/instance";
-import { useQuery } from "@tanstack/react-query";
-import {  createContext, use, useEffect, useState } from "react";
+import { getWebsiteData } from '@/axios/instance'
+import { useQuery } from '@tanstack/react-query'
+import { createContext, use, useEffect, useState } from 'react'
+const initialState = {
+    logo: '',
+    websiteName: {
+        en: '',
+        ar: '',
+    },
+    websiteDesc: {
+        en: '',
+        ar: '',
+    },
+    twitterX: '',
+    facebook: '',
+    instagram: '',
+    linkedIn: '',
+    fav: '',
+    footer: '',
+    businessEmail: '',
+    businessNumber: '',
+    businessWhatsapp: '',
+}
+const WebsiteProfileCtx = createContext(initialState)
 
-const WebsiteProfileCtx = createContext({
-    logo:'',
-    name:{
-        en:'',
-        ar:''
-    }
-})
-
-export const WebProfileProvider = ({ children }: { children: React.ReactNode }) => {
-    const [logo,setLogo] = useState('')
+export const WebProfileProvider = ({
+    children,
+}: {
+    children: React.ReactNode
+}) => {
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
 
-    const [name,setName] = useState({
-        en:'',
-        ar:''
-    })
-    
-    const profileQuery = useQuery({
-        queryKey:['web profile'],
-        queryFn: getWebsiteData
-    })   
+    const [data, setData] = useState(initialState)
 
-    useEffect(()=>{
-        setLogo(`${imagePath}${profileQuery?.data?.logo}`)
-        setName(profileQuery?.data?.name)
-    },[profileQuery,imagePath])
+    const profileQuery = useQuery({
+        queryKey: ['web profile'],
+        queryFn: getWebsiteData,
+    })
+
+    useEffect(() => {
+        setData({
+            ...profileQuery?.data,
+            logo: `${imagePath}${profileQuery?.data?.logo}`,
+            fav: `${imagePath}${profileQuery?.data?.fav}`,
+            footer: `${imagePath}${profileQuery?.data?.footer}`,
+        })
+    }, [profileQuery, imagePath])
 
     return (
-        <WebsiteProfileCtx.Provider value={{ logo,name }}>
+        <WebsiteProfileCtx.Provider value={{ ...data }}>
             {children}
         </WebsiteProfileCtx.Provider>
     )

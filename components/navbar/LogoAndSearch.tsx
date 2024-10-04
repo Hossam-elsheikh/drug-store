@@ -19,6 +19,7 @@ export default function LogoAndSearch() {
                     width="140"
                     height="140"
                     alt="logo"
+                    className='h-10 w-auto md:h-50 md:w-full '
                     src={logo}
                 />
             </Link>
