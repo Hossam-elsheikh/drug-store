@@ -45,7 +45,7 @@ function Home() {
                         ?.slice(0, 5)
                         .map((c: any, i: number) => {
                             return (
-                                <div key={c._id}>
+                                <>
                                     <Container
                                         catId={c._id}
                                         slug={c.slug}
@@ -66,7 +66,7 @@ function Home() {
                                             }
                                         />
                                     </Container>
-                                </div>
+                                </>
                             )
                         })}
                 </div>
