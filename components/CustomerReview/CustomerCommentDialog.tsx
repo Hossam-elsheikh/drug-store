@@ -77,6 +77,7 @@ function CustomerCommentDialog({ productId, isEdit, postHandler,rateId }: Props)
                 )}
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] bg-gray-50">
+                
                 <DialogHeader  >
                     <DialogTitle className="text-2xl font-bold text-blue-600">
                         {t('shareExp')}

@@ -31,24 +31,31 @@ export const WebProfileProvider = ({
 }) => {
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
 
-    const [data, setData] = useState(initialState)
+    // const [data, setData] = useState(initialState)
 
     const profileQuery = useQuery({
         queryKey: ['web profile'],
         queryFn: getWebsiteData,
     })
 
-    useEffect(() => {
-        setData({
-            ...profileQuery?.data,
-            logo: `${imagePath}${profileQuery?.data?.logo}`,
-            fav: `${imagePath}${profileQuery?.data?.fav}`,
-            footer: `${imagePath}${profileQuery?.data?.footer}`,
-        })
-    }, [profileQuery, imagePath])
+    // useEffect(() => {
+    //     setData({
+    //         ...profileQuery?.data,
+    //         logo: `${imagePath}${profileQuery?.data?.logo}`,
+    //         fav: `${imagePath}${profileQuery?.data?.fav}`,
+    //         footer: `${imagePath}${profileQuery?.data?.footer}`,
+    //     })
+    // }, [imagePath])
 
     return (
-        <WebsiteProfileCtx.Provider value={{ ...data }}>
+        <WebsiteProfileCtx.Provider
+            value={{
+                ...profileQuery?.data,
+                logo: `${imagePath}${profileQuery?.data?.logo}`,
+                fav: `${imagePath}${profileQuery?.data?.fav}`,
+                footer: `${imagePath}${profileQuery?.data?.footer}`,
+            }}
+        >
             {children}
         </WebsiteProfileCtx.Provider>
     )

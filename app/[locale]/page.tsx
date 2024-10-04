@@ -45,9 +45,8 @@ function Home() {
                         ?.slice(0, 5)
                         .map((c: any, i: number) => {
                             return (
-                                <>
+                                <div key={c._id}>
                                     <Container
-                                        key={c._id}
                                         catId={c._id}
                                         slug={c.slug}
                                         className="max-w-[1600px] border-b-2 rounded-none  items-center"
@@ -67,7 +66,7 @@ function Home() {
                                             }
                                         />
                                     </Container>
-                                </>
+                                </div>
                             )
                         })}
                 </div>
