@@ -31,7 +31,7 @@ function About({ productDetails }: AboutPropsProps) {
                         {description}
                     </p>
                 </div>
-                {description.length > 150 && (
+                {description?.length > 150 && (
                     <button
                         onClick={() => setIsExpanded(!isExpanded)}
                         className="mt-2 text-primaryColor hover:text-primaryColor/80 font-medium flex items-center"

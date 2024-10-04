@@ -55,10 +55,10 @@ function Details({ productDetails, className }: any) {
         )}>
             <div className="space-y-3">
                 <h3 className="text-sm text-gray-500 font-medium uppercase tracking-wider">
-                    {brand.name?.[locale] }
+                    {brand?.name?.[locale] }
                 </h3>
                 <h2 className="text-3xl font-bold text-gray-900">
-                    {name[locale as keyof typeof name]}
+                    {name[locale as keyof typeof name]||""}
                 </h2>
                 <div className="flex items-center justify-between">
 

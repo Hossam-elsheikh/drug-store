@@ -75,32 +75,32 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
 
     const signUpMutation = useMutation({
         mutationFn: (values) => userSignUp(values),
-        onSuccess: () => {
+        onSuccess() {
             toast.success("You Signed Up Successfully");
-            if (variant != 'checkout') {
+            if (variant !== 'checkout') {
                 router.push(`/${locale}/sign-in`);
             } else {
-                setType("sign-in")
+                setType("sign-in");
             }
         },
-        onError: (error) => {
-            console.log("Error signing up", error);
-            toast.error("Error signing up. Please try again.");
+        onError(error: any) {
+            console.log("Error signing up", error.message);
+            toast.error(error.message);
         },
-    })
+    });
 
     const signInMutation = useMutation({
         mutationFn: (values) => userSignIn(values),
-        onSuccess: (data) => {
+        onSuccess(data)  {
             const { id: userId } = data;
             setAuth({ userId });
             toast.success("You Signed In Successfully");
             router.push(pathName)
             router.refresh()
         },
-        onError: (error) => {
-            console.log("Error signing in", error);
-            toast.error("Error signing in. Please try again.");
+        onError (error:any) {
+            console.log("Error signing in", error.message);
+            toast.error(error.message);
         },
     })
 
@@ -116,9 +116,15 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
             if (type === "sign-in") {
                 signInMutation.mutate(values);
             }
-        } catch (error) {
-            toast.error("Error during form submission:",);
-            console.error("Error during form submission:", error);
+        } catch (err: any) {
+            console.error("Error during form submission:", err);
+            if (err.response?.status === 409) {
+                toast.error("This email is already registered. Please use a different email.");
+            } else if (err.response?.status === 400) {
+                toast.error(err.response.data.message);
+            } else {
+                toast.error("An error occurred while adding the user.");
+            }
         } finally {
             setSubmitting(false);
         }
