@@ -107,13 +107,13 @@ const Footer = () => {
                     <h1 className='font-bold '>{websiteName && websiteName[locale]}</h1>
                     <div className='flex hover:text-secColor items-center gap-2'>
                         <Info />
-                        <a className='font-medium ' href={`${locale}/aboutUs`}>
+                        <a className='font-medium ' href={`/${locale}/aboutUs`}>
                             {locale === 'en' ? 'About us' : 'المزيد عنا'}
                         </a>
                     </div>
                     <div className='flex hover:text-secColor items-center gap-2'>
                         <Handshake />
-                        <a className='font-medium 'href={`${locale}/terms`}>
+                        <a className='font-medium 'href={`/${locale}/terms`}>
                         {locale === 'en' ? 'Terms and Conditions' : 'السياسات والشروط'}
 
                         </a>
