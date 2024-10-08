@@ -121,7 +121,7 @@ const CartDrawer = () => {
                             <div className="flex justify-between items-center mb-4">
                                 <h3 className="text-lg font-medium">{t("totalPrice")}</h3>
                                 <p className="text-lg font-bold">
-                                    {totalPrice?.data.cartTotalPrice||localCartSelector.localCartTotal} <span className="text-sm font-normal">{t("dinar")}</span>
+                                    {(totalPrice?.data.cartTotalPrice||localCartSelector.localCartTotal).toFixed(2)} <span className="text-sm font-normal">{t("dinar")}</span>
                                 </p>
                             </div>
                             {/* <p className="text-[11px] bg-green-700 text-white p-2 rounded-md mb-4">

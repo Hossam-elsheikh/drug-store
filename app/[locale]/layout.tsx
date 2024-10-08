@@ -32,6 +32,10 @@ const roboto = Roboto({
 export const metadata: Metadata = {
     title: 'Drug Store',
     description: 'GYour best online pharmacy',
+    icons: {
+        icon: '/favicon.ico', 
+    }
+    
 }
 
 export default async function RootLayout({
