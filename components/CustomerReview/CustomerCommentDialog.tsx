@@ -65,7 +65,7 @@ function CustomerCommentDialog({ productId, isEdit, postHandler,rateId }: Props)
         <Dialog open={isOpen} onOpenChange={setIsOpen} >
             <DialogTrigger asChild>
                 {isEdit ? (
-                    <Pencil className="cursor-pointer hover:text-gray-800 hover:scale-105" />
+                    <Pencil className="cursor-pointer hover:text-gray-800 hover:scale-105 duration-200" />
                 ) : (
                     <Button
                         variant="outline"

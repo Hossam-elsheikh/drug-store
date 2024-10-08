@@ -5,6 +5,7 @@ function AboutUs() {
 
 
     return (<>
+    
         <AboutInfo />
         <AboutCollaborations />
     </>

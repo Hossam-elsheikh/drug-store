@@ -17,12 +17,12 @@ import useAuth from '@/hooks/useAuth'
 
 function Modal({ setIsModalOpen, setQuickAccess, details }: any) {
     const { locale, dir } = useLocale()
-    const {auth}:any = useAuth()
+    const { auth }: any = useAuth()
     let [isOpen, setIsOpen] = useState(true)
     const { toggleFavorite, isProductFavorite } = useFavorites()
-    const t = useTranslations("Buttons");
-    const p = useTranslations("ProductCard");
-    const tt = useTranslations("cart")
+    const t = useTranslations('Buttons')
+    const p = useTranslations('ProductCard')
+    const tt = useTranslations('cart')
 
     const router = useRouter()
     useEffect(() => {
@@ -127,7 +127,18 @@ function Modal({ setIsModalOpen, setQuickAccess, details }: any) {
                                             href={`/${locale}/${slug}/${_id}`}
                                             className="text-primaryTextColor hover:text-[#45486e]  transition-colors duration-200"
                                         >
-                                            {name[locale] || ''}
+                                            {(name[locale] || '')
+                                                .split(' ')
+                                                .map(
+                                                    (word: string) =>
+                                                        word
+                                                            .charAt(0)
+                                                            .toUpperCase() +
+                                                        word
+                                                            .slice(1)
+                                                            .toLowerCase()
+                                                )
+                                                .join(' ')}
                                         </Link>
                                     </DialogTitle>
 
@@ -135,10 +146,13 @@ function Modal({ setIsModalOpen, setQuickAccess, details }: any) {
                                         {description?.[locale]}
                                     </p>
 
-                                    <div dir={dir} className="p-4 text-primaryTextColor hover:text-[#45486e]  font-semibold flex text-2xl items-baseline gap-5 ">
+                                    <div
+                                        dir={dir}
+                                        className="p-4 text-primaryTextColor hover:text-[#45486e]  font-semibold flex text-2xl items-baseline gap-5 "
+                                    >
                                         <div>
                                             <span className="font-medium text-sm">
-                                                {tt("dinar")}
+                                                {tt('dinar')}
                                             </span>
                                             <h1>{price}</h1>
                                         </div>
@@ -169,16 +183,20 @@ function Modal({ setIsModalOpen, setQuickAccess, details }: any) {
                                             {t('showMore')}
                                         </button>
                                         <button
-                                            className={`group p-3 border border-gray-400 rounded-full hover:border-gray-500 hover:bg-gray-200 active:scale-[.96] transition-all duration-300  ${isProductFavorite(_id)
-                                                ? ' bg-red-100 text-red-700'
-                                                : 'text-gray-600 hover:text-red-500'}`}
+                                            className={`group p-3 border border-gray-400 rounded-full hover:border-gray-500 hover:bg-gray-200 active:scale-[.96] transition-all duration-300  ${
+                                                isProductFavorite(_id)
+                                                    ? ' bg-red-100 text-red-700'
+                                                    : 'text-gray-600 hover:text-red-500'
+                                            }`}
                                             onClick={() =>
                                                 auth && auth?.userId
                                                     ? isProductFavorite(_id)
-                                                        ? RemoveProductFromWishList(details._id)
+                                                        ? RemoveProductFromWishList(
+                                                              details._id
+                                                          )
                                                         : addProductToWishListMutation.mutate(
-                                                            details._id
-                                                        )
+                                                              details._id
+                                                          )
                                                     : toggleFavorite(details)
                                             }
                                         >

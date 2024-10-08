@@ -23,7 +23,7 @@ function About({ productDetails }: AboutPropsProps) {
     const features = productDetails?.features || [];
 
     return (
-        <section className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <section className="bg-gray-50 rounded-lg shadow-sm  border-gray-200 overflow-hidden">
             <div className="p-6">
                 <h2 className="text-2xl font-semibold text-gray-800 mb-4">{ t('aboutItem')}</h2>
                 <div className={`prose max-w-none ${isExpanded ? '' : 'line-clamp-3'}`}>

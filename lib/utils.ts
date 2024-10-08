@@ -24,24 +24,25 @@ export const getColorClass = (percentage: number) => {
 export const collaborations = [
     {
         name: 'Momeasy',
-        logo: 'https://www.momeasy.com/uploads/images/62b190805b01059206302203bf5c2ffb.png',
+        logo: '/Momeasy.png',
         website: 'https://www.momeasy.com/',
         instagram: 'https://www.instagram.com/momeasy.kw?igsh=a2lhcWc5ZTVtb2Ft',
     },
     {
         name: 'Firstar',
-        logo: '/path/to/firstar-logo.png',
+        logo: '/Firstar.webp',
         website: 'https://www.china-firstar.com/',
     },
     {
         name: 'Erba Vita',
-        logo: 'https://www.china-firstar.com/wp-content/uploads/2022/04/new-first-aid-kit-logo.png',
+        logo: '/Erba Vita.png',
         website: 'https://www.erbavita.com/en/',
         instagram: 'https://www.instagram.com/erba_vita?igsh=ZDI3MjNyc3k3dmV4',
     },
     {
         name: 'Vapo Health Care',
-        logo: 'http://www.vapohealth.com/uploads/allimg/20231114/1-231114104F2Y4.png',
+        logo: '/Vapo Health Care.png',
+        key: 'k',
         website: 'http://www.vapohealth.com/',
     },
 ]

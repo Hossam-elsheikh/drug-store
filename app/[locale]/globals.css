@@ -95,9 +95,7 @@ body {
         display: none ;
         opacity: 0 ;
     }
-    .custom-carousel .swiper-pagination{
-        display: none !important;
-    } 
+  
     .custom-carousel .swiper-button-next,
     .custom-carousel .swiper-button-prev{
         display: block !important;
@@ -109,6 +107,9 @@ body {
     color: #cbcbcb !important ;
     padding: 10px;
 }
+.custom-carousel .swiper-pagination{
+    display: none !important;
+} 
 .swiper-button-next:active,
 .swiper-button-prev:active {
     scale: 0.9;

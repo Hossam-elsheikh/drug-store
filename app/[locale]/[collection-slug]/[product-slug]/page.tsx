@@ -8,11 +8,11 @@ export default function ProductPage({ params }: ProductDetailsProps) {
     console.log('params',params)
 
     return (
-        <main className="bg-gray-50 pb-5 mt-8">
+        <div className="bg-gray-50 pt-10  ">
             {/* <BreadCrumb /> */}
             <ProductDetails
                 params={params}
             />
-        </main>
+        </div>
     );
 }

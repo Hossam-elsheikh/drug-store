@@ -21,6 +21,7 @@ import { ProductDetailsProps } from '@/types'
 import StarRating from '../CustomerReview/StarRating'
 import useAuth from '@/hooks/useAuth'
 import { Pencil, Trash2 } from 'lucide-react'
+import { RatingProd } from './RatingProd'
 
 export function ProductDetails({ params }: ProductDetailsProps) {
     const { locale, dir } = useLocale()
@@ -71,7 +72,7 @@ export function ProductDetails({ params }: ProductDetailsProps) {
 
     return (
         <>
-            <section className="p-4 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg shadow-lg">
+            <section className="p-5 md:p-10  bg-white mx-auto max-w-[1600px] rounded-lg shadow-lg">
                 <section className="md:pt-5 w-full flex flex-col lg:flex-row gap-8">
                     <div dir={dir} className="w-full lg:w-[70%] space-y-10">
                         <div className="h-[300px] md:h-[400px] relative overflow-hidden rounded-lg">
@@ -125,7 +126,7 @@ export function ProductDetails({ params }: ProductDetailsProps) {
                                                             ?._id
                                                     )
                                                 }}
-                                                className="cursor-pointer hover:text-red-700 hover:scale-105"
+                                                className="cursor-pointer hover:text-red-700 hover:scale-105 duration-200 "
                                             />
                                             <CustomerCommentDialog
                                                 isEdit={true}
@@ -141,7 +142,8 @@ export function ProductDetails({ params }: ProductDetailsProps) {
                                     <ReviewComment
                                         key={customerReview?.data?._id}
                                         userName={
-                                            customerReview?.data?.userId?.name||''
+                                            customerReview?.data?.userId
+                                                ?.name || ''
                                         }
                                         rating={customerReview?.data?.rate}
                                         comment={customerReview?.data?.comment}
@@ -176,27 +178,10 @@ export function ProductDetails({ params }: ProductDetailsProps) {
                                                 ? 'reviewed this products'
                                                 : ' قام بتقييم هذا المنتج'}
                                         </p>
-                                        <div className="flex items-center gap-5">
-                                            <p>
-                                                {
-                                                    productReviewQuery?.data
-                                                        ?.averageRate
-                                                }
-                                                /5
-                                            </p>
-                                            <StarRating
-                                                size={20}
-                                                mode="review"
-                                                defaultRating={
-                                                    productReviewQuery?.data
-                                                        ?.averageRate
-                                                }
-                                                className="ml-1"
-                                            />
-                                        </div>
+                                        <RatingProd averageRate={productReviewQuery?.data?.averageRate} />
                                     </div>
                                     {productReviewQuery?.data?.reviews?.map(
-                                        (rev:any) => {
+                                        (rev: any) => {
                                             if (
                                                 rev._id !==
                                                 customerReview?.data?._id
@@ -205,7 +190,8 @@ export function ProductDetails({ params }: ProductDetailsProps) {
                                                     <ReviewComment
                                                         key={rev._id}
                                                         userName={
-                                                            rev?.userId?.name||""
+                                                            rev?.userId?.name ||
+                                                            ''
                                                         }
                                                         rating={rev?.rate}
                                                         comment={rev?.comment}

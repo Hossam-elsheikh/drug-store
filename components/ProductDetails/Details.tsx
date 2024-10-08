@@ -7,11 +7,12 @@ import classNames from 'classnames';
 import { useLocale } from "@/context/LocaleProvider";
 import { useFavorites } from "@/context/favoriteProvider";
 import { Button } from '@/components/ui/button';
-import { AddToCart, addToWishList, removeProductFromWishList } from '@/axios/instance';
+import { AddToCart, addToWishList, getReviews, removeProductFromWishList } from '@/axios/instance';
 import useAuth from '@/hooks/useAuth';
 import { useLocalCart } from '@/hooks/useLocalCart';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Toaster, toast } from 'sonner'
+import { RatingProd } from './RatingProd';
 
 function Details({ productDetails, className }: any) {
     const { _id, price, name, brand, image, description, category: { slug }, stock } = productDetails || {};
@@ -20,7 +21,10 @@ function Details({ productDetails, className }: any) {
     const handleSetRating = (rating: number) => {
         console.log(`Rating set to: ${rating}`);
     };
-
+    const productReviewQuery = useQuery({
+        queryKey: ['reviews', _id],
+        queryFn: () => getReviews(_id),
+    })
     const t = useTranslations("Buttons");
     const { auth }: any = useAuth()
 
@@ -58,7 +62,13 @@ function Details({ productDetails, className }: any) {
                     {brand?.name?.[locale] }
                 </h3>
                 <h2 className="text-3xl font-bold text-gray-900">
-                    {name[locale as keyof typeof name]||""}
+                    {(name[locale as keyof typeof name]||"").split(' ')
+                                .map(
+                                    (word : string) =>
+                                        word.charAt(0).toUpperCase() +
+                                        word.slice(1).toLowerCase()
+                                )
+                                .join(' ')}
                 </h2>
                 <div className="flex items-center justify-between">
 
@@ -68,12 +78,14 @@ function Details({ productDetails, className }: any) {
                         </span>
                         {price}
                     </h5>
+
                     {stock && stock !== 0 ? (
                         <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800">In Stock</span>
                     ) : (
                         <span className="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-800">Out Of Stock</span>
                     )}
                 </div>
+                    <RatingProd averageRate={productReviewQuery?.data?.averageRate} />
             </div>
 
         
