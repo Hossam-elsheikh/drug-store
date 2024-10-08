@@ -1,6 +1,5 @@
 'use client'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import DrawerWrapper from '@/components/Drawers/DrawerWrapper'
 import ProductCard, {
     ProductCardSkeleton,
 } from '@/components/ItemCard/ProductCard'
@@ -10,6 +9,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { fetchProducts } from '@/axios/instance'
 import { Product } from '@/types'
 import { Loader } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 type Props = {
     params?: {
         locale?: string
@@ -33,9 +33,9 @@ type FetchProductsResponse = {
 
 function ProductsContent({ params = {}, SubId, catId, brand, name }: Props) {
     const { locale, id, term } = params
-    console.log(params)
 
     const [sort, setSort] = useState('createdAt')
+    const t = useTranslations("ProductView");
     let title = 'Products'
     if (id && SubId) {
         title = ` ${name} `
@@ -134,7 +134,7 @@ function ProductsContent({ params = {}, SubId, catId, brand, name }: Props) {
                             htmlFor="sort"
                             className="text-lg font-bold hidden md:block"
                         >
-                            {locale === 'en' ? 'filter By' : 'فلتر حسب'}
+                            {t('filterBy')}
                         </label>
                         <select
                             className="block w-fit mt-1 p-2 px-1 rounded-full   bg-white border border-gray-300  shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -144,17 +144,14 @@ function ProductsContent({ params = {}, SubId, catId, brand, name }: Props) {
                             onChange={sortHandler}
                         >
                             <option value="createdAt-des">
-                                {locale === 'en' ? 'New Products' : 'جديد'}
+                                {t('newProducts')}
                             </option>
                             <option value="price-asc">
-                                {locale === 'en'
-                                    ? 'Price from lowest'
-                                    : ' السعر من الأقل'}
+                                {t('lowest')}
                             </option>
                             <option value="price-des">
-                                {locale === 'en'
-                                    ? 'Price from higher'
-                                    : 'السعر من الأعلى'}
+                                {t('highest')}
+
                             </option>
                         </select>
                     </form>
@@ -190,20 +187,25 @@ function ProductsContent({ params = {}, SubId, catId, brand, name }: Props) {
                                 >
                                     {isFetchingNextPage
 
-                                        ?<>
-                                        'Loading more...'
-                                        <Loader className="animate-spin" />
-                                        </>
-                                        : 'Show More'}
+                                        ? <div className='flex gap-3 text-gray-600 mx-auto bg-gray-50 p-2 px-5 shadow-sm rounded-full'>
+                                            {t('loading')}
+                                            <Loader className="animate-spin" />
+                                        </div>
+                                        : <>
+                                            {t('more')}
+                                        </>}
                                 </button>
                             ) : (
                                 <p className="text-gray-600 mx-auto bg-gray-50 p-2 px-5 shadow-sm rounded-full">
-                                    No more products
+                                    {t('noMore')}
                                 </p>
                             )}
                         </div>
                     ) : (
-                        <p>No products yet</p>
+                        <div className='flex gap-3 text-gray-600 mx-auto bg-gray-50 p-2 px-5 shadow-sm rounded-full'>
+                            {t('noProductsYet')}
+                        </div>
+
                     )}
                 </section>
             </div>

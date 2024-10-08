@@ -28,7 +28,7 @@
     "Buttons": {
         "addToCart": "Add",
         "buyNow": "Buy now",
-        "unAvailable":"unavailabe",
+        "unAvailable": "unavailabe",
         "viewDetails": "View details",
         "backToHome": "Back to home",
         "backToOrders": "Go to your orders",
@@ -113,7 +113,7 @@
             "pending": "Pending",
             "delivered": "Delivered",
             "returned": "Returned",
-            "suspended" :"Suspended",
+            "suspended": "Suspended",
             "processing": "Processing",
             "cancelled": "Cancelled"
         }
@@ -124,12 +124,12 @@
         "editPass": "Edit Your Passowrd",
         "personalAcc": "Account",
         "addresses": "Delivery addresses",
-        "ShippingAddress":"Shipping Address"
+        "ShippingAddress": "Shipping Address"
     },
     "Favorites": {
         "favorites": "Favorites",
         "addToFavorites": "Add To Your Favorites",
-        "noItems":"No items in the Favorites."
+        "noItems": "No items in the Favorites."
     },
     "AsideMenu": {
         "profile": "Profile",
@@ -147,19 +147,19 @@
         "taxes": "Taxes",
         "shipping": "Shipping",
         "promoCode": "Promo Code",
-        "userInfoError":"An error occurred while fetching user data. Please try again later.",
-        "cartError":"An error occurred while fetching cart data. Please try again later.",
-        "totalError":"An error occurred while fetching total price data. Please try again later.",
+        "userInfoError": "An error occurred while fetching user data. Please try again later.",
+        "cartError": "An error occurred while fetching cart data. Please try again later.",
+        "totalError": "An error occurred while fetching total price data. Please try again later.",
         "emptyCartDescription": "There's nothing in your cart yet. Browse our products and add any product you want!",
-        "sign":"Please Sign first",
-        "YourOrder":"Your Order",
-        "OrderNow":"Order Now",
-        "PayNow":"Pay Now",
-        "ErrorHappened":"Error Happened, please try again.",
-        "everyOption":"Please make sure you have chosen all the options above.",
-        "Redirecting":"Redirecting",
-        "error":"Error",
-        "processing":"Processing",
+        "sign": "Please Sign first",
+        "YourOrder": "Your Order",
+        "OrderNow": "Order Now",
+        "PayNow": "Pay Now",
+        "ErrorHappened": "Error Happened, please try again.",
+        "everyOption": "Please make sure you have chosen all the options above.",
+        "Redirecting": "Redirecting",
+        "error": "Error",
+        "processing": "Processing",
         "deliveryMethodRequired": "Delivery method is required",
         "paymentMethodRequired": "Payment method is required",
         "shippingAddressRequired": "Shipping Address is required"
@@ -182,10 +182,10 @@
         "nextSteps": "You will receive an email with your order details shortly. In the meantime, feel free to track your order status in your account.",
         "customerSupport": "Need help? Contact our customer support at Info@pharmasolutionskw.com or call us at #######."
     },
-    "ErrorOrderPage":{
-        "title":"Order Failed",
+    "ErrorOrderPage": {
+        "title": "Order Failed",
         "customerSupport": "Need help? Contact our customer support at Info@pharmasolutionskw.com or call us at #######.",
-        "attemptAgain":"Please visit your account and attempt to pay again once the issue has been resolved."
+        "attemptAgain": "Please visit your account and attempt to pay again once the issue has been resolved."
     },
     "ProductDetailsPage": {
         "aboutItem": "About This Item",
@@ -195,7 +195,8 @@
         "addYourComment": "Add Your Comment"
     },
     "ProductCard": {
-        "save": "Save"
+        "save": "Save",
+        "currency": "KWD"
     },
     "CartPage": {
         "shoppingCart": "Your Shopping Cart",
@@ -207,7 +208,7 @@
         "emptyCartTitle": "No Items in Your Cart",
         "quantity": "Quantity",
         "items": "Items",
-        "outStock":"This product is out of stock"
+        "outStock": "This product is out of stock"
     },
     "customerReview": {
         "writeComment": "Write A Comment",
@@ -216,13 +217,43 @@
         "rate": "Rate Our Service:",
         "comment": "Submit Comment"
     },
-    "shopWithUs":{
-        "whyShop" : "Why Shop With Us",
-        "shippingTitle":"Free Shipping",
-        "shippingDesc":"On All orders",
-        "deliveryTitle":"Fast Delivery",
-        "deliveryDesc":"Get it within 24 hours",
-        "supportTitle":"24/7 Support",
-        "supportDesc":"We're here to help"
+    "shopWithUs": {
+        "whyShop": "Why Shop With Us",
+        "shippingTitle": "Free Shipping",
+        "shippingDesc": "On All orders",
+        "deliveryTitle": "Fast Delivery",
+        "deliveryDesc": "Get it within 24 hours",
+        "supportTitle": "24/7 Support",
+        "supportDesc": "We're here to help"
+    },
+    "ProductView": {
+        "newProducts": "Newly Added",
+        "lowest": "Lowest Price",
+        "highest": "Highest Price",
+        "loading": "Loading More...",
+        "noMore": "No More Products",
+        "filterBy": "Filter By",
+        "more": "More",
+        "noProductsYet": "No Products Yet"
+    },
+    "aboutUs": {
+        "emergencyServices": "Emergency Services",
+        "descriptionEmergencyServices": "We provide 24/7 emergency services to ensure the safety and well-being of our clients at all times.",
+        "visionarySolutions": "Visionary Solutions",
+        "descriptionVisionarySolutions": "Our vision is to innovate and deliver solutions that drive progress and create a better future.",
+        "commitmentToCare": "Commitment to Care",
+        "descriptionCommitmentToCare": "We are committed to providing the highest quality care and ensuring the well-being of our clients.",
+        "healthAndWellness": "Health and Wellness",
+        "descriptionHealthAndWellness": "Promoting health and wellness through comprehensive healthcare solutions and services.",
+        "pharmaceuticalExcellence": "Pharmaceutical Excellence",
+        "descriptionPharmaceuticalExcellence": "Delivering pharmaceutical products and services with a focus on quality and efficacy.",
+        "supportingCauses": "Supporting Causes",
+        "descriptionSupportingCauses": "We support various causes and initiatives to make a positive impact on society.",
+        "aboutPharmacySolutions": "About Pharmacy Solutions",
+        "introduction": "At Pharmacy Solutions, we believe in empowering individuals to take control of their health and well-being. Founded on the principles of care, quality, and convenience, we strive to provide our customers with the best possible experience when it comes to their pharmaceutical needs.",
+        "location": "Pharmacy Solutions is a pharmacy located in Sharq, dedicated to providing pharmaceutical products to customers and their families in Kuwait. We serve our customers both online and through our physical locations.",
+        "productRange": "We offer a wide range of pharmaceutical products, including prescription medications and over-the-counter products such as skincare, hair care, vitamins, nutritional supplements, baby care, and healthcare products.",
+        "vision": "Our vision is to improve health, well-being, and beauty for our community in Kuwait.",
+        "mission": "Our mission emphasizes integrity, honesty, and strong work ethics while prioritizing relationships with our community."
     }
 }

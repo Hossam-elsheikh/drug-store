@@ -23,7 +23,7 @@ export default function Menu() {
             { href: `/${locale}/category/allProducts`, label: 'allProducts' },
            
             { href: `/${locale}/aboutUs`, label: 'aboutUs' },
-            { href: `/${locale}/contactUs`, label: 'contactUs' },
+            // { href: `/${locale}/contactUs`, label: 'contactUs' },
         ],
         [locale]
     )

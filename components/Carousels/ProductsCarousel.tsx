@@ -33,50 +33,50 @@ export default function ProductsCarousel({
                 : getProducts({ category: catId }),
     })
 
-    const breakpoints: SwiperOptions['breakpoints']  =
+    const breakpoints: SwiperOptions['breakpoints'] =
         mode === 'full'
             ? {
-                  0: {
-                      slidesPerView: 2,
-                      spaceBetween: 2,
-                  },
-                  663: {
-                      slidesPerView: 3,
-                      spaceBetween: 2,
-                  },
-                  768: {
-                      slidesPerView: 3,
-                      spaceBetween: 1,
-                  },
-                  1024: {
-                      slidesPerView: 4,
-                      spaceBetween: 2,
-                  },
-                  1280: {
-                      slidesPerView: 5,
-                      spaceBetween: 2,
-                  },
-                  1600: {
-                      slidesPerView: 6,
-                      spaceBetween: 2,
-                  },
-              }
+                0: {
+                    slidesPerView: 2,
+                    spaceBetween: 2,
+                },
+                663: {
+                    slidesPerView: 3,
+                    spaceBetween: 2,
+                },
+                768: {
+                    slidesPerView: 3,
+                    spaceBetween: 1,
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 2,
+                },
+                1280: {
+                    slidesPerView: 5,
+                    spaceBetween: 2,
+                },
+                1600: {
+                    slidesPerView: 6,
+                    spaceBetween: 2,
+                },
+            }
             : {
-                  0: {
-                      slidesPerView: 2,
-                      spaceBetween: 2,
-                  },
+                0: {
+                    slidesPerView: 2,
+                    spaceBetween: 2,
+                },
 
-                  730: {
-                      slidesPerView: 3,
-                      spaceBetween: 2,
-                  },
+                730: {
+                    slidesPerView: 3,
+                    spaceBetween: 2,
+                },
 
-                  1400: {
-                      slidesPerView: 4,
-                      spaceBetween: 2,
-                  },
-              }
+                1400: {
+                    slidesPerView: 4,
+                    spaceBetween: 2,
+                },
+            }
 
     return (
         <>
@@ -100,26 +100,26 @@ export default function ProductsCarousel({
                     pagination={{ clickable: true }}
                     modules={[Autoplay, Pagination, Navigation, A11y]}
 
-                    
+
                     breakpoints={breakpoints}
                 >
                     {productsQuery?.isLoading
                         ? [1, 2, 3, 4, 5, 6, 7].map((i) => (
-                              <SwiperSlide key={i} >
-                                  <ProductCardSkeleton />
-                              </SwiperSlide>
-                          ))
+                            <SwiperSlide key={i} >
+                                <ProductCardSkeleton />
+                            </SwiperSlide>
+                        ))
                         : productsQuery?.data?.products?.map(
-                              (prod: Product) => (
-                                  <SwiperSlide key={prod._id}>
-                                      <ProductCard
-                                          details={prod}
-                                          index={prod._id}
-                                          mode="default"
-                                      />
-                                  </SwiperSlide>
-                              )
-                          )}
+                            (prod: Product) => (
+                                <SwiperSlide key={prod._id}>
+                                    <ProductCard
+                                        details={prod}
+                                        index={prod._id}
+                                        mode="default"
+                                    />
+                                </SwiperSlide>
+                            )
+                        )}
                 </Swiper>
             )}
         </>

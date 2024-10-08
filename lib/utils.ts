@@ -20,44 +20,67 @@ export const getColorClass = (percentage: number) => {
     return 'bg-purple-100 text-purple-800'
 }
 
+
+export const collaborations = [
+    {
+        name: 'Momeasy',
+        logo: 'https://www.momeasy.com/uploads/images/62b190805b01059206302203bf5c2ffb.png',
+        website: 'https://www.momeasy.com/',
+        instagram: 'https://www.instagram.com/momeasy.kw?igsh=a2lhcWc5ZTVtb2Ft',
+    },
+    {
+        name: 'Firstar',
+        logo: '/path/to/firstar-logo.png',
+        website: 'https://www.china-firstar.com/',
+    },
+    {
+        name: 'Erba Vita',
+        logo: 'https://www.china-firstar.com/wp-content/uploads/2022/04/new-first-aid-kit-logo.png',
+        website: 'https://www.erbavita.com/en/',
+        instagram: 'https://www.instagram.com/erba_vita?igsh=ZDI3MjNyc3k3dmV4',
+    },
+    {
+        name: 'Vapo Health Care',
+        logo: 'http://www.vapohealth.com/uploads/allimg/20231114/1-231114104F2Y4.png',
+        website: 'http://www.vapohealth.com/',
+    },
+]
+
+
+
 export const aboutUsContent = [
     {
-        title: 'Emergency Services',
-        description:
-            'We provide 24/7 emergency services to ensure the safety and well-being of our clients at all times.',
+        title: 'emergencyServices',
+        description: 'descriptionEmergencyServices',
         svg: '/emergency-svgrepo-com.svg',
     },
     {
-        title: 'Visionary Solutions',
-        description:
-            'Our vision is to innovate and deliver solutions that drive progress and create a better future.',
+        title: 'visionarySolutions',
+        description: 'descriptionVisionarySolutions',
         svg: '/eye-svgrepo-com.svg',
     },
     {
-        title: 'Commitment to Care',
-        description:
-            'We are committed to providing the highest quality care and ensuring the well-being of our clients.',
+        title: 'commitmentToCare',
+        description: 'descriptionCommitmentToCare',
         svg: '/first-aid-kit-svgrepo-com.svg',
     },
     {
-        title: 'Health and Wellness',
-        description:
-            'Promoting health and wellness through comprehensive healthcare solutions and services.',
+        title: 'healthAndWellness',
+        description: 'descriptionHealthAndWellness',
         svg: '/health-care-svgrepo-com.svg',
     },
     {
-        title: 'Pharmaceutical Excellence',
-        description:
-            'Delivering pharmaceutical products and services with a focus on quality and efficacy.',
+        title: 'pharmaceuticalExcellence',
+        description: 'descriptionPharmaceuticalExcellence',
         svg: '/pill-svgrepo-com.svg',
     },
     {
-        title: 'Supporting Causes',
-        description:
-            'We support various causes and initiatives to make a positive impact on society.',
+        title: 'supportingCauses',
+        description: 'descriptionSupportingCauses',
         svg: '/ribbon-svgrepo-com.svg',
     },
 ]
+
 
 export const pharmacyCat = [
     {

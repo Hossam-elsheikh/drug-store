@@ -1,14 +1,12 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import { Heart, ShoppingCart, Eye } from 'lucide-react'
 import Modal from './Modal'
 import { AnimatePresence, easeInOut, motion } from 'framer-motion'
 import {
     AddToCart,
     addToWishList,
-    instancePrivate,
     removeProductFromWishList,
-    transCartToAPI,
 } from '@/axios/instance'
 import useAuth from '@/hooks/useAuth'
 import Image from 'next/image'
@@ -16,9 +14,6 @@ import { useLocale } from '@/context/LocaleProvider'
 import { useFavorites } from '@/context/favoriteProvider'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-// import { getColorClass } from '@/lib/utils'
-import { useDispatch, useSelector } from 'react-redux'
-import { addToLocalCart } from '@/redux/slices/addToCart'
 import { useLocalCart } from '@/hooks/useLocalCart'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import QuickAccess from './QuickAccess'
@@ -146,7 +141,7 @@ const ProductCard = ({
                 onMouseLeave={handleMouseLeave}
                 dir={dir}
             >
-                {sale && (
+                {sale > 0 && (
                     <span
                         className={`absolute inline-flex items-center px-3 py-1 z-30 text-xs font-medium gap-1 ${getColorClass(
                             sale
@@ -188,11 +183,11 @@ const ProductCard = ({
 
                         <p className="mt-1 text-primaryColor font-semibold flex items-center gap-1 text-lg">
                             {price}
-                            <span className="font-medium text-xs">{locale === 'en' ? 'KWD' : 'د.ك'}</span>
+                            <span className="font-medium text-xs">{p('currency')}</span>
                         </p>
                     </div>
                 </Link>
-                <div className="flex items-center p-1 justify-around gap-1">
+                <div className="flex items-center p-1 justify-between gap-1">
                     <button
                         className="p-2 rounded-full hover:bg-gray-100 transition-all duration-200"
                         onClick={() =>
@@ -207,12 +202,13 @@ const ProductCard = ({
                     >
                         <Heart
                             className={`w-6 h-6 transition-all duration-300 delay-400 active:scale-[.96] ${isProductFavorite(_id)
-                                    ? 'text-red-500 fill-red-500'
-                                    : 'text-gray-600 hover:text-red-500'
+                                ? 'text-red-500 fill-red-500'
+                                : 'text-gray-600 hover:text-red-500'
                                 }`}
                         />
                     </button>
                     {mode === 'default' ? (
+
                         <button
                             onClick={() =>
                                 auth && auth?.userId
