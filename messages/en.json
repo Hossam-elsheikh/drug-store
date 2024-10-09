@@ -72,7 +72,7 @@
         "update": "Update",
         "mobileNumber": "Phone Number",
         "placeholderNumber": "Enter Your Phone Number",
-        "governorate": "governorate",
+        "governorate": "Governorate",
         "placeholderState": "Enter Your State",
         "city": "City",
         "cityHolder": "Enter your city",
@@ -274,5 +274,28 @@
       "term9": "By using this website, you agree to comply with all applicable laws and regulations.",
       "term10": "These terms may be updated at any time. Continued use of the site constitutes acceptance of any changes.",
       "agreement": "By using our services, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions."
-    }
+    },
+    "FormErrors": {
+  "nameRequired": "Name is required",
+  "mobileRequired": "Mobile is required",
+  "mobileInvalid": "Mobile number is not valid",
+  "addressRequired": "Addresses are required",
+  "emailRequired": "Email is required",
+  "emailInvalid": "Invalid email",
+  "passwordRequired": "Password is required",
+  "passwordMin": "Password must be at least 8 characters long",
+  "passwordsNotMatch": "Passwords do not match",
+  "firstNameRequired": "First Name is required",
+  "lastNameRequired": "Last Name is required",
+  "countryRequired": "Country is required",
+  "cityRequired": "City is required",
+  "postalCodeRequired": "Postal Code is required",
+  "newPasswordRequired": "New password is required",
+  "passwordMatch": "Passwords must match",
+  "nameMin": "Name must be at least 3 characters",
+  "nameMax": "Name must not exceed 50 characters",
+  "inputMin": "Minimum 3 characters",
+  "inputMax": "Maximum 50 characters",
+  "governorateRequired": "Governorate is required"
+}
 }

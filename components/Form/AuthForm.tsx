@@ -71,7 +71,8 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
         onError: (error) => console.log('error while mutation trans wishlist to api', error),
     })
 
-    const validationSchema = useMemo(() => AuthFormSchema(type), [type]);
+    const fe = useTranslations("FormErrors");
+    const validationSchema = useMemo(() => AuthFormSchema(type,fe), [type]);
 
     const signUpMutation = useMutation({
         mutationFn: (values) => userSignUp(values),
@@ -235,13 +236,13 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                                     options={cityOptions}
                                                 />
                                             </div>
-                                            <div className="pt-4">
+                                            {/* <div className="pt-4">
                                                 <CustomInput
                                                     name="addresses[0].block"
                                                     label={f("block")}
                                                     placeholder={f("blockHolder")}
                                                 />
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </>
                                 )}
@@ -267,7 +268,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                         </Link>
                                     )}
                                 </div>
-                                {type === "sign-up" && (
+                                {/* {type === "sign-up" && (
                                     <CustomInput
                                         name="confirmPassword"
                                         label={f("confirmPassword")}
@@ -278,7 +279,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                                 : "password"
                                         }
                                     />
-                                )}
+                                )} */}
                                 <div className="flex flex-col gap-4 pb-5">
                                     <Button
                                         type="submit"

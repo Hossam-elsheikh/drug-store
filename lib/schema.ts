@@ -1,56 +1,57 @@
 import * as Yup from 'yup'
+type TranslationFunction = (key: string) => string;
 
-export const AuthFormSchema = (type: string) =>
+export const AuthFormSchema = (type: string, fe: TranslationFunction) =>
     Yup.object().shape({
         name:
             type === 'sign-up'
-                ? Yup.string().required('Name is required').min(3).max(50)
+                ? Yup.string().required(fe('nameRequired')).min(3).max(50)
                 : Yup.string(),
         mobile:
             type === 'sign-up'
                 ? Yup.string()
-                    .required('Mobile is required')
-                    .matches(/^[0-9]+$/, 'Mobile number is not valid')
+                    .required(fe('mobileRequired'))
+                    .matches(/^\+?[0-9]+$/, fe('mobileInvalid'))
                 : Yup.string(),
         addresses:
             type === 'sign-up'
                 ? Yup.array()
                     .of(
                         Yup.object().shape({
-                            governorate: Yup.string().required('governorate is required'),
-                            city: Yup.string().required('City is required'),
-                            block: Yup.string().required(
-                                'block is required'
-                            ),
+                            governorate: Yup.string().required(fe('governorateRequired')),
+                            city: Yup.string().required(fe('cityRequired')),
+                            // block: Yup.string().required(
+                            //     'block is required'
+                            // ),
                         })
                     )
-                    .required('Addresses is required')
+                    .required(fe('addressRequired'))
                 : Yup.array(),
         email: Yup.string()
-            .required('Email is required')
-            .email('Invalid email'),
+            .required(fe('emailRequired'))
+            .email(fe('emailInvalid')),
         password: Yup.string()
-            .required('Password is required')
-            .min(8, 'Password must be at least 8 characters long')
-            .matches(
-                /[a-z]/,
-                'Password must contain at least one lowercase letter'
-            )
-            .matches(
-                /[A-Z]/,
-                'Password must contain at least one uppercase letter'
-            )
-            .matches(/[0-9]/, 'Password must contain at least one number')
-            .matches(
-                /[!@#$%^&*(),.?":{}|<>]/,
-                'Password must contain at least one special character'
-            ),
-        confirmPassword:
-            type === 'sign-up'
-                ? Yup.string()
-                    .oneOf([Yup.ref('password')], 'Passwords do not match')
-                    .required('Re-entering password is required')
-                : Yup.string(),
+            .required(fe('passwordRequired'))
+            .min(8, fe('passwordMin'))
+            // .matches(
+            //     /[a-z]/,
+            //     'Password must contain at least one lowercase letter'
+            // )
+            // .matches(
+            //     /[A-Z]/,
+            //     'Password must contain at least one uppercase letter'
+            // )
+            // .matches(/[0-9]/, 'Password must contain at least one number')
+            // .matches(
+            //     /[!@#$%^&*(),.?":{}|<>]/,
+            //     'Password must contain at least one special character'
+            // ),
+        // confirmPassword:
+        //     type === 'sign-up'
+        //         ? Yup.string()
+        //             .oneOf([Yup.ref('password')], 'Passwords do not match')
+        //             .required('Re-entering password is required')
+        //         : Yup.string(),
     })
 
 export const initialAuthFormValues = {
@@ -74,10 +75,10 @@ export const CheckoutValidationSchema = Yup.object().shape({
         Yup.object().shape({
             country: Yup.string().required('Country is required'),
             city: Yup.string().required('City is required'),
-            block: Yup.string().required('block is required'),
+            // block: Yup.string().required('block is required'),
         })
     ),
-    postalCode: Yup.string().required('Postal Code is required'),
+    // postalCode: Yup.string().required('Postal Code is required'),
 })
 
 export const CheckoutInitialValues = {
@@ -94,13 +95,13 @@ export const CheckoutInitialValues = {
 export const ModalPasswordValidationSchema = Yup.object().shape({
     newPassword: Yup.string()
         .min(8, 'Password must be at least 8 characters long')
-        .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-        .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-        .matches(/[0-9]/, 'Password must contain at least one number')
-        .matches(
-            /[!@#$%^&*(),.?":{}|<>]/,
-            'Password must contain at least one special character'
-        )
+        // .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+        // .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+        // .matches(/[0-9]/, 'Password must contain at least one number')
+        // .matches(
+        //     /[!@#$%^&*(),.?":{}|<>]/,
+        //     'Password must contain at least one special character'
+        // )
         .required('New password is required'),
     confirmNewPassword: Yup.string()
         .oneOf([Yup.ref('newPassword')], 'Passwords must match')
@@ -134,7 +135,7 @@ export const SearchSchema = Yup.object().shape({
 export const addressValidationSchemaDialog = Yup.object({
     governorate: Yup.string().required('governorate is required'),
     city: Yup.string().required('City is required'),
-    block: Yup.string().required('block is required'),
+    // block: Yup.string().required('block is required'),
 })
 
 export const governorates: any = {
