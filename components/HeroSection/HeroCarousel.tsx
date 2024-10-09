@@ -3,7 +3,6 @@ import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import Image from 'next/image'
 import { NextButton, PrevButton, usePrevNextButtons } from './ArrowButtons'
-import { useLocalCart } from '@/hooks/useLocalCart'
 import { useLocale } from '@/context/LocaleProvider'
 import { useEffect } from 'react'
 
@@ -25,7 +24,7 @@ type ProductCarouselProps = {
 
 export default function HeroCarousel({ items }: ProductCarouselProps) {
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()])
-    const {dir} = useLocale()
+    const { dir, locale } = useLocale()
 
     const {
         prevBtnDisabled,
@@ -35,13 +34,15 @@ export default function HeroCarousel({ items }: ProductCarouselProps) {
     } = usePrevNextButtons(emblaApi)
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH
     useEffect(() => {
+        // Reinitialize Embla with the correct direction
         if (emblaApi) {
-            emblaApi.reInit()
+            emblaApi.reInit({ direction: locale === 'en' ? 'ltr' : 'rtl' })
         }
-    }, [dir])
+    }, [locale, dir, emblaApi])
     return (
         <>
             <div
+                dir={dir}
                 className="overflow-hidden relative  rounded-2xl mt-4 m-auto cursor-pointer"
                 ref={emblaRef}
             >
@@ -62,7 +63,10 @@ export default function HeroCarousel({ items }: ProductCarouselProps) {
                         </div>
                     ))}
                 </div>
-                <div className=" inset-0 flex items-center justify-between px-4 z-10 ">
+                <div
+                    dir={dir}
+                    className=" inset-0 flex items-center justify-between px-4 z-10 "
+                >
                     <PrevButton
                         onClick={onPrevButtonClick}
                         disabled={prevBtnDisabled}
