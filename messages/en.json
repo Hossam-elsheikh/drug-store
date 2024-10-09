@@ -211,11 +211,11 @@
         "outStock": "This product is out of stock"
     },
     "customerReview": {
-        "writeComment": "Write A Comment",
+        "writeComment": "Write a review",
         "shareExp": "Share Your Journey With Us",
         "yourFeedback": "Your feedback helps us improve. Tell us about your experience!",
-        "rate": "Rate Our Service:",
-        "comment": "Submit Comment"
+        "rate": "Rate Our Product:",
+        "comment": "Submit review"
     },
     "shopWithUs": {
         "whyShop": "Why Shop With Us",
@@ -258,6 +258,21 @@
     },"collaborations": {
     "partnersTitle": "Partners",
     "partnersDescription": "We partner with trusted healthcare providers and leading pharmaceutical companies to deliver top-quality products and services for the well-being of our community."
-}
-
+},
+"terms": {
+   
+      "termsAndConditions": "Terms and Conditions",
+      "welcome": "Welcome to Pharmacy Solutions website. By using our services, you agree to the following terms:",
+      "term1": "All purchases require a valid prescription from a licensed healthcare provider.",
+      "term2": "We do not sell controlled substances or recreational drugs.",
+      "term3": "Prices and availability are subject to change without notice.",
+      "term4": "We are not responsible for any adverse reactions or interactions. Consult your doctor before use.",
+      "term5": "Refunds are only available for unopened, undamaged products within 14 days of purchase.",
+      "term6": "Shipping times may vary. We are not responsible for delays outside our control.",
+      "term7": "Your personal and medical information will be kept confidential in accordance with our Privacy Policy.",
+      "term8": "We reserve the right to refuse service to anyone for any reason.",
+      "term9": "By using this website, you agree to comply with all applicable laws and regulations.",
+      "term10": "These terms may be updated at any time. Continued use of the site constitutes acceptance of any changes.",
+      "agreement": "By using our services, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions."
+    }
 }

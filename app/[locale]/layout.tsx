@@ -30,8 +30,8 @@ const roboto = Roboto({
     variable: '--roboto',
 })
 export const metadata: Metadata = {
-    title: 'Drug Store',
-    description: 'GYour best online pharmacy',
+    title: 'Pharmacy Solutions',
+    description: 'Your best online pharmacy',
     icons: {
         icon: '/favicon.ico', 
     }

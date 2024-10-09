@@ -114,7 +114,7 @@ const Footer = () => {
                     <div className='flex hover:text-secColor items-center gap-2'>
                         <Handshake />
                         <a className='font-medium 'href={`/${locale}/terms`}>
-                        {locale === 'en' ? 'Terms and Conditions' : 'السياسات والشروط'}
+                        {locale === 'en' ? 'Terms and Conditions' : ' الشروط والأحكام'}
 
                         </a>
                     </div>
