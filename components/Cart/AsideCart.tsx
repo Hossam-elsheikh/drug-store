@@ -3,10 +3,12 @@ import React from 'react'
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from 'next-intl';
+import { useLocale } from '@/context/LocaleProvider';
 
 function AsideCart({ totalPrice, cartItems }: { totalPrice: any, cartItems: any }) {
     const c = useTranslations("CartPage");
-
+    const {locale}:any=useLocale();
+    
     // Check if totalPrice and cartItems are defined and have data
     // const totalPrice = (cartItem.productId.price * cartItem.quantity).toFixed(2)
     const price = (totalPrice?.data?.cartTotalPrice||totalPrice.localCartTotal)?.toFixed(2) || 0;
@@ -27,7 +29,7 @@ function AsideCart({ totalPrice, cartItems }: { totalPrice: any, cartItems: any 
                     <span>{itemCount}</span>
                 </div>
                 <Link
-                    href="/en/checkout"
+                    href={`/${locale}/checkout`}
                     className="w-full text-center text-white justify-center gap-2 font-medium py-3 px-4  bg-primaryColor rounded-full hover:bg-[#45486e] transition duration-300 flex group"
                 >
                     {c('proceedToCheckout')}
