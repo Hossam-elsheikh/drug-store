@@ -7,10 +7,8 @@ import { useDispatch } from "react-redux";
 import { localCartItemQuantity } from "@/redux/slices/addToCart";
 
 function Counter({ itemQuantity, cartItem, calculateCartMutation }: any) {
-console.log(cartItem);
 
   const [quantity, setQuantity] = useState(itemQuantity||cartItem.quantity);
-console.log(quantity);
 
   const axiosPrivate = useAxiosPrivate();
   const { auth }: any = useAuth();

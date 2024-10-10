@@ -69,7 +69,6 @@ export default function UserProfileModal({ userInfo }: any) {
             mobile: values.mobile,
         };
 
-        console.log("Updating with values:", updatedValues);
 
         try {
             setSubmitting(true);

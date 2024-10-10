@@ -58,9 +58,9 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
         try {
             const id = cartItem?.productId._id;
             dispatch(localCartDeleteItem(id))
-            console.log('prd deleted successfully from localstorgae');
+            // console.log('prd deleted successfully from localstorgae');
         } catch (error) {
-            console.error('error while delete item from local cart', error);
+            // console.error('error while delete item from local cart', error);
         }
     }
 
@@ -70,7 +70,7 @@ export default function CartDrawerItem({ cartItem, mode = "cart", removeItemCart
         onSuccess: () => queryClient.invalidateQueries(),
     })
     const RemoveProductFromWishList = (productId: any) => removeProductFromWishListMutation.mutate(productId)
-console.log(details);
+// console.log(details);
 
     return (
         <div className="flex justify-between gap-2 border-b py-4 h-30 shadow my-1 items-center rounded-lg p-2 hover:shadow-md duration-300">

@@ -14,9 +14,9 @@ export const useLocalCart = () => {
         try {
             dispatch(addToLocalCart(product))
             toast.success("product added to cart Successfully!");
-            console.log('product added successfully to localStorage', product);
+            // console.log('product added successfully to localStorage', product);
         } catch (error) {
-            console.error('error while adding product to local cart', error)
+            // console.error('error while adding product to local cart', error)
             toast.error("error while adding product to cart, try again later");
         }
     }

@@ -26,7 +26,7 @@ function Success() {
     const paymentStatusMutation = useMutation({
         mutationFn: (Key: any) => paymentStatus(Key),
         onSuccess(data) {
-            console.log(data);
+            // console.log(data);
             if (auth && auth.userId) {
                 setOrderPaymentStatusMutation.mutate({
                     orderId: data.Data.CustomerReference,

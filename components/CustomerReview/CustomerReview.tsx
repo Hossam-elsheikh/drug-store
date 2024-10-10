@@ -3,7 +3,7 @@ import StarRating from './StarRating';
 
 function CustomerReview() {
     const handleSetRating = (rating: number) => {
-        console.log(`Rating set to: ${rating}`);
+        // console.log(`Rating set to: ${rating}`);
     };
 
     return (

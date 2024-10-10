@@ -10,6 +10,7 @@ type DataType = {
     totalPrice: any,
 }
 
+
 function OrderSummary({ couponFormik, applyCouponMutation, applyCouponEvent, totalPrice }: DataType) {
     const { locale,dir }: any = useLocale();    
     const t = useTranslations("CartPage")
