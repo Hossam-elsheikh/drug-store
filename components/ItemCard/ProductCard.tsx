@@ -213,7 +213,7 @@ const ProductCard = ({
                             }`}
                         />
                     </button>
-                    {mode === 'default' ? (
+                   
                         <button
                             onClick={() =>
                                 auth && auth?.userId
@@ -228,17 +228,7 @@ const ProductCard = ({
                                 {stock > 0 ? t('addToCart') : t('unAvailable')}
                             </p>
                         </button>
-                    ) : (
-                        <button
-                            onClick={() =>
-                                router.push(`/${locale}/${slug}/${_id}`)
-                            }
-                            className="flex bg-primaryColor px-4 py-2 rounded-full text-white text-sm font-medium items-center gap-2 hover:bg-[#45486e] transition-all duration-200 transform hover:scale-[1.02]"
-                        >
-                            {t('showMore')}
-                            <Eye className="w-5 h-5" />
-                        </button>
-                    )}
+                
                 </div>
             </div>
             {isModalOpen && (

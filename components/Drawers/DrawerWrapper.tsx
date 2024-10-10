@@ -167,7 +167,7 @@ function DrawerWrapper({ showSec }: Props) {
                 ) : null}
             </SheetTrigger>
 
-            <SheetContent className="w-[300px] flex flex-col h-full  p-2">
+            <SheetContent className="w-[300px] flex flex-col max-h-screen overflow-auto  p-2">
                 <SheetHeader className="items-center p-5 ">
                     <SheetHeader className="items-center ">
                         <Image

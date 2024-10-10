@@ -62,7 +62,7 @@ export default async function RootLayout({
                                                         className={`${roboto.variable} ${inter.variable}`}
                                                     >
                                                         {/* <div id="modal-root"></div> */}
-                                                        <div className="flex h-[100dvh] flex-col justify-between ">
+                                                        <div className="flex h-[100dvh]  flex-col gap-10 justify-between ">
                                                             <div>
                                                                 <Suspense
                                                                     fallback={

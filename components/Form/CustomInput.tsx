@@ -12,6 +12,7 @@ interface CustomInputProps {
     icon?: React.ReactNode;
     helperText?: string;
     disabled?: boolean;
+    autoFocus? : boolean
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -20,6 +21,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
     placeholder,
     type = "text",
     icon,
+    autoFocus = false,
     helperText,
     disabled = false,
 }) => {
@@ -64,6 +66,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                     aria-invalid={meta.error && meta.touched ? "true" : "false"}
                     aria-describedby={`${name}-error`}
                     disabled={disabled}
+                    autoFocus={autoFocus}
                 />
                 <div className={classNames('absolute inset-y-0 flex items-center gap-1', {
                     'right-3': dir === 'ltr',

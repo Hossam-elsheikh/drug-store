@@ -118,7 +118,11 @@
             "returned": "مرتجع",
             "suspended": "معلق",
             "processing": "قيد التنفيذ"
-        }
+        },
+        "confirmCancelOrder" : "التأكيد على إلغاء الطلب",
+        "confirmText": "هل انت متأكد من رغبتك في إلغاء طلبكم؟",
+        "confirm" : "نعم",
+        "decline": "لا"
     },
     "UserInfoPage": {
         "userInfo": "بيانات المستخدم",
@@ -301,5 +305,11 @@
         "inputMin": "الحد الأدنى 3 أحرف",
         "inputMax": "الحد الأقصى 50 حرفًا",
         "governorateRequired": "المحافظة مطلوبة"
-      }
+      },
+      "logOut":{
+    "confirmLogOut":" هل ترغب بتسجيل الخروج؟",
+    "confirmText": "هل انت متأكد؟",
+    "confirm":"نعم",
+    "decline":"لا"
+}
 }

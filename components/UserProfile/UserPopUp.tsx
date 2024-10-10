@@ -9,12 +9,15 @@ import { useLocale } from "@/context/LocaleProvider";
 import useSignOut from "@/hooks/useSignOut";
 import { useRouter } from 'next/navigation';
 import classNames from 'classnames';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useUser } from '@/context/UserProvider';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 export default function UserPopUp() {
     const { userInfo, isLoading } = useUser();
     const t = useTranslations("AsideMenu");
+    const p = useTranslations("logOut");
     const { locale } = useLocale();
     const signOutHook = useSignOut();
     const router = useRouter();
@@ -26,19 +29,34 @@ export default function UserPopUp() {
         { href: `/${locale}/logout`, icon: CirclePower, key: 'logOut' },
     ], [locale]);
 
-    const signOut = async () => {
-        try {
-            await signOutHook();
-            router.push(`/${locale}`);
-            router.refresh();
-        } catch (error) {
-            console.error("Error during sign out:", error);
-        }
+    const signOut =  () => {
+        confirmAlert({
+            title: p("confirmLogOut"),
+            message: p("confirmText"),
+            buttons: [
+              {
+                label: p("confirm"),
+                onClick: async ()=>{
+                    try {
+                        await signOutHook();
+                        router.push(`/${locale}`);
+                        router.refresh();
+                    } catch (error) {
+                        console.error("Error during sign out:", error);
+                    }
+                }
+              },
+              {
+                label: p("decline"),
+              }
+            ]
+          });
+       
     };
 
     return (
         <Popover className="relative">
-            {({ open }) => (
+            {({ open,close }) => (
                 <>
                     <PopoverButton
                         className={classNames(
@@ -64,9 +82,10 @@ export default function UserPopUp() {
                                     {links.map(({ href, icon: Icon, key }) => (
                                         <div key={href} className="px-1 space-x-2">
                                             {key === 'logOut' ? (
+                                                
                                                 <button
                                                     onClick={signOut}
-                                                    className='w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-red-100 hover:text-red-900 rounded-lg flex items-center gap-2'
+                                                    className='w-full text-right px-4 py-2 text-sm text-red-700 hover:bg-red-100 hover:text-red-900 rounded-lg flex items-center gap-2'
                                                 >
                                                     <Icon size={20} />
                                                     <span>{t(key)}</span>
@@ -74,9 +93,11 @@ export default function UserPopUp() {
                                             ) : (
                                                 <Link
                                                     href={href}
+                                                    onClick={close}
                                                     className={' px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg hover:text-gray-900 flex items-center gap-2'}
                                                 >
                                                     <Icon size={20} />
+                                                    
                                                     <span>{t(key)}</span>
                                                 </Link>
                                             )}

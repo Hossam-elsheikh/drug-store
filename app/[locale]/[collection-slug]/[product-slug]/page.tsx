@@ -8,7 +8,7 @@ export default function ProductPage({ params }: ProductDetailsProps) {
     console.log('params',params)
 
     return (
-        <div className="bg-gray-50 pt-10  ">
+        <div className=" pt-10  ">
             {/* <BreadCrumb /> */}
             <ProductDetails
                 params={params}

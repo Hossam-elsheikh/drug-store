@@ -116,7 +116,11 @@
             "suspended": "Suspended",
             "processing": "Processing",
             "cancelled": "Cancelled"
-        }
+        },
+        "confirmCancelOrder" : "Confirm to cancel order",
+        "confirmText": "Are you sure to do this?",
+        "confirm" : "Yes",
+        "decline": "No"
     },
     "UserInfoPage": {
         "userInfo": "User Information",
@@ -297,5 +301,11 @@
   "inputMin": "Minimum 3 characters",
   "inputMax": "Maximum 50 characters",
   "governorateRequired": "Governorate is required"
+},
+"logOut":{
+    "confirmLogOut":"Do You want to Log out?",
+    "confirmText": "Are you sure?",
+    "confirm":"Yes",
+    "decline":"No"
 }
 }

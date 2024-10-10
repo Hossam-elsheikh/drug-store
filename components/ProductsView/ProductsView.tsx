@@ -65,7 +65,7 @@ function ProductsContent({ params = {}, SubId, catId, brand, name }: Props) {
                 sort: sort.split('-')[0] || 'createdAt',
                 order: sort.split('-')[1] || 'des',
                 next: pageParam,
-                limit: 16,
+                limit: 18,
             }),
         getNextPageParam: (lastPage) =>
             lastPage?.next ? lastPage.next : undefined,
@@ -118,9 +118,9 @@ function ProductsContent({ params = {}, SubId, catId, brand, name }: Props) {
         return <div>Server Error, please try again later</div>
     }
     return (
-        <section className=" bg-gray-50  pb-5 mt-8">
+        <section className="   pb-5 mt-8">
             <div className="p-0 md:p-10 bg-white mx-auto max-w-[1600px] rounded-lg border">
-                <div className="p-5 flex justify-between">
+                <div className="p-5 flex justify-between items-center">
                     {title && (
                         <h1 className="text-md md:text-2xl font-semibold px-5 md:px-10">
                             {title}
@@ -137,7 +137,7 @@ function ProductsContent({ params = {}, SubId, catId, brand, name }: Props) {
                             {t('filterBy')}
                         </label>
                         <select
-                            className="block w-fit mt-1 p-2 px-1 rounded-full   bg-white border border-gray-300  shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className="block w-fit mt-1 p-2 px-3 text-sm rounded-full   bg-white border border-gray-300  shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             name="sort"
                             id="sort"
                             value={sort}

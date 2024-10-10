@@ -226,7 +226,7 @@ const Checkout = () => {
     );
 
     return (
-        <>
+        <div className="mx-0 md:mx-20">
             {(userInfo?.cart.length <= 0 || !auth?.userId && localCartSelector.localCartProducts.length <= 0) &&
                 <>
                     <div className="justify-center flex text-center py-52 ">
@@ -353,7 +353,7 @@ const Checkout = () => {
                     </div>
                 </div >
             }
-        </>
+        </div>
 
     );
 };

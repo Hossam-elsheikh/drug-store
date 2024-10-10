@@ -249,6 +249,7 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                 <CustomInput
                                     name="email"
                                     label={f("email")}
+                                    autoFocus={false}
                                     placeholder={f("emailHolder")}
                                 />
                                 <div className="relative">
@@ -319,7 +320,19 @@ const AuthForm = ({ Type, variant }: authFormProps) => {
                                     {type === "sign-in" ? f("signUp") : f("signIn")}
                                 </Link>
                             )}
-                            {(variant === "drawer" || variant === "checkout") && (
+                            {(variant === "drawer" ) && (
+                                <Link
+                                href={
+                                    type === "sign-in"
+                                        ? `/${locale}/sign-up`
+                                        : `/${locale}/sign-in`
+                                }
+                                className="form-link font-semibold text-primaryColor hover:text-[#363955] "
+                            >
+                                {type === "sign-in" ? f("signUp") : f("signIn")}
+                            </Link>
+                            )}
+                            {variant === "checkout" && (
                                 <FormButton type={type} setType={setType} />
                             )}
                         </div>

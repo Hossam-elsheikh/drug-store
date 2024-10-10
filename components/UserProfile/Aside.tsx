@@ -9,9 +9,12 @@ import useSignOut from "@/hooks/useSignOut";
 import { useRouter } from 'next/navigation';
 import classNames from 'classnames';
 import { SheetClose } from '@/components/ui/sheet'
+import { confirmAlert } from 'react-confirm-alert';
 
 export default function ASidebar({ path, mode }: { path?: string, mode?: string }) {
     const t = useTranslations("AsideMenu");
+    const p = useTranslations("logOut");
+
     const { locale, dir } = useLocale();
     const signOutHook = useSignOut();
     const router = useRouter();
@@ -24,13 +27,27 @@ export default function ASidebar({ path, mode }: { path?: string, mode?: string 
     ], [locale]);
 
     const signOut = async () => {
-        try {
-            await signOutHook();
-            router.push(`/${locale}`);
-            router.refresh();
-        } catch (error) {
-            console.error("Error during sign out:", error);
-        }
+        confirmAlert({
+            title: p("confirmLogOut"),
+            message: p("confirmText"),
+            buttons: [
+              {
+                label: p("confirm"),
+                onClick: async ()=>{
+                    try {
+                        await signOutHook();
+                        router.push(`/${locale}`);
+                        router.refresh();
+                    } catch (error) {
+                        console.error("Error during sign out:", error);
+                    }
+                }
+              },
+              {
+                label: p("decline"),
+              }
+            ]
+          });
     };
 
     return (
