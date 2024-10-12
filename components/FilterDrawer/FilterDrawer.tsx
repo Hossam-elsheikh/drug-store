@@ -46,7 +46,7 @@ function FilterDrawer() {
             ...values,
             priceRange: priceRange,
         };
-        console.log(Data);
+        // console.log(Data);
     }
 
     return (

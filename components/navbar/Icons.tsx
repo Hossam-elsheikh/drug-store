@@ -7,7 +7,7 @@ import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
 import UserPopUp from '../UserProfile/UserPopUp';
 import { usePathname } from "next/navigation";
-import { ShoppingCart } from 'lucide-react';
+import { HeartIcon, ShoppingCart } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useTransLocalCartAPI } from '@/hooks/useTransLocalCartAPI';
 import { useMutation } from '@tanstack/react-query';
@@ -72,10 +72,14 @@ const Icons = () => {
                     :
                     <>
                         {pathName === `/${locale}/checkout` ?
+                        <>
                             <Link href={`/${locale}/cart`} >
                                     <ShoppingCart className="w-7 h-7  hover:text-[#3ea9f4] transition-colors duration-200" />
-                                    {/* <p className="font-medium my-auto">{t("cart")}</p> */}
                             </Link>
+                            <Link href={`/${locale}/favorites`} >
+                                    <HeartIcon className="w-7 h-7  hover:text-[#f43e3e] transition-colors duration-200" />
+                            </Link>
+                        </>
                             :
                             (
                                 <DrawerWrapper showSec='cart' />
@@ -83,7 +87,7 @@ const Icons = () => {
                         }
                     </>
                 }
-                {pathName === `/${locale}/sign-in` || pathName === `/${locale}/sign-up` ?
+                {pathName === `/${locale}/sign-in` || pathName === `/${locale}/sign-up` || pathName === `/${locale}/checkout`?
                     null
                     :
                     <DrawerWrapper showSec='Favorites' />

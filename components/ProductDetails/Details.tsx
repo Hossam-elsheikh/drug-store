@@ -34,7 +34,7 @@ function Details({ productDetails, className }: any) {
     const { toggleFavorite, isProductFavorite } = useFavorites()
     const { locale, dir } = useLocale()
     const handleSetRating = (rating: number) => {
-        console.log(`Rating set to: ${rating}`)
+        // console.log(`Rating set to: ${rating}`)
     }
     const productReviewQuery = useQuery({
         queryKey: ['reviews', _id],

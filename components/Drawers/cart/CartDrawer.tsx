@@ -60,7 +60,6 @@ const CartDrawer = () => {
 
     const [localStorageCart, setLocalStorageCart] = useState([]);
     const { localCartSelector } = useLocalCart();
-    console.log(localCartSelector);
 
     useEffect(() => {
         const fetchingLocalStorageCart = JSON.parse(localStorage.getItem("products") || '[]');

@@ -11,7 +11,7 @@ const useRefreshToken = () => {
 
         setAuth((prevState: any) => {
 
-            console.log('New Access state: ', response.data);
+            // console.log('New Access state: ', response.data);
 
             return { ...prevState, userId: response.data.userId }
         })

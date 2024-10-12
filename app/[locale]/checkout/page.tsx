@@ -76,7 +76,7 @@ const Checkout = () => {
         queryKey: ["cartItems", auth?.userId],
         enabled: !!auth?.userId,
     });
-    console.log(cartItems);
+    // console.log(cartItems);
 
     //calling redux state to see if there a local cart items
     const { localCartSelector } = useLocalCart()

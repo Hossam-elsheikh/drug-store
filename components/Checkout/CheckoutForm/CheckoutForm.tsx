@@ -13,7 +13,7 @@ function CheckoutForm() {
 
 
     const onSubmit = async (values: any, { setSubmitting }: any) => {
-        console.log(values);
+        // console.log(values);
         setSubmitting(false);
     };
 

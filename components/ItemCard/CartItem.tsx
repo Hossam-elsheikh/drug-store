@@ -38,7 +38,7 @@ function CartItem({
     const removeLocalCartItem = () => {
         try {
             dispatch(localCartDeleteItem(_id))
-            console.log('prd deleted successfully from localstorgae');
+            // console.log('prd deleted successfully from localstorgae');
         } catch (error) {
             console.error('error while delete item from local cart', error);
         }

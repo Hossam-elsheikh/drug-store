@@ -10,7 +10,6 @@ function SearchElement({ Product, staggerItem }: SearchElementProps) {
     const { locale } = useLocale()
     const { _id, name, price, image, slug } = Product;
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH;
-    console.log(name)
 
     return (
         <motion.div key={_id} variants={staggerItem}>

@@ -40,7 +40,7 @@ const AvailablePayment = ({setPaymentMethodId}:DataType) => {
         ),
     }))
 
-    console.log(options);
+    // console.log(options);
     
 
     return (

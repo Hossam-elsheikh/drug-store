@@ -7,7 +7,7 @@ const useSignOut = () => {
         try {
             const response = await instance.post('/user/sign-out',{})
             setAuth(null)
-            console.log(response);
+            // console.log(response);
         } catch (error) {
             console.error('Error during sign out:',error);
         }

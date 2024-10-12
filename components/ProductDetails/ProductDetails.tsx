@@ -65,7 +65,6 @@ export function ProductDetails({ params }: ProductDetailsProps) {
     if (isError) {
         return <div>Error loading product details</div>
     }
-    console.log(productDetails)
 
     const { image, _id } = productDetails
     const imagePath = process.env.NEXT_PUBLIC_IMAGE_PATH

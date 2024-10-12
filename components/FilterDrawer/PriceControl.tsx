@@ -12,7 +12,7 @@ export function PriceControl({ onChange }: { onChange: (values: number[]) => voi
             setLocalValues(newValues);
             onChange(newValues); 
         } else {
-            console.error("Invalid values received from the Slider component");
+            // console.error("Invalid values received from the Slider component");
         }
     };
 
