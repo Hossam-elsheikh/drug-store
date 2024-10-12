@@ -219,7 +219,11 @@
         "shareExp": "Share Your Journey With Us",
         "yourFeedback": "Your feedback helps us improve. Tell us about your experience!",
         "rate": "Rate Our Product:",
-        "comment": "Submit review"
+        "comment": "Submit review",
+        "notSignedIn" : "You must sign in first to review this product!",
+        "confirmText": "do you want to sign in?",
+        "confirm": "yes, sign in",
+        "decline" : "No"
     },
     "shopWithUs": {
         "whyShop": "Why Shop With Us",

@@ -17,6 +17,8 @@ import useAuth from '@/hooks/useAuth'
 import { useMutation } from '@tanstack/react-query'
 import { useLocale } from '@/context/LocaleProvider'
 import { useTranslations } from 'next-intl'
+import { confirmAlert } from 'react-confirm-alert'
+import { useRouter } from "next/navigation";
 
 type Props = {
     isEdit: boolean
@@ -30,6 +32,8 @@ function CustomerCommentDialog({ productId, isEdit, postHandler,rateId }: Props)
         auth: { userId },
     }: any = useAuth()
     const t = useTranslations('customerReview')
+    const router = useRouter();
+    const { dir, locale } = useLocale()
 
     const [comment, setComment] = useState('')
     const [rate, setRating] = useState(0)
@@ -54,10 +58,29 @@ function CustomerCommentDialog({ productId, isEdit, postHandler,rateId }: Props)
         },
         onError: (err) => {
             setError(err.message)
+            
         },
     })
 
     const handleSubmit = async () => {
+        if (!userId){
+            setIsOpen(false)
+            return confirmAlert({
+                title: t("notSignedIn"),
+                message: t("confirmText"),
+                buttons: [
+                  {
+                    label: t("confirm"),
+                    onClick: () => {
+                        router.push(`/${locale}/sign-in`)
+                    }
+                  },
+                  {
+                    label: t("decline"),
+                  }
+                ]
+              });
+        }
         addReviewMutation.mutate({ userId, productId, rate, comment,reviewId:rateId })
     }
 

@@ -36,7 +36,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
         {
             'border-slate-300 bg-white': !meta.error || !meta.touched,
             'border-red-500 bg-red-50': meta.error && meta.touched,
-            'pr-20': type === "password", // Increased right padding for both icons
+            'pr-20': type === "password" && dir === "ltr", // Increased right padding for both icons
+            'pl-20': type === "password" && dir === "rtl", // Increased right padding for both icons
             'pl-10': icon,
         }
     );

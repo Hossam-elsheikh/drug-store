@@ -40,13 +40,13 @@ export default function ProductsCarousel({
                     slidesPerView: 2,
                     spaceBetween: 2,
                 },
-                663: {
+                600: {
                     slidesPerView: 3,
                     spaceBetween: 2,
                 },
-                768: {
-                    slidesPerView: 3,
-                    spaceBetween: 1,
+                855: {
+                    slidesPerView: 4,
+                    spaceBetween: 2,
                 },
                 1024: {
                     slidesPerView: 4,
@@ -56,8 +56,12 @@ export default function ProductsCarousel({
                     slidesPerView: 5,
                     spaceBetween: 2,
                 },
-                1600: {
+                1550: {
                     slidesPerView: 6,
+                    spaceBetween: 2,
+                },
+                1600: {
+                    slidesPerView: 7,
                     spaceBetween: 2,
                 },
             }
