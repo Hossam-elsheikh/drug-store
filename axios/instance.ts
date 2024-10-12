@@ -459,9 +459,7 @@ export const transLocalWishListToAPI = async (products: any, userId: any) => {
             { products, userId }
         )
         console.log(response.data)
-        console.log(
-            'wishlist is now moved from localStorage to api successfully !!!!'
-        )
+       
         return response.data
     } catch (error) {
         errorMessage(error)
